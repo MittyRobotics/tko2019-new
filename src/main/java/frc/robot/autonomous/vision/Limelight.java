@@ -11,14 +11,15 @@ public class Limelight {
         return ourInstance;
     }
 
-    private double tv;
-    private double tx;
-    private double ty;
-    private double ta;
-    private double ts;
+    //Values read from limelight networktables
+    private double tv; //Whether the limelight has any valid targets (0 or 1)
+    private double tx; //Horizontal Offset From Crosshair To Target (LL1: -27 degrees to 27 degrees | LL2: -29.8 to 29.8 degrees)
+    private double ty; //Vertical Offset From Crosshair To Target (LL1: -20.5 degrees to 20.5 degrees | LL2: -24.85 to 24.85 degrees)
+    private double ta; //Target Area (0% of image to 100% of image)
+    private double ts; //Skew or rotation (-90 degrees to 0 degrees)
 
     private Limelight() {
-
+        //Lonliness
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,7 +41,6 @@ public class Limelight {
 
     //Update the limelight values from network tables
     void updateLimelightValues(){
-
         tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0); //Whether the limelight has any valid targets (0 or 1)
         tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0); //Horizontal Offset From Crosshair To Target (LL1: -27 degrees to 27 degrees | LL2: -29.8 to 29.8 degrees)
         ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0); //Vertical Offset From Crosshair To Target (LL1: -20.5 degrees to 20.5 degrees | LL2: -24.85 to 24.85 degrees)
@@ -48,26 +48,61 @@ public class Limelight {
         ts = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ts").getDouble(0); //Skew or rotation (-90 degrees to 0 degrees)
     }
 
-    double getX(){
+    public boolean isHasTarget(){
+        return tv != 0;
+    }
+
+    public double getXAngle(){
         return tx;
     }
 
-    double getY(){
+    public double getYAngle(){
         return ty;
     }
 
-    double getArea(){
+    public double getArea(){
         return ta;
     }
 
-    boolean isHasTarget(){
-        if(tv == 0){
-            return false;
-        }
-        else{
-            return true;
-        }
+    public double getSkew(){
+        return ts;
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //                                       Camera Properties                                                      //
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //                            ledMode	Sets limelight’s LED state                                              //
+    //0	use the LED Mode set in the current pipeline                                                                //
+    //1	force off                                                                                                   //
+    //2	force blink                                                                                                 //
+    //3	force on                                                                                                    //
+    //                            camMode	Sets limelight’s operation mode                                         //
+    //0	Vision processor                                                                                            //
+    //1	Driver Camera (Increases exposure, disables vision processing)                                              //
+    //pipeline	Sets limelight’s current pipeline                                                                   //
+    //0 .. 9	Select pipeline 0..9                                                                                //
+    //                            stream	Sets limelight’s streaming mode                                         //
+    //0	Standard - Side-by-side streams if a webcam is attached to Limelight                                        //
+    //1	PiP Main - The secondary camera stream is placed in the lower-right corner of the primary camera stream     //
+    //2	PiP Secondary - The primary camera stream is placed in the lower-right corner of the secondary camera stream//
+    //                            snapshot	Allows users to take snapshots during a match                           //
+    //0	Stop taking snapshots                                                                                       //
+    //1	Take two snapshots per second                                                                               //
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    public void setLedMode(int ledMode){
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(ledMode); //	Sets limelight’s LED state
+    }
+
+    public void setCameraMode(int camMode){
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(camMode); //	Sets limelight’s operation mode
+    }
+
+    public void setStreamMode(int streamMode){
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("stream").setNumber(streamMode); //Sets limelight’s streaming mode
+    }
+
+    public void setSnapshotMode(int snapshotMode){
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("snapshot").setNumber(snapshotMode); //Allows users to take snapshots during a match
+    }
 }
