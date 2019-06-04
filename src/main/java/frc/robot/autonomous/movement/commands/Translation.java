@@ -44,7 +44,7 @@ public class Translation extends Command {
 	 */
 	@Override
 	public void execute() {
-		if(Math.abs(DriveTrain.getInstance().getTranslationError() / TicksPerInch.DRIVE) < stoppingThreshold){
+		if (Math.abs(DriveTrain.getInstance().getTranslationError() / TicksPerInch.DRIVE) < stoppingThreshold) {
 			count++;
 		} else {
 			count = 0;
@@ -69,6 +69,7 @@ public class Translation extends Command {
 	
 	/**
 	 * This returns whether or not the command has finished, meaning the robot has translated to its destination.
+	 *
 	 * @return if the robot has translated to its destination
 	 */
 	@Override

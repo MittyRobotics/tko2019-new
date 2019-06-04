@@ -28,7 +28,7 @@ public class Rotation extends Command {
 		super("Rotation");
 		requires(DriveTrain.getInstance());
 		
-		if(direction == RotationDirection.Left){
+		if (direction == RotationDirection.Left) {
 			angle = -angle;
 		}
 		this.angle = angle;
@@ -37,28 +37,28 @@ public class Rotation extends Command {
 	
 	/**
 	 * The initialize function is called at the initialization stage of the command.
-	 *
+	 * <p>
 	 * This is where the rotation PID control loop values are set. The rotation method in the {@link DriveTrain}
 	 * subsystem is called with the parameters of angle and max speed to rotate the robot the desired amount.
 	 */
 	@Override
 	public void initialize() {
-		switch (direction){
+		switch (direction) {
 			case Right:
-				DriveTrain.getInstance().rotation(angle,maxSpeed);
+				DriveTrain.getInstance().rotation(angle, maxSpeed);
 			case Left:
-				DriveTrain.getInstance().rotation(-angle,maxSpeed);
+				DriveTrain.getInstance().rotation(-angle, maxSpeed);
 		}
 	}
 	
 	/**
 	 * This method is called periodically (about every 20ms) and does the work of the command.
-	 *
+	 * <p>
 	 * All the command's work is to set the setpoint of the PID loop, so nothing is needed here.
 	 */
 	@Override
 	public void execute() {
-		if(Math.abs(DriveTrain.getInstance().getRotationError()) < stoppingThreshold){
+		if (Math.abs(DriveTrain.getInstance().getRotationError()) < stoppingThreshold) {
 			count++;
 		} else {
 			count = 0;

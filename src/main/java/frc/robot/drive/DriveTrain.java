@@ -17,16 +17,17 @@ public class DriveTrain extends Subsystem {
 	private WPI_TalonSRX[] rightDrive = new WPI_TalonSRX[TalonIds.RIGHT_DRIVE.length];
 	private static DriveTrain ourInstance = new DriveTrain();
 	private PIDController controller = new PIDController(PID.TURN[0], PID.TURN[1], PID.TURN[2], Gyro.getInstance(), leftDrive[0]);
+	
 	public static DriveTrain getInstance() {
 		return ourInstance;
 	}
-
+	
 	private DriveTrain() {
-		for(int i = 0; i < leftDrive.length; i++){
+		for (int i = 0; i < leftDrive.length; i++) {
 			WPI_TalonSRX talonSRX = new WPI_TalonSRX(TalonIds.LEFT_DRIVE[i]);
 			talonSRX.configFactoryDefault();
 			talonSRX.setInverted(TalonInversions.LEFT_DRIVE[i]);
-			if(i == 0){
+			if (i == 0) {
 				talonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 				talonSRX.setSensorPhase(EncoderInversions.LEFT_DRIVE);
 				talonSRX.config_kP(0, PID.DRIVE[0]);
@@ -37,11 +38,11 @@ public class DriveTrain extends Subsystem {
 			}
 			leftDrive[i] = talonSRX;
 		}
-		for(int i = 0; i < rightDrive.length; i++){
+		for (int i = 0; i < rightDrive.length; i++) {
 			WPI_TalonSRX talonSRX = new WPI_TalonSRX(TalonIds.RIGHT_DRIVE[i]);
 			talonSRX.configFactoryDefault();
 			talonSRX.setInverted(TalonInversions.RIGHT_DRIVE[i]);
-			if(i == 0){
+			if (i == 0) {
 				talonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 				talonSRX.setSensorPhase(EncoderInversions.RIGHT_DRIVE);
 				talonSRX.config_kP(0, PID.DRIVE[0]);
@@ -53,33 +54,33 @@ public class DriveTrain extends Subsystem {
 			rightDrive[i] = talonSRX;
 		}
 	}
-
+	
 	@Override
 	protected void initDefaultCommand() {
-
+	
 	}
-
-	public void tankDrive(final double left, final double right){
-		if(Math.abs(left) < 0.05){
+	
+	public void tankDrive(final double left, final double right) {
+		if (Math.abs(left) < 0.05) {
 			leftDrive[0].set(ControlMode.PercentOutput, 0);
 		} else {
 			leftDrive[0].set(ControlMode.PercentOutput, left);
 		}
-		if(Math.abs(right) < 0.05){
+		if (Math.abs(right) < 0.05) {
 			rightDrive[0].set(ControlMode.PercentOutput, 0);
 		} else {
 			rightDrive[0].set(ControlMode.PercentOutput, right);
 		}
 	}
-
-	public void wheelDrive(final double drive, final double turn, final boolean inPlace){
+	
+	public void wheelDrive(final double drive, final double turn, final boolean inPlace) {
 		final double turnE = 0.7;
 		final double multiplier = 2.5;
 		final double driveE = 0.5;
 		double turnValue = turn * turnE * multiplier;
 		double driveValue = drive * driveE;
-		if(inPlace){
-			if(Math.abs(turn) > 0.05){
+		if (inPlace) {
+			if (Math.abs(turn) > 0.05) {
 				leftDrive[0].set(ControlMode.PercentOutput, -turnValue);
 				rightDrive[0].set(ControlMode.PercentOutput, turnValue);
 			} else {
@@ -87,9 +88,9 @@ public class DriveTrain extends Subsystem {
 				rightDrive[0].set(ControlMode.PercentOutput, 0);
 			}
 		} else {
-			if(Math.abs(drive) > 0.05){
-				if(Math.abs(turn) > 0.05){
-					if(drive < - 0.05){
+			if (Math.abs(drive) > 0.05) {
+				if (Math.abs(turn) > 0.05) {
+					if (drive < -0.05) {
 						leftDrive[0].set(ControlMode.PercentOutput, driveValue - turnValue);
 						rightDrive[0].set(ControlMode.PercentOutput, driveValue + turnValue);
 					} else {
@@ -111,26 +112,28 @@ public class DriveTrain extends Subsystem {
 			}
 		}
 	}
-	public void translation(final double distance, final double maxSpeed){
+	
+	public void translation(final double distance, final double maxSpeed) {
 		leftDrive[0].configClosedLoopPeakOutput(0, maxSpeed);
 		rightDrive[0].configClosedLoopPeakOutput(0, maxSpeed);
 		leftDrive[0].set(ControlMode.Position, leftDrive[0].getSelectedSensorPosition() + distance * TicksPerInch.DRIVE);
 		rightDrive[0].set(ControlMode.Position, rightDrive[0].getSelectedSensorPosition() + distance * TicksPerInch.DRIVE);
 	}
-	public double getTranslationError(){
-		return (double)(leftDrive[0].getClosedLoopError() + rightDrive[0].getClosedLoopError()) / 2;
+	
+	public double getTranslationError() {
+		return (double) (leftDrive[0].getClosedLoopError() + rightDrive[0].getClosedLoopError()) / 2;
 	}
-
-
+	
+	
 	//positive is right, negative is left
-	public void rotation(final double angle, final double maxSpeed){
+	public void rotation(final double angle, final double maxSpeed) {
 		double target;
 		controller.setContinuous(true);
 		controller.setInputRange(0, 360);
 		controller.setOutputRange(-maxSpeed, maxSpeed);
-		if(Gyro.getInstance().getAngle() + angle < 0){
+		if (Gyro.getInstance().getAngle() + angle < 0) {
 			target = Gyro.getInstance().getAngle() + angle + 360;
-		} else if(Gyro.getInstance().getAngle() + angle >= 360){
+		} else if (Gyro.getInstance().getAngle() + angle >= 360) {
 			target = Gyro.getInstance().getAngle() + angle - 360;
 		} else {
 			target = Gyro.getInstance().getAngle() + angle;
@@ -138,10 +141,12 @@ public class DriveTrain extends Subsystem {
 		controller.setSetpoint(target);
 		controller.enable();
 	}
-	public double getRotationError(){
+	
+	public double getRotationError() {
 		return controller.getError();
 	}
-	public void disableController(){
+	
+	public void disableController() {
 		controller.disable();
 	}
 }
