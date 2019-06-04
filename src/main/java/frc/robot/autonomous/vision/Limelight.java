@@ -16,7 +16,6 @@ public class Limelight {
     private double tx; //Horizontal Offset From Crosshair To Target (LL1: -27 degrees to 27 degrees | LL2: -29.8 to 29.8 degrees)
     private double ty; //Vertical Offset From Crosshair To Target (LL1: -20.5 degrees to 20.5 degrees | LL2: -24.85 to 24.85 degrees)
     private double ta; //Target Area (0% of image to 100% of image)
-    private double ts; //Skew or rotation (-90 degrees to 0 degrees)
 
     private Limelight() {
         //Lonliness
@@ -45,7 +44,6 @@ public class Limelight {
         tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0); //Horizontal Offset From Crosshair To Target (LL1: -27 degrees to 27 degrees | LL2: -29.8 to 29.8 degrees)
         ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0); //Vertical Offset From Crosshair To Target (LL1: -20.5 degrees to 20.5 degrees | LL2: -24.85 to 24.85 degrees)
         ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0); //Target Area (0% of image to 100% of image)
-        ts = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ts").getDouble(0); //Skew or rotation (-90 degrees to 0 degrees)
     }
 
     public boolean isHasTarget(){
@@ -62,10 +60,6 @@ public class Limelight {
 
     public double getArea(){
         return ta;
-    }
-
-    public double getSkew(){
-        return ts;
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////

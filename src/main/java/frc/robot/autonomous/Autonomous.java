@@ -1,6 +1,5 @@
 package frc.robot.autonomous;
-
-		import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class Autonomous extends CommandGroup {
 	private static Autonomous ourInstance = new Autonomous();
