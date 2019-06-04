@@ -10,6 +10,7 @@ import frc.robot.drive.constants.TicksPerInch;
  */
 public class Translation extends Command {
 	
+	private int count = 0;
 	private double distance; //inches
 	private double maxSpeed; //percent output
 	private double stoppingThreshold = 0.5; //Translation error threshold, the robot will stop translating when within this threshold of inches
@@ -43,7 +44,11 @@ public class Translation extends Command {
 	 */
 	@Override
 	public void execute() {
-		//"Everybody needs a friend" -Bob Ross
+		if(Math.abs(DriveTrain.getInstance().getTranslationError() / TicksPerInch.DRIVE) < stoppingThreshold){
+			count++;
+		} else {
+			count = 0;
+		}
 	}
 	
 	/**
@@ -51,7 +56,7 @@ public class Translation extends Command {
 	 */
 	@Override
 	public void end() {
-		//"Everybody needs a friend" -Bob Ross
+		DriveTrain.getInstance().tankDrive(0, 0);
 	}
 	
 	/**
@@ -68,11 +73,6 @@ public class Translation extends Command {
 	 */
 	@Override
 	protected boolean isFinished() {
-		if(Math.abs(DriveTrain.getInstance().getTranslationError() / TicksPerInch.DRIVE) < stoppingThreshold ){
-			return true;
-		}
-		else{
-			return false;
-		}
+		return count > 10;
 	}
 }

@@ -10,11 +10,11 @@ import frc.robot.drive.constants.TicksPerInch;
  * This command takes in an angle in degrees, a maximum speed in percent output (0 to 1), and a direction value to rotate the robot.
  */
 public class Rotation extends Command {
-	
-	double angle; //degrees
-	double maxSpeed; //percent output
-	RotationDirection direction; //direction of rotation
-	double stoppingThreshold = 1; //Rotation error threshold, the robot will stop rotating when within this threshold of degrees
+	private int count = 0;
+	private double angle; //degrees
+	private double maxSpeed; //percent output
+	private RotationDirection direction; //direction of rotation
+	private double stoppingThreshold = 1; //Rotation error threshold, the robot will stop rotating when within this threshold of degrees
 	
 	/**
 	 * Initializes command with a name "Rotation" and the subsystem class that will be used, {@link DriveTrain}
@@ -43,7 +43,12 @@ public class Rotation extends Command {
 	 */
 	@Override
 	public void initialize() {
-		DriveTrain.getInstance().rotation(angle,maxSpeed);
+		switch (direction){
+			case Right:
+				DriveTrain.getInstance().rotation(angle,maxSpeed);
+			case Left:
+				DriveTrain.getInstance().rotation(-angle,maxSpeed);
+		}
 	}
 	
 	/**
@@ -53,7 +58,11 @@ public class Rotation extends Command {
 	 */
 	@Override
 	public void execute() {
-		//"Everybody needs a friend" -Bob Ross
+		if(Math.abs(DriveTrain.getInstance().getRotationError()) < stoppingThreshold){
+			count++;
+		} else {
+			count = 0;
+		}
 	}
 	
 	
@@ -62,7 +71,8 @@ public class Rotation extends Command {
 	 */
 	@Override
 	public void end() {
-		//"Everybody needs a friend" -Bob Ross
+		DriveTrain.getInstance().disableController();
+		DriveTrain.getInstance().tankDrive(0, 0);
 	}
 	
 	
@@ -81,11 +91,6 @@ public class Rotation extends Command {
 	 */
 	@Override
 	protected boolean isFinished() {
-		if(Math.abs(DriveTrain.getInstance().getRotationError() / TicksPerInch.DRIVE) < stoppingThreshold ){
-			return true;
-		}
-		else{
-			return false;
-		}
+		return count > 10;
 	}
 }

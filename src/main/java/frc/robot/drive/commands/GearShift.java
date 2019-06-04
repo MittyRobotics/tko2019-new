@@ -7,6 +7,7 @@ import frc.robot.drive.constants.GearState;
 public class GearShift extends Command {
 	private GearState gearState;
 	public GearShift(GearState gearState){
+		super("Gear Shift");
 		requires(Shifter.getInstance());
 		this.gearState = gearState;
 	}

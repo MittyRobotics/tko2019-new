@@ -8,6 +8,7 @@ public class WheelDrive extends Command {
 	private boolean inPlace;
 
 	public WheelDrive(final double drive, final double turn, final boolean inPlace){
+		super("Wheel Drive");
 		requires(DriveTrain.getInstance());
 		this.drive = drive;
 		this.turn = turn;

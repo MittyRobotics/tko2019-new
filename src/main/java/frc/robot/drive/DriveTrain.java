@@ -136,9 +136,12 @@ public class DriveTrain extends Subsystem {
 			target = Gyro.getInstance().getAngle() + angle;
 		}
 		controller.setSetpoint(target);
-		tankDrive(controller.get(), -controller.get());
+		controller.enable();
 	}
 	public double getRotationError(){
 		return controller.getError();
+	}
+	public void disableController(){
+		controller.disable();
 	}
 }

@@ -6,6 +6,7 @@ import frc.robot.drive.DriveTrain;
 public class TankDrive extends Command {
 	private double left, right;
 	public TankDrive(final double left, final double right){
+		super("Tank Drive");
 		requires(DriveTrain.getInstance());
 		this.left = left;
 		this.right = right;
