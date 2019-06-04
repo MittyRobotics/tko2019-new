@@ -13,11 +13,10 @@ import frc.robot.drive.constants.TicksPerInch;
 import frc.robot.hardware.Gyro;
 
 public class DriveTrain extends Subsystem {
-	private PIDController controller = new PIDController(PID.TURN[0], PID.TURN[1], PID.TURN[2], Gyro.getInstance(), leftDrive[0]);
 	private WPI_TalonSRX[] leftDrive = new WPI_TalonSRX[TalonIds.LEFT_DRIVE.length];
 	private WPI_TalonSRX[] rightDrive = new WPI_TalonSRX[TalonIds.RIGHT_DRIVE.length];
 	private static DriveTrain ourInstance = new DriveTrain();
-
+	private PIDController controller = new PIDController(PID.TURN[0], PID.TURN[1], PID.TURN[2], Gyro.getInstance(), leftDrive[0]);
 	public static DriveTrain getInstance() {
 		return ourInstance;
 	}
