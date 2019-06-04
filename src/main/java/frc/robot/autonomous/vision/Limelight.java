@@ -3,6 +3,10 @@ package frc.robot.autonomous.vision;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.autonomous.constants.CameraMode;
+import frc.robot.autonomous.constants.LedMode;
+import frc.robot.autonomous.constants.SnapshotMode;
+import frc.robot.autonomous.constants.StreamMode;
 
 public class Limelight {
     private static Limelight ourInstance = new Limelight();
@@ -84,19 +88,19 @@ public class Limelight {
     //1	Take two snapshots per second                                                                               //
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void setLedMode(int ledMode){
-        NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(ledMode); //	Sets limelight’s LED state
+    public void setLedMode(LedMode ledMode){
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(ledMode.value); //	Sets limelight’s LED state
     }
 
-    public void setCameraMode(int camMode){
-        NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(camMode); //	Sets limelight’s operation mode
+    public void setCameraMode(CameraMode cameraMode){
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(cameraMode.value); //	Sets limelight’s operation mode
     }
 
-    public void setStreamMode(int streamMode){
-        NetworkTableInstance.getDefault().getTable("limelight").getEntry("stream").setNumber(streamMode); //Sets limelight’s streaming mode
+    public void setStreamMode(StreamMode streamMode){
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("stream").setNumber(streamMode.value); //Sets limelight’s streaming mode
     }
 
-    public void setSnapshotMode(int snapshotMode){
-        NetworkTableInstance.getDefault().getTable("limelight").getEntry("snapshot").setNumber(snapshotMode); //Allows users to take snapshots during a match
+    public void setSnapshotMode(SnapshotMode snapshotMode){
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("snapshot").setNumber(snapshotMode.value); //Allows users to take snapshots during a match
     }
 }
