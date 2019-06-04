@@ -3,11 +3,14 @@ package frc.robot.drive;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.drive.constants.EncoderInversions;
 import frc.robot.drive.constants.PID;
 import frc.robot.drive.constants.TalonIds;
 import frc.robot.drive.constants.TalonInversions;
+import frc.robot.drive.constants.TicksPerInch;
+import frc.robot.hardware.Gyro;
 
 public class DriveTrain extends Subsystem {
 	private WPI_TalonSRX[] leftDrive = new WPI_TalonSRX[TalonIds.LEFT_DRIVE.length];
@@ -107,5 +110,30 @@ public class DriveTrain extends Subsystem {
 				e.printStackTrace();
 			}
 		}
+	}
+	public void translation(final double distance, final double maxSpeed){
+		leftDrive[0].configClosedLoopPeakOutput(0, maxSpeed);
+		rightDrive[0].configClosedLoopPeakOutput(0, maxSpeed);
+		leftDrive[0].set(ControlMode.Position, leftDrive[0].getSelectedSensorPosition() + distance * TicksPerInch.DRIVE);
+		rightDrive[0].set(ControlMode.Position, rightDrive[0].getSelectedSensorPosition() + distance * TicksPerInch.DRIVE);
+	}
+
+
+	//positive is right, negative is left
+	public void rotation(final double angle, final double maxSpeed){
+		double target;
+		PIDController controller = new PIDController(PID.TURN[0], PID.TURN[1], PID.TURN[2], Gyro.getInstance(), leftDrive[0]);
+		controller.setContinuous(true);
+		controller.setInputRange(0, 360);
+		controller.setOutputRange(-maxSpeed, maxSpeed);
+		if(Gyro.getInstance().getAngle() + angle < 0){
+			target = Gyro.getInstance().getAngle() + angle + 360;
+		} else if(Gyro.getInstance().getAngle() + angle >= 360){
+			target = Gyro.getInstance().getAngle() + angle - 360;
+		} else {
+			target = Gyro.getInstance().getAngle() + angle;
+		}
+		controller.setSetpoint(target);
+		tankDrive(controller.get(), -controller.get());
 	}
 }
