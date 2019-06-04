@@ -27,10 +27,7 @@ public class Rotation extends Command {
 		
 		super("Rotation");
 		requires(DriveTrain.getInstance());
-		
-		if (direction == RotationDirection.Left) {
-			angle = -angle;
-		}
+
 		this.angle = angle;
 		this.maxSpeed = maxSpeed;
 	}
