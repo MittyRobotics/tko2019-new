@@ -16,7 +16,7 @@ public class DriveTrain extends Subsystem {
 	private WPI_TalonSRX[] leftDrive = new WPI_TalonSRX[TalonIds.LEFT_DRIVE.length];
 	private WPI_TalonSRX[] rightDrive = new WPI_TalonSRX[TalonIds.RIGHT_DRIVE.length];
 	private static DriveTrain ourInstance = new DriveTrain();
-
+	private PIDController controller = new PIDController(PID.TURN[0], PID.TURN[1], PID.TURN[2], Gyro.getInstance(), leftDrive[0]);
 	public static DriveTrain getInstance() {
 		return ourInstance;
 	}
@@ -117,12 +117,14 @@ public class DriveTrain extends Subsystem {
 		leftDrive[0].set(ControlMode.Position, leftDrive[0].getSelectedSensorPosition() + distance * TicksPerInch.DRIVE);
 		rightDrive[0].set(ControlMode.Position, rightDrive[0].getSelectedSensorPosition() + distance * TicksPerInch.DRIVE);
 	}
+	public double getTranslationError(){
+		return (leftDrive[0].getClosedLoopError() + rightDrive[0].getClosedLoopError()) / 2;
+	}
 
 
 	//positive is right, negative is left
 	public void rotation(final double angle, final double maxSpeed){
 		double target;
-		PIDController controller = new PIDController(PID.TURN[0], PID.TURN[1], PID.TURN[2], Gyro.getInstance(), leftDrive[0]);
 		controller.setContinuous(true);
 		controller.setInputRange(0, 360);
 		controller.setOutputRange(-maxSpeed, maxSpeed);
@@ -135,5 +137,8 @@ public class DriveTrain extends Subsystem {
 		}
 		controller.setSetpoint(target);
 		tankDrive(controller.get(), -controller.get());
+	}
+	public double getRotationError(){
+		return controller.getError();
 	}
 }
