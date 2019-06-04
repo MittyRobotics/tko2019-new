@@ -3,6 +3,9 @@ package frc.robot.autonomous;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.autonomous.movement.commands.Translation;
 
+/**
+ * The autonomous command group that contains the master autonomous sequence during the 15 second autonomous/sandstorm period.
+ */
 public class Autonomous extends CommandGroup {
 	private static Autonomous ourInstance = new Autonomous();
 	

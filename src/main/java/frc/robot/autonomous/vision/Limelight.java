@@ -1,9 +1,10 @@
 package frc.robot.autonomous.vision;
 
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import frc.robot.autonomous.constants.*;
+import frc.robot.autonomous.constants.CameraMode;
+import frc.robot.autonomous.constants.LedMode;
+import frc.robot.autonomous.constants.SnapshotMode;
+import frc.robot.autonomous.constants.StreamMode;
 
 public class Limelight {
 	private static Limelight ourInstance = new Limelight();

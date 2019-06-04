@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class VisionAlignment extends Command {
 	
-	double maxSpeed; //football fields per minute
+	double maxSpeed; //percent output
 	
 	public VisionAlignment(double maxSpeed) {
 		this.maxSpeed = maxSpeed;

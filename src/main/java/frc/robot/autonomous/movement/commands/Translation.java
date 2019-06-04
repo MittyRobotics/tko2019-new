@@ -2,10 +2,14 @@ package frc.robot.autonomous.movement.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Linear translation command for translating the robot either forward or backward on the local forward axis. Since the
+ * robot is operating on a differential drive, translation can only occur on the forward axis.
+ */
 public class Translation extends Command {
 	
-	private double distance; //nanometers
-	private double maxSpeed; //football fields per minute
+	private double distance; //inches
+	private double maxSpeed; //percent output
 	
 	public Translation(double distance, double maxSpeed) {
 		this.distance = distance;
@@ -19,12 +23,12 @@ public class Translation extends Command {
 	
 	@Override
 	public void execute() {
-	
+		//"Everybody needs a friend" -Bob Ross
 	}
 	
 	@Override
 	public void end() {
-	
+		//"Everybody needs a friend" -Bob Ross
 	}
 	
 	@Override
