@@ -118,7 +118,7 @@ public class DriveTrain extends Subsystem {
 		rightDrive[0].set(ControlMode.Position, rightDrive[0].getSelectedSensorPosition() + distance * TicksPerInch.DRIVE);
 	}
 	public double getTranslationError(){
-		return (leftDrive[0].getClosedLoopError() + rightDrive[0].getClosedLoopError()) / 2;
+		return (double)(leftDrive[0].getClosedLoopError() + rightDrive[0].getClosedLoopError()) / 2;
 	}
 
 

@@ -1,6 +1,7 @@
 package frc.robot.autonomous.movement.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.drive.DriveTrain;
 
 /**
  * Rotation command for rotating the robot's chassis a set amount of degrees using a PID control loop.
@@ -22,7 +23,7 @@ public class Rotation extends Command {
 	 */
 	public Rotation(double angle, double maxSpeed, RotationDirection direction) {
 		super("Rotation");
-		//requires(drive);
+		requires(DriveTrain.getInstance());
 		this.angle = angle;
 		this.maxSpeed = maxSpeed;
 		this.direction = direction;
@@ -38,8 +39,7 @@ public class Rotation extends Command {
 	}
 	
 	/**
-	 * This method is called periodically (about every 20ms) and does the work of the command. Since this command only
-	 * sets a PID setpoint and the PID process is running in the background, nothing is necessary in the execute method.
+	 * This method is called periodically (about every 20ms) and does the work of the command.
 	 */
 	@Override
 	public void execute() {
@@ -64,9 +64,7 @@ public class Rotation extends Command {
 	}
 	
 	/**
-	 * This returns whether or not the command is finished. Since this command only sets a PID setpoint and the PID
-	 * process is running in the background, the command finishes instantly.
-	 *
+	 * This returns whether or not the command is finished.
 	 * @return if the command is finished
 	 */
 	@Override

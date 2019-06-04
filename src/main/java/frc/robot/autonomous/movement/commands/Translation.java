@@ -1,6 +1,7 @@
 package frc.robot.autonomous.movement.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.drive.DriveTrain;
 
 /**
  * Linear translation command for translating the robot either forward or backward on the local forward axis. Since the
@@ -12,13 +13,15 @@ public class Translation extends Command {
 	private double maxSpeed; //percent output
 	
 	public Translation(double distance, double maxSpeed) {
+		super("Translation");
+		requires(DriveTrain.getInstance());
 		this.distance = distance;
 		this.maxSpeed = maxSpeed;
 	}
 	
 	@Override
 	public void initialize() {
-		//set drive subsystem PID setpoint to distance with output range of 0 to maxSpeed
+	
 	}
 	
 	@Override
