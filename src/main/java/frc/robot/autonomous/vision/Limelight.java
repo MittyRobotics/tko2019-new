@@ -21,8 +21,12 @@ public class Limelight {
     private double ty; //Vertical Offset From Crosshair To Target (LL1: -20.5 degrees to 20.5 degrees | LL2: -24.85 to 24.85 degrees)
     private double ta; //Target Area (0% of image to 100% of image)
 
+    //Init limelight camera properties
     private Limelight() {
-        //Lonliness
+        setLedMode(LedMode.On);
+        setCameraMode(CameraMode.Vision);
+        setStreamMode(StreamMode.Main);
+        setSnapshotMode(SnapshotMode.Off);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,11 +47,11 @@ public class Limelight {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //Update the limelight values from network tables
-    void updateLimelightValues(){
+    public void updateLimelightValues(){
         tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0); //Whether the limelight has any valid targets (0 or 1)
-        tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0); //Horizontal Offset From Crosshair To Target (LL1: -27 degrees to 27 degrees | LL2: -29.8 to 29.8 degrees)
-        ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0); //Vertical Offset From Crosshair To Target (LL1: -20.5 degrees to 20.5 degrees | LL2: -24.85 to 24.85 degrees)
-        ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0); //Target Area (0% of image to 100% of image)
+        tx = (double)Math.round((float)NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0)*10)/10; //Horizontal Offset From Crosshair To Target (LL1: -27 degrees to 27 degrees | LL2: -29.8 to 29.8 degrees)
+        ty = (double)Math.round((float)NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0)*10)/10; //Vertical Offset From Crosshair To Target (LL1: -20.5 degrees to 20.5 degrees | LL2: -24.85 to 24.85 degrees)
+        ta = (double)Math.round((float)NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0)*10)/10; //Target Area (0% of image to 100% of image)
     }
 
     public boolean isHasTarget(){
@@ -103,4 +107,56 @@ public class Limelight {
     public void setSnapshotMode(SnapshotMode snapshotMode){
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("snapshot").setNumber(snapshotMode.value); //Allows users to take snapshots during a match
     }
+
+    //Print limelight values
+    public void printValues(){
+        //x angle, y angle, area, and has target strings
+        String x;
+        String y;
+        String a;
+        String h;
+
+        //Set strings to network table values
+        h = Limelight.getInstance().isHasTarget() + "";
+        x = Limelight.getInstance().getXAngle() + "";
+        y = Limelight.getInstance().getYAngle() + "";
+        a = Limelight.getInstance().getXAngle() + "";
+
+
+        //Add spaces neccessary to keep elements aligned in print
+        if(h.length() == 4){
+            h = h + " ";
+        }
+        if(x.length() == 3){
+            x = "  " + x;
+        }
+        if(x.length() == 4){
+            x = " " + x;
+        }
+        if(x.length() == 5){
+            x = "" + x;
+        }
+        if(y.length() == 3){
+            y = "  " + y;
+        }
+        if(y.length() == 4){
+            y = " " + y;
+        }
+        if(y.length() == 5){
+            y = "" + y;
+        }
+        if(a.length() == 3){
+            a = "  " + a;
+        }
+        if(a.length() == 4){
+            a = " " + a;
+        }
+        if(a.length() == 5){
+            a = "" + a;
+        }
+
+        //Print values
+        System.out.println("Has Target:" + h + " \t X Angle: " + x + " \t  Y Angle: " + y + " \t Area: " + a);
+    }
+
 }
