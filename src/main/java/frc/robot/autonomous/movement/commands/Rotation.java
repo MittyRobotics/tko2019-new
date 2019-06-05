@@ -17,7 +17,7 @@ public class Rotation extends Command {
 	private double stoppingThreshold = 1; //Rotation error threshold, the robot will stop rotating when within this threshold of degrees
 	
 	/**
-	 * Initializes command with a name "Rotation" and the subsystem class that will be used, {@link DriveTrain}
+	 * Initializes command with a name "Rotation" and the required subsystem class that will be used, {@link DriveTrain}
 	 *
 	 * @param angle     the angle at which the robot will be rotating
 	 * @param maxSpeed  the maximum speed at which the robot will be rotating at
@@ -27,7 +27,7 @@ public class Rotation extends Command {
 		
 		super("Rotation");
 		requires(DriveTrain.getInstance());
-
+		
 		this.angle = angle;
 		this.maxSpeed = maxSpeed;
 	}
@@ -66,6 +66,8 @@ public class Rotation extends Command {
 	
 	/**
 	 * This method is called at the end of the command.
+	 * <p>
+	 * Here we want to disable the PID controller for turning and reset the wheel speeds to 0.
 	 */
 	@Override
 	public void end() {
@@ -83,7 +85,9 @@ public class Rotation extends Command {
 	}
 	
 	/**
-	 * This returns whether or not the command has finished, meaning the robot has rotated to its target angle.
+	 * This returns whether or not the command has finished
+	 * <p>
+	 * In this case, we want to return if the robot has rotated to its target angle.
 	 *
 	 * @return if the robot has rotated to its target angle
 	 */

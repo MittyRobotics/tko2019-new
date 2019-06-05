@@ -16,7 +16,7 @@ public class Translation extends Command {
 	private double stoppingThreshold = 0.5; //Translation error threshold, the robot will stop translating when within this threshold of inches
 	
 	/**
-	 * Initializes command with a name "Translation" and the subsystem class that will be used, {@link DriveTrain}
+	 * Initializes command with a name "Translation" and the required subsystem class that will be used, {@link DriveTrain}
 	 *
 	 * @param distance the distance that the robot will be moving
 	 * @param maxSpeed the maximum speed at which the robot will be moving at
@@ -55,6 +55,8 @@ public class Translation extends Command {
 	
 	/**
 	 * This method is called at the end of the command.
+	 * <p>
+	 * Here we want to reset the wheel speeds to 0.
 	 */
 	@Override
 	public void end() {
@@ -70,7 +72,9 @@ public class Translation extends Command {
 	}
 	
 	/**
-	 * This returns whether or not the command has finished, meaning the robot has translated to its destination.
+	 * This returns whether or not the command has finished
+	 * <p>
+	 * In this case, we want to return if the robot has translated to its destination.
 	 *
 	 * @return if the robot has translated to its destination
 	 */

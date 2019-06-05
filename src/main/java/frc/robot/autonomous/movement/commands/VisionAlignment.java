@@ -10,45 +10,56 @@ public class VisionAlignment extends Command {
 	double maxSpeed; //percent output
 	int count = 0;
 	
+	/**
+	 * Initializes command with a name "VisionAlignment" and the required subsystem class that will be used, {@link DriveTrain}
+	 *
+	 * @param maxSpeed the maximum speed at which the robot will be rotating at
+	 */
 	public VisionAlignment(double maxSpeed) {
+		super("VisionAlignment");
+		requires(DriveTrain.getInstance());
 		this.maxSpeed = maxSpeed;
 	}
 	
+	/**
+	 * The initialize function is called at the initialization stage of the command.
+	 */
 	@Override
 	public void initialize() {
-	
+		//"Everybody needs a friend" -Bob Ross
 	}
 	
+	/**
+	 * This method is called periodically (about every 20ms) and does the work of the command.
+	 */
 	@Override
 	public void execute() {
-		double x = Limelight.getInstance().getXAngle();
-		double threshold = 1;
-		if(x > threshold){
-			DriveTrain.getInstance().tankDrive(((Math.abs(x) / 29.8) * (maxSpeed-0.2)) + 0.2,-(((Math.abs(x) / 29.8) * (maxSpeed-0.2)) + 0.2));
-			count = 0;
-		}
-		else if(x < -threshold){
-			DriveTrain.getInstance().tankDrive(-((Math.abs(x) / 29.8) * (maxSpeed-0.2)) + 0.2,(((Math.abs(x) / 29.8) * (maxSpeed-0.2)) + 0.2));
-			count = 0;
-		}
-		else{
-			DriveTrain.getInstance().tankDrive(0,0);
-			count ++;
-		}
+		//"Everybody needs a friend" -Bob Ross
 	}
 	
+	/**
+	 * This method is called at the end of the command.
+	 */
 	@Override
 	public void end() {
-		DriveTrain.getInstance().tankDrive(0,0);
+		DriveTrain.getInstance().tankDrive(0, 0);
 	}
 	
+	/**
+	 * This method is called when the command is interrupted, therefore ending the command.
+	 */
 	@Override
 	public void interrupted() {
 		end();
 	}
 	
+	/**
+	 * This returns whether or not the command has finished.
+	 *
+	 * @return
+	 */
 	@Override
 	protected boolean isFinished() {
-		return count > 20;
+		return false;
 	}
 }
