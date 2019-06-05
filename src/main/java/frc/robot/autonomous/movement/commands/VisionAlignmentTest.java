@@ -30,10 +30,13 @@ public class VisionAlignmentTest extends Command {
 	
 	/**
 	 * The initialize function is called at the initialization stage of the command.
+	 * <p>
+	 * Here the {@link Limelight} is set to vision mode, turning the exposure down on the camera and enabling
+	 * the LEDs for optimum vision tracking.
 	 */
 	@Override
 	public void initialize() {
-		//"Everybody needs a friend" -Bob Ross
+		Limelight.getInstance().enableVisionMode();
 	}
 	
 	/**
@@ -63,11 +66,13 @@ public class VisionAlignmentTest extends Command {
 	/**
 	 * This method is called at the end of the command.
 	 * <p>
-	 * Here we want to reset the wheel speeds to 0.
+	 * Here we want to reset the wheel speeds to 0. We also put the {@link Limelight} back into driver mode because
+	 * the vision tracking is completed.
 	 */
 	@Override
 	public void end() {
 		DriveTrain.getInstance().tankDrive(0, 0);
+		Limelight.getInstance().enableDriverMode();
 	}
 	
 	/**

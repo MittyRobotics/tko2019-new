@@ -21,10 +21,15 @@ public class Limelight {
 	
 	/**
 	 * Initializes the Limelight's properties
+	 * <p>
+	 * The Limelight should default in driver mode with no LEDs on. We will enable the LEDs and put the Limelight into
+	 * vision mode whenever vision is active, but in order to not distract others on the field we want to keep the
+	 * lights off when vision is not active. Putting the Limelight into driver mode allows the drivers to use the
+	 * camera while vision is not being used.
 	 */
 	private Limelight() {
-		setLedMode(LedMode.On);
-		setCameraMode(CameraMode.Vision);
+		setLedMode(LedMode.Off);
+		setCameraMode(CameraMode.Driver);
 		setStreamMode(StreamMode.Main);
 		setSnapshotMode(SnapshotMode.Off);
 	}
@@ -186,6 +191,30 @@ public class Limelight {
 	 */
 	public void setSnapshotMode(SnapshotMode snapshotMode) {
 		NetworkTableInstance.getDefault().getTable("limelight").getEntry("snapshot").setNumber(snapshotMode.value); //Allows users to take snapshots during a match
+	}
+	
+	/**
+	 * Puts the Limelight into vision mode, with the camera settings turned to vision mode (low exposure)
+	 * and the LEDs on.
+	 * <p>
+	 * Vision mode sets the camera properties to allow for optimum vision tracking and turns the LEDs on so the
+	 * target can be tracked.
+	 */
+	public void enableVisionMode() {
+		setCameraMode(CameraMode.Vision);
+		setLedMode(LedMode.On);
+	}
+	
+	/**
+	 * Puts the Limelight into driver mode, with the camera settings turned to driver mode (regular exposure)
+	 * and the LEDs off.
+	 * <p>
+	 * Driver mode allows the driver to see through the Limelight camera and turns off the LEDs so it does not
+	 * distract others on the field.
+	 */
+	public void enableDriverMode() {
+		setCameraMode(CameraMode.Driver);
+		setLedMode(LedMode.Off);
 	}
 	
 	/**
