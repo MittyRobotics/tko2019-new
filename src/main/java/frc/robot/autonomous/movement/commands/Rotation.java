@@ -51,7 +51,8 @@ public class Rotation extends Command {
 	/**
 	 * This method is called periodically (about every 20ms) and does the work of the command.
 	 * <p>
-	 * All the command's work is to set the setpoint of the PID loop, so nothing is needed here.
+	 * A counter is counting up while the robot is within the stopping threshold. This is used to
+	 * end the command once the robot is within the stopping threshold for enough times to come to rest.
 	 */
 	@Override
 	public void execute() {
