@@ -1,26 +1,24 @@
 package frc.robot.drive.commands;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.drive.DriveTrain;
+import frc.robot.oi.OI;
 
 public class TankDrive extends Command {
-	private double left, right;
-	
-	public TankDrive(final double left, final double right) {
+	public TankDrive() {
 		super("Tank Drive");
 		requires(DriveTrain.getInstance());
-		this.left = left;
-		this.right = right;
 	}
 	
 	@Override
 	protected void initialize() {
-	
+
 	}
 	
 	@Override
 	protected void execute() {
-		DriveTrain.getInstance().tankDrive(left, right);
+		DriveTrain.getInstance().tankDrive(OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft), OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight));
 	}
 	
 	@Override

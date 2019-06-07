@@ -3,8 +3,11 @@ package frc.robot.oi;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.buttons.Button;
 import frc.robot.drive.commands.GearShift;
+import frc.robot.drive.commands.TankDrive;
 import frc.robot.drive.constants.GearState;
+import org.opencv.core.Mat;
 
 public class OI {
 	private XboxController controller;
@@ -18,10 +21,27 @@ public class OI {
 	}
 
 	private OI() {
-		Button shiftHigh = new Button(getXboxController().getBumper(GenericHID.Hand.kLeft));
-		shiftHigh.whenPressed(new GearShift(GearState.High));
-		Button shiftLow = new Button(getXboxController().getBumper(GenericHID.Hand.kRight));
+//		Button drive = new Button() {
+//			@Override
+//			public boolean get() {
+//				return Math.abs(getXboxController().getY(GenericHID.Hand.kLeft)) > 0.05 || Math.abs(getXboxController().getY(GenericHID.Hand.kRight)) > 0.05;
+//			}
+//		};
+//		drive.whileHeld(new TankDrive());
+		Button shiftLow = new Button() {
+			@Override
+			public boolean get() {
+				return getXboxController().getBumper(GenericHID.Hand.kLeft);
+			}
+		};
 		shiftLow.whenPressed(new GearShift(GearState.Low));
+		Button shiftHigh = new Button() {
+			@Override
+			public boolean get() {
+				return getXboxController().getBumper(GenericHID.Hand.kRight);
+			}
+		};
+		shiftHigh.whenPressed(new GearShift(GearState.High));
 	}
 
 	public XboxController getXboxController(){

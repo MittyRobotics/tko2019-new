@@ -20,7 +20,6 @@ public class GearShift extends Command {
 	
 	@Override
 	protected void execute() {
-	
 	}
 	
 	@Override

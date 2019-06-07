@@ -19,17 +19,31 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		DriveTrain.getInstance();
+		DriveTrain.getInstance().initHardware();
 		Shifter.getInstance();
+		OI.getInstance();
 		Compressor.getInstance();
 		Gyro.getInstance();
-		OI.getInstance();
+		DriveTrain.getInstance().initDefaultCommand();
 	}
 	
 	@Override
 	public void robotPeriodic() {
 	
 	}
-	
+
+	@Override
+	public void disabledInit() {
+
+	}
+
+	@Override
+	public void disabledPeriodic(){
+
+	}
+
+
+
 	@Override
 	public void autonomousInit() {
 	
@@ -42,7 +56,7 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void teleopInit() {
-	
+		Compressor.getInstance().start();
 	}
 	
 	@Override

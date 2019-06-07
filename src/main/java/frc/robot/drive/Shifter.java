@@ -14,7 +14,7 @@ public class Shifter extends Subsystem {
 	}
 	
 	private Shifter() {
-	
+		super("Shifter");
 	}
 	
 	@Override
