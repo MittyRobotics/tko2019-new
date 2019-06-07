@@ -37,7 +37,8 @@ public class VisionAlignment extends Command {
 	 */
 	@Override
 	public void execute() {
-		//"Everybody needs a friend" -Bob Ross
+		DriveTrain.getInstance().tankDrive(maxSpeed/(100 * Limelight.getInstance().getArea()) + maxSpeed * 0.01 * Limelight.getInstance().getXAngle(),
+				maxSpeed/(100 * Limelight.getInstance().getArea()) - maxSpeed * 0.01 * Limelight.getInstance().getXAngle());
 	}
 	
 	/**

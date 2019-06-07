@@ -25,7 +25,7 @@ public class DriveTrain extends Subsystem {
 		return ourInstance;
 	}
 	
-	public DriveTrain() {
+	private DriveTrain() {
 		super("DriveTrain");
 	}
 
