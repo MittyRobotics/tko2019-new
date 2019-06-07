@@ -1,9 +1,13 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import frc.robot.autonomous.constants.CameraMode;
-import frc.robot.autonomous.constants.StreamMode;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.autonomous.vision.Limelight;
+import frc.robot.drive.DriveTrain;
+import frc.robot.drive.Shifter;
+import frc.robot.hardware.Compressor;
+import frc.robot.hardware.Gyro;
+import frc.robot.oi.OI;
 
 public class Robot extends TimedRobot {
 	
@@ -11,9 +15,14 @@ public class Robot extends TimedRobot {
 		super(0.06);
 	}
 	
+	@SuppressWarnings("ResultOfMethodCallIgnored")
 	@Override
 	public void robotInit() {
-	
+		DriveTrain.getInstance();
+		Shifter.getInstance();
+		Compressor.getInstance();
+		Gyro.getInstance();
+		OI.getInstance();
 	}
 	
 	@Override
@@ -28,7 +37,7 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void autonomousPeriodic() {
-	
+
 	}
 	
 	@Override
@@ -38,7 +47,7 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void teleopPeriodic() {
-	
+		Scheduler.getInstance().run();
 	}
 	
 	@Override
@@ -48,8 +57,6 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void testPeriodic() {
-		Limelight.getInstance().updateLimelightValues();
-		Limelight.getInstance().printValues();
-		
+
 	}
 }

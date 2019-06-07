@@ -3,14 +3,17 @@ package frc.robot.drive;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.drive.commands.TankDrive;
 import frc.robot.drive.constants.EncoderInversions;
 import frc.robot.drive.constants.PID;
 import frc.robot.drive.constants.TalonIds;
 import frc.robot.drive.constants.TalonInversions;
 import frc.robot.drive.constants.TicksPerInch;
 import frc.robot.hardware.Gyro;
+import frc.robot.oi.OI;
 
 public class DriveTrain extends Subsystem {
 	private WPI_TalonSRX[] leftDrive = new WPI_TalonSRX[TalonIds.LEFT_DRIVE.length];
@@ -57,7 +60,7 @@ public class DriveTrain extends Subsystem {
 	
 	@Override
 	protected void initDefaultCommand() {
-	
+		setDefaultCommand(new TankDrive(OI.getInstance().getXboxController().getX(GenericHID.Hand.kLeft), OI.getInstance().getXboxController().getX(GenericHID.Hand.kRight)));
 	}
 	
 	public void tankDrive(final double left, final double right) {

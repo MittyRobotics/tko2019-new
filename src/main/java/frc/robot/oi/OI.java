@@ -1,7 +1,10 @@
 package frc.robot.oi;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.drive.commands.GearShift;
+import frc.robot.drive.constants.GearState;
 
 public class OI {
 	private XboxController controller;
@@ -15,7 +18,10 @@ public class OI {
 	}
 
 	private OI() {
-
+		Button shiftHigh = new Button(getXboxController().getBumper(GenericHID.Hand.kLeft));
+		shiftHigh.whenPressed(new GearShift(GearState.High));
+		Button shiftLow = new Button(getXboxController().getBumper(GenericHID.Hand.kRight));
+		shiftLow.whenPressed(new GearShift(GearState.Low));
 	}
 
 	public XboxController getXboxController(){
