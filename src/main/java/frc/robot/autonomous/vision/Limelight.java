@@ -231,7 +231,7 @@ public class Limelight {
 		h = Limelight.getInstance().isHasTarget() + "";
 		x = Limelight.getInstance().getXAngle() + "";
 		y = Limelight.getInstance().getYAngle() + "";
-		a = Limelight.getInstance().getXAngle() + "";
+		a = Limelight.getInstance().getArea() + "";
 		
 		
 		//Add spaces neccessary to keep elements aligned in print

@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
+import frc.robot.autonomous.movement.commands.VisionAlignment;
+import frc.robot.autonomous.movement.commands.VisionAlignmentTest;
 import frc.robot.drive.commands.GearShift;
 import frc.robot.drive.commands.TankDrive;
 import frc.robot.drive.constants.GearState;
@@ -28,6 +30,15 @@ public class OI {
 //			}
 //		};
 //		drive.whileHeld(new TankDrive());
+		Button vision = new Button() {
+			@Override
+			public boolean get() {
+
+				return getXboxController().getAButtonPressed();
+			}
+
+		};
+		vision.whenPressed(new VisionAlignmentTest(0.35, 0.4, 0, true));
 		Button shiftLow = new Button() {
 			@Override
 			public boolean get() {

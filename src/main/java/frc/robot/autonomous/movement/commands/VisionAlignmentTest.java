@@ -1,13 +1,20 @@
 package frc.robot.autonomous.movement.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.autonomous.constants.VisionConstants;
 import frc.robot.autonomous.vision.Limelight;
 import frc.robot.drive.DriveTrain;
+import frc.robot.drive.commands.GearShift;
+import frc.robot.drive.constants.GearState;
+import org.w3c.dom.html.HTMLImageElement;
 
 public class VisionAlignmentTest extends Command {
 	
-	private double maxSpeed; //percent output
+	private double driveMaxSpeed; //percent output
+	private double turnMaxSpeed;
+	double newTurnVal;
+	double newDriveVal;
 	private double baseSpeed; //percent output
 	private double threshold = 1; //angle threshold for when the robot is pointing towards the target
 	private boolean continuous; //whether or not the command should continue running after it is pointing to the target, used if target or robot is continuously moving
@@ -16,16 +23,19 @@ public class VisionAlignmentTest extends Command {
 	/**
 	 * Initializes command with a name "VisionAlignmentTest" and the required subsystem class that will be used, {@link DriveTrain}
 	 *
-	 * @param maxSpeed   the maximum speed at which the robot will be rotating at
+	 * @param driveMaxSpeed   the maximum speed at which the robot will be rotating at
 	 * @param baseSpeed  the base speed at which the robot will be rotating at
 	 * @param continuous if the command should continue running after the robot is aligned for continuous tracking (ex: moving target)
 	 */
-	public VisionAlignmentTest(double maxSpeed, double baseSpeed, boolean continuous) {
+	public VisionAlignmentTest(double driveMaxSpeed, double turnMaxSpeed, double baseSpeed, boolean continuous) {
 		super("VisionAlignmentTest");
 		requires(DriveTrain.getInstance());
-		this.maxSpeed = maxSpeed;
+		this.driveMaxSpeed = driveMaxSpeed;
 		this.baseSpeed = baseSpeed;
 		this.continuous = continuous;
+		this.turnMaxSpeed = turnMaxSpeed;
+		this.newTurnVal = turnMaxSpeed * 2/3;
+		this.newDriveVal = driveMaxSpeed * 2/3;
 	}
 	
 	/**
@@ -37,6 +47,7 @@ public class VisionAlignmentTest extends Command {
 	@Override
 	public void initialize() {
 		Limelight.getInstance().enableVisionMode();
+		Limelight.getInstance().setPipeline(1);
 	}
 	
 	/**
@@ -49,20 +60,49 @@ public class VisionAlignmentTest extends Command {
 	 */
 	@Override
 	public void execute() {
+
 		double x = Limelight.getInstance().getXAngle();
-		double mappedX = (Math.abs(x) / 29.8) * (maxSpeed - baseSpeed);
-		if (x > threshold) {
-			DriveTrain.getInstance().tankDrive((mappedX + baseSpeed), -((mappedX) + baseSpeed));
+		double turnValue;
+		double mappedX = (Math.abs(x) / 29.8) * (turnMaxSpeed - baseSpeed);
+		if(!Limelight.getInstance().isHasTarget()){
+			turnValue = 0;
+		}
+		else if (x > threshold) {
+			turnValue = mappedX + baseSpeed;
 			count = 0;
 		} else if (x < -threshold) {
-			DriveTrain.getInstance().tankDrive(-(mappedX + baseSpeed), ((mappedX) + baseSpeed));
+			turnValue = -(mappedX + baseSpeed);
 			count = 0;
 		} else {
-			DriveTrain.getInstance().tankDrive(0, 0);
+			turnValue = 0;
 			count++;
 		}
+
+		double area = Limelight.getInstance().getArea() / 50;
+		double driveValue;
+
+		if(Limelight.getInstance().getArea() > 7){
+			Limelight.getInstance().setPipeline(0);
+			System.out.println("Switched To Pipeline 0");
+			turnMaxSpeed = newTurnVal;
+
+			driveMaxSpeed = newDriveVal;
+		}
+
+		if(area > 0.8 || !Limelight.getInstance().isHasTarget()){
+			driveValue = 0;
+			new GearShift(GearState.Low);
+		} else {
+			if(driveMaxSpeed < driveMaxSpeed/area){
+				driveValue = -driveMaxSpeed;
+			} else {
+				driveValue = -driveMaxSpeed / area;
+			}
+		}
+		DriveTrain.getInstance().tankDrive(driveValue + turnValue, driveValue - turnValue);
 	}
-	
+
+
 	/**
 	 * This method is called at the end of the command.
 	 * <p>
@@ -73,6 +113,7 @@ public class VisionAlignmentTest extends Command {
 	public void end() {
 		DriveTrain.getInstance().tankDrive(0, 0);
 		Limelight.getInstance().enableDriverMode();
+		System.out.println("EXITSADFJHASDKJLFHASJKDLFHAJKSLDHFJKLAHDFJKLAHSDKLFJHASKJLDFHJKALSDHFKJLASDHFJKLASDHFJKLASHDJKFLHJK");
 	}
 	
 	/**
@@ -94,7 +135,7 @@ public class VisionAlignmentTest extends Command {
 	@Override
 	protected boolean isFinished() {
 		if (continuous) {
-			return false;
+			return !DriverStation.getInstance().isEnabled();
 		} else {
 			return count > 20;
 		}

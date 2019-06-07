@@ -2,9 +2,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.robot.autonomous.movement.commands.VisionAlignment;
 import frc.robot.autonomous.vision.Limelight;
 import frc.robot.drive.DriveTrain;
 import frc.robot.drive.Shifter;
+import frc.robot.drive.constants.GearState;
 import frc.robot.hardware.Compressor;
 import frc.robot.hardware.Gyro;
 import frc.robot.oi.OI;
@@ -12,7 +14,7 @@ import frc.robot.oi.OI;
 public class Robot extends TimedRobot {
 	
 	Robot() {
-		super(0.06);
+		super(0.04);
 	}
 	
 	@SuppressWarnings("ResultOfMethodCallIgnored")
@@ -24,7 +26,7 @@ public class Robot extends TimedRobot {
 		OI.getInstance();
 		Compressor.getInstance();
 		Gyro.getInstance();
-		DriveTrain.getInstance().initDefaultCommand();
+		Limelight.getInstance();
 	}
 	
 	@Override
@@ -62,15 +64,24 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		Limelight.getInstance().enableVisionMode();
+		Limelight.getInstance().updateLimelightValues();
+		Limelight.getInstance().printValues();
+		System.out.println(DriveTrain.getInstance().getMotorOutput());
+		if(!Limelight.getInstance().isHasTarget()){
+			Shifter.getInstance().shiftGear(GearState.Low);
+		}
 	}
 	
 	@Override
 	public void testInit() {
-	
+
 	}
 	
 	@Override
 	public void testPeriodic() {
-
+		Limelight.getInstance().enableVisionMode();
+		Limelight.getInstance().updateLimelightValues();
+		Limelight.getInstance().printValues();
 	}
 }

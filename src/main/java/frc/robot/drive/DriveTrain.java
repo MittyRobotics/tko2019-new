@@ -59,10 +59,14 @@ public class DriveTrain extends Subsystem {
 			rightDrive[i] = talonSRX;
 		}
 	}
-	
+
+	public double getMotorOutput(){
+		return leftDrive[0].getMotorOutputPercent();
+	}
+
 	@Override
 	public void initDefaultCommand() {
-		setDefaultCommand(new TankDrive());
+//		setDefaultCommand(new TankDrive());
 	}
 	
 	public void tankDrive(final double left, final double right) {
