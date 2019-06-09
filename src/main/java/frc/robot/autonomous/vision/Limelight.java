@@ -1,24 +1,25 @@
 package frc.robot.autonomous.vision;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
-import frc.robot.autonomous.constants.CameraMode;
-import frc.robot.autonomous.constants.LedMode;
-import frc.robot.autonomous.constants.SnapshotMode;
-import frc.robot.autonomous.constants.StreamMode;
+import frc.robot.autonomous.constants.*;
 
 public class Limelight {
 	private static Limelight ourInstance = new Limelight();
-	
+
 	public static Limelight getInstance() {
 		return ourInstance;
 	}
-	
+
 	//Values read from limelight networktables
 	private double tv; //Whether the limelight has any valid targets (0 or 1)
 	private double tx; //Horizontal Offset From Crosshair To Target (-29.8 to 29.8 degrees)
 	private double ty; //Vertical Offset From Crosshair To Target (-24.85 to 24.85 degrees)
 	private double ta; //Target Area (0% of image to 100% of image)
-	
+	private double tdist; //Distance to the target (inches)
+	private double tshort; //Sidelength of shortest side of the fitted bounding box (pixels)
+	private double tlong; //Sidelength of longest side of the fitted bounding box (pixels)
+
+
 	/**
 	 * Initializes the Limelight's properties
 	 * <p>
@@ -33,7 +34,7 @@ public class Limelight {
 		setStreamMode(StreamMode.Main);
 		setSnapshotMode(SnapshotMode.Off);
 	}
-	
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//                                       Limelight Network Tables API:                                //
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,7 +51,7 @@ public class Limelight {
 	//getpipe	True active pipeline index of the camera (0 .. 9)                                         //
 	//camtran	Results of a 3D position solution, 6 numbers: Translation (x,y,y) Rotation(pitch,yaw,roll)//
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	/**
 	 * Reads the Limelight's values from NetworkTables.
 	 * <p>
@@ -61,8 +62,11 @@ public class Limelight {
 		tx = (double) Math.round((float) NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0) * 10) / 10; //Horizontal Offset From Crosshair To Target (LL1: -27 degrees to 27 degrees | LL2: -29.8 to 29.8 degrees)
 		ty = (double) Math.round((float) NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0) * 10) / 10; //Vertical Offset From Crosshair To Target (LL1: -20.5 degrees to 20.5 degrees | LL2: -24.85 to 24.85 degrees)
 		ta = (double) Math.round((float) NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0) * 10) / 10; //Target Area (0% of image to 100% of image)
+		tshort = (double) Math.round((float) NetworkTableInstance.getDefault().getTable("limelight").getEntry("tshort").getDouble(0)); //Sidelength of shortest side of the fitted bounding box (pixels)
+		tlong = (double) Math.round((float) NetworkTableInstance.getDefault().getTable("limelight").getEntry("tlong").getDouble(0)); //Sidelength of longest side of the fitted bounding box (pixels)
+		tdist = calculateDistance();
 	}
-	
+
 	/**
 	 * Returns if the Limelight is currently tracking a target or not.
 	 *
@@ -71,7 +75,7 @@ public class Limelight {
 	public boolean isHasTarget() {
 		return tv != 0;
 	}
-	
+
 	/**
 	 * Returns the horizontal (X) angle value to the detected target on the Limelight.
 	 * <p>
@@ -82,8 +86,8 @@ public class Limelight {
 	public double getXAngle() {
 		return tx;
 	}
-	
-	
+
+
 	/**
 	 * Returns the vertical (Y) angle value to the detected target on the Limelight.
 	 * <p>
@@ -94,8 +98,8 @@ public class Limelight {
 	public double getYAngle() {
 		return ty;
 	}
-	
-	
+
+
 	/**
 	 * Returns the area of the bounding box of the detected target on the Limelight.
 	 * <p>
@@ -106,7 +110,16 @@ public class Limelight {
 	public double getArea() {
 		return ta;
 	}
-	
+
+	/**
+	 * Returns the rough distance to the target in inches.
+	 *
+	 * @return distance to target in inches
+	 */
+	public double getDistance() {
+		return tdist;
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//                                       Camera Properties                                                      //
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -128,7 +141,7 @@ public class Limelight {
 	//0	Stop taking snapshots                                                                                       //
 	//1	Take two snapshots per second                                                                               //
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	/**
 	 * Sets the LED mode on the Limelight camera.
 	 * <p>
@@ -142,7 +155,7 @@ public class Limelight {
 	public void setLedMode(LedMode ledMode) {
 		NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(ledMode.value); //	Sets limelight’s LED state
 	}
-	
+
 	/**
 	 * Sets the camera mode on the Limelight camera.
 	 * <p>
@@ -154,7 +167,7 @@ public class Limelight {
 	public void setCameraMode(CameraMode cameraMode) {
 		NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(cameraMode.value); //	Sets limelight’s operation mode
 	}
-	
+
 	/**
 	 * Sets the active pipeline on the Limelight camera. These pipelines are
 	 * configured in the limelight configuration tool and range from 0-9.
@@ -167,7 +180,7 @@ public class Limelight {
 		}
 		NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(pipelineID); //	Sets limelight’s operation mode
 	}
-	
+
 	/**
 	 * Sets the stream configuration on the Limelight camera.
 	 * <p>
@@ -180,7 +193,7 @@ public class Limelight {
 	public void setStreamMode(StreamMode streamMode) {
 		NetworkTableInstance.getDefault().getTable("limelight").getEntry("stream").setNumber(streamMode.value); //Sets limelight’s streaming mode
 	}
-	
+
 	/**
 	 * Sets the snapshot mode on the Limelight camera.
 	 * <p>
@@ -192,7 +205,7 @@ public class Limelight {
 	public void setSnapshotMode(SnapshotMode snapshotMode) {
 		NetworkTableInstance.getDefault().getTable("limelight").getEntry("snapshot").setNumber(snapshotMode.value); //Allows users to take snapshots during a match
 	}
-	
+
 	/**
 	 * Puts the Limelight into vision mode, with the camera settings turned to vision mode (low exposure)
 	 * and the LEDs on.
@@ -204,7 +217,7 @@ public class Limelight {
 		setCameraMode(CameraMode.Vision);
 		setLedMode(LedMode.On);
 	}
-	
+
 	/**
 	 * Puts the Limelight into driver mode, with the camera settings turned to driver mode (regular exposure)
 	 * and the LEDs off.
@@ -216,7 +229,20 @@ public class Limelight {
 		setCameraMode(CameraMode.Driver);
 		setLedMode(LedMode.Off);
 	}
-	
+
+	/**
+	 * Returns the rough calculated distance
+	 * <p>
+	 * This distance value is calculated based on the height of the target in pixels in relation to the height of the
+	 * target in real life
+	 *
+	 * @return distance in inches
+	 */
+	private double calculateDistance() {
+		double pixelHeight = (tlong + tshort) / 2; //Average height of target
+		return ((VisionConstants.TARGET_HEIGHT_INCHES * VisionConstants.FOCAL_PIXELS) / pixelHeight);
+	}
+
 	/**
 	 * Prints the received limelight values in an organized line.
 	 */
@@ -226,14 +252,14 @@ public class Limelight {
 		String y;
 		String a;
 		String h;
-		
+
 		//Set strings to network table values
 		h = Limelight.getInstance().isHasTarget() + "";
 		x = Limelight.getInstance().getXAngle() + "";
 		y = Limelight.getInstance().getYAngle() + "";
 		a = Limelight.getInstance().getArea() + "";
-		
-		
+
+
 		//Add spaces neccessary to keep elements aligned in print
 		if (h.length() == 4) {
 			h = h + " ";
@@ -265,9 +291,9 @@ public class Limelight {
 		if (a.length() == 5) {
 			a = "" + a;
 		}
-		
+
 		//Print values
 		System.out.println("Has Target:" + h + " \t X Angle: " + x + " \t  Y Angle: " + y + " \t Area: " + a);
 	}
-	
+
 }

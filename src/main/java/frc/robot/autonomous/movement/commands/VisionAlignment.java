@@ -7,18 +7,21 @@ import frc.robot.drive.DriveTrain;
 
 public class VisionAlignment extends Command {
 	
-	double maxSpeed; //percent output
+	double maxDriveSpeed; //percent output
+	double maxTurnSpeed;
 	int count = 0;
 	
 	/**
 	 * Initializes command with a name "VisionAlignment" and the required subsystem class that will be used, {@link DriveTrain}
 	 *
-	 * @param maxSpeed the maximum speed at which the robot will be rotating at
+	 * @param maxTurnSpeed the maximum speed at which the robot will be rotating at
+	 * @param maxDriveSpeed the maximum speed at which the robot will be translating at
 	 */
-	public VisionAlignment(double maxSpeed) {
+	public VisionAlignment(double maxDriveSpeed, double maxTurnSpeed) {
 		super("VisionAlignment");
 		requires(DriveTrain.getInstance());
-		this.maxSpeed = maxSpeed;
+		this.maxDriveSpeed = maxDriveSpeed;
+		this.maxTurnSpeed = maxTurnSpeed;
 	}
 	
 	/**
@@ -37,8 +40,7 @@ public class VisionAlignment extends Command {
 	 */
 	@Override
 	public void execute() {
-		DriveTrain.getInstance().tankDrive(maxSpeed/(100 * Limelight.getInstance().getArea()) + maxSpeed * 0.01 * Limelight.getInstance().getXAngle(),
-				maxSpeed/(100 * Limelight.getInstance().getArea()) - maxSpeed * 0.01 * Limelight.getInstance().getXAngle());
+
 	}
 	
 	/**

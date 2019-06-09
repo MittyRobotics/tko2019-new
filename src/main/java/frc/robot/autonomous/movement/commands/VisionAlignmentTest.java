@@ -53,7 +53,7 @@ public class VisionAlignmentTest extends Command {
 	/**
 	 * This method is called periodically (about every 20ms) and does the work of the command.
 	 * <p>
-	 * This is recieving the X angle value from the {@link Limelight} API to determine which direction and at what
+	 * This is receiving the X angle value from the {@link Limelight} API to determine which direction and at what
 	 * speed to rotate the robot. The robot starts turning at a base speed, and then a mapped value of the x angle
 	 * between 0 and maxSpeed-baseSpeed is added. The end result is the robot turning faster when the target is
 	 * further away from the center, and slower when the target is closer to the center.
