@@ -14,10 +14,11 @@ public class Limelight {
 	private double tv; //Whether the limelight has any valid targets (0 or 1)
 	private double tx; //Horizontal Offset From Crosshair To Target (-29.8 to 29.8 degrees)
 	private double ty; //Vertical Offset From Crosshair To Target (-24.85 to 24.85 degrees)
-	private double ta; //Target Area (0% of image to 100% of image)
-	private double tdist; //Distance to the target (inches)
-	private double tshort; //Sidelength of shortest side of the fitted bounding box (pixels)
-	private double tlong; //Sidelength of longest side of the fitted bounding box (pixels)
+	private double ta; //Target Area (0% of image to 100% of image
+	private double[] camtran;
+	private double tdistApprox; //Distance to the target (inches)
+
+	private double[] defaultVal = {0.0,0.0,0.0,0.0,0.0,0.0};
 
 
 	/**
@@ -58,13 +59,14 @@ public class Limelight {
 	 * This should be periodically updated every loop time to ensure the most acurate vision movement
 	 */
 	public void updateLimelightValues() {
+
 		tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0); //Whether the limelight has any valid targets (0 or 1)
 		tx = (double) Math.round((float) NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0) * 10) / 10; //Horizontal Offset From Crosshair To Target (LL1: -27 degrees to 27 degrees | LL2: -29.8 to 29.8 degrees)
 		ty = (double) Math.round((float) NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0) * 10) / 10; //Vertical Offset From Crosshair To Target (LL1: -20.5 degrees to 20.5 degrees | LL2: -24.85 to 24.85 degrees)
 		ta = (double) Math.round((float) NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0) * 10) / 10; //Target Area (0% of image to 100% of image)
-		tshort = (double) Math.round((float) NetworkTableInstance.getDefault().getTable("limelight").getEntry("tshort").getDouble(0)); //Sidelength of shortest side of the fitted bounding box (pixels)
-		tlong = (double) Math.round((float) NetworkTableInstance.getDefault().getTable("limelight").getEntry("tlong").getDouble(0)); //Sidelength of longest side of the fitted bounding box (pixels)
-		tdist = calculateDistance();
+		camtran = NetworkTableInstance.getDefault().getTable("limelight").getEntry("camtran").getDoubleArray(defaultVal);
+		tdistApprox = calculateDistance();
+
 	}
 
 	/**
@@ -111,13 +113,35 @@ public class Limelight {
 		return ta;
 	}
 
+	public double getCamX(){
+		return camtran[0];
+	}
+	public double getCamY(){
+		return camtran[1];
+	}
+
+	public double getCamZ(){
+		return camtran[2];
+	}
+	public double getCamPitch(){
+		return camtran[3];
+	}
+
+	public double getCamYaw(){
+		return camtran[4];
+	}
+
+	public double getCamRoll(){
+		return camtran[5];
+	}
+
 	/**
 	 * Returns the rough distance to the target in inches.
 	 *
 	 * @return distance to target in inches
 	 */
-	public double getDistance() {
-		return tdist;
+	public double getDistApprox() {
+		return tdistApprox;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -239,7 +263,7 @@ public class Limelight {
 	 * @return distance in inches
 	 */
 	private double calculateDistance() {
-		double pixelHeight = (tlong + tshort) / 2; //Average height of target
+		double pixelHeight = 0;
 		return ((VisionConstants.TARGET_HEIGHT_INCHES * VisionConstants.FOCAL_PIXELS) / pixelHeight);
 	}
 
