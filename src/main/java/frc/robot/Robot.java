@@ -14,7 +14,7 @@ import frc.robot.oi.OI;
 public class Robot extends TimedRobot {
 	
 	Robot() {
-		super(0.04);
+		super(0.05);
 	}
 	
 	@SuppressWarnings("ResultOfMethodCallIgnored")
@@ -66,11 +66,8 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().run();
 		Limelight.getInstance().enableVisionMode();
 		Limelight.getInstance().updateLimelightValues();
-		Limelight.getInstance().printValues();
-		System.out.println(DriveTrain.getInstance().getMotorOutput());
-		if(!Limelight.getInstance().isHasTarget()){
-			Shifter.getInstance().shiftGear(GearState.Low);
-		}
+		//Limelight.getInstance().printValues();
+		//System.out.println(DriveTrain.getInstance().getMotorOutput());
 	}
 	
 	@Override
@@ -83,5 +80,6 @@ public class Robot extends TimedRobot {
 		Limelight.getInstance().enableVisionMode();
 		Limelight.getInstance().updateLimelightValues();
 		Limelight.getInstance().printValues();
+        //System.out.println(Gyro.getInstance().getAngle() + " gyro");
 	}
 }

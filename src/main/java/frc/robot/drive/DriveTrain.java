@@ -66,7 +66,7 @@ public class DriveTrain extends Subsystem {
 
 	@Override
 	public void initDefaultCommand() {
-//		setDefaultCommand(new TankDrive());
+		setDefaultCommand(new TankDrive());
 	}
 	
 	public void tankDrive(final double left, final double right) {

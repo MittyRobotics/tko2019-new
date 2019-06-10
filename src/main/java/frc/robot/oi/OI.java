@@ -38,7 +38,7 @@ public class OI {
 			}
 
 		};
-		vision.whenPressed(new VisionAlignmentTest(0.35, 0.4, 0, true));
+		vision.whenPressed(new VisionAlignment(0.4, 0.2, 0));
 		Button shiftLow = new Button() {
 			@Override
 			public boolean get() {
