@@ -11,17 +11,13 @@ import frc.robot.hardware.Gyro;
 
 public class VisionAlignment extends Command {
 
-	private double maxSpeed;
-	double startingDriveSpeed = 0;
-	double startingTurnSpeed = 0;
+	private double MAX_SPEED;
 
-	int lostTargetCooldown = 50;
-	int lostTargetCount = 0;
+	private int lostTargetCooldown = 50;
+	private int lostTargetCount = 0;
 
 	private int endVisionCount = 0;
-	int endVisionTime = 10;
-
-	boolean pipelineSet = false;
+	private int endVisionTime = 10;
 
 
 
@@ -34,7 +30,7 @@ public class VisionAlignment extends Command {
 	public VisionAlignment(double maxSpeed) {
 		super("VisionAlignment");
 		requires(DriveTrain.getInstance());
-		this.maxSpeed = maxSpeed;
+		this.MAX_SPEED = maxSpeed;
 	}
 
 	/**
@@ -46,32 +42,44 @@ public class VisionAlignment extends Command {
 	@Override
 	public void initialize() {
 		Limelight.getInstance().enableVisionMode();
-		Limelight.getInstance().setPipeline(1);
+		Limelight.getInstance().setPipeline(0);
 	}
 
 	/**
 	 * This method is called periodically (about every 20ms) and does the work of the command.
 	 */
+	double distance = 0, xOffset = 0, targetAngle = 0, angle = 0;
+
 	@Override
 	public void execute() {
+
 		if(!Limelight.getInstance().isHasTarget()){
 			lostTargetCount ++;
 			System.out.println("Lost sight of target " + lostTargetCount + "/" + lostTargetCooldown);
 		}
 		else{
 			lostTargetCount = 0;
+			distance = Limelight.getInstance().getTargetZFast();
+			xOffset = Limelight.getInstance().getTargetXFast();
+			targetAngle = Limelight.getInstance().getTargetYawFast();
+			angle = Limelight.getInstance().getXAngle();
 		}
 
-		//Get values from limelight
-		double distance = Limelight.getInstance().getCamZ(); //Distance from robot to target (perpendicular to target)
-		double xOffset = Limelight.getInstance().getCamX(); //Perpendicular distance from perpendicular distance to target to robot
-		double targetAngle = Limelight.getInstance().getCamYaw(); //Robot's rotation relative to target (target rotation is at (0,0,0))
-		double angle = Limelight.getInstance().getXAngle(); //X angle to target relative to robot's forward vector
+		double drive, turn, skew;
 
-		double drive = 0;
-		double turn = 0;
+		double DRIVE_K = 0.26;
+		double DESIRED_DISTANCE = 5;
+		drive = Math.min((DESIRED_DISTANCE - distance) * DRIVE_K, MAX_SPEED);
 
+		double TURN_K = 0.03;
+		turn = angle * TURN_K;
 
+		double SKEW_K = 0.015;
+		skew = targetAngle * SKEW_K;
+
+		turn = turn + skew;
+
+		drive = -drive;
 
 		DriveTrain.getInstance().tankDrive(drive + turn, drive - turn);
 
