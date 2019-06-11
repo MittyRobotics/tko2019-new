@@ -3,6 +3,8 @@ package frc.robot.autonomous.vision;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.autonomous.constants.*;
 
+import java.awt.*;
+
 public class Limelight {
 	private static Limelight ourInstance = new Limelight();
 
@@ -16,10 +18,12 @@ public class Limelight {
 	private double ty; //Vertical Offset From Crosshair To Target (-24.85 to 24.85 degrees)
 	private double ta; //Target Area (0% of image to 100% of image
 	private double[] camtran;
-	private double tdistApprox; //Distance to the target (inches)
+	private double[] tcornx;
+	private double[] tcorny;
+	private double[] targetPositionFast; //Distance to the target (inches)
 
-	private double[] defaultVal = {-100,-100,-100,-100,-100,-100};
-
+	private double[] defaultCamtranVal = {-100,-100,-100,-100,-100,-100};
+	private double[] defaultTCornVal = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
 
 	/**
 	 * Initializes the Limelight's properties
@@ -64,8 +68,10 @@ public class Limelight {
 		tx = (double) Math.round((float) NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0) * 10) / 10; //Horizontal Offset From Crosshair To Target (LL1: -27 degrees to 27 degrees | LL2: -29.8 to 29.8 degrees)
 		ty = (double) Math.round((float) NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0) * 10) / 10; //Vertical Offset From Crosshair To Target (LL1: -20.5 degrees to 20.5 degrees | LL2: -24.85 to 24.85 degrees)
 		ta = (double) Math.round((float) NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0) * 10) / 10; //Target Area (0% of image to 100% of image)
-		camtran = NetworkTableInstance.getDefault().getTable("limelight").getEntry("camtran").getDoubleArray(defaultVal);
-		tdistApprox = calculateDistance();
+		camtran = NetworkTableInstance.getDefault().getTable("limelight").getEntry("camtran").getDoubleArray(defaultCamtranVal);
+		tcornx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tcornx").getDoubleArray(defaultTCornVal);
+		tcorny = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tcorny").getDoubleArray(defaultTCornVal);
+		targetPositionFast = calculateTargetPositionFast();
 
 	}
 
@@ -135,13 +141,26 @@ public class Limelight {
 		return camtran[5];
 	}
 
+	public double getTargetXFast() {
+		return targetPositionFast[0];
+	}
+
+	public double getTargetYFast(){
+		return targetPositionFast[1];
+	}
+	public double getTargetZFast(){
+		return targetPositionFast[2];
+	}
+	public double getTargetYawFast(){
+		return targetPositionFast[4];
+	}
 	/**
 	 * Returns the rough distance to the target in inches.
 	 *
 	 * @return distance to target in inches
 	 */
-	public double getDistApprox() {
-		return tdistApprox;
+	public double[] getTargetPositionFast() {
+		return targetPositionFast;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -262,9 +281,29 @@ public class Limelight {
 	 *
 	 * @return distance in inches
 	 */
-	private double calculateDistance() {
-		double pixelHeight = 0;
-		return ((VisionConstants.TARGET_HEIGHT_INCHES * VisionConstants.FOCAL_PIXELS) / pixelHeight);
+	private double[] calculateTargetPositionFast() {
+
+		Point p1 = new Point((int)tcornx[0], (int)tcorny[0]);
+		Point p2 = new Point((int)tcornx[2], (int)tcorny[2]);
+		Point p3 = new Point((int)tcornx[4], (int)tcorny[4]);
+		Point p4 = new Point((int)tcornx[6], (int)tcorny[6]);
+		double pixelHeightLeft = Point.distance(p1.x,p1.y,p2.x,p2.y);
+		double pixelHeightRight = Point.distance(p3.x,p3.y,p4.x,p4.y);
+		double leftDist = ((VisionConstants.TARGET_HEIGHT_INCHES * VisionConstants.FOCAL_PIXELS) / pixelHeightLeft);
+		double rightDist = ((VisionConstants.TARGET_HEIGHT_INCHES * VisionConstants.FOCAL_PIXELS) / pixelHeightRight);
+		double x,y,z,pitch,yaw,roll;
+
+		 z = (leftDist + rightDist) /2;
+		 x = Math.tan(Math.toRadians(getXAngle())) * z; //TODO: idk if Math.tan returns negative numbers, if not check if x angle is negative and set x to negative
+		 y = Math.tan(Math.toRadians(getYAngle())) * z;
+		 pitch = -100;
+		 yaw = Math.asin((leftDist-rightDist)/VisionConstants.DISTANCE_BETWEEN_TARGET_SIDES);
+		 roll = -100;
+
+		double[] position = {
+			x,y,z,pitch,yaw,roll
+		};
+		return position;
 	}
 
 	/**

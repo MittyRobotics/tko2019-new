@@ -7,6 +7,7 @@ public class VisionConstants {
 	public final double FOCAL_LENGTH = 3.3385168390258093; //mm
 	public static final double FOCAL_PIXELS = 281.6509; //calculated based on field of view and resolution width in pixels
 	public static final double TARGET_HEIGHT_INCHES = 5;
+	public static final double DISTANCE_BETWEEN_TARGET_SIDES = 7;
 	public final double H_FOV = 59.6; //degrees
 	public final double V_FOV = 49.7; //degrees
 	public final double RESOLUTION_WIDTH = 320; //pixels
