@@ -6,7 +6,7 @@ import frc.robot.drive.constants.GearState;
 
 public class GearShift extends Command {
 	private GearState gearState;
-	
+
 	public GearShift(GearState gearState) {
 		super("Gear Shift");
 		requires(Shifter.getInstance());
@@ -16,10 +16,13 @@ public class GearShift extends Command {
 	@Override
 	protected void initialize() {
 		Shifter.getInstance().shiftGear(gearState);
+		System.out.println("HERE");
+
 	}
 	
 	@Override
 	protected void execute() {
+
 	}
 	
 	@Override

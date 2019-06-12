@@ -1,5 +1,6 @@
 package frc.robot.autonomous.movement.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.command.Command;
@@ -9,15 +10,23 @@ import frc.robot.drive.DriveTrain;
 import frc.robot.drive.constants.PID;
 import frc.robot.hardware.Gyro;
 
+import javax.swing.*;
+
 public class VisionAlignment extends Command {
 
 	private double MAX_SPEED;
 
-	private int lostTargetCooldown = 50;
+	private int lostTargetCooldown = 10;
 	private int lostTargetCount = 0;
 
 	private int endVisionCount = 0;
 	private int endVisionTime = 10;
+
+	private double acceleration = 0;
+	double lastDistance = -1000;
+	double lastAngle = -1000;
+
+	int side = -100;
 
 
 
@@ -43,16 +52,43 @@ public class VisionAlignment extends Command {
 	public void initialize() {
 		Limelight.getInstance().enableVisionMode();
 		Limelight.getInstance().setPipeline(0);
+
 	}
 
 	/**
 	 * This method is called periodically (about every 20ms) and does the work of the command.
 	 */
-	double distance = 0, xOffset = 0, targetAngle = 0, angle = 0;
-
+	double distance = 0, xOffset = 0, targetAngle = 0, angle = 0, finalTurn= 0, finalDrive = 0;
+	boolean donePipelineSwitch = false;
 	@Override
-	public void execute() {
 
+	public void execute() {
+//	    while(Limelight.getInstance().getCamX() == 0.0 && side == -100){
+//	        System.out.println("WAIT");
+//        }
+//        if(Limelight.getInstance().getCamX() != 0.0 && !donePipelineSwitch){
+//            if(Limelight.getInstance().getCamX() < -2){
+//                side = -1;
+//                Limelight.getInstance().setPipeline(3);
+//                System.out.println("Side -1");
+//            }
+//            else if(Limelight.getInstance().getCamX() > 2){
+//                Limelight.getInstance().setPipeline(1);
+//                side = 1;
+//                System.out.println("Side 1");
+//            }
+//            else{
+//                Limelight.getInstance().setPipeline(0);
+//                side = 0;
+//                System.out.println("Side 0");
+//            }
+//            System.out.println("Waiting for 3D values" +Limelight.getInstance().getCamX()  );
+//            donePipelineSwitch = true;
+//        }
+
+        if(acceleration < 1){
+            acceleration += 0.09;
+        }
 		if(!Limelight.getInstance().isHasTarget()){
 			lostTargetCount ++;
 			System.out.println("Lost sight of target " + lostTargetCount + "/" + lostTargetCooldown);
@@ -64,29 +100,85 @@ public class VisionAlignment extends Command {
 			targetAngle = Limelight.getInstance().getTargetYawFast();
 			angle = Limelight.getInstance().getXAngle();
 		}
-
+		if(lastAngle != -1000 && distance != 0.0){
+		    if(Math.abs(distance - lastDistance) > 80 || Math.abs(angle - lastAngle) > 30){
+                endVisionCount += 10;
+                System.out.println("Target is too far away from previous target");
+            }
+        }
+        System.out.println(distance + " " + xOffset + " " + targetAngle);
 		double drive, turn, skew;
 
-		double DRIVE_K = 0.26;
-		double DESIRED_DISTANCE = 5;
-		drive = Math.min((DESIRED_DISTANCE - distance) * DRIVE_K, MAX_SPEED);
+		double DRIVE_K = 0.05;
+		double DESIRED_DISTANCE = 20;
 
-		double TURN_K = 0.03;
+		drive = Math.min((distance - DESIRED_DISTANCE) * DRIVE_K, MAX_SPEED);
+		drive = Math.max(drive,0);
+		double TURN_K = 0.01;
 		turn = angle * TURN_K;
 
-		double SKEW_K = 0.015;
-		skew = targetAngle * SKEW_K;
+		double SKEW_K = 0.09;
+		if(targetAngle < 6){
+            if(targetAngle < 0){
+                skew = -SKEW_K;
+            }
+            else if(targetAngle > 0){
+                skew = SKEW_K;
+            }
+            else{
+                skew = 0;
+            }
+        }
+		else{
+		    skew = 0;
+        }
 
-		turn = turn + skew;
 
-		drive = -drive;
+		if(distance < 36){
+		    Limelight.getInstance().setPipeline(0);
+        }
+        if(distance > 30){
+            turn = turn;
+            skew = skew;
+        }
+        else{
+            turn = turn;
+            skew = skew;
+        }
 
-		DriveTrain.getInstance().tankDrive(drive + turn, drive - turn);
+        turn = turn + skew;
+        //turn = 0;
+       // drive = 0;
+        drive = -drive * acceleration;
+        if (distance < DESIRED_DISTANCE) {
+            turn = 0;
+        }
 
-		if (Math.abs(angle) <= 1 && Limelight.getInstance().isHasTarget() && distance <= 1) { //TODO: Tune thresholds
+//
+//        if(finalTurn < turn){
+//            finalTurn += 0.03;
+//        }
+//        else{
+//            finalTurn -= 0.03;
+//        }
+        if(finalDrive < drive){
+            finalDrive += 0.02;
+        }
+        else{
+            finalDrive -= 0.02;
+        }
+		DriveTrain.getInstance().tankDrive(finalDrive + turn, finalDrive - turn);
+
+		if (Math.abs(angle) <= 1 && Limelight.getInstance().isHasTarget() && distance <= DESIRED_DISTANCE + 1) { //TODO: Tune thresholds
 			endVisionCount++;
 			System.out.println("Testing for end of vision sequence: " + endVisionCount + "/" + endVisionTime);
 		}
+		else{
+		    endVisionCount = 0;
+        }
+
+		lastDistance = distance;
+		lastAngle = angle;
 	}
 
 	/**
@@ -118,5 +210,6 @@ public class VisionAlignment extends Command {
 	@Override
 	protected boolean isFinished() {
 		return endVisionCount > endVisionTime || lostTargetCount > lostTargetCooldown;
+        //return !DriverStation.getInstance().isEnabled();
 	}
 }

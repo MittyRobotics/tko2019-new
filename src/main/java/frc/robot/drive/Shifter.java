@@ -32,4 +32,8 @@ public class Shifter extends Subsystem {
 				gearShift.set(DoubleSolenoid.Value.kOff);
 		}
 	}
+
+	public DoubleSolenoid.Value getValue(){
+		return gearShift.get();
+	}
 }
