@@ -2,7 +2,7 @@ package frc.robot.hatchpanel.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class Tilt_ForwardBackward extends Command {
+public class Grab extends Command {
 //    private GearState gearState;
 //    public GearShift(GearState gearState){
 //        requires(Shifter.getInstance());
