@@ -1,13 +1,13 @@
 package frc.robot.hatchpanel.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.hatchpanel.Grabber;
 
 public class Release extends Command {
-//    private GearState gearState;
-//    public GearShift(GearState gearState){
-//        requires(Shifter.getInstance());
-//        this.gearState = gearState;
-//    }
+
+    public Release(){
+        requires(Grabber.getInstance());
+    }
 
     @Override
     protected void initialize(){
