@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
+import frc.robot.autonomous.constants.VisionConstants;
 import frc.robot.autonomous.movement.commands.VisionAlignment;
 import frc.robot.autonomous.movement.commands.VisionAlignmentTest;
 import frc.robot.drive.commands.GearShift;
@@ -34,12 +35,11 @@ public class OI {
 			@Override
 			public boolean get() {
 
-				return getXboxController().getAButtonPressed();
+				return getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5 ;
 			}
 
 		};
 		vision.whenPressed(new VisionAlignment(0.4));
-
 		Button shiftLow = new Button() {
 			@Override
 			public boolean get() {

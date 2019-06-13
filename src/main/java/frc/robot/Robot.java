@@ -24,7 +24,7 @@ public class Robot extends TimedRobot {
 		DriveTrain.getInstance().initHardware();
 		Shifter.getInstance();
 		OI.getInstance();
-		Compressor.getInstance();
+		//Compressor.getInstance();
 		Gyro.getInstance();
 		Limelight.getInstance();
 	}

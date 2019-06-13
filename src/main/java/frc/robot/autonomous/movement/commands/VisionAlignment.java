@@ -20,6 +20,7 @@ public class VisionAlignment extends Command {
 	private int lostTargetCount = 0;
 
 	private int endVisionCount = 0;
+	private int endVisionCount1 = 0;
 	private int endVisionTime = 10;
 
 	private double acceleration = 0;
@@ -52,13 +53,15 @@ public class VisionAlignment extends Command {
 	public void initialize() {
 		Limelight.getInstance().enableVisionMode();
 		Limelight.getInstance().setPipeline(0);
-
+		endVisionCount1 = 0;
+		endVisionCount = 0;
+		lostTargetCount = 0;
 	}
 
 	/**
 	 * This method is called periodically (about every 20ms) and does the work of the command.
 	 */
-	double distance = 0, xOffset = 0, targetAngle = 0, angle = 0, finalTurn= 0, finalDrive = 0;
+	double distance = 20, xOffset = 0, targetAngle = 0, angle = 0, finalTurn= 0, finalDrive = 0;
 	boolean donePipelineSwitch = false;
 	@Override
 
@@ -109,15 +112,20 @@ public class VisionAlignment extends Command {
         System.out.println(distance + " " + xOffset + " " + targetAngle);
 		double drive, turn, skew;
 
-		double DRIVE_K = 0.05;
-		double DESIRED_DISTANCE = 20;
+		double DRIVE_K = 0.021;
+		double DESIRED_DISTANCE = 14;
 
 		drive = Math.min((distance - DESIRED_DISTANCE) * DRIVE_K, MAX_SPEED);
 		drive = Math.max(drive,0);
-		double TURN_K = 0.01;
+		double TURN_K = 0.02;
 		turn = angle * TURN_K;
-
-		double SKEW_K = 0.09;
+		if(turn > 0.2){
+			turn = 0.2;
+		}
+		else if(turn < -0.2){
+			turn = -0.2;
+		}
+		double SKEW_K = 0.03 ;
 		if(targetAngle < 6){
             if(targetAngle < 0){
                 skew = -SKEW_K;
@@ -137,22 +145,12 @@ public class VisionAlignment extends Command {
 		if(distance < 36){
 		    Limelight.getInstance().setPipeline(0);
         }
-        if(distance > 30){
-            turn = turn;
-            skew = skew;
-        }
-        else{
-            turn = turn;
-            skew = skew;
-        }
 
-        turn = turn + skew;
+        //turn = turn + skew;
         //turn = 0;
        // drive = 0;
+
         drive = -drive * acceleration;
-        if (distance < DESIRED_DISTANCE) {
-            turn = 0;
-        }
 
 //
 //        if(finalTurn < turn){
@@ -161,6 +159,8 @@ public class VisionAlignment extends Command {
 //        else{
 //            finalTurn -= 0.03;
 //        }
+
+		turn = turn - skew;
         if(finalDrive < drive){
             finalDrive += 0.02;
         }
@@ -169,14 +169,20 @@ public class VisionAlignment extends Command {
         }
 		DriveTrain.getInstance().tankDrive(finalDrive + turn, finalDrive - turn);
 
-		if (Math.abs(angle) <= 1 && Limelight.getInstance().isHasTarget() && distance <= DESIRED_DISTANCE + 1) { //TODO: Tune thresholds
+		if (Math.abs(angle) <= 4 && Limelight.getInstance().isHasTarget() && distance <= DESIRED_DISTANCE + 1) { //TODO: Tune thresholds
 			endVisionCount++;
 			System.out.println("Testing for end of vision sequence: " + endVisionCount + "/" + endVisionTime);
 		}
 		else{
 		    endVisionCount = 0;
         }
-
+		if(Math.abs(lastDistance - distance) < 1){
+			endVisionCount1++;
+			System.out.println("Delta change is low: " + endVisionCount1 + "/" + endVisionTime);
+		}
+		else{
+			endVisionCount1 = 0;
+		}
 		lastDistance = distance;
 		lastAngle = angle;
 	}
@@ -209,7 +215,7 @@ public class VisionAlignment extends Command {
 	 */
 	@Override
 	protected boolean isFinished() {
-		return endVisionCount > endVisionTime || lostTargetCount > lostTargetCooldown;
+		return endVisionCount > endVisionTime || lostTargetCount > lostTargetCooldown || endVisionCount1 > endVisionTime;
         //return !DriverStation.getInstance().isEnabled();
 	}
 }
