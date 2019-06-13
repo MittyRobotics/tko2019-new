@@ -1,4 +1,4 @@
 package frc.robot.hatchpanel.commands;
 
-public class Open_Close {
+public class Grabber_OpenClose {
 }
