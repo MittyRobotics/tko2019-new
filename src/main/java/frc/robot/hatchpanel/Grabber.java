@@ -13,7 +13,8 @@ public class Grabber extends Subsystem {
     private boolean isProcessDone = false;
     private static Grabber ourInstance = new Grabber();
     public static Grabber getInstance() { return ourInstance; }
-    private final int[] solSide = SolenoidIds.solSideId; //Reference solSideID properly
+//    private DoubleSolenoid solSide;
+    private final int[] solSide = SolenoidIds.SOL_SIDE_ID;
 
     private Grabber(){
 
