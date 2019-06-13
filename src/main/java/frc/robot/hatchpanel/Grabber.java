@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Grabber extends Subsystem {
     private static Grabber ourInstance = new Grabber();
+    public static Grabber getInstance() { return ourInstance; }
 
     private Grabber(){
 
@@ -19,7 +20,7 @@ public class Grabber extends Subsystem {
     }
 
     public void Grab(){
-        
+
     }
 
     public void Release(){
