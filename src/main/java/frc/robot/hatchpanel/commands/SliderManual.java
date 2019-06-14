@@ -5,9 +5,9 @@ import frc.robot.hatchpanel.Slider;
 
 public class SliderManual extends Command {
 
-//    public SliderManual(){
-//        requires(Slider.getInstance());
-//    }
+    public SliderManual(){
+        requires(Slider.getInstance());
+    }
 
     @Override
     protected void initialize(){

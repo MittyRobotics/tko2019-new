@@ -1,10 +1,7 @@
 package frc.robot.hatchpanel;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.hatchpanel.constants.SliderManualState;
 
 public class Slider extends Subsystem {
     private static Slider ourInstance = new Slider();
@@ -19,11 +16,11 @@ public class Slider extends Subsystem {
 
     }
 
-    public void SliderAuton(){
+    public void sliderAuton(){
 
     }
 
-    public void SliderManual(){
+    public void sliderManual(SliderManualState sliderManualState){
 
     }
 }

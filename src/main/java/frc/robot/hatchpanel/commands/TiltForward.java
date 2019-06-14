@@ -1,13 +1,13 @@
 package frc.robot.hatchpanel.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.hatchpanel.Tilt;
+import frc.robot.hatchpanel.Tilter;
 
 public class TiltForward extends Command {
 
-//    public TiltForward(){
-//        requires(Tilt.getInstance());
-//    }
+    public TiltForward(){
+        requires(Tilter.getInstance());
+    }
 
     @Override
     protected void initialize(){
