@@ -23,7 +23,7 @@ public class VisionScore extends CommandGroup {
 	 */
 	private void hatchSequence() {
 		//addParallel(new MoveHatch(HatchPosition.Center));
-		addParallel(new VisionAlignment(0.4));
+		addParallel(new VisionAlignment());
 		//addSequential(new PushForward());
 		//addSequential(new Release());
 		addSequential(new Translation(-4, 0.4));
@@ -35,7 +35,7 @@ public class VisionScore extends CommandGroup {
 	 * @param cargoTarget where the cargo ball is being scored, cargo ship or rocket ship.
 	 */
 	private void cargoSequence(CargoTarget cargoTarget) {
-		addSequential(new VisionAlignment(0.4));
+		addSequential(new VisionAlignment());
 		switch (cargoTarget) {
 			case Rocket:
 				//addSequential(new Angle(CargoAngle.RocketShip));

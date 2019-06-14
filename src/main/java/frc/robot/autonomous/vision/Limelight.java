@@ -22,9 +22,8 @@ public class Limelight {
 	private double[] tcorny;
 	private double[] targetPositionFast; //Distance to the target (inches)
 
-	private double[] defaultCamtranVal = {-100,-100,-100,-100,-100,-100};
-	private double[] defaultTCornVal = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
-
+	private double[] defaultCamtranVal = {-1000,-1000,-1000,-1000,-1000,-1000};
+	private double[] defaultTCornVal = {-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000};
 	/**
 	 * Initializes the Limelight's properties
 	 * <p>
@@ -283,42 +282,46 @@ public class Limelight {
 	 */
 	private double[] calculateTargetPositionFast() {
 		try {
-			Point p1 = new Point((int)tcornx[0], (int)tcorny[0]);
-			Point p2 = new Point((int)tcornx[2], (int)tcorny[2]);
-			Point p3 = new Point((int)tcornx[5], (int)tcorny[5]);
-			Point p4 = new Point((int)tcornx[7], (int)tcorny[7]);
-			double pixelHeightLeft = Point.distance(p1.x,p1.y,p2.x,p2.y);
-			double pixelHeightRight = Point.distance(p3.x,p3.y,p4.x,p4.y);
-			double focalLength = (pixelHeightRight * 36)/VisionConstants.TARGET_HEIGHT_INCHES; //For calibration
-			double leftDist = ((VisionConstants.TARGET_HEIGHT_INCHES * VisionConstants.FOCAL_PIXELS_CALIB_LEFT) / pixelHeightLeft);
-			double rightDist = ((VisionConstants.TARGET_HEIGHT_INCHES * VisionConstants.FOCAL_PIXELS_CALIB_LEFT) / pixelHeightRight);
-			double distanceDifference = leftDist - rightDist;
-			if(Math.abs(distanceDifference) <= 0){
-				distanceDifference = 0;
+			if(tcornx[0] == -1000){
+				return defaultCamtranVal;
 			}
-			double x,y,z,pitch,yaw,roll;
-			System.out.println("Left: " + leftDist + " Right: " + rightDist + " Focal: " + focalLength);
-			z = (leftDist + rightDist) /2;
-			if(z > 200){
-				z = 0;
+			else {
+				Point p1 = new Point((int) tcornx[0], (int) tcorny[0]);
+				Point p2 = new Point((int) tcornx[2], (int) tcorny[2]);
+				Point p3 = new Point((int) tcornx[5], (int) tcorny[5]);
+				Point p4 = new Point((int) tcornx[7], (int) tcorny[7]);
+				double pixelHeightLeft = Point.distance(p1.x, p1.y, p2.x, p2.y);
+				double pixelHeightRight = Point.distance(p3.x, p3.y, p4.x, p4.y);
+				double focalLength = (pixelHeightRight * 36) / VisionConstants.TARGET_HEIGHT_INCHES; //For calibration
+				double leftDist = ((VisionConstants.TARGET_HEIGHT_INCHES * VisionConstants.FOCAL_PIXELS_CALIB) / pixelHeightLeft);
+				double rightDist = ((VisionConstants.TARGET_HEIGHT_INCHES * VisionConstants.FOCAL_PIXELS_CALIB) / pixelHeightRight);
+				double distanceDifference = leftDist - rightDist;
+				if (Math.abs(distanceDifference) <= 0) {
+					distanceDifference = 0;
+				}
+				double x, y, z, pitch, yaw, roll;
+				//System.out.println("Left: " + leftDist + " Right: " + rightDist + " Focal: " + focalLength);
+				z = (leftDist + rightDist) / 2;
+				if (z > 200) {
+					z = 0;
+				}
+
+				x = Math.tan(Math.toRadians(getXAngle())) * z;
+				y = Math.tan(Math.toRadians(getYAngle())) * z;
+				pitch = -100;
+				//yaw = Math.toDegrees(Math.asin((leftDist-rightDist)/VisionConstants.DISTANCE_BETWEEN_TARGET_SIDES));
+				yaw = distanceDifference;
+				roll = -100;
+
+				double[] position = {
+						x, y, z, pitch, yaw, roll
+				};
+				return position;
 			}
-
-			x = Math.tan(Math.toRadians(getXAngle())) * z; //TODO: idk if Math.tan returns negative numbers, if not check if x angle is negative and set x to negative
-			y = Math.tan(Math.toRadians(getYAngle())) * z;
-			pitch = -100;
-			//yaw = Math.toDegrees(Math.asin((leftDist-rightDist)/VisionConstants.DISTANCE_BETWEEN_TARGET_SIDES));
-			yaw = distanceDifference;
-			roll = -100;
-
-			double[] position = {
-					x,y,z,pitch,yaw,roll
-			};
-			return position;
 		}catch (Exception e){
 			System.out.println("Failed calculations");
+			return defaultCamtranVal;
 		}
-		return new double[]{0,0,0,0,0,0};
-
 	}
 
 	/**
