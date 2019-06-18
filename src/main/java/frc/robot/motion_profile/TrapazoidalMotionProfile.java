@@ -1,6 +1,7 @@
 package frc.robot.motion_profile;
 
-import motion_profile.enums.SegmentType;
+
+import frc.robot.motion_profile.enums.SegmentType;
 
 public class TrapazoidalMotionProfile {
 	private MotionSegment accelerationSegment;
