@@ -57,6 +57,10 @@ public class TrapazoidalMotionProfile {
 		return t_total/steps * _steps;
 	}
 
+	public double timeToSteps(double t){
+		return t / (t_total/steps);
+	}
+
 	public MotionFrame getFrameAtTime(double t){
 		double velocity = getVelocityAtTime(t, max_acceleration, max_velocity, accelerationSegment, cruiseSegment);
 		double position = getPositionAtTime(t,velocity,max_velocity,max_acceleration,accelerationSegment,cruiseSegment);
