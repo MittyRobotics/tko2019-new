@@ -1,6 +1,6 @@
 package frc.robot.motion_profile;
 
-public class TrapazoidalMotionProfile {
+public class TrapezoidalMotionProfile {
 	private MotionSegment accelerationSegment;
 	private MotionSegment cruiseSegment;
 	private MotionSegment decelerationSegment;
@@ -16,7 +16,15 @@ public class TrapazoidalMotionProfile {
 
 	private boolean done = false;
 
-	public TrapazoidalMotionProfile(double maxAcceleration, double maxVelocity, double setpoint, int steps){
+	/**
+	 * Creates a TrapezoidalMotionProfile
+	 *
+	 * @param maxAcceleration maximum acceleration
+	 * @param maxVelocity maximum velocity
+	 * @param setpoint distance traveled
+	 * @param steps amount of steps
+	 */
+	public TrapezoidalMotionProfile(double maxAcceleration, double maxVelocity, double setpoint, int steps){
 
 		this.done = false;
 		this.maxAcceleration = maxAcceleration;

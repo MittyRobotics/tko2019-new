@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.drive.DriveTrain;
 import frc.robot.drive.constants.TicksPerInch;
-import frc.robot.motion_profile.TrapazoidalMotionProfile;
+import frc.robot.motion_profile.TrapezoidalMotionProfile;
 
 /**
  * Linear translation command for translating the robot either forward or backward on the local forward axis. Since the
@@ -17,13 +17,13 @@ public class MotionProfileTranslate extends Command {
 	private double maxSpeed; //percent output
 	private double stoppingThreshold = 0.5; //Translation error threshold, the robot will stop translating when within this threshold of inches
 	double t = 0;
-	private TrapazoidalMotionProfile motionProfile;
+	private TrapezoidalMotionProfile motionProfile;
 
 	/**
 	 * Initializes command with a name "Translation" and the required subsystem class that will be used, {@link DriveTrain}
 	 *
-	 * @param distance         the distance that the robot will be moving (inches)
-	 * @param maxAcceleration the robot's maximum acceleration speed (ft/s)
+	 * @param distance         the distance that the robot will be moving (feet)
+	 * @param maxAcceleration the robot's maximum acceleration speed (ft/s^2)
 	 * @param maxVelocity     the robot's maximum velocity (ft/s)
 	 * @param maxOutput       the maximum percent output of the PID loop (0-1)
 	 * @param steps            the amount of steps of the motion profile
@@ -33,7 +33,7 @@ public class MotionProfileTranslate extends Command {
 		requires(DriveTrain.getInstance());
 		this.distance = distance;
 		this.maxSpeed = maxOutput;
-		motionProfile = new TrapazoidalMotionProfile(maxAcceleration, maxVelocity, distance, steps);
+		motionProfile = new TrapezoidalMotionProfile(maxAcceleration, maxVelocity, distance, steps);
 	}
 
 	/**
