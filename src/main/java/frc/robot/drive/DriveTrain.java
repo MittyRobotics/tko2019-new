@@ -132,8 +132,18 @@ public class DriveTrain extends Subsystem {
 	public double getTranslationError() {
 		return (double) (leftDrive[0].getClosedLoopError() + rightDrive[0].getClosedLoopError()) / 2;
 	}
-	
-	
+
+	public double getLeftEncoder(){
+		return leftDrive[0].getSelectedSensorPosition();
+	}
+	public double getRightEncoder(){
+		return
+				rightDrive[0].getSelectedSensorPosition();
+	}
+	public void resetEncoders(){
+		leftDrive[0].setSelectedSensorPosition(0);
+		rightDrive[0].setSelectedSensorPosition(0);
+	}
 	//positive is right, negative is left
 	public void rotation(final double angle, final double maxSpeed) {
 //		double target;

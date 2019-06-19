@@ -62,18 +62,23 @@ public class TrapazoidalMotionProfile {
 	}
 
 	public MotionFrame getFrameAtTime(double t){
+
 		double velocity = getVelocityAtTime(t, max_acceleration, max_velocity, accelerationSegment, cruiseSegment);
 		double position = getPositionAtTime(t,velocity,max_velocity,max_acceleration,accelerationSegment,cruiseSegment);
 
 		double acceleration = getAccelerationAtTime(velocity,prev_velocity,t,prev_time);
 		this.prev_velocity = velocity;
 		this.prev_time = t;
-
+		if(t >= t_total){
+			position = setpoint;
+			return new MotionFrame(setpoint,0,0,t_total);
+		}
 		return new MotionFrame(position,velocity,acceleration,t);
 	}
 
 	private double getVelocityAtTime(double _t, double _acceleration, double _max_velocity, MotionSegment _acceleration_segment, MotionSegment _cruise_segment){
 		double output = 0;
+
 		double _tAccel = _acceleration_segment.getT();
 		double _tCruise = _cruise_segment.getT();
 		if(_t < _tAccel){

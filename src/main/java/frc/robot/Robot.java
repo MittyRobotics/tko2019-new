@@ -7,6 +7,7 @@ import frc.robot.autonomous.vision.Limelight;
 import frc.robot.drive.DriveTrain;
 import frc.robot.drive.Shifter;
 import frc.robot.drive.constants.GearState;
+import frc.robot.drive.constants.TicksPerInch;
 import frc.robot.hardware.Compressor;
 import frc.robot.hardware.Gyro;
 import frc.robot.motion_profile.TrapazoidalMotionProfile;
@@ -23,11 +24,11 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		DriveTrain.getInstance();
 		DriveTrain.getInstance().initHardware();
-		Shifter.getInstance();
-		OI.getInstance();
+		//Shifter.getInstance();
+		//OI.getInstance();
 		//Compressor.getInstance();
 		Gyro.getInstance();
-		Limelight.getInstance();
+		//Limelight.getInstance();
 	}
 	
 	@Override
@@ -45,24 +46,31 @@ public class Robot extends TimedRobot {
 
 	}
 
-
-	int i = 0;
+	double i;
 	@Override
 	public void autonomousInit() {
 		i = 0;
+		DriveTrain.getInstance().resetEncoders();
 	}
-	TrapazoidalMotionProfile motionProfile = new TrapazoidalMotionProfile(1,5,12,200); //inches
+	TrapazoidalMotionProfile motionProfile = new TrapazoidalMotionProfile(24,50,48,200); //inches
+	double prevPosition = 0;
 	@Override
 	public void autonomousPeriodic() {
-		i+=getPeriod();
-
+		i+=0.05;
+		//System.out.println(i);
 		double position = motionProfile.getFrameAtTime(i).getPosition();
 		double velocity = motionProfile.getFrameAtTime(i).getVelocity();
 		double acceleration = motionProfile.getFrameAtTime(i).getAcceleration();
 		double t = motionProfile.getFrameAtTime(i).getT();
 
-		System.out.println("Feedforward: position: " + position + "in velocity: " + velocity + "in/s acceleration: " + acceleration + "in/s time: " +  t + "s current time: " + i + "s");
-}
+		double currentPosition = ((DriveTrain.getInstance().getLeftEncoder() + DriveTrain.getInstance().getRightEncoder())  /2) / TicksPerInch.DRIVE;
+		if(position == 0){
+			currentPosition = 0;
+		}
+		DriveTrain.getInstance().translation(position - currentPosition,1);
+		//System.out.println(DriveTrain.getInstance().getLeftEncoder() + "  " + DriveTrain.getInstance().getRightEncoder());
+		//System.out.println("Feedforward: position: " + position + "in velocity: " + velocity + "in/s acceleration: " + acceleration + "in/s time: " +  t + "s current time: " + i + "s");
+	}
 
 	@Override
 	public void teleopInit() {
