@@ -1,21 +1,14 @@
 package frc.robot.motion_profile;
 
 
-import frc.robot.motion_profile.enums.SegmentType;
 
 public class MotionSegment {
-	private SegmentType segment;
 	private double t;
 	private double distance;
 
-	public MotionSegment(SegmentType segment, double t, double distance) {
-		this.segment = segment;
+	public MotionSegment(double t, double distance) {
 		this.t = t;
 		this.distance = distance;
-	}
-
-	public SegmentType getSegment() {
-		return segment;
 	}
 
 	public double getT() {
