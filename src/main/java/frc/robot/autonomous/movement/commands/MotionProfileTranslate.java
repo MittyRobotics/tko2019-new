@@ -22,18 +22,18 @@ public class MotionProfileTranslate extends Command {
 	/**
 	 * Initializes command with a name "Translation" and the required subsystem class that will be used, {@link DriveTrain}
 	 *
-	 * @param distance         the distance that the robot will be moving (feet)
+	 * @param distance        the distance that the robot will be moving (feet)
 	 * @param maxAcceleration the robot's maximum acceleration speed (ft/s^2)
 	 * @param maxVelocity     the robot's maximum velocity (ft/s)
 	 * @param maxOutput       the maximum percent output of the PID loop (0-1)
-	 * @param steps            the amount of steps of the motion profile
+	 * @param loopTime        the time between calculations of the motion profile
 	 */
-	public MotionProfileTranslate(double distance, double maxAcceleration, double maxVelocity, double maxOutput, int steps) {
+	public MotionProfileTranslate(double distance, double maxAcceleration, double maxVelocity, double maxOutput, double loopTime) {
 		super("Translation");
 		requires(DriveTrain.getInstance());
 		this.distance = distance;
 		this.maxSpeed = maxOutput;
-		motionProfile = new TrapezoidalMotionProfile(maxAcceleration, maxVelocity, distance, steps);
+		motionProfile = new TrapezoidalMotionProfile(maxAcceleration, maxVelocity, distance, loopTime);
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class MotionProfileTranslate extends Command {
 			count = 0;
 		}
 		SmartDashboard.putNumber("feedfowardPosition", position);
-		SmartDashboard.putNumber("actualPosition",currentPosition);
+		SmartDashboard.putNumber("actualPosition", currentPosition);
 		SmartDashboard.putNumber("velocity", velocity);
 		SmartDashboard.putNumber("acceleration", acceleration);
 	}
