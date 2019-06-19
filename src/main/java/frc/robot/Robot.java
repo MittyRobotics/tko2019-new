@@ -43,7 +43,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		new MotionProfileTranslate(12,1,3,0.5,200);
+		new MotionProfileTranslate(12,1,3,0.5,0.05);
 	}
 	@Override
 	public void autonomousPeriodic() {

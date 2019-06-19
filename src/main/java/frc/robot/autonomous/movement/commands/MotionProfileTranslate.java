@@ -36,6 +36,9 @@ public class MotionProfileTranslate extends Command {
 		motionProfile = new TrapezoidalMotionProfile(maxAcceleration, maxVelocity, distance, loopTime);
 	}
 
+	double leftEncoderLastPos;
+	double rightEncoderLastPos;
+
 	/**
 	 * The initialize function is called at the initialization stage of the command. This is where the
 	 * translation PID control loop values are set. The translation method in the {@link DriveTrain} subsystem is called with the
@@ -43,7 +46,8 @@ public class MotionProfileTranslate extends Command {
 	 */
 	@Override
 	public void initialize() {
-		DriveTrain.getInstance().resetEncoders();
+		leftEncoderLastPos = DriveTrain.getInstance().getLeftEncoder();
+		rightEncoderLastPos = DriveTrain.getInstance().getRightEncoder();
 	}
 
 	/**
@@ -61,11 +65,15 @@ public class MotionProfileTranslate extends Command {
 		double velocity = motionProfile.getFrameAtTime(t).getVelocity();
 		double acceleration = motionProfile.getFrameAtTime(t).getAcceleration();
 
-		double currentPosition = ((DriveTrain.getInstance().getLeftEncoder() + DriveTrain.getInstance().getRightEncoder()) / 2) / TicksPerInch.DRIVE;
+		double leftEncoder = DriveTrain.getInstance().getLeftEncoder() - leftEncoderLastPos;
+		double rightEncoder = DriveTrain.getInstance().getRightEncoder() - rightEncoderLastPos;
+		double leftPosition = leftEncoder / TicksPerInch.DRIVE;
+		double rightPosition = leftEncoder / TicksPerInch.DRIVE;
 		if (position == 0) {
-			currentPosition = 0;
+			leftPosition = 0;
+			rightPosition = 0;
 		}
-		DriveTrain.getInstance().translation(position - currentPosition, maxSpeed);
+		DriveTrain.getInstance().translation(position - leftPosition, position-rightPosition, maxSpeed);
 		//System.out.println(DriveTrain.getInstance().getLeftEncoder() + "  " + DriveTrain.getInstance().getRightEncoder());
 		//System.out.println("Feedforward: position: " + position + "in velocity: " + velocity + "in/s acceleration: " + acceleration + "in/s time: " +  t + "s current time: " + i + "s");
 
@@ -74,10 +82,11 @@ public class MotionProfileTranslate extends Command {
 		} else {
 			count = 0;
 		}
-		SmartDashboard.putNumber("feedfowardPosition", position);
-		SmartDashboard.putNumber("actualPosition", currentPosition);
-		SmartDashboard.putNumber("velocity", velocity);
-		SmartDashboard.putNumber("acceleration", acceleration);
+		SmartDashboard.putNumber("ffPosition", position);
+		SmartDashboard.putNumber("ffVelocity", velocity);
+		SmartDashboard.putNumber("ffAcceleration", acceleration);
+		SmartDashboard.putNumber("fbLeftPosition", leftPosition);
+		SmartDashboard.putNumber("fbRightPosition", rightPosition);
 	}
 
 	/**

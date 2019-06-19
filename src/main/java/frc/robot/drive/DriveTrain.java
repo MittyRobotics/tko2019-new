@@ -20,16 +20,16 @@ public class DriveTrain extends Subsystem {
 	private WPI_TalonSRX[] rightDrive = new WPI_TalonSRX[TalonIds.RIGHT_DRIVE.length];
 	private static DriveTrain ourInstance = new DriveTrain();
 //	private PIDController controller = new PIDController(PID.TURN[0], PID.TURN[1], PID.TURN[2], Gyro.getInstance(), leftDrive[0]);
-	
+
 	public static DriveTrain getInstance() {
 		return ourInstance;
 	}
-	
+
 	private DriveTrain() {
 		super("DriveTrain");
 	}
 
-	public void initHardware(){
+	public void initHardware() {
 		for (int i = 0; i < leftDrive.length; i++) {
 			WPI_TalonSRX talonSRX = new WPI_TalonSRX(TalonIds.LEFT_DRIVE[i]);
 			talonSRX.setInverted(TalonInversions.LEFT_DRIVE[i]);
@@ -60,7 +60,7 @@ public class DriveTrain extends Subsystem {
 		}
 	}
 
-	public double getMotorOutput(){
+	public double getMotorOutput() {
 		return leftDrive[0].getMotorOutputPercent();
 	}
 
@@ -68,7 +68,7 @@ public class DriveTrain extends Subsystem {
 	public void initDefaultCommand() {
 		setDefaultCommand(new TankDrive());
 	}
-	
+
 	public void tankDrive(final double left, final double right) {
 		if (Math.abs(left) < 0.05) {
 			leftDrive[0].set(ControlMode.PercentOutput, 0);
@@ -81,7 +81,7 @@ public class DriveTrain extends Subsystem {
 			rightDrive[0].set(ControlMode.PercentOutput, right);
 		}
 	}
-	
+
 	public void wheelDrive(final double drive, final double turn, final boolean inPlace) {
 		final double turnE = 0.7;
 		final double multiplier = 2.5;
@@ -121,29 +121,32 @@ public class DriveTrain extends Subsystem {
 			}
 		}
 	}
-	
-	public void translation(final double distance, final double maxSpeed) {
+
+	public void translation(final double distance, final double maxSpeed ) {
 		leftDrive[0].configClosedLoopPeakOutput(0, maxSpeed);
 		rightDrive[0].configClosedLoopPeakOutput(0, maxSpeed);
 		leftDrive[0].set(ControlMode.Position, leftDrive[0].getSelectedSensorPosition() + distance * TicksPerInch.DRIVE);
 		rightDrive[0].set(ControlMode.Position, rightDrive[0].getSelectedSensorPosition() + distance * TicksPerInch.DRIVE);
 	}
-	
+	public void translation(final double leftDistance, final double rightDistance, final double maxSpeed ) {
+		leftDrive[0].configClosedLoopPeakOutput(0, maxSpeed);
+		rightDrive[0].configClosedLoopPeakOutput(0, maxSpeed);
+		leftDrive[0].set(ControlMode.Position, leftDrive[0].getSelectedSensorPosition() + leftDistance * TicksPerInch.DRIVE);
+		rightDrive[0].set(ControlMode.Position, rightDrive[0].getSelectedSensorPosition() + rightDistance * TicksPerInch.DRIVE);
+	}
+
 	public double getTranslationError() {
 		return (double) (leftDrive[0].getClosedLoopError() + rightDrive[0].getClosedLoopError()) / 2;
 	}
 
-	public double getLeftEncoder(){
+	public double getLeftEncoder() {
 		return leftDrive[0].getSelectedSensorPosition();
 	}
-	public double getRightEncoder(){
-		return
-				rightDrive[0].getSelectedSensorPosition();
+
+	public double getRightEncoder() {
+		return rightDrive[0].getSelectedSensorPosition();
 	}
-	public void resetEncoders(){
-		leftDrive[0].setSelectedSensorPosition(0);
-		rightDrive[0].setSelectedSensorPosition(0);
-	}
+
 	//positive is right, negative is left
 	public void rotation(final double angle, final double maxSpeed) {
 //		double target;
@@ -160,12 +163,12 @@ public class DriveTrain extends Subsystem {
 //		controller.setSetpoint(target);
 //		controller.enable();
 	}
-	
+
 	public double getRotationError() {
 //		return controller.getError();
 		return 0;
 	}
-	
+
 	public void disableController() {
 //		controller.disable();
 	}
