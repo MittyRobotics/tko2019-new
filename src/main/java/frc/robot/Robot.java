@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.robot.autonomous.movement.commands.MotionProfileTranslate;
 import frc.robot.autonomous.movement.commands.VisionAlignment;
 import frc.robot.autonomous.vision.Limelight;
 import frc.robot.drive.DriveTrain;
@@ -46,30 +47,12 @@ public class Robot extends TimedRobot {
 
 	}
 
-	double i;
 	@Override
 	public void autonomousInit() {
-		i = 0;
-		DriveTrain.getInstance().resetEncoders();
+		new MotionProfileTranslate(12,1,3,0.5,200);
 	}
-	TrapazoidalMotionProfile motionProfile = new TrapazoidalMotionProfile(24,50,48,200); //inches
-	double prevPosition = 0;
 	@Override
 	public void autonomousPeriodic() {
-		i+=0.05;
-		//System.out.println(i);
-		double position = motionProfile.getFrameAtTime(i).getPosition();
-		double velocity = motionProfile.getFrameAtTime(i).getVelocity();
-		double acceleration = motionProfile.getFrameAtTime(i).getAcceleration();
-		double t = motionProfile.getFrameAtTime(i).getT();
-
-		double currentPosition = ((DriveTrain.getInstance().getLeftEncoder() + DriveTrain.getInstance().getRightEncoder())  /2) / TicksPerInch.DRIVE;
-		if(position == 0){
-			currentPosition = 0;
-		}
-		DriveTrain.getInstance().translation(position - currentPosition,1);
-		//System.out.println(DriveTrain.getInstance().getLeftEncoder() + "  " + DriveTrain.getInstance().getRightEncoder());
-		//System.out.println("Feedforward: position: " + position + "in velocity: " + velocity + "in/s acceleration: " + acceleration + "in/s time: " +  t + "s current time: " + i + "s");
 	}
 
 	@Override

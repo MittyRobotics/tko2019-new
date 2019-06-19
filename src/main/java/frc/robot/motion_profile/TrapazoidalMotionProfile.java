@@ -17,8 +17,11 @@ public class TrapazoidalMotionProfile {
 	private double prev_velocity=0;
 	private double prev_time=0;
 
+	private boolean done = false;
+
 	public TrapazoidalMotionProfile(double max_acceleration, double max_velocity, double setpoint, int steps){
 
+		this.done = false;
 		this.max_acceleration = max_acceleration;
 		this.setpoint = setpoint;
 		this.steps = steps;
@@ -70,7 +73,7 @@ public class TrapazoidalMotionProfile {
 		this.prev_velocity = velocity;
 		this.prev_time = t;
 		if(t >= t_total){
-			position = setpoint;
+			done = true;
 			return new MotionFrame(setpoint,0,0,t_total);
 		}
 		return new MotionFrame(position,velocity,acceleration,t);
@@ -138,5 +141,8 @@ public class TrapazoidalMotionProfile {
 	}
 	public double getPrev_time(){
 		return prev_time;
+	}
+	public boolean isDone(){
+		return done;
 	}
 }
