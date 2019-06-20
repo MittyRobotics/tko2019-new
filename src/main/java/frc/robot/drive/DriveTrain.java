@@ -132,11 +132,11 @@ public class DriveTrain extends Subsystem {
 		leftDrive[0].configClosedLoopPeakOutput(0, maxSpeed);
 		rightDrive[0].configClosedLoopPeakOutput(0, maxSpeed);
 		leftDrive[0].set(ControlMode.Position, leftDrive[0].getSelectedSensorPosition() + leftDistance * TicksPerInch.DRIVE);
-		rightDrive[0].set(ControlMode.Position, rightDrive[0].getSelectedSensorPosition() + rightDistance * TicksPerInch.DRIVE);
+		rightDrive[0].set(ControlMode.Position, leftDrive[0].getSelectedSensorPosition() + leftDistance * TicksPerInch.DRIVE);
 	}
 
 	public double getTranslationError() {
-		return (double) (leftDrive[0].getClosedLoopError() + rightDrive[0].getClosedLoopError()) / 2;
+		return leftDrive[0].getClosedLoopError();
 	}
 
 	public double getLeftEncoder() {

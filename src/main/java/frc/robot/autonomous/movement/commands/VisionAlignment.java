@@ -63,11 +63,11 @@ public class VisionAlignment extends Command {
 
 	//Drive gain tuned for drive speed when driving into target
 	private double DRIVE_K = 0.021;
-	private double DESIRED_DISTANCE = 14;
+	private double DESIRED_DISTANCE = 8;
 	//Turn gain tuned for turning speed
-	private double TURN_K = 0.02;
+	private double TURN_K = 0.025;
 	//Skew gain tuned for the amount of influence skew has on turning
-	private double SKEW_K = 0.03;
+	private double SKEW_K = 0.04;
 
 	/**
 	 * This method is called periodically (about every 20ms) and does the work of the command.
@@ -115,7 +115,7 @@ public class VisionAlignment extends Command {
 			}
 
 			//Compensate for errors in skew value
-			if (targetAngle < 6) {
+			if (targetAngle < 15) {
 				if (targetAngle < 0) {
 					skew = -SKEW_K;
 				} else if (targetAngle > 0) {
@@ -131,7 +131,8 @@ public class VisionAlignment extends Command {
 		}
 		//Subtract skew influence to turn
 		turn = turn - skew;
-
+		//Reverse drive value and multiply by acceleration
+		drive = -drive * acceleration;
 		//Slowly change drive value for no sudden jerks in movement
 		if (finalDrive < drive) {
 			finalDrive += 0.02;
@@ -139,8 +140,7 @@ public class VisionAlignment extends Command {
 			finalDrive -= 0.02;
 		}
 
-		//Reverse drive value and multiply by acceleration
-		drive = -drive * acceleration;
+
 
 		//Apply drive and turn values to the wheels
 		DriveTrain.getInstance().tankDrive(finalDrive + turn, finalDrive - turn);
@@ -153,7 +153,7 @@ public class VisionAlignment extends Command {
 		} else {
 			reachedTargetCount = 0;
 		}
-		if (Math.abs(lastDistance - distance) < 1) {
+		if (Math.abs(lastDistance - distance) < 0.5) {
 			lowDeltaCount++;
 			System.out.println("Delta change is low: " + lowDeltaCount + "/" + lowDeltaTime);
 		} else {

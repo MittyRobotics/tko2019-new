@@ -16,6 +16,7 @@ public class MotionProfileTranslate extends Command {
 	private double distance; //inches
 	private double maxSpeed; //percent output
 	private double stoppingThreshold = 0.5; //Translation error threshold, the robot will stop translating when within this threshold of inches
+	private boolean reverse = false;
 	double t = 0;
 	private TrapezoidalMotionProfile motionProfile;
 
@@ -31,13 +32,13 @@ public class MotionProfileTranslate extends Command {
 	public MotionProfileTranslate(double distance, double maxAcceleration, double maxVelocity, double maxOutput, double loopTime) {
 		super("Translation");
 		requires(DriveTrain.getInstance());
-		this.distance = distance;
+			this.distance = distance;
 		this.maxSpeed = maxOutput;
 		motionProfile = new TrapezoidalMotionProfile(maxAcceleration, maxVelocity, distance, loopTime);
 	}
 
-	double leftEncoderLastPos;
-	double rightEncoderLastPos;
+	private double leftEncoderLastPos;
+	private double rightEncoderLastPos;
 
 	/**
 	 * The initialize function is called at the initialization stage of the command. This is where the
@@ -46,6 +47,7 @@ public class MotionProfileTranslate extends Command {
 	 */
 	@Override
 	public void initialize() {
+		t = 0;
 		leftEncoderLastPos = DriveTrain.getInstance().getLeftEncoder();
 		rightEncoderLastPos = DriveTrain.getInstance().getRightEncoder();
 	}
@@ -68,14 +70,14 @@ public class MotionProfileTranslate extends Command {
 		double leftEncoder = DriveTrain.getInstance().getLeftEncoder() - leftEncoderLastPos;
 		double rightEncoder = DriveTrain.getInstance().getRightEncoder() - rightEncoderLastPos;
 		double leftPosition = leftEncoder / TicksPerInch.DRIVE;
-		double rightPosition = leftEncoder / TicksPerInch.DRIVE;
+		double rightPosition = rightEncoder / TicksPerInch.DRIVE;
 		if (position == 0) {
 			leftPosition = 0;
 			rightPosition = 0;
 		}
 		DriveTrain.getInstance().translation(position - leftPosition, position-rightPosition, maxSpeed);
 		//System.out.println(DriveTrain.getInstance().getLeftEncoder() + "  " + DriveTrain.getInstance().getRightEncoder());
-		//System.out.println("Feedforward: position: " + position + "in velocity: " + velocity + "in/s acceleration: " + acceleration + "in/s time: " +  t + "s current time: " + i + "s");
+		System.out.println("Feedforward: position: " + position + "in velocity: " + velocity + "in/s acceleration: " + acceleration + "in/s time: " +  t + "s current time: " + "s" + " Current pos: " + leftPosition);
 
 		if (Math.abs(DriveTrain.getInstance().getTranslationError() / TicksPerInch.DRIVE) < stoppingThreshold) {
 			count++;

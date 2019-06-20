@@ -44,7 +44,7 @@ public class TrapezoidalMotionProfile {
 		double tTotal = tAccel + tDecel + tCruise;
 		double newMaxVelocity = maxVelocity;
 
-		if (dCruise <= 0) {
+		if ((dCruise <= 0 && maxAcceleration > 0) || (dCruise >= 0 && maxAcceleration < 0) || maxVelocity == 0) {
 			tAccel = theoreticalMaxVelocity / maxAcceleration;
 			tDecel = theoreticalMaxVelocity / maxAcceleration;
 			dAccel = theoreticalMaxVelocity * tAccel / 2;
