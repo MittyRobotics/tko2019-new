@@ -82,6 +82,14 @@ public class DriveTrain extends Subsystem {
 		}
 	}
 
+	public void tankVelocity( double left,  double right) {
+		left = left*TicksPerInch.DRIVE/10;
+		right = right*TicksPerInch.DRIVE/10;
+
+			leftDrive[0].set(ControlMode.Velocity, left);
+			rightDrive[0].set(ControlMode.Velocity, right);
+	}
+
 	public void wheelDrive(final double drive, final double turn, final boolean inPlace) {
 		final double turnE = 0.7;
 		final double multiplier = 2.5;

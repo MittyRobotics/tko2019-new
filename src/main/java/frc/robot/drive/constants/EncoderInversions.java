@@ -5,6 +5,6 @@ public class EncoderInversions {
 	//public static final boolean LEFT_DRIVE = false;
 	//public static final boolean RIGHT_DRIVE = false;
 	//test robot
-	public static final boolean LEFT_DRIVE = false;
-	public static final boolean RIGHT_DRIVE = false;
+	public static final boolean LEFT_DRIVE = true;
+	public static final boolean RIGHT_DRIVE = true;
 }

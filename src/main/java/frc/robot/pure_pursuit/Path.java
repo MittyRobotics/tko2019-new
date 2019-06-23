@@ -70,7 +70,7 @@ public class Path {
 	}
 
 	public void calculateVelocities(){
-		double kCurvature = 1; //Intensity of slowing down at turns
+		double kCurvature = 0.4; //Intensity of slowing down at turns
 		for(int i = points.length-1; i > 0; i--){
 			double maxVelocityWithCurvature = Math.min(maxVelocity, kCurvature/points[i].getCurvature());
 			if(i == points.length-1){

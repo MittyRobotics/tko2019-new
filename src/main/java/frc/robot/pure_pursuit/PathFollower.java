@@ -2,11 +2,11 @@ package frc.robot.pure_pursuit;
 
 public class PathFollower {
 	Path path;
-	double lookaheadDistance =  1;
+	double lookaheadDistance =  4;
 	int previousPointIndex = 0;
 
 
-	double WHEEL_DISTANCE = 3;
+	double WHEEL_DISTANCE = 26.5;
 
 	public PathFollower(Path path){
 		this.path=path;

@@ -2,6 +2,7 @@ package frc.robot.pure_pursuit;
 
 
 import frc.robot.drive.DriveTrain;
+import frc.robot.drive.constants.TicksPerInch;
 import frc.robot.hardware.Gyro;
 
 public class RobotPose {
@@ -27,12 +28,16 @@ public class RobotPose {
 		robotX = 0;
 		robotY = 0;
 		calibrateGyroVal = Gyro.getInstance().getAngle();
+		lastLeftEncoderPos = DriveTrain.getInstance().getLeftEncoder();
+		lastRightEncoderPos = DriveTrain.getInstance().getRightEncoder();
+
 	}
 
 	public void setPos(double x, double y, double heading){
 		this.robotX = x;
 		this.robotY = y;
 		this.robotHeading = heading;
+
 	}
 	public void update(){
 
@@ -41,9 +46,10 @@ public class RobotPose {
 		if(robotHeading < 0){
 			robotHeading = robotHeading+360;
 		}
+		robotHeading = 0-robotHeading;
 		double deltaLeftPos = DriveTrain.getInstance().getLeftEncoder() - lastLeftEncoderPos;
 		double deltaRightPos = DriveTrain.getInstance().getRightEncoder() - lastRightEncoderPos;
-		double deltaPosition = (deltaLeftPos + deltaRightPos)/2;
+		double deltaPosition = (deltaLeftPos + deltaRightPos)/2/TicksPerInch.DRIVE;
 		robotX += deltaPosition * Math.cos(Math.toRadians(robotHeading));
 		robotY += deltaPosition * Math.sin(Math.toRadians(robotHeading));
 		lastLeftEncoderPos = DriveTrain.getInstance().getLeftEncoder();
