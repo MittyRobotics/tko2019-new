@@ -1,7 +1,9 @@
 package frc.robot.autonomous.pure_pursuit;
 
-import pure_pursuit.enums.PathType;
-import pure_pursuit.paths.BezierCurvePath;
+import frc.robot.autonomous.pure_pursuit.enums.PathType;
+import frc.robot.autonomous.pure_pursuit.paths.BezierCurvePath;
+import frc.robot.autonomous.pure_pursuit.Waypoint;
+
 
 public class PathGenerator {
 	PathType type;
