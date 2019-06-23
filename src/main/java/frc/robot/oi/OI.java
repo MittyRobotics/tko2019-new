@@ -8,7 +8,7 @@ import frc.robot.autonomous.constants.VisionConstants;
 import frc.robot.autonomous.movement.commands.MotionProfileTranslate;
 import frc.robot.autonomous.movement.commands.VisionAlignment;
 import frc.robot.autonomous.movement.commands.VisionAlignmentTest;
-import frc.robot.drive.commands.GearShift;
+//import frc.robot.drive.commands.GearShift;
 import frc.robot.drive.commands.TankDrive;
 import frc.robot.drive.constants.GearState;
 import org.opencv.core.Mat;
@@ -57,14 +57,14 @@ public class OI {
 				return getXboxController().getBumper(GenericHID.Hand.kLeft);
 			}
 		};
-		shiftLow.whenPressed(new GearShift(GearState.Low));
+		//shiftLow.whenPressed(new GearShift(GearState.Low));
 		Button shiftHigh = new Button() {
 			@Override
 			public boolean get() {
 				return getXboxController().getBumper(GenericHID.Hand.kRight);
 			}
 		};
-		shiftHigh.whenPressed(new GearShift(GearState.High));
+//		shiftHigh.whenPressed(new GearShift(GearState.High));
 	}
 
 	public XboxController getXboxController(){

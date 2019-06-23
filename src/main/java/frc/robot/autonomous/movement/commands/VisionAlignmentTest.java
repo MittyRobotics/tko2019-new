@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.autonomous.constants.VisionConstants;
 import frc.robot.autonomous.vision.Limelight;
 import frc.robot.drive.DriveTrain;
-import frc.robot.drive.commands.GearShift;
 import frc.robot.drive.constants.GearState;
 import org.w3c.dom.html.HTMLImageElement;
 
@@ -91,7 +90,6 @@ public class VisionAlignmentTest extends Command {
 
 		if(area > 0.8 || !Limelight.getInstance().isHasTarget()){
 			driveValue = 0;
-			new GearShift(GearState.Low);
 		} else {
 			if(driveMaxSpeed < driveMaxSpeed/area){
 				driveValue = -driveMaxSpeed;
@@ -111,7 +109,7 @@ public class VisionAlignmentTest extends Command {
 	 */
 	@Override
 	public void end() {
-		DriveTrain.getInstance().tankDrive(0, 0);
+		//DriveTrain.getInstance().tankDrive(0, 0);
 		Limelight.getInstance().enableDriverMode();
 		System.out.println("EXITSADFJHASDKJLFHASJKDLFHAJKSLDHFJKLAHDFJKLAHSDKLFJHASKJLDFHJKALSDHFKJLASDHFJKLASDHFJKLASHDJKFLHJK");
 	}

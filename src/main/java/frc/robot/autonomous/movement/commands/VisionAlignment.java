@@ -183,7 +183,7 @@ public class VisionAlignment extends Command {
 	 */
 	@Override
 	public void end() {
-		DriveTrain.getInstance().tankDrive(0, 0);
+		//DriveTrain.getInstance().tankDrive(0, 0);
 		Limelight.getInstance().enableDriverMode();
 		System.out.println("Ended VisionAlignment.java command");
 	}

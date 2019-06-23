@@ -1,19 +1,19 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+
 import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.robot.autonomous.movement.commands.MotionProfileTranslate;
-import frc.robot.autonomous.vision.Limelight;
+import frc.robot.autonomous.movement.commands.TestCommand;
+
 import frc.robot.drive.DriveTrain;
-import frc.robot.drive.Shifter;
-import frc.robot.hardware.Compressor;
+
 import frc.robot.hardware.Gyro;
-import frc.robot.oi.OI;
+
 
 public class Robot extends TimedRobot {
 
 	Robot() {
-		super(0.02);
+		super(0.06);
 	}
 	
 	@SuppressWarnings("ResultOfMethodCallIgnored")
@@ -30,54 +30,38 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void robotPeriodic() {
-	
+		Scheduler.getInstance().run();
 	}
 
 	@Override
 	public void disabledInit() {
-
 	}
 
 	@Override
 	public void disabledPeriodic(){
-
 	}
 
 	@Override
 	public void autonomousInit() {
-		new MotionProfileTranslate(24,5,84,1,0.05);
+		new TestCommand().start();
 	}
 	@Override
 	public void autonomousPeriodic() {
-
 	}
 
 	@Override
 	public void teleopInit() {
-		Compressor.getInstance().start();
 	}
 
 	@Override
 	public void teleopPeriodic() {
-		Scheduler.getInstance().run();
-		//System.out.println("LEFT POS: " + DriveTrain.getInstance().getLeftEncoder());
-		//System.out.println("RIGHT POS: " + DriveTrain.getInstance().getRightEncoder());
-		Limelight.getInstance().enableVisionMode();
-		Limelight.getInstance().updateLimelightValues();
-		//Limelight.getInstance().printValues();
-		//System.out.println(DriveTrain.getInstance().getMotorOutput());
 	}
 	
 	@Override
 	public void testInit() {
-
 	}
 	
 	@Override
 	public void testPeriodic() {
-		Limelight.getInstance().enableVisionMode();
-		Limelight.getInstance().updateLimelightValues();
-		Limelight.getInstance().printValues();
-        //System.out.println(Gyro.getInstance().getAngle() + " gyro");
 	}
 }
