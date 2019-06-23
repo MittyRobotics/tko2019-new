@@ -21,11 +21,11 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		DriveTrain.getInstance();
 		DriveTrain.getInstance().initHardware();
-		Shifter.getInstance();
-		OI.getInstance();
-		Compressor.getInstance();
+		//Shifter.getInstance();
+		//OI.getInstance();
+		//Compressor.getInstance();
 		Gyro.getInstance();
-		Limelight.getInstance();
+		//Limelight.getInstance();
 	}
 	
 	@Override
