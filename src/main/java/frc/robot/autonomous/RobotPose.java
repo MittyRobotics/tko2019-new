@@ -1,6 +1,7 @@
 package frc.robot.autonomous;
 
 import frc.robot.drive.DriveTrain;
+import frc.robot.drive.constants.TicksPerInch;
 import frc.robot.hardware.Gyro;
 
 import java.util.TimerTask;
@@ -38,8 +39,8 @@ public class RobotPose {
 
 		//Update robot values based on encoder and gyro output
 		robotHeading = Gyro.getInstance().getAngle();
-		double deltaLeftPos = DriveTrain.getInstance().getLeftEncoder() - lastLeftEncoderPos;
-		double deltaRightPos = DriveTrain.getInstance().getRightEncoder()  - lastRightEncoderPos;
+		double deltaLeftPos = (DriveTrain.getInstance().getLeftEncoder() - lastLeftEncoderPos)/TicksPerInch.DRIVE;
+		double deltaRightPos = (DriveTrain.getInstance().getRightEncoder()  - lastRightEncoderPos)/TicksPerInch.DRIVE;
 		double deltaPosition = (deltaLeftPos + deltaRightPos)/2;
 		robotX += deltaPosition * Math.cos(Math.toRadians(robotHeading));
 		robotY += deltaPosition * Math.sin(Math.toRadians(robotHeading));

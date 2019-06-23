@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.robot.autonomous.RobotPose;
 import frc.robot.autonomous.movement.commands.MotionProfileTranslate;
 import frc.robot.autonomous.vision.Limelight;
 import frc.robot.drive.DriveTrain;
@@ -70,14 +71,12 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void testInit() {
-
+		RobotPose.getInstance().resetPosition();
 	}
 	
 	@Override
 	public void testPeriodic() {
-		Limelight.getInstance().enableVisionMode();
-		Limelight.getInstance().updateLimelightValues();
-		Limelight.getInstance().printValues();
-        //System.out.println(Gyro.getInstance().getAngle() + " gyro");
+		RobotPose.getInstance().update();
+		System.out.println(RobotPose.getInstance().getRobotX() + " " + RobotPose.getInstance().getRobotY() + " " + RobotPose.getInstance().getRobotHeading());
 	}
 }
