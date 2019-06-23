@@ -1,11 +1,8 @@
-package frc.robot.autonomous;
-
-import frc.robot.drive.DriveTrain;
-import frc.robot.hardware.Gyro;
+package frc.robot.autonomous.pure_pursuit;
 
 import java.util.TimerTask;
 
-public class RobotPose {
+public class RobotPose extends TimerTask {
 	private static RobotPose ourInstance = new RobotPose();
 
 	private double robotX = 0;
@@ -34,15 +31,15 @@ public class RobotPose {
 		this.robotY = y;
 		this.robotHeading = heading;
 	}
-	public void update(){
+	public void run(){
 
-		//Update robot values based on encoder and gyro output
-		robotHeading = Gyro.getInstance().getAngle();
-		double deltaLeftPos = DriveTrain.getInstance().getLeftEncoder() - lastLeftEncoderPos;
-		double deltaRightPos = DriveTrain.getInstance().getRightEncoder()  - lastRightEncoderPos;
-		double deltaPosition = (deltaLeftPos + deltaRightPos)/2;
-		robotX += deltaPosition * Math.cos(Math.toRadians(robotHeading));
-		robotY += deltaPosition * Math.sin(Math.toRadians(robotHeading));
+		//Update robot values based on encoder and gyro output TODO: plug in actual encoder and gyro values here
+		//robotHeading = getGyroAngle();
+		//double deltaLeftPos = getLeftEncoder() - lastLeftEncoderPos;
+		//double deltaRightPos = getRightEncoder() - lastRightEncoderPos;
+		//double deltaPosition = (deltaLeftPos + deltaRightPos)/2;
+		//robotX += deltaPosition * cos(robotHeading)
+		//robotY += deltaPosition * sin(robotHeading)
 	}
 
 	public double getRobotX(){

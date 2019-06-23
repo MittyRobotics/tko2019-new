@@ -1,7 +1,7 @@
 package frc.robot.autonomous.pure_pursuit.paths;
 
-import frc.robot.autonomous.pure_pursuit.TradjectoryPoint;
-import frc.robot.autonomous.pure_pursuit.Waypoint;
+import pure_pursuit.Waypoint;
+import pure_pursuit.TradjectoryPoint;
 
 import java.awt.geom.Point2D;
 

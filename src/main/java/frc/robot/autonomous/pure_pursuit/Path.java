@@ -1,13 +1,6 @@
 package frc.robot.autonomous.pure_pursuit;
 
-
-import frc.robot.autonomous.pure_pursuit.paths.BezierCurvePath;
-
-/**
- * Custom bezier curve path generation and following using the pure pursuit controller. Algorithms based off of https://www.chiefdelphi.com/t/paper-implementation-of-the-adaptive-pure-pursuit-controller/166552.
- *
- * I know this code is really messy and I will clean it up and make a final version later, but right now I am just testing it.
- */
+import pure_pursuit.paths.BezierCurvePath;
 
 public class Path {
 

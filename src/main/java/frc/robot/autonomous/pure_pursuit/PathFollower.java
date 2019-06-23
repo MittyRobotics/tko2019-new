@@ -1,8 +1,5 @@
 package frc.robot.autonomous.pure_pursuit;
 
-import frc.robot.autonomous.RobotPose;
-
-
 public class PathFollower {
 	Path path;
 	double lookaheadDistance =  1;
