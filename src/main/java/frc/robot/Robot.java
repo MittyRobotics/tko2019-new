@@ -5,9 +5,15 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.autonomous.movement.commands.TestCommand;
 
+import frc.robot.autonomous.movement.commands.Translate2dTradjectory;
 import frc.robot.drive.DriveTrain;
 
 import frc.robot.hardware.Gyro;
+import frc.robot.pure_pursuit.VelocityConstraints;
+import frc.robot.pure_pursuit.Waypoint;
+
+import java.awt.*;
+import java.awt.geom.Point2D;
 
 
 public class Robot extends TimedRobot {
@@ -43,7 +49,10 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		new TestCommand().start();
+		Waypoint[] waypoints = new Waypoint[2];
+		waypoints[0] = new Waypoint(new Point2D.Double(0,0), new Point2D.Double(10,0));
+		waypoints[1] = new Waypoint(new Point2D.Double(24,0), new Point2D.Double(10,0));
+		new Translate2dTradjectory(waypoints, new VelocityConstraints(8,24)).start();
 	}
 	@Override
 	public void autonomousPeriodic() {
