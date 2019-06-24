@@ -66,7 +66,7 @@ public class DriveTrain extends Subsystem {
 
 	@Override
 	public void initDefaultCommand() {
-		//setDefaultCommand(new TankDrive());
+		setDefaultCommand(new TankDrive());
 	}
 
 	public void tankDrive(final double left, final double right) {
@@ -74,6 +74,7 @@ public class DriveTrain extends Subsystem {
 			leftDrive[0].set(ControlMode.PercentOutput, 0);
 		} else {
 			leftDrive[0].set(ControlMode.PercentOutput, left);
+
 		}
 		if (Math.abs(right) < 0.05) {
 			rightDrive[0].set(ControlMode.PercentOutput, 0);
@@ -128,6 +129,11 @@ public class DriveTrain extends Subsystem {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public void resetEncoder(){
+		leftDrive[0].setSelectedSensorPosition(0);
+		rightDrive[0].setSelectedSensorPosition(0);
 	}
 
 	public void translation(final double distance, final double maxSpeed ) {

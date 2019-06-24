@@ -1,5 +1,6 @@
 package frc.robot.oi;
 
+import edu.wpi.first.wpilibj.Controller;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;

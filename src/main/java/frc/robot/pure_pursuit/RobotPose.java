@@ -1,6 +1,7 @@
 package frc.robot.pure_pursuit;
 
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.drive.DriveTrain;
 import frc.robot.drive.constants.TicksPerInch;
 import frc.robot.hardware.Gyro;
@@ -54,6 +55,8 @@ public class RobotPose {
 		robotY += deltaPosition * Math.sin(Math.toRadians(robotHeading));
 		lastLeftEncoderPos = DriveTrain.getInstance().getLeftEncoder();
 		lastRightEncoderPos = DriveTrain.getInstance().getRightEncoder();
+		SmartDashboard.putNumber("robotX", robotX);
+		SmartDashboard.putNumber("robotY", robotY);
 	}
 
 	public double getRobotX(){
