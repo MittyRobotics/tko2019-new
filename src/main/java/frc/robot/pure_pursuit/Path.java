@@ -84,7 +84,7 @@ public class Path {
 		}
 		for(int i =0; i < points.length; i++){
 			if(i == 0){
-				points[i].setVelocity(0);
+				points[i].setVelocity(0.6);
 			}
 			else{
 				double distance = TradjectoryPoint.distance(points[i-1], points[i]);

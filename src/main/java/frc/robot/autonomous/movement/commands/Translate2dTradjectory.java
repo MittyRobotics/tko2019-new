@@ -40,12 +40,11 @@ public class Translate2dTradjectory extends Command {
 		RobotPose.getInstance().update();
 		double[] output = follower.update();
 
-		output[0] = output[0]+6;
-		output[1] = output[1]+6;
 		System.out.println("Left Velocity: " + output[0] + "Right Velocity: " + output[1] + " X: " + RobotPose.getInstance().getRobotX() + " Y: " + RobotPose.getInstance().getRobotY() + " Angle: " + RobotPose.getInstance().getRobotHeading());
 
 		DriveTrain.getInstance().tankVelocity(output[0], output[1]);
-		if( Math.abs(RobotPose.getInstance().getRobotX() - path.get(path.length()-1).getX()) < 2 && Math.abs(RobotPose.getInstance().getRobotY() - path.get(path.length()-1).getY()) < 2){
+
+		if( follower.getCurrentClosestPoint().getX() == path.get(path.length()-1).getX() && follower.getCurrentClosestPoint().getY() == path.get(path.length()-1).getY()){
 			finished = true;
 		}
 	}
