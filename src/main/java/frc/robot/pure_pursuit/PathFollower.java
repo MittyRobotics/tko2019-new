@@ -66,17 +66,19 @@ public class PathFollower {
 		int index = 0;
 		TradjectoryPoint closestPoint = findClosestPoint(x,y);
 		if(path.get(path.length()-1).distance(closestPoint) <= lookaheadDistance + 1){
-			currentLookaheadDistance = path.get(path.length()-1).distance(closestPoint);
-			System.out.println("lookahead within dist" + currentLookaheadDistance);
-			return path.get(path.length()-1);
+			currentLookaheadDistance = lookaheadDistance;
+			double a = Math.tan((path.get(path.length()-1).getY()-path.get(path.length()-2).getY())/(path.get(path.length()-1).getX()-path.get(path.length()-2).getX()));
+			double x1 = Math.cos(a)*lookaheadDistance;
+			double y1 = Math.sin(a)*lookaheadDistance;
+			System.out.println("lookahead within dist " + currentLookaheadDistance);
+			return new TradjectoryPoint(x1, y1);
 		}
 		else {
 			for (int i = previousPointIndex; i < path.length(); i++) {
 
 				if (Math.abs( path.get(i).distance(new TradjectoryPoint(x, y)) - lookaheadDistance) < currentClosest && path.get(i).distance( new TradjectoryPoint(x, y)) - lookaheadDistance > 0) {
-					currentLookaheadDistance = lookaheadDistance;
 					currentClosest = Math.abs(path.get(i).distance(new TradjectoryPoint(x, y)) - lookaheadDistance);
-
+					currentLookaheadDistance = Math.abs(path.get(i).distance(new TradjectoryPoint(x, y)));
 					index = i;
 				}
 			}
