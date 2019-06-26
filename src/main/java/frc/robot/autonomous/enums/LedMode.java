@@ -1,4 +1,4 @@
-package frc.robot.autonomous.constants;
+package frc.robot.autonomous.enums;
 
 /**
  * The LED mode for the Limelight camera

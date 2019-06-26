@@ -1,4 +1,4 @@
-package frc.robot.motion_profile;
+package utils.motionprofile;
 
 public class TrapezoidalMotionProfile {
 	private MotionSegment accelerationSegment;
@@ -15,7 +15,7 @@ public class TrapezoidalMotionProfile {
 	private double prevVelocity = 0;
 	private double prevTime = 0;
 
-	private boolean done = false;
+	private boolean finished = false;
 
 	/**
 	 * Creates a TrapezoidalMotionProfile
@@ -27,7 +27,7 @@ public class TrapezoidalMotionProfile {
 	 */
 	public TrapezoidalMotionProfile(double maxAcceleration, double maxVelocity, double setpoint, double loopTime) {
 
-		this.done = false;
+		this.finished = false;
 		this.maxAcceleration = maxAcceleration;
 		this.setpoint = setpoint;
 		this.loopTime = loopTime;
@@ -82,7 +82,7 @@ public class TrapezoidalMotionProfile {
 		this.prevVelocity = velocity;
 		this.prevTime = t;
 		if (t >= tTotal) {
-			done = true;
+			finished = true;
 			return new MotionFrame(setpoint, 0, 0, tTotal);
 		}
 		return new MotionFrame(position, velocity, acceleration, t);
@@ -155,7 +155,7 @@ public class TrapezoidalMotionProfile {
 		return prevTime;
 	}
 
-	public boolean isDone() {
-		return done;
+	public boolean isFinished() {
+		return finished;
 	}
 }

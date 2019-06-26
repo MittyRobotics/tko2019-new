@@ -1,4 +1,4 @@
-package frc.robot.pure_pursuit;
+package utils.purepursuit;
 
 public class VelocityConstraints {
 	private double maxAcceleration;

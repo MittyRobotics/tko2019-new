@@ -1,9 +1,9 @@
-package frc.robot.pure_pursuit.paths;
+package utils.purepursuit.paths;
 
 
 
-import frc.robot.pure_pursuit.TradjectoryPoint;
-import frc.robot.pure_pursuit.Waypoint;
+import utils.purepursuit.TrajectoryPoint;
+import utils.purepursuit.Waypoint;
 
 import java.awt.geom.Point2D;
 
@@ -15,11 +15,11 @@ public class BezierCurvePath{
 		this.waypoints = waypoints;
 	}
 
-	public TradjectoryPoint[] generate() {
-		TradjectoryPoint[] tradjectoryPoints = new TradjectoryPoint[steps];
+	public TrajectoryPoint[] generate() {
+		TrajectoryPoint[] tradjectoryPoints = new TrajectoryPoint[steps];
 		for(int i = 0; i < waypoints.length-1; i++){
 
-			TradjectoryPoint[] segment = generateSegment(waypoints[i], waypoints[i+1], steps/(waypoints.length-1), i==0);
+			TrajectoryPoint[] segment = generateSegment(waypoints[i], waypoints[i+1], steps/(waypoints.length-1), i==0);
 			for(int a = 0; a < segment.length; a++){
 				tradjectoryPoints[a*(i+1)] = segment[a];
 			}
@@ -28,8 +28,8 @@ public class BezierCurvePath{
 		return tradjectoryPoints;
 	}
 
-	private TradjectoryPoint[] generateSegment(Waypoint waypoint0, Waypoint waypoint1, int steps, boolean firstSegment){
-		TradjectoryPoint[] tradjectoryPoints = new TradjectoryPoint[steps];
+	private TrajectoryPoint[] generateSegment(Waypoint waypoint0, Waypoint waypoint1, int steps, boolean firstSegment){
+		TrajectoryPoint[] tradjectoryPoints = new TrajectoryPoint[steps];
 		Point2D p0,p1,p2,p3;
 		if(firstSegment){
 			p0 = waypoint0.getWaypoint();
@@ -49,7 +49,7 @@ public class BezierCurvePath{
 			t = (double)i/steps;
 			double x = Math.pow(1-t,3)*p0.getX()+3*Math.pow(1-t,2)*t*p1.getX()+3*(1-t)*Math.pow(t,2)*p2.getX()+Math.pow(t,3)*p3.getX();
 			double y = Math.pow(1-t,3)*p0.getY()+3*Math.pow(1-t,2)*t*p1.getY()+3*(1-t)*Math.pow(t,2)*p2.getY()+Math.pow(t,3)*p3.getY();
-			tradjectoryPoints[i]= new TradjectoryPoint(x,y);
+			tradjectoryPoints[i]= new TrajectoryPoint(x,y);
 		}
 		return tradjectoryPoints;
 	}

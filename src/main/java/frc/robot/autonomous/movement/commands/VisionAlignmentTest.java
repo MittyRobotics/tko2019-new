@@ -111,7 +111,7 @@ public class VisionAlignmentTest extends Command {
 	public void end() {
 		//DriveTrain.getInstance().tankDrive(0, 0);
 		Limelight.getInstance().enableDriverMode();
-		System.out.println("EXITSADFJHASDKJLFHASJKDLFHAJKSLDHFJKLAHDFJKLAHSDKLFJHASKJLDFHJKALSDHFKJLASDHFJKLASDHFJKLASHDJKFLHJK");
+		System.out.println("Exit Vision Test");
 	}
 	
 	/**

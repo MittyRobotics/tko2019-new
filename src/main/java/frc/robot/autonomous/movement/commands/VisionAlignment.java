@@ -1,9 +1,14 @@
 package frc.robot.autonomous.movement.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.autonomous.enums.DriveState;
+import frc.robot.autonomous.movement.AutonDriver;
 import frc.robot.autonomous.vision.Limelight;
 import frc.robot.drive.DriveTrain;
 
+/**
+ * The base vision command to drive towards and in front of a target, aligning the robot facing the target close to directly in front of it.
+ */
 public class VisionAlignment extends Command {
 
 	//maximum speeds
@@ -27,6 +32,8 @@ public class VisionAlignment extends Command {
 	double lastDistance = -1000;
 	double lastAngle = -1000;
 
+	private int motionID;
+
 
 
 	/**
@@ -35,6 +42,8 @@ public class VisionAlignment extends Command {
 	public VisionAlignment() {
 		super("VisionAlignment");
 		requires(DriveTrain.getInstance());
+
+		motionID = AutonDriver.getInstance().initNewDriveMethod(DriveState.VISION);
 	}
 
 	/**
@@ -45,6 +54,8 @@ public class VisionAlignment extends Command {
 	 */
 	@Override
 	public void initialize() {
+		AutonDriver.getInstance().setupVision();
+
 		Limelight.getInstance().enableVisionMode();
 		Limelight.getInstance().setPipeline(0);
 		lowDeltaCount = 0;
@@ -183,7 +194,8 @@ public class VisionAlignment extends Command {
 	 */
 	@Override
 	public void end() {
-		//DriveTrain.getInstance().tankDrive(0, 0);
+		AutonDriver.getInstance().visionEnd();
+		DriveTrain.getInstance().tankDrive(0, 0);
 		Limelight.getInstance().enableDriverMode();
 		System.out.println("Ended VisionAlignment.java command");
 	}
@@ -203,6 +215,6 @@ public class VisionAlignment extends Command {
 	 */
 	@Override
 	protected boolean isFinished() {
-		return reachedTargetCount > reachedTargetTime || lostTargetCount > lostTargetTime || lowDeltaCount > lowDeltaTime || highDeltaCount > highDeltaTime || failedCalculationsCount > failedCalculationsTime;
+		return AutonDriver.getInstance().isFinished(motionID) || reachedTargetCount > reachedTargetTime || lostTargetCount > lostTargetTime || lowDeltaCount > lowDeltaTime || highDeltaCount > highDeltaTime || failedCalculationsCount > failedCalculationsTime;
 	}
 }

@@ -1,7 +1,9 @@
 package frc.robot.autonomous;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.autonomous.movement.commands.Translation;
+import frc.robot.autonomous.enums.CargoTarget;
+import frc.robot.autonomous.enums.GamePiece;
+import frc.robot.autonomous.movement.commands.PIDTranslation;
 import frc.robot.autonomous.movement.commands.VisionAlignment;
 
 public class VisionScore extends CommandGroup {
@@ -26,7 +28,7 @@ public class VisionScore extends CommandGroup {
 		addParallel(new VisionAlignment());
 		//addSequential(new PushForward());
 		//addSequential(new Release());
-		addSequential(new Translation(-4, 0.4));
+		addSequential(new PIDTranslation(-4, 0.4));
 	}
 	
 	/**

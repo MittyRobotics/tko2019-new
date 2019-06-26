@@ -1,4 +1,4 @@
-package frc.robot.pure_pursuit;
+package utils.purepursuit;
 
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

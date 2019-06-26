@@ -1,4 +1,4 @@
-package frc.robot.motion_profile;
+package utils.motionprofile;
 
 public class MotionFrame {
 	private double position;

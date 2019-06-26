@@ -2,6 +2,10 @@ package frc.robot.autonomous.vision;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.autonomous.constants.*;
+import frc.robot.autonomous.enums.CameraMode;
+import frc.robot.autonomous.enums.LedMode;
+import frc.robot.autonomous.enums.SnapshotMode;
+import frc.robot.autonomous.enums.StreamMode;
 
 import java.awt.*;
 
@@ -53,7 +57,7 @@ public class Limelight {
 	//thor	Horizontal sidelength of the rough bounding box (0 - 320 pixels)                              //
 	//tvert	Vertical sidelength of the rough bounding box (0 - 320 pixels)                                //
 	//getpipe	True active pipeline index of the camera (0 .. 9)                                         //
-	//camtran	Results of a 3D position solution, 6 numbers: Translation (x,y,y) Rotation(pitch,yaw,roll)//
+	//camtran	Results of a 3D position solution, 6 numbers: PIDTranslation (x,y,y) PIDRotation(pitch,yaw,roll)//
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**

@@ -1,4 +1,4 @@
-package frc.robot.pure_pursuit.enums;
+package utils.purepursuit.enums;
 
 public enum PathType {
 	BEZIER_CURVE_PATH
