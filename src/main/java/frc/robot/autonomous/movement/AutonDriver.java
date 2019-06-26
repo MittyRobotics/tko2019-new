@@ -246,11 +246,9 @@ public class AutonDriver {
 				break;
 		}
 
-		if (finished) {
+		if (finished && motionID == id) {
 			reset();
-			if (motionID == id) {
-				currentDriveState = DriveState.IDLE;
-			}
+			currentDriveState = DriveState.IDLE;
 		}
 
 		return finished;
