@@ -51,7 +51,7 @@ public class OI {
 
 		};
 		vision.whenPressed(new VisionAlignment());
-		testProfile.whenPressed(new MotionProfileTranslate(24,5, 84, 0.5,0.05));
+		testProfile.whenPressed(new MotionProfileTranslate(10, 0.2));
 		Button shiftLow = new Button() {
 			@Override
 			public boolean get() {
