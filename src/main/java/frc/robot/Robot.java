@@ -10,6 +10,7 @@ import frc.robot.drive.DriveTrain;
 import frc.robot.drive.commands.TankDrive;
 import frc.robot.drive.constants.TicksPerInch;
 import frc.robot.hardware.Gyro;
+import frc.robot.oi.OI;
 import utils.purepursuit.RobotPose;
 import utils.purepursuit.VelocityConstraints;
 import utils.purepursuit.Waypoint;
@@ -37,7 +38,7 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void robotPeriodic() {
-		Scheduler.getInstance().run();
+
 	}
 
 	@Override
@@ -58,11 +59,12 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		new TankDrive().start();
+
 	}
 
 	@Override
 	public void teleopPeriodic() {
+		DriveTrain.getInstance().curavtureDrive(OI.getInstance().getJoystick1().getY(), OI.getInstance().getSteeringWheel().getX(), OI.getInstance().getSteeringWheel().getAButton());
 	}
 	
 	@Override

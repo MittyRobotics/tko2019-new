@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.drive.commands.TankDrive;
 import frc.robot.drive.constants.EncoderInversions;
 import frc.robot.drive.constants.PID;
@@ -19,6 +20,7 @@ public class DriveTrain extends Subsystem {
 	private WPI_TalonSRX[] leftDrive = new WPI_TalonSRX[TalonIds.LEFT_DRIVE.length];
 	private WPI_TalonSRX[] rightDrive = new WPI_TalonSRX[TalonIds.RIGHT_DRIVE.length];
 	private static DriveTrain ourInstance = new DriveTrain();
+	private DifferentialDrive drive = new DifferentialDrive(leftDrive[0], rightDrive[0]);
 //	private PIDController controller = new PIDController(PID.TURN[0], PID.TURN[1], PID.TURN[2], Gyro.getInstance(), leftDrive[0]);
 
 	public static DriveTrain getInstance() {
@@ -69,6 +71,9 @@ public class DriveTrain extends Subsystem {
 		setDefaultCommand(new TankDrive());
 	}
 
+	public void curavtureDrive(final double left, final double right, final  boolean isQuickTurn){
+		drive.curvatureDrive(left, right, isQuickTurn);
+	}
 	public void tankDrive(final double left, final double right) {
 		if (Math.abs(left) < 0.05) {
 			leftDrive[0].set(ControlMode.PercentOutput, 0);
