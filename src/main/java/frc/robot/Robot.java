@@ -8,6 +8,7 @@ import frc.robot.autonomous.movement.commands.Translate2dTrajectory;
 import frc.robot.drive.DriveTrain;
 
 import frc.robot.drive.commands.TankDrive;
+import frc.robot.drive.constants.TicksPerInch;
 import frc.robot.hardware.Gyro;
 import utils.purepursuit.RobotPose;
 import utils.purepursuit.VelocityConstraints;
@@ -67,12 +68,12 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testInit() {
 		new TankDrive().start();
-		RobotPose.getInstance().resetPosition();
+		RobotPose.getInstance().resetPosition(DriveTrain.getInstance().getLeftEncoder(), DriveTrain.getInstance().getRightEncoder(), Gyro.getInstance().getAngle());
 	}
 	
 	@Override
 	public void testPeriodic() {
-		RobotPose.getInstance().update();
+		RobotPose.getInstance().update(DriveTrain.getInstance().getLeftEncoder(), DriveTrain.getInstance().getRightEncoder(), Gyro.getInstance().getAngle(), TicksPerInch.DRIVE);
 		System.out.println(RobotPose.getInstance().getRobotX() + " " + RobotPose.getInstance().getRobotY() + " " + RobotPose.getInstance().getRobotHeading() + " Left: " + DriveTrain.getInstance().getLeftEncoder() + " Right: " + DriveTrain.getInstance().getRightEncoder());
 
 	}
