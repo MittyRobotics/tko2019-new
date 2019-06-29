@@ -22,7 +22,7 @@ import java.awt.geom.Point2D;
 public class Robot extends TimedRobot {
 
 	Robot() {
-		super(0.02);
+		super(0.06);
 	}
 	
 	@SuppressWarnings("ResultOfMethodCallIgnored")
@@ -65,11 +65,12 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		DriveTrain.getInstance().curavtureDrive(OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight), OI.getInstance().getSteeringWheel().getX(), OI.getInstance().getSteeringWheel().getAButton());
+		DriveTrain.getInstance().curavtureDrive(-OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight), OI.getInstance().getSteeringWheel().getX(), OI.getInstance().getSteeringWheel().getAButton());
 	}
 	
 	@Override
 	public void testInit() {
+		DriveTrain.getInstance().tankDrive(0.3,0.3);
 		new TankDrive().start();
 		RobotPose.getInstance().resetPosition(DriveTrain.getInstance().getLeftEncoder(), DriveTrain.getInstance().getRightEncoder(), Gyro.getInstance().getAngle());
 	}
@@ -77,7 +78,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testPeriodic() {
 		RobotPose.getInstance().update(DriveTrain.getInstance().getLeftEncoder(), DriveTrain.getInstance().getRightEncoder(), Gyro.getInstance().getAngle(), TicksPerInch.DRIVE);
-		System.out.println(RobotPose.getInstance().getRobotX() + " " + RobotPose.getInstance().getRobotY() + " " + RobotPose.getInstance().getRobotHeading() + " Left: " + DriveTrain.getInstance().getLeftEncoder() + " Right: " + DriveTrain.getInstance().getRightEncoder());
+		//System.out.println(RobotPose.getInstance().getRobotX() + " " + RobotPose.getInstance().getRobotY() + " " + RobotPose.getInstance().getRobotHeading() + " Left: " + DriveTrain.getInstance().getLeftEncoder() + " Right: " + DriveTrain.getInstance().getRightEncoder());
 
 	}
 }
