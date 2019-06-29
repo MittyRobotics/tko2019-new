@@ -17,6 +17,8 @@ public class TrapezoidalMotionProfile {
 
 	private boolean finished = false;
 
+	private boolean reversed;
+
 	/**
 	 * Creates a TrapezoidalMotionProfile
 	 *
@@ -26,11 +28,15 @@ public class TrapezoidalMotionProfile {
 	 * @param loopTime        time period between calculations
 	 */
 	public TrapezoidalMotionProfile(double maxAcceleration, double maxVelocity, double setpoint, double loopTime) {
+		new TrapezoidalMotionProfile(maxAcceleration, maxVelocity, setpoint, loopTime, false);
+	}
+	public TrapezoidalMotionProfile(double maxAcceleration, double maxVelocity, double setpoint, double loopTime, boolean reversed) {
 
 		this.finished = false;
 		this.maxAcceleration = maxAcceleration;
 		this.setpoint = setpoint;
 		this.loopTime = loopTime;
+		this.reversed = reversed;
 
 
 		double theoreticalTTotal = Math.sqrt(setpoint / maxAcceleration);
@@ -85,7 +91,13 @@ public class TrapezoidalMotionProfile {
 			finished = true;
 			return new MotionFrame(setpoint, 0, 0, tTotal);
 		}
-		return new MotionFrame(position, velocity, acceleration, t);
+		if(reversed){
+			return new MotionFrame(-position, velocity, acceleration, t);
+		}
+		else{
+			return new MotionFrame(position, velocity, acceleration, t);
+		}
+
 	}
 
 	private double getVelocityAtTime(double _t, double _acceleration, double _maxVelocity, MotionSegment _accelerationSegment, MotionSegment _cruiseSegment) {
