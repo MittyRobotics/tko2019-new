@@ -30,6 +30,15 @@ public class TrapezoidalMotionProfile {
 	public TrapezoidalMotionProfile(double maxAcceleration, double maxVelocity, double setpoint, double loopTime) {
 		new TrapezoidalMotionProfile(maxAcceleration, maxVelocity, setpoint, loopTime, false);
 	}
+	/**
+	 * Creates a TrapezoidalMotionProfile
+	 *
+	 * @param maxAcceleration maximum acceleration
+	 * @param maxVelocity     maximum velocity
+	 * @param setpoint        distance traveled
+	 * @param loopTime        time period between calculations
+	 * @param reversed        whether or not the position output should be negative, resulting in a reversed movement
+	 */
 	public TrapezoidalMotionProfile(double maxAcceleration, double maxVelocity, double setpoint, double loopTime, boolean reversed) {
 
 		this.finished = false;
