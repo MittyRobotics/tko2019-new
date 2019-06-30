@@ -9,6 +9,9 @@ import frc.robot.autonomous.enums.StreamMode;
 
 import java.awt.*;
 
+/**
+ * Singleton that handles all Limelight related tasks and functions.
+ */
 public class Limelight {
 	private static Limelight ourInstance = new Limelight();
 

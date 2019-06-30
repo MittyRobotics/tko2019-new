@@ -1,4 +1,4 @@
-package frc.robot.autonomous;
+package frc.robot.autonomous.vision;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.autonomous.enums.CargoTarget;

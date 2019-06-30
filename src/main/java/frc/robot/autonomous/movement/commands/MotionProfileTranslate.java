@@ -22,13 +22,7 @@ public class MotionProfileTranslate extends Command {
 	int motionID;
 
 	public MotionProfileTranslate(double setpoint) {
-		super("PIDTranslation");
-		requires(DriveTrain.getInstance());
-
-		this.setpoint = setpoint;
-		this.maxOutput = 0.5;
-
-		this.motionID = AutonDriver.getInstance().initNewDriveMethod(DriveState.MOTION_TRANSLATE);
+		new MotionProfileTranslate(setpoint, 0.5);
 	}
 
 	public MotionProfileTranslate(double setpoint, double maxOutput) {
@@ -43,7 +37,13 @@ public class MotionProfileTranslate extends Command {
 
 	@Override
 	public void initialize() {
-		AutonDriver.getInstance().setupMotionProfile(setpoint, LinearMovementType.TRANSLATION);
+		if(setpoint < 0){
+			AutonDriver.getInstance().setupMotionProfile(setpoint, LinearMovementType.TRANSLATION, true);
+		}
+		else{
+			AutonDriver.getInstance().setupMotionProfile(setpoint, LinearMovementType.TRANSLATION);
+		}
+
 		t = 0;
 	}
 

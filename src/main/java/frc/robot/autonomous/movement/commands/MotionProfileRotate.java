@@ -23,19 +23,13 @@ public class MotionProfileRotate extends Command {
 	int motionID;
 
 	public MotionProfileRotate(double setpoint,  RotationDirection direction) {
-		super("MotionProfileRotate");
-		requires(DriveTrain.getInstance());
-
-		this.setpoint = setpoint * direction.value;
-		this.maxOutput = 0.5;
-
-		this.motionID = AutonDriver.getInstance().initNewDriveMethod(DriveState.MOTION_ROTATE);
+		new MotionProfileRotate(setpoint, 0.5, direction);
 	}
 	public MotionProfileRotate(double setpoint, double maxOutput,  RotationDirection direction) {
 		super("MotionProfileRotate");
 		requires(DriveTrain.getInstance());
 
-		this.setpoint = setpoint * direction.value;
+		this.setpoint = Math.abs(setpoint) * direction.value;
 		this.maxOutput = maxOutput;
 
 		this.motionID = AutonDriver.getInstance().initNewDriveMethod(DriveState.MOTION_ROTATE);
@@ -43,7 +37,13 @@ public class MotionProfileRotate extends Command {
 
 	@Override
 	public void initialize() {
-		AutonDriver.getInstance().setupMotionProfile(setpoint,LinearMovementType.ROTATION);
+		if(setpoint < 0){
+			AutonDriver.getInstance().setupMotionProfile(setpoint,LinearMovementType.ROTATION, true);
+		}
+		else{
+			AutonDriver.getInstance().setupMotionProfile(setpoint,LinearMovementType.ROTATION);
+		}
+
 		t = 0;
 	}
 

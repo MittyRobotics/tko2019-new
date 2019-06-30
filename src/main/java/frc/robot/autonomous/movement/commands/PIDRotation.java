@@ -18,21 +18,15 @@ public class PIDRotation extends Command {
 
 	int motionID;
 
-	public PIDRotation(double angle, RotationDirection direction) {
-		super("PIDRotation");
-		requires(DriveTrain.getInstance());
-
-		this.setpoint = angle * direction.value;
-		this.maxOutput = 0.5;
-
-		this.motionID = AutonDriver.getInstance().initNewDriveMethod(DriveState.PID_ROTATE);
+	public PIDRotation(double setpoint, RotationDirection direction) {
+		new PIDRotation(setpoint,0.5,direction);
 	}
 
-	public PIDRotation(double angle, double maxOutput, RotationDirection direction) {
+	public PIDRotation(double setpoint, double maxOutput, RotationDirection direction) {
 		super("PIDRotation");
 		requires(DriveTrain.getInstance());
 
-		this.setpoint = angle * direction.value;
+		this.setpoint = Math.abs(setpoint) * direction.value;
 		this.maxOutput = maxOutput;
 
 		this.motionID = AutonDriver.getInstance().initNewDriveMethod(DriveState.PID_ROTATE);

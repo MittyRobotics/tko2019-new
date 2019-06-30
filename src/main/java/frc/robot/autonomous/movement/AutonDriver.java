@@ -71,8 +71,10 @@ public class AutonDriver {
 		this.currentPath = PathGenerator.getInstance().generate(waypoints, pathType, AutoConstants.DRIVE_VELOCITY_CONSTRAINTS, 200);
 		this.currentPathFollower = new PathFollower(currentPath);
 	}
-
 	public void setupMotionProfile(double setpoint, LinearMovementType movementType) {
+		setupMotionProfile(setpoint,movementType,false);
+	}
+	public void setupMotionProfile(double setpoint, LinearMovementType movementType, boolean reversed) {
 		this.trajectoryFollowingFinished = true;
 		this.motionProfileFinished = false;
 		this.PIDFinished = true;
@@ -87,7 +89,7 @@ public class AutonDriver {
 
 		this.currentPath = null;
 		this.currentPathFollower = null;
-		this.currentMotionProfile = new TrapezoidalMotionProfile(velocityConstraints.getMaxAcceleration(), velocityConstraints.getMaxVelocity(), setpoint, 0.02);
+		this.currentMotionProfile = new TrapezoidalMotionProfile(velocityConstraints.getMaxAcceleration(), velocityConstraints.getMaxVelocity(), setpoint, 0.02, reversed);
 	}
 
 	public void setupPIDMovement() {

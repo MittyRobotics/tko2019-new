@@ -20,13 +20,7 @@ public class PIDTranslation extends Command {
 	int motionID;
 
 	public PIDTranslation(double setpoint) {
-		super("PIDTranslation");
-		requires(DriveTrain.getInstance());
-
-		this.setpoint = setpoint;
-		this.maxOutput = 0.5;
-
-		this.motionID = AutonDriver.getInstance().initNewDriveMethod(DriveState.PID_ROTATE);
+		new PIDTranslation(setpoint,0.5);
 	}
 
 	public PIDTranslation(double setpoint, double maxOutput) {
