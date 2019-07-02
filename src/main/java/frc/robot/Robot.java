@@ -13,6 +13,8 @@ import frc.robot.hardware.Gyro;
 import frc.robot.hatchpanel.Grabber;
 import frc.robot.hatchpanel.Pusher;
 import frc.robot.hatchpanel.Slider;
+import frc.robot.cargo.Arm;
+import frc.robot.cargo.Rollers;
 
 
 public class Robot extends TimedRobot {
@@ -30,6 +32,8 @@ public class Robot extends TimedRobot {
 		Slider.getInstance().initHardware();
 		Pusher.getInstance();
 		Grabber.getInstance();
+		
+
 		//Shifter.getInstance();
 		//OI.getInstance();
 		//Compressor.getInstance();

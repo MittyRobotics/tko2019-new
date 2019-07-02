@@ -19,6 +19,10 @@ import frc.robot.hatchpanel.commands.PushForward;
 import frc.robot.hatchpanel.commands.Release;
 import frc.robot.hatchpanel.commands.Slide;
 import frc.robot.hatchpanel.constants.SliderPosition;
+import frc.robot.cargo.commands.ArmDown;
+import frc.robot.cargo.commands.ArmUp;
+import frc.robot.cargo.commands.Intake;
+import frc.robot.cargo.commands.Outtake;
 import org.opencv.core.Mat;
 
 public class OI {
