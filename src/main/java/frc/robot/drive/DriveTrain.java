@@ -32,6 +32,7 @@ public class DriveTrain extends Subsystem {
 	public void initHardware() {
 		for (int i = 0; i < leftDrive.length; i++) {
 			WPI_TalonSRX talonSRX = new WPI_TalonSRX(TalonIds.LEFT_DRIVE[i]);
+			talonSRX.configFactoryDefault();
 			talonSRX.setInverted(TalonInversions.LEFT_DRIVE[i]);
 			if (i == 0) {
 				talonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
@@ -46,6 +47,7 @@ public class DriveTrain extends Subsystem {
 		}
 		for (int i = 0; i < rightDrive.length; i++) {
 			WPI_TalonSRX talonSRX = new WPI_TalonSRX(TalonIds.RIGHT_DRIVE[i]);
+			talonSRX.configFactoryDefault();
 			talonSRX.setInverted(TalonInversions.RIGHT_DRIVE[i]);
 			if (i == 0) {
 				talonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);

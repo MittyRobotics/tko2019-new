@@ -10,6 +10,9 @@ import frc.robot.drive.DriveTrain;
 
 import frc.robot.drive.commands.TankDrive;
 import frc.robot.hardware.Gyro;
+import frc.robot.hatchpanel.Grabber;
+import frc.robot.hatchpanel.Pusher;
+import frc.robot.hatchpanel.Slider;
 
 
 public class Robot extends TimedRobot {
@@ -23,6 +26,10 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		DriveTrain.getInstance();
 		DriveTrain.getInstance().initHardware();
+		Slider.getInstance();
+		Slider.getInstance().initHardware();
+		Pusher.getInstance();
+		Grabber.getInstance();
 		//Shifter.getInstance();
 		//OI.getInstance();
 		//Compressor.getInstance();

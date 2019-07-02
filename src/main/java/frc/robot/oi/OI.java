@@ -12,6 +12,13 @@ import frc.robot.autonomous.movement.commands.VisionAlignmentTest;
 //import frc.robot.drive.commands.GearShift;
 import frc.robot.drive.commands.TankDrive;
 import frc.robot.drive.constants.GearState;
+import frc.robot.hatchpanel.commands.Grab;
+import frc.robot.hatchpanel.commands.ManualSlide;
+import frc.robot.hatchpanel.commands.PushBackward;
+import frc.robot.hatchpanel.commands.PushForward;
+import frc.robot.hatchpanel.commands.Release;
+import frc.robot.hatchpanel.commands.Slide;
+import frc.robot.hatchpanel.constants.SliderPosition;
 import org.opencv.core.Mat;
 
 public class OI {
@@ -66,6 +73,62 @@ public class OI {
 			}
 		};
 //		shiftHigh.whenPressed(new GearShift(GearState.High));
+		Button slideLeft = new Button() {
+			@Override
+			public boolean get() {
+				return joystick1.getRawButton(4);
+			}
+		};
+		slideLeft.whenPressed(new Slide(SliderPosition.Left));
+		Button slideMiddle = new Button() {
+			@Override
+			public boolean get() {
+				return joystick1.getRawButton(3);
+			}
+		};
+		slideMiddle.whenPressed(new Slide(SliderPosition.Middle));
+		Button slideRight = new Button() {
+			@Override
+			public boolean get() {
+				return joystick1.getRawButton(5);
+			}
+		};
+		slideRight.whenPressed(new Slide(SliderPosition.Right));
+		Button manualSlide = new Button() {
+			@Override
+			public boolean get() {
+				return Math.abs(joystick1.getX()) > 0.2;
+			}
+		};
+		manualSlide.whenPressed(new ManualSlide());
+		Button grab = new Button() {
+			@Override
+			public boolean get() {
+				return joystick1.getTrigger();
+			}
+		};
+		grab.whenPressed(new Grab());
+		Button release = new Button() {
+			@Override
+			public boolean get() {
+				return joystick1.getRawButton(2);
+			}
+		};
+		release.whenPressed(new Release());
+		Button pushForward = new Button() {
+			@Override
+			public boolean get() {
+				return joystick1.getY() > 0.5;
+			}
+		};
+		pushForward.whenPressed(new PushForward());
+		Button pushBackward = new Button() {
+			@Override
+			public boolean get() {
+				return joystick1.getY() < - 0.5;
+			}
+		};
+		pushBackward.whenPressed(new PushBackward());
 	}
 
 	public XboxController getXboxController(){
