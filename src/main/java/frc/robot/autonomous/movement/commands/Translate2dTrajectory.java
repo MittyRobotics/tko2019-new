@@ -53,6 +53,9 @@ public class Translate2dTrajectory extends Command {
 	public void execute() {
 		t = timeSinceInitialized();
 		AutonMotionOutput output = AutonDriver.getInstance().update(t);
+		double endt = timeSinceInitialized();
+
+		System.out.println("Time for follower calculation: " + (endt-t));
 
 		DriveTrain.getInstance().tankVelocity(output.getLeft(), output.getRight());
 	}
