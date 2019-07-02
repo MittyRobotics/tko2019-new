@@ -1,20 +1,15 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.TimedRobot;
 
 import edu.wpi.first.wpilibj.command.Scheduler;
 
-import frc.robot.autonomous.movement.commands.Translate2dTrajectory;
+import frc.robot.autonomous.Odometry;
 import frc.robot.drive.DriveTrain;
 
 import frc.robot.drive.commands.TankDrive;
-import frc.robot.drive.constants.TicksPerInch;
 import frc.robot.hardware.Gyro;
-import utils.purepursuit.RobotPose;
-import utils.purepursuit.VelocityConstraints;
-import utils.purepursuit.Waypoint;
-
-import java.awt.geom.Point2D;
 
 
 public class Robot extends TimedRobot {
@@ -33,11 +28,16 @@ public class Robot extends TimedRobot {
 		//Compressor.getInstance();
 		Gyro.getInstance();
 		//Limelight.getInstance();
+
+		Notifier odometryNotifier = new Notifier(Odometry.getInstance());
+		odometryNotifier.startPeriodic(0.005);
 	}
 	
 	@Override
 	public void robotPeriodic() {
 		Scheduler.getInstance().run();
+
+
 	}
 
 	@Override
@@ -68,13 +68,11 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testInit() {
 		new TankDrive().start();
-		RobotPose.getInstance().resetPosition(DriveTrain.getInstance().getLeftEncoder(), DriveTrain.getInstance().getRightEncoder(), Gyro.getInstance().getAngle());
+
 	}
 	
 	@Override
 	public void testPeriodic() {
-		RobotPose.getInstance().update(DriveTrain.getInstance().getLeftEncoder(), DriveTrain.getInstance().getRightEncoder(), Gyro.getInstance().getAngle(), TicksPerInch.DRIVE);
-		System.out.println(RobotPose.getInstance().getRobotX() + " " + RobotPose.getInstance().getRobotY() + " " + RobotPose.getInstance().getRobotHeading() + " Left: " + DriveTrain.getInstance().getLeftEncoder() + " Right: " + DriveTrain.getInstance().getRightEncoder());
 
 	}
 }

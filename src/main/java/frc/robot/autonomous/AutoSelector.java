@@ -19,11 +19,12 @@ public class AutoSelector {
 	}
 
 	private AutoSelector() {
-		int autoMode = (int) SmartDashboard.getNumber("AUTO_MODE", 0);
-		selectAutoMode(AutoMode.getMode(autoMode));
+
 	}
 
-	private void selectAutoMode(AutoMode mode) {
+	public void selectAutoMode() {
+		int modeID = (int) SmartDashboard.getNumber("AUTO_MODE", 0);
+		AutoMode mode = AutoMode.getMode(modeID);
 		switch (mode) {
 			case EXIT_HAB_AUTO:
 				ExitHabAuto.getInstance().start();
@@ -35,7 +36,6 @@ public class AutoSelector {
 				//Invalid autonomous mode
 				System.out.println("You selected an invalid autonomous mode!");
 				break;
-
 		}
 	}
 }

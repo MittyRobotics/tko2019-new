@@ -1,6 +1,7 @@
 package frc.robot.autonomous.movement;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.autonomous.Odometry;
 import frc.robot.autonomous.constants.AutoConstants;
 import frc.robot.autonomous.enums.DriveState;
 import frc.robot.autonomous.enums.LinearMovementType;
@@ -62,6 +63,8 @@ public class AutonDriver {
 	}
 
 	public void setupTrajectory(Waypoint[] waypoints, PathType pathType, boolean reversed) {
+		PathFollowerPosition.getInstance().resetPos(Odometry.getInstance().getRobotX(), Odometry.getInstance().getRobotY(), Odometry.getInstance().getRobotHeading());
+
 		this.trajectoryFollowingFinished = false;
 		this.motionProfileFinished = true;
 		this.PIDFinished = true;
@@ -116,6 +119,8 @@ public class AutonDriver {
 
 
 	public AutonMotionOutput update(double t) {
+		PathFollowerPosition.getInstance().updatePos(Odometry.getInstance().getRobotX(), Odometry.getInstance().getRobotY(), Odometry.getInstance().getRobotHeading());
+
 		AutonMotionOutput output = new AutonMotionOutput(0, 0, 0);
 
 		switch (currentDriveState) {
