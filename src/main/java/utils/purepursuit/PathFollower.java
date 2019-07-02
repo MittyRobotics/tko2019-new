@@ -12,11 +12,16 @@ public class PathFollower {
 
 	double WHEEL_DISTANCE = 26.5;
 
+	private boolean reversed;
+
 	boolean finished = false;
 
-
 	public PathFollower(Path path){
+		new PathFollower(path,false);
+	}
+	public PathFollower(Path path, boolean reversed){
 		this.path=path;
+		this.reversed = reversed;
 	}
 
 	public TrajectoryFollowerOutput update(){
@@ -25,10 +30,11 @@ public class PathFollower {
 
 		double leftVel = targetVelocity*(2+curvature*WHEEL_DISTANCE)/2;
 		double rightVel = targetVelocity*(2-curvature*WHEEL_DISTANCE)/2;
-		SmartDashboard.putNumber("targetVelocity", targetVelocity);
-		SmartDashboard.putNumber("curvature", curvature);
-		SmartDashboard.putNumber("leftVelocity", leftVel);
-		SmartDashboard.putNumber("rightVelocity", rightVel);
+
+		if(reversed){
+			leftVel = -leftVel;
+			rightVel = -rightVel;
+		}
 
 		return new TrajectoryFollowerOutput(leftVel,rightVel);
 	}
@@ -38,8 +44,6 @@ public class PathFollower {
 		double b = 1;
 		double c = Math.tan(Math.toRadians(robotHeading))*robotX-robotY;
 		TrajectoryPoint lookaheadPoint = findLookaheadPoint(robotX, robotY);
-		SmartDashboard.putNumber("lookX", lookaheadPoint.getX());
-		SmartDashboard.putNumber("lookY", lookaheadPoint.getY());
 		double x = Math.abs(a*lookaheadPoint.getX()+b*lookaheadPoint.getY()+c)/Math.sqrt(Math.pow(a,2) + Math.pow(b,2));
 		double side = Math.signum(Math.sin(Math.toRadians(robotHeading))*(lookaheadPoint.getX()-robotX)-Math.cos(Math.toRadians(robotHeading))*(lookaheadPoint.getY()-robotY));
 		double curvature = 2*x/Math.pow(currentLookaheadDistance,2);
