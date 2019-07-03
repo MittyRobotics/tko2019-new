@@ -98,13 +98,6 @@ public class OI {
 			}
 		};
 		slideRight.whenPressed(new Slide(SliderPosition.Right));
-		Button manualSlide = new Button() {
-			@Override
-			public boolean get() {
-				return Math.abs(joystick1.getX()) > 0.2;
-			}
-		};
-		manualSlide.whenPressed(new ManualSlide());
 		Button grab = new Button() {
 			@Override
 			public boolean get() {

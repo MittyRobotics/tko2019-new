@@ -4,13 +4,16 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.hatchpanel.commands.ManualSlide;
 import frc.robot.hatchpanel.constants.EncoderInversions;
+import frc.robot.hatchpanel.constants.MotionProfileValues;
 import frc.robot.hatchpanel.constants.PID;
 import frc.robot.hatchpanel.constants.SliderPosition;
 import frc.robot.hatchpanel.constants.SliderPositions;
 import frc.robot.hatchpanel.constants.TalonIds;
 import frc.robot.hatchpanel.constants.TalonInversions;
 import frc.robot.hatchpanel.constants.TicksPerInch;
+import motion_profile.TrapezoidalMotionProfile;
 
 public class Slider extends Subsystem {
 	private static Slider ourInstance = new Slider();
@@ -34,20 +37,20 @@ public class Slider extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {
-
+		setDefaultCommand(new ManualSlide());
 	}
-	public void slide(final SliderPosition sliderPosition){
-		switch (sliderPosition){
-			case Left:
-				slide(SliderPositions.LEFT);
-			case Middle:
-				slide(SliderPositions.MIDDLE);
-			case Right:
-				slide(SliderPositions.RIGHT);
+	public TrapezoidalMotionProfile slide(final SliderPosition sliderPosition){
+		if(sliderPosition == SliderPosition.Left){
+			return slide(SliderPositions.LEFT);
+		} else if(sliderPosition == SliderPosition.Middle){
+			return slide(SliderPositions.MIDDLE);
+		} else {
+			return slide(SliderPositions.RIGHT);
 		}
 	}
-	private void slide(final double position){
-		slider.set(ControlMode.Position, position * TicksPerInch.SLIDER);
+	private TrapezoidalMotionProfile slide(final double position){
+
+		return new TrapezoidalMotionProfile(MotionProfileValues.MAX_ACCELERATION, MotionProfileValues.MAX_VELOCITY, Math.abs(position - TicksPerInch.SLIDER * slider.getSelectedSensorPosition()), 0.02, position - TicksPerInch.SLIDER * slider.getSelectedSensorPosition() < 0);
 	}
 
 	public void manualSlide(final double value){
@@ -57,7 +60,10 @@ public class Slider extends Subsystem {
 			slider.set(ControlMode.PercentOutput, 0);
 		}
 	}
-	public double getSlideError(){
-		return slider.getClosedLoopError();
+	public void setSliderPosition(double position){
+		slider.set(ControlMode.Position, position);
+	}
+	public double getPosition(){
+		return slider.getSelectedSensorPosition();
 	}
 }

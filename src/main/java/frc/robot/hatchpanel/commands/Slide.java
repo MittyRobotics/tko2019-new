@@ -4,9 +4,13 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.hatchpanel.Slider;
 import frc.robot.hatchpanel.constants.SliderPosition;
 import frc.robot.oi.OI;
+import motion_profile.TrapezoidalMotionProfile;
 
 public class Slide extends Command {
 	private SliderPosition sliderPosition;
+	private TrapezoidalMotionProfile slide;
+	private double startPosition;
+	private double t;
 	public Slide(SliderPosition sliderPosition) {
 		super("Slide");
 		requires(Slider.getInstance());
@@ -15,12 +19,15 @@ public class Slide extends Command {
 
 	@Override
 	protected void initialize() {
-		Slider.getInstance().slide(sliderPosition);
+		slide = Slider.getInstance().slide(sliderPosition);
+		t = 0;
+		startPosition = Slider.getInstance().getPosition();
 	}
 
 	@Override
 	protected void execute() {
-
+		t = timeSinceInitialized();
+		Slider.getInstance().setSliderPosition(startPosition + slide.getFrameAtTime(t).getPosition());
 	}
 
 	@Override
@@ -35,7 +42,6 @@ public class Slide extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return Math.abs(Slider.getInstance().getSlideError()) < 10
-				|| Math.abs(OI.getInstance().getJoystick1().getX()) > 0.2;
+		return slide.isFinished() || Math.abs(OI.getInstance().getJoystick1().getX()) > 0.2;
 	}
 }
