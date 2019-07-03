@@ -33,6 +33,7 @@ public class Robot extends TimedRobot {
 		Pusher.getInstance();
 		Grabber.getInstance();
 		
+		Odometry.getInstance().resetPosition();
 
 		//Shifter.getInstance();
 		//OI.getInstance();

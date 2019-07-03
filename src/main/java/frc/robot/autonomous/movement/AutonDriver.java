@@ -86,7 +86,7 @@ public class AutonDriver {
 		if (movementType == LinearMovementType.TRANSLATION) {
 			velocityConstraints = AutoConstants.DRIVE_VELOCITY_CONSTRAINTS;
 		} else {
-			velocityConstraints = AutoConstants.TURN_VELOCITY_CONSTRAINTS;
+			velocityConstraints = new VelocityConstraints(AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxAcceleration() * AutoConstants.INCHES_PER_ANGLE, AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxVelocity() * AutoConstants.INCHES_PER_ANGLE);
 		}
 
 		this.currentPath = null;
