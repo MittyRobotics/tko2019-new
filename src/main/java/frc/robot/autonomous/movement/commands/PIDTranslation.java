@@ -20,7 +20,7 @@ public class PIDTranslation extends Command {
 	int motionID;
 
 	public PIDTranslation(double setpoint) {
-		new PIDTranslation(setpoint,0.5);
+		this(setpoint,0.5);
 	}
 
 	public PIDTranslation(double setpoint, double maxOutput) {

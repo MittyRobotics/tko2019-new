@@ -11,8 +11,9 @@ import frc.robot.drive.DriveTrain;
  */
 public class VisionAlignment extends Command {
 
-	//maximum speeds
+	/**Maximum forward driving speed in percent output (0-1).*/
 	private double MAX_DRIVE_SPEED = 0.4;
+	/**Maximum turning speed in percent output (0-1).*/
 	private double MAX_TURN_SPEED = 0.2;
 
 	//counters to test for end of sequence
@@ -189,7 +190,7 @@ public class VisionAlignment extends Command {
 	/**
 	 * This method is called at the end of the command.
 	 * <p>
-	 * Here we want to reset the wheel speeds to 0. We also put the {@link Limelight} back into driver mode because
+	 * This resets the wheel speeds to 0. It also puts the {@link Limelight} back into driver mode because
 	 * the vision tracking is completed.
 	 */
 	@Override

@@ -19,7 +19,7 @@ public class PIDRotation extends Command {
 	int motionID;
 
 	public PIDRotation(double setpoint, RotationDirection direction) {
-		new PIDRotation(setpoint,0.5,direction);
+		this(setpoint,0.5,direction);
 	}
 
 	public PIDRotation(double setpoint, double maxOutput, RotationDirection direction) {

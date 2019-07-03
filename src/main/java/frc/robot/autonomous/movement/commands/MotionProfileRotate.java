@@ -21,7 +21,7 @@ public class MotionProfileRotate extends Command {
 	int motionID;
 
 	public MotionProfileRotate(double setpoint,  RotationDirection direction) {
-		new MotionProfileRotate(setpoint, 0.5, direction);
+		this(setpoint, 0.5, direction);
 	}
 	public MotionProfileRotate(double setpoint, double maxOutput,  RotationDirection direction) {
 		super("MotionProfileRotate");

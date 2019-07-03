@@ -20,7 +20,7 @@ public class MotionProfileTranslate extends Command {
 	int motionID;
 
 	public MotionProfileTranslate(double setpoint) {
-		new MotionProfileTranslate(setpoint, 0.5);
+		this(setpoint, 0.5);
 	}
 
 	public MotionProfileTranslate(double setpoint, double maxOutput) {

@@ -15,10 +15,12 @@ import org.w3c.dom.html.HTMLImageElement;
  */
 public class VisionAlignmentTest extends Command {
 
-	private double driveMaxSpeed; //percent output
+	/**Maximum forward driving speed in percent output (0-1). This should be kept under 0.5 to accommodate for the added turn speed*/
+	private double driveMaxSpeed;
+	/**Maximum turning speed in percent output (0-1). This should be kept under 0.5 to accommodate for the added drive speed*/
 	private double turnMaxSpeed;
-	double newTurnVal;
-	double newDriveVal;
+	private double newTurnVal;
+	private double newDriveVal;
 	private double baseSpeed; //percent output
 	private double threshold = 1; //angle threshold for when the robot is pointing towards the target
 	private boolean continuous; //whether or not the command should continue running after it is pointing to the target, used if target or robot is continuously moving
@@ -38,8 +40,6 @@ public class VisionAlignmentTest extends Command {
 		this.baseSpeed = baseSpeed;
 		this.continuous = continuous;
 		this.turnMaxSpeed = turnMaxSpeed;
-		this.newTurnVal = turnMaxSpeed * 2 / 3;
-		this.newDriveVal = driveMaxSpeed * 2 / 3;
 	}
 
 	/**

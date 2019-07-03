@@ -21,14 +21,14 @@ public class Translate2dTrajectory extends Command {
 	int motionID;
 
 	public Translate2dTrajectory(Waypoint[] waypoints) {
-		new Translate2dTrajectory(waypoints, PathType.BEZIER_CURVE_PATH, false);
+		this(waypoints, PathType.BEZIER_CURVE_PATH, false);
 	}
 	public Translate2dTrajectory(Waypoint[] waypoints, PathType pathType) {
-		new Translate2dTrajectory(waypoints, pathType, false);
+		this(waypoints, pathType, false);
 	}
 
 	public Translate2dTrajectory(Waypoint[] waypoints, boolean reversed) {
-		new Translate2dTrajectory(waypoints, PathType.BEZIER_CURVE_PATH, reversed);
+		this(waypoints, PathType.BEZIER_CURVE_PATH, reversed);
 	}
 
 	public Translate2dTrajectory(Waypoint[] waypoints, PathType pathType, boolean reversed) {
