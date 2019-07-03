@@ -6,7 +6,6 @@ import frc.robot.autonomous.enums.LinearMovementType;
 import frc.robot.autonomous.enums.RotationDirection;
 import frc.robot.autonomous.movement.AutonDriver;
 import frc.robot.drive.DriveTrain;
-import utils.motionprofile.TrapezoidalMotionProfile;
 
 /**
  * Rotation command for rotating the robot a set amount of degrees using a PID control loop following a Trapezoidal Motion Profile over time.
