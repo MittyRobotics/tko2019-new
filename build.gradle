@@ -56,8 +56,8 @@ dependencies {
     compile wpi.deps.vendor.java()
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
-    implementation 'com.github.OLeather:pure-pursuit-controller:v1.0'
-    implementation 'com.github.OLeather:motion-profile-generator:v1.0'
+    implementation 'com.github.MittyRobotics:pure-pursuit-controller:v1.1'
+    implementation 'com.github.MittyRobotics:motion-profile-generator:v1.1'
     testCompile 'junit:junit:4.12'
 }
 
