@@ -1,6 +1,6 @@
 package frc.robot.autonomous.constants;
 
-import utils.purepursuit.VelocityConstraints;
+import frc.robot.autonomous.movement.VelocityConstraints;
 
 public class AutoConstants {
 	public static VelocityConstraints DRIVE_VELOCITY_CONSTRAINTS = new VelocityConstraints(8,60); //Units: Inches

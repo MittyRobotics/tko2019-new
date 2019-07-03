@@ -6,8 +6,6 @@ import frc.robot.autonomous.enums.LinearMovementType;
 import frc.robot.autonomous.movement.AutonDriver;
 import frc.robot.autonomous.movement.AutonMotionOutput;
 import frc.robot.drive.DriveTrain;
-import utils.motionprofile.TrapezoidalMotionProfile;
-import utils.purepursuit.VelocityConstraints;
 
 /**
  * Linear translation command for translating the robot either forward or backward on the local forward axis following a Trapezoidal Motion Profile over time.

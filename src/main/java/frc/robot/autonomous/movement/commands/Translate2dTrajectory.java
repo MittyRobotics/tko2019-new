@@ -5,8 +5,8 @@ import frc.robot.autonomous.enums.DriveState;
 import frc.robot.autonomous.movement.AutonDriver;
 import frc.robot.autonomous.movement.AutonMotionOutput;
 import frc.robot.drive.DriveTrain;
-import utils.purepursuit.*;
-import utils.purepursuit.enums.PathType;
+import pure_pursuit.Waypoint;
+import pure_pursuit.enums.PathType;
 
 /**
  * Robot path following command to follow a generated path from a set of waypoints.

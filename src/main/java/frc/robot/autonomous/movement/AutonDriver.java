@@ -7,11 +7,10 @@ import frc.robot.autonomous.enums.DriveState;
 import frc.robot.autonomous.enums.LinearMovementType;
 import frc.robot.drive.DriveTrain;
 import frc.robot.drive.constants.TicksPerInch;
+import pure_pursuit.*;
+import pure_pursuit.enums.PathType;
 import utils.motionprofile.MotionFrame;
 import utils.motionprofile.TrapezoidalMotionProfile;
-import utils.purepursuit.*;
-
-import utils.purepursuit.enums.PathType;
 
 /**
  * Master autonomous driving class that handles all autonomous driving commands and calculations (vision is a work in
@@ -71,7 +70,7 @@ public class AutonDriver {
 		this.visionFinished = true;
 
 		this.currentMotionProfile = null;
-		this.currentPath = PathGenerator.getInstance().generate(waypoints, pathType, AutoConstants.DRIVE_VELOCITY_CONSTRAINTS, 200);
+		this.currentPath = PathGenerator.getInstance().generate(waypoints, pathType, AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxAcceleration(), AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxVelocity(), 200);
 		this.currentPathFollower = new PathFollower(currentPath);
 	}
 	public void setupMotionProfile(double setpoint, LinearMovementType movementType) {
@@ -170,7 +169,7 @@ public class AutonDriver {
 	}
 
 	private AutonMotionOutput updatePurePursuit() {
-		TrajectoryFollowerOutput output = currentPathFollower.update();
+		PathFollowerOutput output = currentPathFollower.update();
 
 		trajectoryFollowingFinished = currentPathFollower.isFinished();
 
