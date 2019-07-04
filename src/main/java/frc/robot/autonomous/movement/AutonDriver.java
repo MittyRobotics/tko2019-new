@@ -7,10 +7,11 @@ import frc.robot.autonomous.enums.DriveState;
 import frc.robot.autonomous.enums.LinearMovementType;
 import frc.robot.drive.DriveTrain;
 import frc.robot.drive.constants.TicksPerInch;
-import motion_profile.MotionFrame;
-import motion_profile.TrapezoidalMotionProfile;
-import pure_pursuit.*;
-import pure_pursuit.enums.PathType;
+
+import team1351.motionprofile.MotionFrame;
+import team1351.motionprofile.TrapezoidalMotionProfile;
+import team1351.purepursuit.*;
+import team1351.purepursuit.enums.PathType;
 
 /**
  * Master autonomous driving class that handles all autonomous driving commands and calculations (vision is a work in

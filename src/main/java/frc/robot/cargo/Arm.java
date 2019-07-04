@@ -12,7 +12,7 @@ import frc.robot.cargo.constants.MotionProfileValues;
 import frc.robot.cargo.constants.TalonIds;
 import frc.robot.cargo.constants.TalonInversions;
 import frc.robot.cargo.constants.PID;
-import motion_profile.TrapezoidalMotionProfile;
+import team1351.motionprofile.TrapezoidalMotionProfile;
 
 public class Arm extends Subsystem {
 	private static Arm ourInstance = new Arm();

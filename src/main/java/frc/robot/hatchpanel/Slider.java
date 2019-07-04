@@ -13,7 +13,7 @@ import frc.robot.hatchpanel.constants.SliderPositions;
 import frc.robot.hatchpanel.constants.TalonIds;
 import frc.robot.hatchpanel.constants.TalonInversions;
 import frc.robot.hatchpanel.constants.TicksPerInch;
-import motion_profile.TrapezoidalMotionProfile;
+import team1351.motionprofile.TrapezoidalMotionProfile;
 
 public class Slider extends Subsystem {
 	private static Slider ourInstance = new Slider();

@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.hatchpanel.Slider;
 import frc.robot.hatchpanel.constants.SliderPosition;
 import frc.robot.oi.OI;
-import motion_profile.TrapezoidalMotionProfile;
+import team1351.motionprofile.*;
 
 public class Slide extends Command {
 	private SliderPosition sliderPosition;

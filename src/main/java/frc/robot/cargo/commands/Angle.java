@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.cargo.Arm;
 import frc.robot.cargo.constants.ArmPosition;
 import frc.robot.oi.OI;
-import motion_profile.TrapezoidalMotionProfile;
+import team1351.motionprofile.TrapezoidalMotionProfile;
 
 public class Angle extends Command {
 	private ArmPosition armPosition;

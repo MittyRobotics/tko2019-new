@@ -57,8 +57,9 @@ dependencies {
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
     implementation 'com.github.mittyrobotics:tko-common-controls:v1.0'
-    implementation 'com.github.MittyRobotics:pure-pursuit-controller:v1.1'
-    implementation 'com.github.MittyRobotics:motion-profile-generator:v1.2'
+    implementation 'com.github.mittyrobotics:motion-profile-generator:v1.3'
+    implementation 'com.github.mittyrobotics:pure-pursuit-controller:v1.2'
+
     testCompile 'junit:junit:4.12'
 }
 
