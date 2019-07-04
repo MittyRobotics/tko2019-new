@@ -1,5 +1,6 @@
 package frc.robot.oi;
 
+import controlls.XboxWheel;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -23,7 +24,7 @@ public class OI {
 	private XboxController controller;
 	private Joystick joystick1;
 	private Joystick joystick2;
-	private SteeringWheel wheel;
+	private XboxWheel wheel;
 	private static OI ourInstance = new OI();
 
 	public static OI getInstance() {
@@ -77,9 +78,9 @@ public class OI {
 		return joystick2;
 	}
 
-	public SteeringWheel getSteeringWheel(){
+	public XboxWheel getSteeringWheel(){
 		if(wheel == null){
-			wheel = new SteeringWheel(3);
+			wheel = new XboxWheel(3);
 		}
 		return wheel;
 	}

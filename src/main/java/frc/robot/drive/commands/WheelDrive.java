@@ -1,18 +1,16 @@
 package frc.robot.drive.commands;
 
+import controlls.XboxWheel;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.drive.DriveTrain;
+import frc.robot.oi.OI;
 
 public class WheelDrive extends Command {
-	private double drive, turn;
-	private boolean inPlace;
 	
-	public WheelDrive(final double drive, final double turn, final boolean inPlace) {
+	public WheelDrive() {
 		super("Wheel Drive");
 		requires(DriveTrain.getInstance());
-		this.drive = drive;
-		this.turn = turn;
-		this.inPlace = inPlace;
 	}
 	
 	@Override
@@ -22,7 +20,7 @@ public class WheelDrive extends Command {
 	
 	@Override
 	protected void execute() {
-		DriveTrain.getInstance().wheelDrive(drive, turn, inPlace);
+		DriveTrain.getInstance().wheelDrive(OI.getInstance().getJoystick1().getY(GenericHID.Hand.kRight), OI.getInstance().getSteeringWheel().getX(GenericHID.Hand.kLeft), OI.getInstance().getSteeringWheel().getAButton());
 	}
 	
 	@Override
