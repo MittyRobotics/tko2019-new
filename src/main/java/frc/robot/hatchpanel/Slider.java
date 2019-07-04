@@ -50,7 +50,7 @@ public class Slider extends Subsystem {
 	}
 	private TrapezoidalMotionProfile slide(final double position){
 
-		return new TrapezoidalMotionProfile(MotionProfileValues.MAX_ACCELERATION, MotionProfileValues.MAX_VELOCITY, Math.abs(position - TicksPerInch.SLIDER * slider.getSelectedSensorPosition()), 0.02, position - TicksPerInch.SLIDER * slider.getSelectedSensorPosition() < 0);
+		return new TrapezoidalMotionProfile(MotionProfileValues.MAX_ACCELERATION, MotionProfileValues.MAX_VELOCITY, (Math.abs(position * TicksPerInch.SLIDER - slider.getSelectedSensorPosition()))/TicksPerInch.SLIDER, 0.02, position - TicksPerInch.SLIDER * slider.getSelectedSensorPosition() < 0);
 	}
 
 	public void manualSlide(final double value){
@@ -63,7 +63,7 @@ public class Slider extends Subsystem {
 	public void setSliderPosition(double position){
 		slider.set(ControlMode.Position, position);
 	}
-	public double getPosition(){
+	public double getSliderPosition(){
 		return slider.getSelectedSensorPosition();
 	}
 }

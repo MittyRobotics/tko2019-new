@@ -7,9 +7,11 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import frc.robot.autonomous.movement.commands.MotionProfileTranslate;
 import frc.robot.autonomous.movement.commands.VisionAlignment;
 //import frc.robot.drive.commands.GearShift;
+import frc.robot.cargo.commands.Angle;
 import frc.robot.cargo.commands.Intake;
 import frc.robot.cargo.commands.Outtake;
 import frc.robot.cargo.commands.StopRollers;
+import frc.robot.cargo.constants.ArmPosition;
 import frc.robot.hatchpanel.commands.Grab;
 import frc.robot.hatchpanel.commands.PushBackward;
 import frc.robot.hatchpanel.commands.PushForward;
@@ -168,5 +170,26 @@ public class OI {
 		};
 		outtake.whenPressed(new Outtake());
 		outtake.whenReleased(new StopRollers());
+		Button angleCargo = new Button() {
+			@Override
+			public boolean get() {
+				return joystick2.getRawButton(5);
+			}
+		};
+		angleCargo.whenPressed(new Angle(ArmPosition.Cargo));
+		Button angleRocket = new Button() {
+			@Override
+			public boolean get() {
+				return joystick2.getRawButton(4);
+			}
+		};
+		angleRocket.whenPressed(new Angle(ArmPosition.Rocket));
+		Button angleGround = new Button() {
+			@Override
+			public boolean get() {
+				return joystick2.getRawButton(3);
+			}
+		};
+		angleGround.whenPressed(new Angle(ArmPosition.Ground));
 	}
 }

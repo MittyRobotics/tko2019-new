@@ -6,13 +6,17 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 import frc.robot.autonomous.Odometry;
+import frc.robot.cargo.Arm;
+import frc.robot.cargo.Rollers;
 import frc.robot.drive.DriveTrain;
 
 import frc.robot.drive.commands.TankDrive;
+import frc.robot.hardware.Compressor;
 import frc.robot.hardware.Gyro;
 import frc.robot.hatchpanel.Grabber;
 import frc.robot.hatchpanel.Pusher;
 import frc.robot.hatchpanel.Slider;
+import frc.robot.oi.OI;
 
 
 public class Robot extends TimedRobot {
@@ -26,16 +30,21 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		DriveTrain.getInstance();
 		DriveTrain.getInstance().initHardware();
+		//Shifter.getInstance();
 		Slider.getInstance();
 		Slider.getInstance().initHardware();
 		Pusher.getInstance();
 		Grabber.getInstance();
-		
+
+		Rollers.getInstance();
+		Rollers.getInstance().initHardware();
+		Arm.getInstance();
+		Arm.getInstance().initHardware();
+
 		Odometry.getInstance().resetPosition();
 
-		//Shifter.getInstance();
-		//OI.getInstance();
-		//Compressor.getInstance();
+		OI.getInstance();
+		Compressor.getInstance();
 		Gyro.getInstance();
 		//Limelight.getInstance();
 

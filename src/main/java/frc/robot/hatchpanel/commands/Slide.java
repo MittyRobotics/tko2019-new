@@ -21,7 +21,7 @@ public class Slide extends Command {
 	protected void initialize() {
 		slide = Slider.getInstance().slide(sliderPosition);
 		t = 0;
-		startPosition = Slider.getInstance().getPosition();
+		startPosition = Slider.getInstance().getSliderPosition();
 	}
 
 	@Override
