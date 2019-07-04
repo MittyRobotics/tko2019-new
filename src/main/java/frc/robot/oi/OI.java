@@ -1,5 +1,6 @@
 package frc.robot.oi;
 
+import controlls.XboxWheel;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -18,7 +19,6 @@ import frc.robot.hatchpanel.commands.PushForward;
 import frc.robot.hatchpanel.commands.Release;
 import frc.robot.hatchpanel.commands.Slide;
 import frc.robot.hatchpanel.constants.SliderPosition;
-import team1351.commoncontrols.XboxWheel;
 
 
 public class OI {
