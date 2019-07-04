@@ -3,15 +3,15 @@ package frc.robot.cargo.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.cargo.Rollers;
 
-public class Intake extends Command {
-	public Intake() {
-		super("Intake");
+public class StopRollers extends Command {
+	public StopRollers() {
+		super("Stop Rollers");
 		requires(Rollers.getInstance());
 	}
 
 	@Override
 	protected void initialize() {
-		Rollers.getInstance().intake();
+		Rollers.getInstance().stopRollers();
 	}
 
 	@Override
@@ -31,6 +31,6 @@ public class Intake extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return Rollers.getInstance().ballDetected();
+		return true;
 	}
 }

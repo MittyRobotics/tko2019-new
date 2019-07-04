@@ -1,29 +1,21 @@
 package frc.robot.oi;
 
-import edu.wpi.first.wpilibj.Controller;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
-import frc.robot.autonomous.constants.VisionConstants;
 import frc.robot.autonomous.movement.commands.MotionProfileTranslate;
 import frc.robot.autonomous.movement.commands.VisionAlignment;
-import frc.robot.autonomous.movement.commands.VisionAlignmentTest;
 //import frc.robot.drive.commands.GearShift;
-import frc.robot.drive.commands.TankDrive;
-import frc.robot.drive.constants.GearState;
+import frc.robot.cargo.commands.Intake;
+import frc.robot.cargo.commands.Outtake;
+import frc.robot.cargo.commands.StopRollers;
 import frc.robot.hatchpanel.commands.Grab;
-import frc.robot.hatchpanel.commands.ManualSlide;
 import frc.robot.hatchpanel.commands.PushBackward;
 import frc.robot.hatchpanel.commands.PushForward;
 import frc.robot.hatchpanel.commands.Release;
 import frc.robot.hatchpanel.commands.Slide;
 import frc.robot.hatchpanel.constants.SliderPosition;
-import frc.robot.cargo.commands.ArmDown;
-import frc.robot.cargo.commands.ArmUp;
-import frc.robot.cargo.commands.Intake;
-import frc.robot.cargo.commands.Outtake;
-import org.opencv.core.Mat;
 
 public class OI {
 	private XboxController controller;
@@ -37,13 +29,6 @@ public class OI {
 	}
 
 	private OI() {
-//		Button drive = new Button() {
-//			@Override
-//			public boolean get() {
-//				return Math.abs(getXboxController().getY(GenericHID.Hand.kLeft)) > 0.05 || Math.abs(getXboxController().getY(GenericHID.Hand.kRight)) > 0.05;
-//			}
-//		};
-//		drive.whileHeld(new TankDrive());
 
 		Button vision = new Button() {
 			@Override
@@ -63,6 +48,41 @@ public class OI {
 		};
 		vision.whenPressed(new VisionAlignment());
 		testProfile.whenPressed(new MotionProfileTranslate(10, 0.2));
+		driveControls();
+		hatchControls();
+		cargoControls();
+
+	}
+
+	public XboxController getXboxController(){
+		if(controller == null){
+			controller = new XboxController(0);
+		}
+		return controller;
+	}
+
+	public Joystick getJoystick1(){
+		if(joystick1 == null){
+			joystick1 = new Joystick(1);
+		}
+		return joystick1;
+	}
+
+	public Joystick getJoystick2(){
+		if(joystick2 == null){
+			joystick2 = new Joystick(2);
+		}
+		return joystick2;
+	}
+
+	public SteeringWheel getSteeringWheel(){
+		if(wheel == null){
+			wheel = new SteeringWheel(3);
+		}
+		return wheel;
+	}
+
+	private void driveControls(){
 		Button shiftLow = new Button() {
 			@Override
 			public boolean get() {
@@ -77,6 +97,9 @@ public class OI {
 			}
 		};
 //		shiftHigh.whenPressed(new GearShift(GearState.High));
+	}
+
+	private void hatchControls(){
 		Button slideLeft = new Button() {
 			@Override
 			public boolean get() {
@@ -128,31 +151,22 @@ public class OI {
 		pushBackward.whenPressed(new PushBackward());
 	}
 
-	public XboxController getXboxController(){
-		if(controller == null){
-			controller = new XboxController(0);
-		}
-		return controller;
-	}
-
-	public Joystick getJoystick1(){
-		if(joystick1 == null){
-			joystick1 = new Joystick(1);
-		}
-		return joystick1;
-	}
-
-	public Joystick getJoystick2(){
-		if(joystick2 == null){
-			joystick2 = new Joystick(2);
-		}
-		return joystick2;
-	}
-
-	public SteeringWheel getSteeringWheel(){
-		if(wheel == null){
-			wheel = new SteeringWheel(3);
-		}
-		return wheel;
+	private void cargoControls(){
+		Button intake = new Button() {
+			@Override
+			public boolean get() {
+				return joystick2.getTrigger();
+			}
+		};
+		intake.whenPressed(new Intake());
+		intake.whenReleased(new StopRollers());
+		Button outtake = new Button() {
+			@Override
+			public boolean get() {
+				return joystick2.getRawButton(2);
+			}
+		};
+		outtake.whenPressed(new Outtake());
+		outtake.whenReleased(new StopRollers());
 	}
 }

@@ -1,4 +1,4 @@
 package frc.robot.cargo.commands;
 
-public class ManualArm {
+public class Angle {
 }
