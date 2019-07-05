@@ -16,7 +16,7 @@ public class ManualAngle extends Command {
 
 	@Override
 	protected void execute() {
-		Arm.getInstance().manualAngle(OI.getInstance().getJoystick1().getY());
+		Arm.getInstance().manualAngle(OI.getInstance().getJoystick2().getY());
 	}
 
 	@Override
