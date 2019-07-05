@@ -50,6 +50,7 @@ repositories {
 }
 
 // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
+// Adds team1351 utils libraries from github using JitPack
 // Also defines JUnit 4.
 dependencies {
     compile wpi.deps.wpilib()
@@ -58,7 +59,7 @@ dependencies {
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
     implementation 'com.github.mittyrobotics:tko-common-controls:v1.0'
     implementation 'com.github.mittyrobotics:motion-profile-generator:v1.3'
-    implementation 'com.github.mittyrobotics:pure-pursuit-controller:v1.2'
+    implementation 'com.github.mittyrobotics:pure-pursuit-controller:v1.3'
 
     testCompile 'junit:junit:4.12'
 }
