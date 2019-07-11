@@ -65,6 +65,8 @@ public class AutonDriver {
 	public void setupTrajectory(Waypoint[] waypoints, PathType pathType, boolean reversed) {
 		PathFollowerPosition.getInstance().resetPos(Odometry.getInstance().getRobotX(), Odometry.getInstance().getRobotY(), Odometry.getInstance().getRobotHeading());
 
+		PathGenerator.getInstance().setPathKCurvature(0.8);
+
 		this.trajectoryFollowingFinished = false;
 		this.motionProfileFinished = true;
 		this.PIDFinished = true;
@@ -72,7 +74,9 @@ public class AutonDriver {
 
 		this.currentMotionProfile = null;
 		this.currentPath = PathGenerator.getInstance().generate(waypoints, pathType, AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxAcceleration(), AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxVelocity(), 200);
-		this.currentPathFollower = new PathFollower(currentPath);
+		this.currentPathFollower = new PathFollower(currentPath, reversed);
+		this.currentPathFollower.setLookaheadDistance(5);
+		this.currentPathFollower.setWheelDistance(26);
 	}
 	public void setupMotionProfile(double setpoint, LinearMovementType movementType) {
 		setupMotionProfile(setpoint,movementType,false);
@@ -120,7 +124,6 @@ public class AutonDriver {
 
 	public AutonMotionOutput update(double t) {
 		PathFollowerPosition.getInstance().updatePos(Odometry.getInstance().getRobotX(), Odometry.getInstance().getRobotY(), Odometry.getInstance().getRobotHeading());
-
 		AutonMotionOutput output = new AutonMotionOutput(0, 0, 0);
 
 		switch (currentDriveState) {
@@ -176,7 +179,10 @@ public class AutonDriver {
 
 		SmartDashboard.putNumber("PP_FF_LeftVelocity", output.getLeftVelocity());
 		SmartDashboard.putNumber("PP_FF_RightVelocity", output.getRightVelocity());
-
+		System.out.println(currentPathFollower.getCurrentLookaheadPoint().getX() + " " + currentPathFollower.getCurrentLookaheadPoint().getY() + " " + currentPathFollower.getCurvature());
+		SmartDashboard.putNumber("PP_FF_LookAheadX", currentPathFollower.getCurrentLookaheadPoint().getX());
+		SmartDashboard.putNumber("PP_FF_LookAheadY", currentPathFollower.getCurrentLookaheadPoint().getY());
+		SmartDashboard.putNumber("PP_FF_Curvature", currentPathFollower.getCurvature());
 		return new AutonMotionOutput(output.getLeftVelocity(), output.getRightVelocity(), 0);
 	}
 

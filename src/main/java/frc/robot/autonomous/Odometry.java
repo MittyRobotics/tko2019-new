@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.drive.DriveTrain;
 import frc.robot.drive.constants.TicksPerInch;
 import frc.robot.hardware.Gyro;
+import team1351.purepursuit.PathFollowerPosition;
 
 public class Odometry implements Runnable {
 

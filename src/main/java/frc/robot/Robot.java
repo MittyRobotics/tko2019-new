@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 import frc.robot.autonomous.Odometry;
+import frc.robot.autonomous.movement.commands.MotionProfileTranslate;
+import frc.robot.autonomous.movement.commands.Translate2dTrajectory;
 import frc.robot.cargo.Arm;
 import frc.robot.cargo.Rollers;
 import frc.robot.drive.DriveTrain;
@@ -17,6 +19,10 @@ import frc.robot.hatchpanel.Grabber;
 import frc.robot.hatchpanel.Pusher;
 import frc.robot.hatchpanel.Slider;
 import frc.robot.oi.OI;
+import team1351.purepursuit.Waypoint;
+import team1351.purepursuit.enums.PathType;
+
+import java.awt.geom.Point2D;
 
 
 public class Robot extends TimedRobot {
@@ -31,20 +37,20 @@ public class Robot extends TimedRobot {
 		DriveTrain.getInstance();
 		DriveTrain.getInstance().initHardware();
 		//Shifter.getInstance();
-		Slider.getInstance();
-		Slider.getInstance().initHardware();
-		Pusher.getInstance();
-		Grabber.getInstance();
+		//Slider.getInstance();
+		//Slider.getInstance().initHardware();
+		//Pusher.getInstance();
+		//Grabber.getInstance();
 
-		Rollers.getInstance();
-		Rollers.getInstance().initHardware();
-		Arm.getInstance();
-		Arm.getInstance().initHardware();
+		//Rollers.getInstance();
+		//Rollers.getInstance().initHardware();
+		//Arm.getInstance();
+		//Arm.getInstance().initHardware();
 
 		Odometry.getInstance().resetPosition();
 
 		OI.getInstance();
-		Compressor.getInstance();
+		//Compressor.getInstance();
 		Gyro.getInstance();
 		//Limelight.getInstance();
 
@@ -69,7 +75,12 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-
+//		Odometry.getInstance().resetPosition();
+//		Waypoint[] waypoints = new Waypoint[2];
+//		waypoints[0] = new Waypoint(new Point2D.Double(0,0),0);
+//		waypoints[1] = new Waypoint(new Point2D.Double(48,0),0);
+//		new Translate2dTrajectory(waypoints, PathType.CUBIC_HERMITE_PATH, true).start();
+		new MotionProfileTranslate(48).start();
 	}
 	@Override
 	public void autonomousPeriodic() {
@@ -83,7 +94,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 	}
-	
+
 	@Override
 	public void testInit() {
 		new TankDrive().start();
