@@ -3,7 +3,9 @@ package frc.robot.hatchpanel;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.hatchpanel.commands.CalibrateSlider;
 import frc.robot.hatchpanel.commands.ManualSlide;
 import frc.robot.hatchpanel.constants.EncoderInversions;
 import frc.robot.hatchpanel.constants.MotionProfileValues;
@@ -65,5 +67,19 @@ public class Slider extends Subsystem {
 	}
 	public double getSliderPosition(){
 		return slider.getSelectedSensorPosition();
+	}
+
+	public final void zeroEncoder(CalibrateSlider calibrateCommand) {
+		slider.set(ControlMode.PercentOutput, 0.1);
+		while (!slider.getSensorCollection().isFwdLimitSwitchClosed() && DriverStation.getInstance().isTest()) {
+			try {
+				Thread.sleep(20);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		slider.set(ControlMode.PercentOutput, 0);
+		calibrateCommand.setFinished();
+		slider.setSelectedSensorPosition(0);
 	}
 }

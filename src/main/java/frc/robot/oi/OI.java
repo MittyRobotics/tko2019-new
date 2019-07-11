@@ -12,6 +12,8 @@ import frc.robot.cargo.commands.Intake;
 import frc.robot.cargo.commands.Outtake;
 import frc.robot.cargo.commands.StopRollers;
 import frc.robot.cargo.constants.ArmPosition;
+import frc.robot.drive.commands.GearShift;
+import frc.robot.drive.constants.GearState;
 import frc.robot.hatchpanel.commands.Grab;
 import frc.robot.hatchpanel.commands.PushBackward;
 import frc.robot.hatchpanel.commands.PushForward;
@@ -93,14 +95,14 @@ public class OI {
 				return getXboxController().getBumper(GenericHID.Hand.kLeft);
 			}
 		};
-		//shiftLow.whenPressed(new GearShift(GearState.Low));
+		shiftLow.whenPressed(new GearShift(GearState.Low));
 		Button shiftHigh = new Button() {
 			@Override
 			public boolean get() {
 				return getXboxController().getBumper(GenericHID.Hand.kRight);
 			}
 		};
-//		shiftHigh.whenPressed(new GearShift(GearState.High));
+		shiftHigh.whenPressed(new GearShift(GearState.High));
 	}
 
 	private void hatchControls(){

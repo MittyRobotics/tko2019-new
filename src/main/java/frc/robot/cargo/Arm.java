@@ -3,7 +3,9 @@ package frc.robot.cargo;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.cargo.commands.CalibrateArm;
 import frc.robot.cargo.commands.ManualAngle;
 import frc.robot.cargo.constants.ArmPosition;
 import frc.robot.cargo.constants.ArmPositions;
@@ -72,5 +74,21 @@ public class Arm extends Subsystem {
 		} else {
 			arm[0].set(ControlMode.PercentOutput, 0);
 		}
+	}
+
+	public final void zeroEncoder(CalibrateArm calibrateCommand) {
+		arm[0].set(ControlMode.PercentOutput, -0.3);
+		while (!arm[0].getSensorCollection().isRevLimitSwitchClosed() && DriverStation.getInstance().isTest()) {
+//			System.out.println(conveyorTalons[0].getSelectedSensorPosition());
+			try {
+				Thread.sleep(5);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		arm[0].set(ControlMode.PercentOutput, 0);
+		calibrateCommand.setFinished();
+		System.out.println("Arm encoder reset!");
+		arm[0].setSelectedSensorPosition(0);
 	}
 }

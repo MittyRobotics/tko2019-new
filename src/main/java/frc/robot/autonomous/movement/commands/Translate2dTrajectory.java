@@ -1,6 +1,7 @@
 package frc.robot.autonomous.movement.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.autonomous.Odometry;
 import frc.robot.autonomous.enums.DriveState;
 import frc.robot.autonomous.movement.AutonDriver;
 import frc.robot.autonomous.movement.AutonMotionOutput;
@@ -45,6 +46,8 @@ public class Translate2dTrajectory extends Command {
 
 	@Override
 	public void initialize() {
+		Odometry.getInstance().resetPosition();
+		Odometry.getInstance().setPos(waypoints[0].getWaypoint().getX(),waypoints[0].getWaypoint().getY(),waypoints[0].getAngle());
 		AutonDriver.getInstance().setupTrajectory(waypoints, pathType, reversed);
 	}
 
