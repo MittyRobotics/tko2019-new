@@ -3,8 +3,16 @@ package frc.robot.autonomous.vision;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.autonomous.enums.CargoTarget;
 import frc.robot.autonomous.enums.GamePiece;
+import frc.robot.autonomous.movement.commands.MotionProfileTranslate;
 import frc.robot.autonomous.movement.commands.PIDTranslation;
 import frc.robot.autonomous.movement.commands.VisionAlignment;
+import frc.robot.cargo.commands.Angle;
+import frc.robot.cargo.commands.Outtake;
+import frc.robot.cargo.constants.ArmPosition;
+import frc.robot.hatchpanel.commands.PushForward;
+import frc.robot.hatchpanel.commands.Release;
+import frc.robot.hatchpanel.commands.Slide;
+import frc.robot.hatchpanel.constants.SliderPosition;
 
 public class VisionScore extends CommandGroup {
 	private static VisionScore ourInstance = new VisionScore();
@@ -24,11 +32,11 @@ public class VisionScore extends CommandGroup {
 	 * Works for either cargo ship or rocket ship.
 	 */
 	private void hatchSequence() {
-		//addParallel(new MoveHatch(HatchPosition.Center));
+		addParallel(new Slide(SliderPosition.Middle));
 		addParallel(new VisionAlignment());
-		//addSequential(new PushForward());
-		//addSequential(new Release());
-		addSequential(new PIDTranslation(-4, 0.4));
+		addSequential(new PushForward());
+		addSequential(new Release());
+		addSequential(new MotionProfileTranslate(-4, 0.4));
 	}
 	
 	/**
@@ -42,9 +50,9 @@ public class VisionScore extends CommandGroup {
 			case Rocket:
 				//addSequential(new Angle(CargoAngle.RocketShip));
 			case Ship:
-				//addSequential(new Angle(CargoAngle.CargoShip));
+				addSequential(new Angle(ArmPosition.Cargo));
 		}
-		//addSequential(new Outtake());
+		addSequential(new Outtake());
 	}
 	
 	/**

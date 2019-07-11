@@ -1,5 +1,6 @@
 package frc.robot.autonomous;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.drive.DriveTrain;
 import frc.robot.drive.constants.TicksPerInch;
 import frc.robot.hardware.Gyro;
@@ -40,6 +41,9 @@ public class Odometry implements Runnable {
 		robotY += deltaPosition * Math.sin(Math.toRadians(robotHeading));
 		lastLeftEncoderPos =  DriveTrain.getInstance().getLeftEncoder();
 		lastRightEncoderPos = DriveTrain.getInstance().getRightEncoder();
+		SmartDashboard.putNumber("odometry_X", robotX);
+		SmartDashboard.putNumber("odometry_Y", robotY);
+		SmartDashboard.putNumber("odometry_Heading", robotHeading);
 	}
 
 	public void resetPosition(){
