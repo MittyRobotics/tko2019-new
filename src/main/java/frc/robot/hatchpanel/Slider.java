@@ -32,6 +32,7 @@ public class Slider extends Subsystem {
 		slider.setInverted(TalonInversions.SLIDER);
 		slider.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 		slider.setSensorPhase(EncoderInversions.SLIDER);
+		slider.configClosedLoopPeakOutput(0,0.8);
 		slider.config_kP(0, PID.SLIDER[0]);
 		slider.config_kI(0, PID.SLIDER[1]);
 		slider.config_kD(0, PID.SLIDER[2]);
@@ -51,8 +52,8 @@ public class Slider extends Subsystem {
 		}
 	}
 	private TrapezoidalMotionProfile slide(final double position){
-
-		return new TrapezoidalMotionProfile(MotionProfileValues.MAX_ACCELERATION, MotionProfileValues.MAX_VELOCITY, (Math.abs(position * TicksPerInch.SLIDER - slider.getSelectedSensorPosition()))/TicksPerInch.SLIDER, 0.02, position - TicksPerInch.SLIDER * slider.getSelectedSensorPosition() < 0);
+		System.out.println("Slide init pos: " + slider.getSelectedSensorPosition(0));
+		return new TrapezoidalMotionProfile(MotionProfileValues.MAX_ACCELERATION, MotionProfileValues.MAX_VELOCITY,  slider.getSelectedSensorPosition(0)/TicksPerInch.SLIDER, position, 0.06);
 	}
 
 	public void manualSlide(final double value){
@@ -64,13 +65,14 @@ public class Slider extends Subsystem {
 	}
 	public void setSliderPosition(double position){
 		slider.set(ControlMode.Position, position);
+		//System.out.println("pos" + position);
 	}
 	public double getSliderPosition(){
 		return slider.getSelectedSensorPosition();
 	}
 
-	public final void zeroEncoder(CalibrateSlider calibrateCommand) {
-		slider.set(ControlMode.PercentOutput, 0.1);
+	public final void zeroEncoder() {
+		slider.set(ControlMode.PercentOutput, 0.3);
 		while (!slider.getSensorCollection().isFwdLimitSwitchClosed() && DriverStation.getInstance().isTest()) {
 			try {
 				Thread.sleep(20);
@@ -79,7 +81,7 @@ public class Slider extends Subsystem {
 			}
 		}
 		slider.set(ControlMode.PercentOutput, 0);
-		calibrateCommand.setFinished();
+		System.out.println("Slider position reset");
 		slider.setSelectedSensorPosition(0);
 	}
 }

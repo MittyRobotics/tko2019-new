@@ -18,7 +18,7 @@ public class CalibrateSlider extends Command {
 
 	@Override
 	protected void initialize() {
-		Slider.getInstance().zeroEncoder(this);
+		//Slider.getInstance().zeroEncoder(this);
 	}
 
 	@Override

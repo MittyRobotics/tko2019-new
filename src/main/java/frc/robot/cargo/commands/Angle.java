@@ -3,7 +3,9 @@ package frc.robot.cargo.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.cargo.Arm;
 import frc.robot.cargo.constants.ArmPosition;
+import frc.robot.hatchpanel.constants.TicksPerInch;
 import frc.robot.oi.OI;
+import team1351.motionprofile.MotionFrame;
 import team1351.motionprofile.TrapezoidalMotionProfile;
 
 public class Angle extends Command {
@@ -27,12 +29,14 @@ public class Angle extends Command {
 	@Override
 	protected void execute() {
 		t = timeSinceInitialized();
-		Arm.getInstance().setArmPosition(startPosition + angle.getFrameAtTime(t).getPosition());
+		MotionFrame frame = angle.getFrameAtTime(t);
+		Arm.getInstance().setArmPosition(frame.getPosition());
+		System.out.println(frame.getPosition());
 	}
 
 	@Override
 	protected void end() {
-		Arm.getInstance().manualAngle(0);
+		Arm.getInstance().setArmPosition(angle.getFrameAtTime(t).getPosition());
 	}
 
 	@Override

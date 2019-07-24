@@ -109,49 +109,49 @@ public class OI {
 		Button slideLeft = new Button() {
 			@Override
 			public boolean get() {
-				return joystick1.getRawButton(4);
+				return getJoystick1().getRawButton(4);
 			}
 		};
 		slideLeft.whenPressed(new Slide(SliderPosition.Left));
 		Button slideMiddle = new Button() {
 			@Override
 			public boolean get() {
-				return joystick1.getRawButton(3);
+				return getJoystick1().getRawButton(3);
 			}
 		};
 		slideMiddle.whenPressed(new Slide(SliderPosition.Middle));
 		Button slideRight = new Button() {
 			@Override
 			public boolean get() {
-				return joystick1.getRawButton(5);
+				return getJoystick1().getRawButton(5);
 			}
 		};
 		slideRight.whenPressed(new Slide(SliderPosition.Right));
 		Button grab = new Button() {
 			@Override
 			public boolean get() {
-				return joystick1.getTrigger();
+				return getJoystick1().getTrigger();
 			}
 		};
 		grab.whenPressed(new Grab());
 		Button release = new Button() {
 			@Override
 			public boolean get() {
-				return joystick1.getRawButton(2);
+				return getJoystick1().getRawButton(2);
 			}
 		};
 		release.whenPressed(new Release());
 		Button pushForward = new Button() {
 			@Override
 			public boolean get() {
-				return joystick1.getY() > 0.5;
+				return getJoystick1().getY() > 0.5;
 			}
 		};
 		pushForward.whenPressed(new PushForward());
 		Button pushBackward = new Button() {
 			@Override
 			public boolean get() {
-				return joystick1.getY() < - 0.5;
+				return getJoystick1().getY() < - 0.5;
 			}
 		};
 		pushBackward.whenPressed(new PushBackward());
@@ -161,7 +161,7 @@ public class OI {
 		Button intake = new Button() {
 			@Override
 			public boolean get() {
-				return joystick2.getTrigger();
+				return getJoystick2().getTrigger();
 			}
 		};
 		intake.whenPressed(new Intake());
@@ -169,7 +169,7 @@ public class OI {
 		Button outtake = new Button() {
 			@Override
 			public boolean get() {
-				return joystick2.getRawButton(2);
+				return getJoystick2().getRawButton(2);
 			}
 		};
 		outtake.whenPressed(new Outtake());
@@ -177,21 +177,21 @@ public class OI {
 		Button angleCargo = new Button() {
 			@Override
 			public boolean get() {
-				return joystick2.getRawButton(5);
+				return getJoystick2().getRawButton(5);
 			}
 		};
 		angleCargo.whenPressed(new Angle(ArmPosition.Cargo));
 		Button angleRocket = new Button() {
 			@Override
 			public boolean get() {
-				return joystick2.getRawButton(4);
+				return getJoystick2().getRawButton(4);
 			}
 		};
 		angleRocket.whenPressed(new Angle(ArmPosition.Rocket));
 		Button angleGround = new Button() {
 			@Override
 			public boolean get() {
-				return joystick2.getRawButton(3);
+				return getJoystick2().getRawButton(3);
 			}
 		};
 		angleGround.whenPressed(new Angle(ArmPosition.Ground));

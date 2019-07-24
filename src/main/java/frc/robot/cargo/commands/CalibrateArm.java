@@ -17,7 +17,7 @@ public class CalibrateArm extends Command {
 
 	@Override
 	protected void initialize() {
-		Arm.getInstance().zeroEncoder(this);
+		//Arm.getInstance().zeroEncoder(this);
 	}
 
 	@Override

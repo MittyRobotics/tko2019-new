@@ -35,6 +35,7 @@ public class Arm extends Subsystem {
 			if (i == 0) {
 				talonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 				talonSRX.setSensorPhase(EncoderInversions.ARM);
+				talonSRX.configClosedLoopPeakOutput(0,0.3);
 				talonSRX.config_kP(0, PID.ARM[0]);
 				talonSRX.config_kI(0, PID.ARM[1]);
 				talonSRX.config_kD(0, PID.ARM[2]);
@@ -59,7 +60,7 @@ public class Arm extends Subsystem {
 		}
 	}
 	private TrapezoidalMotionProfile angle(double position){
-		return new TrapezoidalMotionProfile(MotionProfileValues.MAX_ACCELERATION, MotionProfileValues.MAX_VELOCITY, Math.abs(position - arm[0].getSelectedSensorPosition()), 0.02, position - arm[0].getSelectedSensorPosition() < 0);
+		return new TrapezoidalMotionProfile(MotionProfileValues.MAX_ACCELERATION, MotionProfileValues.MAX_VELOCITY, arm[0].getSelectedSensorPosition(0), position, 0.06);
 	}
 
 	public void setArmPosition(double position){
@@ -69,14 +70,14 @@ public class Arm extends Subsystem {
 		return arm[0].getSelectedSensorPosition();
 	}
 	public void manualAngle(double value){
-		if (Math.abs(value) > 0.1) {
-			arm[0].set(ControlMode.PercentOutput, value);
+		if (Math.abs(value) > 0.2) {
+			arm[0].set(ControlMode.PercentOutput, -value);
 		} else {
 			arm[0].set(ControlMode.PercentOutput, 0);
 		}
 	}
 
-	public final void zeroEncoder(CalibrateArm calibrateCommand) {
+	public final void zeroEncoder() {
 		arm[0].set(ControlMode.PercentOutput, -0.3);
 		while (!arm[0].getSensorCollection().isRevLimitSwitchClosed() && DriverStation.getInstance().isTest()) {
 //			System.out.println(conveyorTalons[0].getSelectedSensorPosition());
@@ -87,7 +88,7 @@ public class Arm extends Subsystem {
 			}
 		}
 		arm[0].set(ControlMode.PercentOutput, 0);
-		calibrateCommand.setFinished();
+		//calibrateCommand.setFinished();
 		System.out.println("Arm encoder reset!");
 		arm[0].setSelectedSensorPosition(0);
 	}
