@@ -12,6 +12,7 @@ public class Grab extends Command {
 	@Override
 	protected void initialize() {
 		Grabber.getInstance().grab();
+		System.out.println("Grab");
 	}
 
 	@Override

@@ -35,7 +35,7 @@ public class Arm extends Subsystem {
 			if (i == 0) {
 				talonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 				talonSRX.setSensorPhase(EncoderInversions.ARM);
-				talonSRX.configClosedLoopPeakOutput(0,0.3);
+				talonSRX.configClosedLoopPeakOutput(0,0.5);
 				talonSRX.config_kP(0, PID.ARM[0]);
 				talonSRX.config_kI(0, PID.ARM[1]);
 				talonSRX.config_kD(0, PID.ARM[2]);
@@ -78,9 +78,22 @@ public class Arm extends Subsystem {
 	}
 
 	public final void zeroEncoder() {
+//		arm[0].set(ControlMode.PercentOutput, -0.3);
+//		while (!arm[0].getSensorCollection().isRevLimitSwitchClosed() && DriverStation.getInstance().isTest()) {
+////			System.out.println(conveyorTalons[0].getSelectedSensorPosition());
+//			try {
+//				Thread.sleep(5);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		arm[0].set(ControlMode.PercentOutput, 0);
+//		//calibrateCommand.setFinished();
+//		System.out.println("Arm encoder reset!");
+//		arm[0].setSelectedSensorPosition(0);
+
 		arm[0].set(ControlMode.PercentOutput, -0.3);
 		while (!arm[0].getSensorCollection().isRevLimitSwitchClosed() && DriverStation.getInstance().isTest()) {
-//			System.out.println(conveyorTalons[0].getSelectedSensorPosition());
 			try {
 				Thread.sleep(5);
 			} catch (InterruptedException e) {
@@ -88,8 +101,36 @@ public class Arm extends Subsystem {
 			}
 		}
 		arm[0].set(ControlMode.PercentOutput, 0);
-		//calibrateCommand.setFinished();
-		System.out.println("Arm encoder reset!");
+		System.out.println("Arm position reset: 1/2");
+		arm[0].setSelectedSensorPosition(0);
+		int timer = 0;
+		while (timer < 25 && DriverStation.getInstance().isTest()) {
+			timer ++;
+			try {
+				Thread.sleep(20);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		arm[0].set(ControlMode.PercentOutput, 0.2);
+		timer = 0;
+		while (timer < 30 && DriverStation.getInstance().isTest()) {
+			timer ++;
+			try {
+				Thread.sleep(20);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		arm[0].set(ControlMode.PercentOutput, -0.15);
+		while (!arm[0].getSensorCollection().isRevLimitSwitchClosed() && DriverStation.getInstance().isTest()) {
+			try {
+				Thread.sleep(5);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		System.out.println("Arm position reset: 2/2");
 		arm[0].setSelectedSensorPosition(0);
 	}
 }

@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.hatchpanel.commands.CalibrateSlider;
 import frc.robot.hatchpanel.commands.ManualSlide;
+import frc.robot.hatchpanel.commands.Slide;
 import frc.robot.hatchpanel.constants.EncoderInversions;
 import frc.robot.hatchpanel.constants.MotionProfileValues;
 import frc.robot.hatchpanel.constants.PID;
@@ -32,7 +33,7 @@ public class Slider extends Subsystem {
 		slider.setInverted(TalonInversions.SLIDER);
 		slider.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 		slider.setSensorPhase(EncoderInversions.SLIDER);
-		slider.configClosedLoopPeakOutput(0,0.8);
+		slider.configClosedLoopPeakOutput(0,0.5);
 		slider.config_kP(0, PID.SLIDER[0]);
 		slider.config_kI(0, PID.SLIDER[1]);
 		slider.config_kD(0, PID.SLIDER[2]);
@@ -57,7 +58,7 @@ public class Slider extends Subsystem {
 	}
 
 	public void manualSlide(final double value){
-		if (Math.abs(value) > 0.2) {
+		if (Math.abs(value) > 0.1) {
 			slider.set(ControlMode.PercentOutput, value);
 		} else {
 			slider.set(ControlMode.PercentOutput, 0);
@@ -72,7 +73,7 @@ public class Slider extends Subsystem {
 	}
 
 	public final void zeroEncoder() {
-		slider.set(ControlMode.PercentOutput, 0.3);
+		slider.set(ControlMode.PercentOutput, 0.2);
 		while (!slider.getSensorCollection().isFwdLimitSwitchClosed() && DriverStation.getInstance().isTest()) {
 			try {
 				Thread.sleep(20);
@@ -81,7 +82,37 @@ public class Slider extends Subsystem {
 			}
 		}
 		slider.set(ControlMode.PercentOutput, 0);
-		System.out.println("Slider position reset");
+		System.out.println("Slider position reset: 1/2");
 		slider.setSelectedSensorPosition(0);
+		int timer = 0;
+		while (timer < 25 && DriverStation.getInstance().isTest()) {
+			timer ++;
+			try {
+				Thread.sleep(20);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		slider.set(ControlMode.PercentOutput, -0.2);
+		timer = 0;
+		while (timer < 20 && DriverStation.getInstance().isTest()) {
+			timer ++;
+			try {
+				Thread.sleep(20);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		slider.set(ControlMode.PercentOutput, 0.1);
+		while (!slider.getSensorCollection().isFwdLimitSwitchClosed() && DriverStation.getInstance().isTest()) {
+			try {
+				Thread.sleep(20);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		System.out.println("Slider position reset: 2/2");
+		slider.setSelectedSensorPosition(0);
+
 	}
 }

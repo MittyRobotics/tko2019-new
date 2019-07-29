@@ -40,7 +40,7 @@ public class Robot extends TimedRobot {
 	Robot() {
 		super(0.06);
 	}
-	
+
 	@SuppressWarnings("ResultOfMethodCallIgnored")
 	@Override
 	public void robotInit() {
@@ -81,24 +81,29 @@ public class Robot extends TimedRobot {
 		System.out.println("init: " + ((System.nanoTime()-t)/1000000));
 		t = System.nanoTime();
 
-		//Odometry.getInstance().resetPosition();
-		System.out.println("odometry: " + ((System.nanoTime()-t)/1000000));
+		Odometry.getInstance().resetPosition();
+		System.out.println("odometry reset: " + ((System.nanoTime()-t)/1000000));
 		t = System.nanoTime();
 
 		OI.getInstance();
 		System.out.println("oi: " +((System.nanoTime()-t)/1000000));
 		t = System.nanoTime();
 		Compressor.getInstance();
+		Compressor.getInstance().start();
 		System.out.println("compressor: " + ((System.nanoTime()-t)/1000000));
 		t = System.nanoTime();
 		Gyro.getInstance();
 		System.out.println("gyro: " +((System.nanoTime()-t)/1000000));
+		t = System.nanoTime();
 		//Limelight.getInstance();
+		System.out.println("Limelight: " + ((System.nanoTime()-t)/1000000));
 
-		//Notifier odometryNotifier = new Notifier(Odometry.getInstance());
-		//odometryNotifier.startPeriodic(0.005);
+		t = System.nanoTime();
+		Notifier odometryNotifier = new Notifier(Odometry.getInstance());
+		odometryNotifier.startPeriodic(0.005);
+		System.out.println("odometry notifier start: " + ((System.nanoTime()-t)/1000000));
 	}
-	
+
 	@Override
 	public void robotPeriodic() {
 		Scheduler.getInstance().run();
@@ -128,6 +133,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		Compressor.getInstance().start();
 		//new TankDrive().start();
 		//new TestCommand().start();
 		//new Slide(SliderPosition.Middle).start();
@@ -137,16 +143,22 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		//System.out.println(Slider.getInstance().getSliderPosition());
+		//Arm.getInstance().manualAngle(0.2);
+		//System.out.println(Arm.getInstance().getArmPosition());
 	}
 
 	@Override
 	public void testInit() {
+
+
 		//new CalibrateArm().start();
 		//new CalibrateSlider().start();
 		//new Slide(SliderPosition.Middle).start();
 		//TrapezoidalMotionProfile test = new TrapezoidalMotionProfile(2,8,4,12,0.06,true);
 		//new TestCommand().start();
+		Arm.getInstance().zeroEncoder(); //WORKING
+
+		Slider.getInstance().zeroEncoder(); //WORKING
 	}
 	
 	@Override
@@ -155,8 +167,7 @@ public class Robot extends TimedRobot {
 		//Arm.getInstance().manualAngle(0.2); //WORKING
 		//Slider.getInstance().manualSlide(0.3); //WORKING
 		//Pusher.getInstance().pushForward(); //NOT WORKING (pneumatics issue)
-		Arm.getInstance().zeroEncoder(); //WORKING
-		Slider.getInstance().zeroEncoder(); //WORKING
+
 
 		//System.out.println("Running");
 		//System.out.println("run");

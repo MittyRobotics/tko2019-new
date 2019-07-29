@@ -52,11 +52,13 @@ public class OI {
 			}
 
 		};
-		vision.whenPressed(new VisionAlignment());
-		testProfile.whenPressed(new MotionProfileTranslate(10, 0.2));
+		//vision.whenPressed(new VisionAlignment());
+		//testProfile.whenPressed(new MotionProfileTranslate(10, 0.2));
 		driveControls();
 		hatchControls();
+		hatchControlsXbox();
 		cargoControls();
+		cargoControlsXbox();
 
 	}
 
@@ -192,6 +194,96 @@ public class OI {
 			@Override
 			public boolean get() {
 				return getJoystick2().getRawButton(3);
+			}
+		};
+		angleGround.whenPressed(new Angle(ArmPosition.Ground));
+	}
+
+	private void hatchControlsXbox(){
+		Button slideLeft = new Button() {
+			@Override
+			public boolean get() {
+				return getXboxController().getBackButton();
+			}
+		};
+		slideLeft.whenPressed(new Slide(SliderPosition.Left));
+		Button slideMiddle = new Button() {
+			@Override
+			public boolean get() {
+				return getXboxController().getStartButton();
+			}
+		};
+		slideMiddle.whenPressed(new Slide(SliderPosition.Middle));
+		Button slideRight = new Button() {
+			@Override
+			public boolean get() {
+				return getXboxController().getXButton();
+			}
+		};
+		slideRight.whenPressed(new Slide(SliderPosition.Right));
+		Button grab = new Button() {
+			@Override
+			public boolean get() {
+				return getXboxController().getBumper(GenericHID.Hand.kLeft);
+			}
+		};
+		grab.whenPressed(new Grab());
+		Button release = new Button() {
+			@Override
+			public boolean get() {
+				return getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5;
+			}
+		};
+		release.whenPressed(new Release());
+		Button pushForward = new Button() {
+			@Override
+			public boolean get() {
+				return getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5;
+			}
+		};
+		pushForward.whenPressed(new PushForward());
+		Button pushBackward = new Button() {
+			@Override
+			public boolean get() {
+				return getXboxController().getBumper(GenericHID.Hand.kLeft);			}
+		};
+		pushBackward.whenPressed(new PushBackward());
+	}
+	private void cargoControlsXbox(){
+		Button intake = new Button() {
+			@Override
+			public boolean get() {
+				return getXboxController().getBumper(GenericHID.Hand.kRight);
+			}
+		};
+		intake.whenPressed(new Intake());
+		intake.whenReleased(new StopRollers());
+		Button outtake = new Button() {
+			@Override
+			public boolean get() {
+				return getXboxController().getTriggerAxis(GenericHID.Hand.kRight) < 0.3;
+			}
+		};
+		outtake.whenPressed(new Outtake());
+		outtake.whenReleased(new StopRollers());
+		Button angleCargo = new Button() {
+			@Override
+			public boolean get() {
+				return getXboxController().getYButton();
+			}
+		};
+		angleCargo.whenPressed(new Angle(ArmPosition.Cargo));
+		Button angleRocket = new Button() {
+			@Override
+			public boolean get() {
+				return getXboxController().getBButton();
+			}
+		};
+		angleRocket.whenPressed(new Angle(ArmPosition.Rocket));
+		Button angleGround = new Button() {
+			@Override
+			public boolean get() {
+				return getXboxController().getAButton();
 			}
 		};
 		angleGround.whenPressed(new Angle(ArmPosition.Ground));
