@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 
 import frc.robot.autonomous.Odometry;
 import frc.robot.autonomous.TestCommand;
+import frc.robot.autonomous.enums.StreamMode;
 import frc.robot.autonomous.movement.commands.MotionProfileTranslate;
 import frc.robot.autonomous.movement.commands.Translate2dTrajectory;
 import frc.robot.autonomous.vision.Limelight;
@@ -95,7 +96,9 @@ public class Robot extends TimedRobot {
 		Gyro.getInstance();
 		System.out.println("gyro: " +((System.nanoTime()-t)/1000000));
 		t = System.nanoTime();
-		//Limelight.getInstance();
+		Limelight.getInstance();
+		Limelight.getInstance().enableVisionMode();
+		Limelight.getInstance().setStreamMode(StreamMode.Secondary);
 		System.out.println("Limelight: " + ((System.nanoTime()-t)/1000000));
 
 		t = System.nanoTime();
@@ -107,6 +110,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotPeriodic() {
 		Scheduler.getInstance().run();
+		Limelight.getInstance().updateLimelightValues();
 		//System.out.println("asdf");
 
 	}
@@ -163,6 +167,7 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void testPeriodic() {
+		System.out.println(Slider.getInstance().getSliderSensor());
 		//Rollers.getInstance().intake();   //WORKING
 		//Arm.getInstance().manualAngle(0.2); //WORKING
 		//Slider.getInstance().manualSlide(0.3); //WORKING

@@ -379,14 +379,14 @@ public class Limelight {
 		if (a.length() == 5) {
 			a = "" + a;
 		}
-		double camX = getCamX();
-		double camY = getCamY();
-		double camZ = getCamZ();
-		double camPitch = getCamPitch();
-		double camYaw = getCamYaw();
-		double camRoll = getCamRoll();
+		//double camX = getCamX();
+		//double camY = getCamY();
+		//double camZ = getCamZ();
+		//double camPitch = getCamPitch();
+		//double camYaw = getCamYaw();
+		//double camRoll = getCamRoll();
 		//Print values
-		System.out.println("Has Target:" + h + " \t X Angle: " + x + " \t  Y Angle: " + y + " \t Area: " + a + "Camera Transform: " + "(" + camX + "," + camY + "," + camZ + ") (" + camPitch + "," + camYaw + "," + camRoll + ")");
+		System.out.println("Has Target:" + h + " \t X Angle: " + x + " \t  Y Angle: " + y + " \t Area: " + a );
 	}
 
 }

@@ -23,13 +23,13 @@ public class Grabber extends Subsystem {
 
 	}
 	public void grab(){
-		if(!hatchSensor.get()){
+		//if(!hatchSensor.get()){
 			grabber.set(DoubleSolenoid.Value.kForward);
-		}
+		//}
 	}
 	public void release(){
-		if(!hatchSensor.get()){
+		//if(!hatchSensor.get()){
 			grabber.set(DoubleSolenoid.Value.kReverse);
-		}
+		//}
 	}
 }

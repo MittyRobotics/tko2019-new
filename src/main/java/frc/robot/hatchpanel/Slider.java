@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.hatchpanel.commands.CalibrateSlider;
 import frc.robot.hatchpanel.commands.ManualSlide;
+import frc.robot.hatchpanel.commands.PushForward;
 import frc.robot.hatchpanel.commands.Slide;
 import frc.robot.hatchpanel.constants.EncoderInversions;
 import frc.robot.hatchpanel.constants.MotionProfileValues;
@@ -44,6 +45,7 @@ public class Slider extends Subsystem {
 		setDefaultCommand(new ManualSlide());
 	}
 	public TrapezoidalMotionProfile slide(final SliderPosition sliderPosition){
+		new PushForward();
 		if(sliderPosition == SliderPosition.Left){
 			return slide(SliderPositions.LEFT);
 		} else if(sliderPosition == SliderPosition.Middle){
@@ -58,6 +60,7 @@ public class Slider extends Subsystem {
 	}
 
 	public void manualSlide(final double value){
+		new PushForward();
 		if (Math.abs(value) > 0.1) {
 			slider.set(ControlMode.PercentOutput, value);
 		} else {
@@ -65,6 +68,7 @@ public class Slider extends Subsystem {
 		}
 	}
 	public void setSliderPosition(double position){
+		new PushForward();
 		slider.set(ControlMode.Position, position);
 		//System.out.println("pos" + position);
 	}
@@ -72,7 +76,12 @@ public class Slider extends Subsystem {
 		return slider.getSelectedSensorPosition();
 	}
 
+	public boolean getSliderSensor(){
+		return slider.getSensorCollection().isFwdLimitSwitchClosed();
+	}
+
 	public final void zeroEncoder() {
+		new PushForward();
 		slider.set(ControlMode.PercentOutput, 0.2);
 		while (!slider.getSensorCollection().isFwdLimitSwitchClosed() && DriverStation.getInstance().isTest()) {
 			try {

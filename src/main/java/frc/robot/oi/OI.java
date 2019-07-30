@@ -40,7 +40,7 @@ public class OI {
 			@Override
 			public boolean get() {
 
-				return getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5 ;
+				return getXboxController().getStickButton(GenericHID.Hand.kRight) ;
 			}
 
 		};
@@ -52,7 +52,7 @@ public class OI {
 			}
 
 		};
-		//vision.whenPressed(new VisionAlignment());
+		vision.whenPressed(new VisionAlignment());
 		//testProfile.whenPressed(new MotionProfileTranslate(10, 0.2));
 		driveControls();
 		hatchControls();
@@ -224,17 +224,19 @@ public class OI {
 		Button grab = new Button() {
 			@Override
 			public boolean get() {
-				return getXboxController().getBumper(GenericHID.Hand.kLeft);
+
+				return getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5;
 			}
 		};
 		grab.whenPressed(new Grab());
 		Button release = new Button() {
 			@Override
 			public boolean get() {
-				return getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5;
+				return getXboxController().getBumper(GenericHID.Hand.kLeft);
 			}
 		};
 		release.whenPressed(new Release());
+
 		Button pushForward = new Button() {
 			@Override
 			public boolean get() {
@@ -248,6 +250,7 @@ public class OI {
 				return getXboxController().getBumper(GenericHID.Hand.kLeft);			}
 		};
 		pushBackward.whenPressed(new PushBackward());
+
 	}
 	private void cargoControlsXbox(){
 		Button intake = new Button() {

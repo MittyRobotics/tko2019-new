@@ -109,6 +109,7 @@ public class VisionAlignment extends Command {
 			System.out.println("Failed Calculations: " + failedCalculationsCount + "/" + failedCalculationsTime);
 		}
 		else{
+			Limelight.getInstance().printValues();
 			failedCalculationsCount = 0;
 
 			//Cap drive value from -max drive speed to max drive speed
@@ -166,7 +167,7 @@ public class VisionAlignment extends Command {
 			reachedTargetCount = 0;
 		}
 		if (Math.abs(lastDistance - distance) < 0.5) {
-			lowDeltaCount++;
+			//lowDeltaCount++;
 			System.out.println("Delta change is low: " + lowDeltaCount + "/" + lowDeltaTime);
 		} else {
 			lowDeltaCount = 0;
@@ -197,7 +198,7 @@ public class VisionAlignment extends Command {
 	public void end() {
 		AutonDriver.getInstance().visionEnd();
 		DriveTrain.getInstance().tankDrive(0, 0);
-		Limelight.getInstance().enableDriverMode();
+		//Limelight.getInstance().enableDriverMode();
 		System.out.println("Ended VisionAlignment.java command");
 	}
 
