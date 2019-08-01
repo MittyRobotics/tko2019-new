@@ -42,7 +42,7 @@ public class DriveTrain extends Subsystem {
 				talonSRX.config_kI(0, PID.DRIVE[1]);
 				talonSRX.config_kD(0, PID.DRIVE[2]);
 			} else {
-				talonSRX.set(ControlMode.Follower, TalonIds.LEFT_DRIVE[0]);
+				//talonSRX.set(ControlMode.Follower, TalonIds.LEFT_DRIVE[0]);
 			}
 			leftDrive[i] = talonSRX;
 		}
@@ -57,7 +57,7 @@ public class DriveTrain extends Subsystem {
 				talonSRX.config_kI(0, PID.DRIVE[1]);
 				talonSRX.config_kD(0, PID.DRIVE[2]);
 			} else {
-				talonSRX.set(ControlMode.Follower, TalonIds.RIGHT_DRIVE[0]);
+				//talonSRX.set(ControlMode.Follower, TalonIds.RIGHT_DRIVE[0]);
 			}
 			rightDrive[i] = talonSRX;
 		}
@@ -72,17 +72,22 @@ public class DriveTrain extends Subsystem {
 		setDefaultCommand(new TankDrive());
 	}
 
-	public void tankDrive(final double left, final double right) {
-		if (Math.abs(left) < 0.05) {
+	public void tankDrive(double left, double right) {
+		left = left/1.3;
+		right = right/1.3;
+		if (Math.abs(left) < 0.1) {
 			leftDrive[0].set(ControlMode.PercentOutput, 0);
+			leftDrive[1].set(ControlMode.PercentOutput, 0);
 		} else {
 			leftDrive[0].set(ControlMode.PercentOutput, left);
-
+			leftDrive[1].set(ControlMode.PercentOutput, left);
 		}
-		if (Math.abs(right) < 0.05) {
+		if (Math.abs(right) < 0.1) {
 			rightDrive[0].set(ControlMode.PercentOutput, 0);
+			rightDrive[1].set(ControlMode.PercentOutput, 0);
 		} else {
 			rightDrive[0].set(ControlMode.PercentOutput, right);
+			rightDrive[1].set(ControlMode.PercentOutput, right);
 		}
 	}
 

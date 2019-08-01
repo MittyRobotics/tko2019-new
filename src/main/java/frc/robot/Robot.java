@@ -167,9 +167,9 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void testPeriodic() {
-		System.out.println(Slider.getInstance().getSliderSensor());
+		//System.out.println(Slider.getInstance().getSliderSensor());
 		//Rollers.getInstance().intake();   //WORKING
-		//Arm.getInstance().manualAngle(0.2); //WORKING
+		System.out.println(Arm.getInstance().getArmPosition());
 		//Slider.getInstance().manualSlide(0.3); //WORKING
 		//Pusher.getInstance().pushForward(); //NOT WORKING (pneumatics issue)
 

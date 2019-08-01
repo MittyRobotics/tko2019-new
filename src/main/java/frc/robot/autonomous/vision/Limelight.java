@@ -326,7 +326,6 @@ public class Limelight {
 				return position;
 			}
 		}catch (Exception e){
-			System.out.println("Failed calculations");
 			return defaultCamtranVal;
 		}
 	}

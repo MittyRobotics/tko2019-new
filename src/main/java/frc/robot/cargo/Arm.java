@@ -78,19 +78,19 @@ public class Arm extends Subsystem {
 	}
 
 	public final void zeroEncoder() {
-//		arm[0].set(ControlMode.PercentOutput, -0.3);
-//		while (!arm[0].getSensorCollection().isRevLimitSwitchClosed() && DriverStation.getInstance().isTest()) {
-////			System.out.println(conveyorTalons[0].getSelectedSensorPosition());
-//			try {
-//				Thread.sleep(5);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		arm[0].set(ControlMode.PercentOutput, 0);
-//		//calibrateCommand.setFinished();
-//		System.out.println("Arm encoder reset!");
-//		arm[0].setSelectedSensorPosition(0);
+		arm[0].set(ControlMode.PercentOutput, -0.3);
+		while (!arm[0].getSensorCollection().isRevLimitSwitchClosed() && DriverStation.getInstance().isTest()) {
+//			System.out.println(conveyorTalons[0].getSelectedSensorPosition());
+			try {
+				Thread.sleep(5);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		arm[0].set(ControlMode.PercentOutput, 0);
+		//calibrateCommand.setFinished();
+		System.out.println("Arm encoder reset!");
+		arm[0].setSelectedSensorPosition(0);
 
 		arm[0].set(ControlMode.PercentOutput, -0.3);
 		while (!arm[0].getSensorCollection().isRevLimitSwitchClosed() && DriverStation.getInstance().isTest()) {
@@ -132,5 +132,6 @@ public class Arm extends Subsystem {
 		}
 		System.out.println("Arm position reset: 2/2");
 		arm[0].setSelectedSensorPosition(0);
+		//arm[0].setSelectedSensorPosition(0);
 	}
 }
