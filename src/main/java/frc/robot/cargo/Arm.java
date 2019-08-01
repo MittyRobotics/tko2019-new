@@ -5,7 +5,6 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.cargo.commands.CalibrateArm;
 import frc.robot.cargo.commands.ManualAngle;
 import frc.robot.cargo.constants.ArmPosition;
 import frc.robot.cargo.constants.ArmPositions;
@@ -19,14 +18,26 @@ import team1351.motionprofile.TrapezoidalMotionProfile;
 public class Arm extends Subsystem {
 	private static Arm ourInstance = new Arm();
 	private WPI_TalonSRX[] arm = new WPI_TalonSRX[TalonIds.ARM.length];
+
+	/**
+	 * Static function to make this class a singleton
+	 * @return Arm subsystem
+	 */
 	public static Arm getInstance() {
 		return ourInstance;
 	}
 
+	/**
+	 * Constructor for Arm subsystem
+	 */
 	private Arm() {
-
+		super("Arm");
 	}
 
+
+	/**
+	 * Initialize talons for the Arm subsystem
+	 */
 	public void initHardware(){
 		for (int i = 0; i < arm.length; i++) {
 			WPI_TalonSRX talonSRX = new WPI_TalonSRX(TalonIds.ARM[i]);
@@ -46,10 +57,22 @@ public class Arm extends Subsystem {
 		}
 	}
 
+	/**
+	 * Sets default command to Manual Angle
+	 */
 	@Override
 	protected void initDefaultCommand() {
 		setDefaultCommand(new ManualAngle());
 	}
+
+	/**
+	 * Gives position values for arm to move the armPosition
+	 * @param armPosition the position of the arm that is being set
+	 *                    Rocket sets the position to shoot into the bottom rocket
+	 *                    Cargo sets the position to shoot into the cargo ship
+	 *                    Ground sets the position to pickup from the ground
+	 * @return a TrapezoidalMotionProfile set to go to armPosition
+	 */
 	public TrapezoidalMotionProfile angle(final ArmPosition armPosition){
 		if(armPosition == ArmPosition.Rocket){
 			return angle(ArmPositions.ROCKET);
@@ -59,16 +82,36 @@ public class Arm extends Subsystem {
 			return angle(ArmPositions.GROUND);
 		}
 	}
+
+	/**
+	 * Gives position values for arm to move to position
+	 * @param position the position of the arm that is being set
+	 * @return a TrapezoidalMotionProfile set to go to position
+	 */
 	private TrapezoidalMotionProfile angle(double position){
 		return new TrapezoidalMotionProfile(MotionProfileValues.MAX_ACCELERATION, MotionProfileValues.MAX_VELOCITY, arm[0].getSelectedSensorPosition(0), position, 0.06);
 	}
 
+	/**
+	 * Sets arm to go position
+	 * @param position the position the arm is set to go to
+	 */
 	public void setArmPosition(double position){
 		arm[0].set(ControlMode.Position, position);
 	}
+
+	/**
+	 * gives back the current arm position
+	 * @return arm position
+	 */
 	public double getArmPosition(){
 		return arm[0].getSelectedSensorPosition();
 	}
+
+	/**
+	 * Sets the arm motor speeds based on percent output
+	 * @param value the value to set the motor speeds to
+	 */
 	public void manualAngle(double value){
 		if (Math.abs(value) > 0.2) {
 			arm[0].set(ControlMode.PercentOutput, -value);
@@ -77,6 +120,9 @@ public class Arm extends Subsystem {
 		}
 	}
 
+	/**
+	 * Zeroes the encoder before match so we know our position
+	 */
 	public final void zeroEncoder() {
 		arm[0].set(ControlMode.PercentOutput, -0.3);
 		while (!arm[0].getSensorCollection().isRevLimitSwitchClosed() && DriverStation.getInstance().isTest()) {
