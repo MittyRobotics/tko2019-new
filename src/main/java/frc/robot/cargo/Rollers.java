@@ -10,6 +10,9 @@ import frc.robot.cargo.constants.SwitchIds;
 import frc.robot.cargo.constants.TalonIds;
 import frc.robot.cargo.constants.TalonInversions;
 
+/**
+ * Subsystem code for rollers
+ */
 public class Rollers extends Subsystem {
 	private static Rollers ourInstance = new Rollers();
 	private WPI_TalonSRX topRoller = new WPI_TalonSRX(TalonIds.ROLLERS[0]);

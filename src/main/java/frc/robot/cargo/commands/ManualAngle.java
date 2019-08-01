@@ -4,6 +4,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.cargo.Arm;
 import frc.robot.oi.OI;
 
+/**
+ * Manual Angle command, which changes the arm position based on a joystick
+ * The joystick controls motor power
+ * This is the default command for the Arm subsystem
+ */
 public class ManualAngle extends Command {
 	/**
 	 * Constructor for the Manual Angle Command

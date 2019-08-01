@@ -7,6 +7,10 @@ import frc.robot.oi.OI;
 import team1351.motionprofile.MotionFrame;
 import team1351.motionprofile.TrapezoidalMotionProfile;
 
+/**
+ * Angle command, which sets the arm angle
+ * The angle is set to either rocket, ground, or cargoship, based on a parameter
+ */
 public class Angle extends Command {
 	private ArmPosition armPosition;
 	private TrapezoidalMotionProfile angle;

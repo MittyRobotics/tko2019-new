@@ -3,6 +3,9 @@ package frc.robot.cargo.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.cargo.Rollers;
 
+/**
+ * Outtake command, which sets the rollers to outtake the ball
+ */
 public class Outtake extends Command {
 	/**
 	 * Constructor for Outtake Command

@@ -3,6 +3,9 @@ package frc.robot.cargo.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.cargo.Rollers;
 
+/**
+ * Intake command, which runs the intake if the ball sensor is not pressed
+ */
 public class Intake extends Command {
 
 	/**

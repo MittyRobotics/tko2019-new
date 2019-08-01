@@ -3,6 +3,10 @@ package frc.robot.cargo.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.cargo.Arm;
 
+/**
+ * Hold command, which holds the arm at its current position
+ * Always follows the Angle command
+ */
 public class HoldPosition extends Command {
     private double pos;
 

@@ -15,6 +15,9 @@ import frc.robot.cargo.constants.TalonInversions;
 import frc.robot.cargo.constants.PID;
 import team1351.motionprofile.TrapezoidalMotionProfile;
 
+/**
+ * Subsystem code for Arm
+ */
 public class Arm extends Subsystem {
 	private static Arm ourInstance = new Arm();
 	private WPI_TalonSRX[] arm = new WPI_TalonSRX[TalonIds.ARM.length];
