@@ -3,6 +3,9 @@ package frc.robot.cargo.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.cargo.Rollers;
 
+/**
+ * Stop Rollers command, which sets the rollers to stop spinning
+ */
 public class StopRollers extends Command {
 	/**
 	 * Constructor for Stop Rollers Command
