@@ -12,6 +12,7 @@ public class Pusher extends Subsystem {
 	}
 
 	private Pusher() {
+		super("Pusher");
 	}
 
 	@Override
