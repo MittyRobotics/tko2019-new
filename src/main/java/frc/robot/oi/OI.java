@@ -4,8 +4,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
-import frc.robot.autonomous.movement.commands.MotionProfileTranslate;
-import frc.robot.autonomous.movement.commands.VisionAlignment;
+import frc.robot.autonomous.movement.commands.LegacyVisionAlignment;
 //import frc.robot.drive.commands.GearShift;
 import frc.robot.cargo.commands.Angle;
 import frc.robot.cargo.commands.Intake;
@@ -52,7 +51,7 @@ public class OI {
 			}
 
 		};
-		vision.whenPressed(new VisionAlignment());
+		vision.whenPressed(new LegacyVisionAlignment());
 		//testProfile.whenPressed(new MotionProfileTranslate(10, 0.2));
 		driveControls();
 		hatchControls();

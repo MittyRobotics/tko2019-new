@@ -36,33 +36,33 @@ public class AutoSlider extends Command {
 
 			updateValues();
 
-			Point2D.Double mdpt = midpoint(leftCorner, rightCorner);
+			if(Limelight.getInstance().isHasTarget()){
 
-			double distanceBetweenCorners = leftCorner.distance(rightCorner);
 
-			double distance = ((VisionConstants.DISTANCE_BETWEEN_TARGET_INNER_CORNERS * VisionConstants.FOCAL_PIXELS_CALIB) / distanceBetweenCorners);
+				double distanceBetweenCorners = leftCorner.distance(rightCorner);
 
-			double sign = (mdpt.x > (VisionConstants.RESOLUTION_WIDTH / 2)) ? -1 : 1;
+				//TODO: Calibrate distance between target inner corners
+				double distance = ((VisionConstants.DISTANCE_BETWEEN_TARGET_INNER_CORNERS * VisionConstants.FOCAL_PIXELS_CALIB) / distanceBetweenCorners);
 
-			double xOffset = Math.tan(Math.toRadians(-yaw)) * distance;
 
-			double sliderOffset = -8 + xOffset;
+				double xOffset = Math.tan(Math.toRadians(-yaw)) * distance;
 
-			sliderOffset = Math.max(Math.min(sliderOffset, SliderPositions.RIGHT), SliderPositions.LEFT);
+				double sliderOffset = -8 + xOffset;
 
-			System.out.println(sliderOffset + " " + xOffset + " " + yaw + " " + sign + " " + distance);
+				sliderOffset = Math.max(Math.min(sliderOffset, SliderPositions.RIGHT), SliderPositions.LEFT);
 
-			Slider.getInstance().setSliderPosition(sliderOffset * TicksPerInch.SLIDER);
+				//System.out.println(sliderOffset + " " + xOffset + " " + yaw + " " + distance);
+				if(distance < 50){
+					Slider.getInstance().setSliderPosition(sliderOffset * TicksPerInch.SLIDER);
+				}
+			}
 		}
 		catch(Exception e){
-			System.out.println("Didnt work");
+			System.out.println("Auto slider error");
 		}
 
 	}
 
-	private Point2D.Double midpoint(Point2D.Double p0, Point2D.Double p1){
-		return new Point2D.Double((p0.x + p1.x) /2, (p0.y + p1.y) /2);
-	}
 
 	private void updateValues(){
 		if(Limelight.getInstance().isHasTarget()){
@@ -76,10 +76,6 @@ public class AutoSlider extends Command {
 				System.out.println("Corners not detected");
 			}
 			lostTargetCount = 0;
-		}
-		else{
-			lostTargetCount ++;
-			System.out.println("Lost target: " + lostTargetCount + "/" + lostTargetCooldown);
 		}
 	}
 

@@ -3,9 +3,8 @@ package frc.robot.autonomous.vision;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.autonomous.enums.CargoTarget;
 import frc.robot.autonomous.enums.GamePiece;
+import frc.robot.autonomous.movement.commands.LegacyVisionAlignment;
 import frc.robot.autonomous.movement.commands.MotionProfileTranslate;
-import frc.robot.autonomous.movement.commands.PIDTranslation;
-import frc.robot.autonomous.movement.commands.VisionAlignment;
 import frc.robot.cargo.commands.Angle;
 import frc.robot.cargo.commands.Outtake;
 import frc.robot.cargo.constants.ArmPosition;
@@ -33,7 +32,7 @@ public class VisionScore extends CommandGroup {
 	 */
 	private void hatchSequence() {
 		addParallel(new Slide(SliderPosition.Middle));
-		addParallel(new VisionAlignment());
+		addParallel(new LegacyVisionAlignment());
 		addSequential(new PushForward());
 		addSequential(new Release());
 		addSequential(new MotionProfileTranslate(-4, 0.4));
@@ -45,7 +44,7 @@ public class VisionScore extends CommandGroup {
 	 * @param cargoTarget where the cargo ball is being scored, cargo ship or rocket ship.
 	 */
 	private void cargoSequence(CargoTarget cargoTarget) {
-		addSequential(new VisionAlignment());
+		addSequential(new LegacyVisionAlignment());
 		switch (cargoTarget) {
 			case Rocket:
 				//addSequential(new Angle(CargoAngle.RocketShip));

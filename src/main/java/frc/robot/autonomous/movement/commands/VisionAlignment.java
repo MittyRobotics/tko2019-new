@@ -1,222 +1,145 @@
 package frc.robot.autonomous.movement.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.autonomous.enums.DriveState;
-import frc.robot.autonomous.movement.AutonDriver;
+import frc.robot.autonomous.constants.VisionConstants;
 import frc.robot.autonomous.vision.Limelight;
 import frc.robot.drive.DriveTrain;
+import frc.robot.hardware.Gyro;
 
-/**
- * The base vision command to drive towards and in front of a target, aligning the robot facing the target close to directly in front of it.
- */
+import java.awt.geom.Point2D;
+
 public class VisionAlignment extends Command {
 
-	/**Maximum forward driving speed in percent output (0-1).*/
-	private double MAX_DRIVE_SPEED = 0.4;
-	/**Maximum turning speed in percent output (0-1).*/
-	private double MAX_TURN_SPEED = 0.2;
+	private double distance;
+	private double targetYaw;
+	private double yaw;
 
-	//counters to test for end of sequence
-	private int reachedTargetCount = 0;
-	private int lowDeltaCount = 0;
-	private int highDeltaCount = 0;
-	private int failedCalculationsCount = 0;
-	private int lostTargetCount = 0;
-	private int reachedTargetTime = 10;
-	private int lowDeltaTime = 10;
-	private int highDeltaTime = 0;
-	private int failedCalculationsTime = 10;
-	private int lostTargetTime = 10;
+	private double deltaHighTimer;
+	private double lostTargetTimer;
+	private double reachedTargetTimer;
 
-	private double acceleration = 0;
+	private double deltaHighCooldown = 10;
+	private double lostTargetCooldown = 10;
+	private double reachedTargetCooldown = 10;
 
-	double lastDistance = -1000;
-	double lastAngle = -1000;
+	private double prevYaw;
+	private double prevDist;
 
-	private int motionID;
+	double DESIRED_DISTANCE = 10;
 
-
-
-	/**
-	 * Initializes command with a name "VisionAlignment" and the required subsystem class that will be used, {@link DriveTrain}
-	 */
-	public VisionAlignment() {
-		super("VisionAlignment");
+	public VisionAlignment(){
+		super("Vision Alignment");
 		requires(DriveTrain.getInstance());
-
-		motionID = AutonDriver.getInstance().initNewDriveMethod(DriveState.VISION);
 	}
 
-	/**
-	 * The initialize function is called at the initialization stage of the command.
-	 * <p>
-	 * Here the {@link Limelight} is set to vision mode, turning the exposure down on the camera and enabling
-	 * the LEDs for optimum vision tracking. All of the values are also reset.
-	 */
-	@Override
-	public void initialize() {
-		AutonDriver.getInstance().setupVision();
+	protected void initialize() {
 
-		Limelight.getInstance().enableVisionMode();
-		Limelight.getInstance().setPipeline(0);
-		lowDeltaCount = 0;
-		highDeltaCount = 0;
-		reachedTargetCount = 0;
-		highDeltaCount = 0;
-		lostTargetCount = 0;
-		failedCalculationsCount = 0;
-		lastAngle = -1000;
-		lastDistance = -1000;
 	}
 
+	protected void execute() {
 
-	private double distance = 20, xOffset = 0, targetAngle = 0, angle = 0, finalTurn = 0, finalDrive = 0;
-	private double drive = 0, turn = 0, skew = 0;
+		updateValues();
 
-	//Drive gain tuned for drive speed when driving into target
-	private double DRIVE_K = 0.021;
-	private double DESIRED_DISTANCE = 8;
-	//Turn gain tuned for turning speed
-	private double TURN_K = 0.025;
-	//Skew gain tuned for the amount of influence skew has on turning
-	private double SKEW_K = 0.04;
+		checkForLostTarget();
+		checkForHighDelta();
+		checkForReachedTarget();
 
-	/**
-	 * This method is called periodically (about every 20ms) and does the work of the command.
-	 */
-	@Override
-	public void execute() {
-		Limelight.getInstance().updateLimelightValues();
 
-		//Acceleration value that smoothes the starting movement of drive.
-		//TODO: Make acceleration value compensate for current velocity so it smooths the transition when entering vision mode
-		if (acceleration < 1) {
-			acceleration += 0.09;
-		}
+		double drive = 0;
+		double turn = 0;
+		double skew = 0;
 
-		//Check if Limelight has target, if so update values, if not keep previous values and test for end of sequence
-		if (!Limelight.getInstance().isHasTarget()) {
-			lostTargetCount++;
-			System.out.println("Lost sight of target " + lostTargetCount + "/" + lostTargetTime);
-		} else {
-			lostTargetCount = 0;
-			distance = Limelight.getInstance().getTargetZFast();
-			targetAngle = Limelight.getInstance().getTargetYawFast();
-			angle = Limelight.getInstance().getXAngle();
-		}
-		if(distance == -1000 && targetAngle == -1000){
-			failedCalculationsCount ++;
-			System.out.println("Failed Calculations: " + failedCalculationsCount + "/" + failedCalculationsTime);
+
+		double MAX_SPEED = 0.6;
+		double TURN_DRIVE_RATIO = 0.65;
+		double TURN_SKEW_RATIO = 0.5;
+		double DRIVE_K = 0.021;
+		double TURN_K = 0.025;
+		double SKEW_K = 0.04;
+
+		if(distance > DESIRED_DISTANCE){
+			drive = Math.min(MAX_SPEED * (1-TURN_DRIVE_RATIO), distance/DRIVE_K);
 		}
 		else{
-			Limelight.getInstance().printValues();
-			failedCalculationsCount = 0;
-
-			//Cap drive value from -max drive speed to max drive speed
-			drive = Math.min((distance - DESIRED_DISTANCE) * DRIVE_K, MAX_DRIVE_SPEED);
-
-			//Make drive never go under 0
-			drive = Math.max(drive, 0);
-
-			turn = angle * TURN_K;
-
-			//Cap turn value from -max turning speed to max turning speed
-			if (turn > MAX_TURN_SPEED) {
-				turn = MAX_TURN_SPEED;
-			} else if (turn < -MAX_TURN_SPEED) {
-				turn = -MAX_TURN_SPEED;
-			}
-
-			//Compensate for errors in skew value
-			if (targetAngle < 15) {
-				if (targetAngle < 0) {
-					skew = -SKEW_K;
-				} else if (targetAngle > 0) {
-					skew = SKEW_K;
-				} else {
-					skew = 0;
-				}
-			} else {
-				skew = 0;
-			}
-
-
-		}
-		//Subtract skew influence to turn
-		turn = turn - skew;
-		//Reverse drive value and multiply by acceleration
-		drive = -drive * acceleration;
-		//Slowly change drive value for no sudden jerks in movement
-		if (finalDrive < drive) {
-			finalDrive += 0.02;
-		} else {
-			finalDrive -= 0.02;
+			drive = 0;
 		}
 
+		turn = Math.min((MAX_SPEED * (TURN_DRIVE_RATIO) * TURN_SKEW_RATIO), Math.max(-(MAX_SPEED * (TURN_DRIVE_RATIO) * TURN_SKEW_RATIO), yaw / TURN_K));
+
+		skew = Math.min((MAX_SPEED * (TURN_DRIVE_RATIO) * (1-TURN_SKEW_RATIO)), Math.max(-(MAX_SPEED * (TURN_DRIVE_RATIO) * (1-TURN_SKEW_RATIO)), targetYaw / SKEW_K));
 
 
-		//Apply drive and turn values to the wheels
-		DriveTrain.getInstance().tankDrive(finalDrive + turn, finalDrive - turn);
+
+		double left = -drive + turn + skew;
+		double right = -drive - turn - skew;
+
+		DriveTrain.getInstance().tankDrive(left, right);
 
 
-		//Multiple checks for end of sequence
-		if (Math.abs(angle) <= 4 && Limelight.getInstance().isHasTarget() && distance <= DESIRED_DISTANCE + 1) { //TODO: Tune thresholds
-			reachedTargetCount++;
-			System.out.println("Testing for end of vision sequence: " + reachedTargetCount + "/" + reachedTargetTime);
-		} else {
-			reachedTargetCount = 0;
-		}
-		if (Math.abs(lastDistance - distance) < 0.5) {
-			//lowDeltaCount++;
-			System.out.println("Delta change is low: " + lowDeltaCount + "/" + lowDeltaTime);
-		} else {
-			lowDeltaCount = 0;
-		}
-		//If the change in angle or distance is greater than a certain threshold, this means an error in target
-		//detection has occurred. In this case we should end immediately
-		if (lastAngle != -1000 && distance != -1000) {
-			if (Math.abs(distance - lastDistance) > 80 || Math.abs(angle - lastAngle) > 30) {
-				highDeltaCount ++;
-				System.out.println("Target is too far away from previous target: " + highDeltaCount + "/" + highDeltaTime);
-			}
-			else{
-				highDeltaCount = 0;
-			}
-		}
+		prevYaw = yaw;
+		prevDist = distance;
 
-		lastDistance = distance;
-		lastAngle = angle;
 	}
 
-	/**
-	 * This method is called at the end of the command.
-	 * <p>
-	 * This resets the wheel speeds to 0. It also puts the {@link Limelight} back into driver mode because
-	 * the vision tracking is completed.
-	 */
-	@Override
-	public void end() {
-		AutonDriver.getInstance().visionEnd();
-		DriveTrain.getInstance().tankDrive(0, 0);
-		//Limelight.getInstance().enableDriverMode();
-		System.out.println("Ended VisionAlignment.java command");
+	private void checkForHighDelta(){
+		if(Math.abs(yaw - prevYaw) > 8 || Math.abs(distance - prevDist) > 10){
+			System.out.println("Vision robot alignment target position delta is too high. Checking for end: " + deltaHighTimer + "/" + deltaHighCooldown);
+			deltaHighTimer++;
+		}
+		else{
+			deltaHighTimer = 0;
+		}
 	}
 
-	/**
-	 * This method is called when the command is interrupted, therefore ending the command.
-	 */
-	@Override
-	public void interrupted() {
+	private void checkForLostTarget(){
+		if(!Limelight.getInstance().isHasTarget()){
+			System.out.println("Vision robot alignment target has been lost. Checking for end: " + lostTargetTimer + "/" + lostTargetCooldown);
+			lostTargetTimer ++;
+		}
+		else{
+			lostTargetTimer = 0;
+		}
+	}
+
+	private void checkForReachedTarget(){
+		if(distance < DESIRED_DISTANCE){
+			System.out.println("Vision robot alignment has reached the target. Checking for end: " + reachedTargetTimer + "/" + reachedTargetCooldown);
+			reachedTargetTimer ++;
+		}
+		else{
+			reachedTargetTimer = 0;
+		}
+	}
+
+	private void updateValues(){
+		if(Limelight.getInstance().isHasTarget()){
+			distance = Limelight.getInstance().getTargetYFast();
+			targetYaw = Limelight.getInstance().getTargetYawFast();
+			yaw = Limelight.getInstance().getXAngle();
+		}
+	}
+
+
+	protected void end() {
+		if(deltaHighTimer >= deltaHighCooldown){
+			System.out.println("Vision robot alignment ended unexpectedly. Cause: Target position delta is too high");
+		}
+		else if(lostTargetTimer >= lostTargetCooldown){
+			System.out.println("Vision robot alignment ended unexpectedly. Cause: Lost target");
+		}
+		else if(reachedTargetTimer >= reachedTargetCooldown){
+			System.out.println("Vision robot alignment has ended successfully! Cause: reached target");
+		}
+		else{
+			System.out.println("Vision robot alignment ended unexpectedly. Cause: Unknown");
+		}
+	}
+
+	protected void interrupted() {
 		end();
 	}
 
-	/**
-	 * This returns whether or not the command has finished.
-	 *
-	 * @return if any of the end timers are passed
-	 */
-	@Override
 	protected boolean isFinished() {
-		return AutonDriver.getInstance().isFinished(motionID) || reachedTargetCount > reachedTargetTime || lostTargetCount > lostTargetTime || lowDeltaCount > lowDeltaTime || highDeltaCount > highDeltaTime || failedCalculationsCount > failedCalculationsTime;
+		return deltaHighTimer > deltaHighCooldown || lostTargetTimer > lostTargetCooldown || reachedTargetTimer > reachedTargetCooldown;
 	}
 }
