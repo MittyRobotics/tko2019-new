@@ -8,6 +8,7 @@ import frc.robot.autonomous.enums.SnapshotMode;
 import frc.robot.autonomous.enums.StreamMode;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * Singleton that handles all Limelight related tasks and functions.
@@ -19,6 +20,8 @@ public class Limelight {
 		return ourInstance;
 	}
 
+	private int pipelineID = 0;
+
 	//Values read from limelight networktables
 	private double tv; //Whether the limelight has any valid targets (0 or 1)
 	private double tx; //Horizontal Offset From Crosshair To Target (-29.8 to 29.8 degrees)
@@ -28,6 +31,10 @@ public class Limelight {
 	private double[] tcornx;
 	private double[] tcorny;
 	private double[] targetPositionFast; //Distance to the target (inches)
+
+	private Point2D.Double leftCorner;
+	private Point2D.Double rightCorner;
+
 
 	private double[] defaultCamtranVal = {-1000,-1000,-1000,-1000,-1000,-1000};
 	private double[] defaultTCornVal = {-1000,-1000,-1000,-1000,-1000,-1000,-1000,-1000};
@@ -40,6 +47,7 @@ public class Limelight {
 	 * camera while vision is not being used.
 	 */
 	private Limelight() {
+		setPipeline(0);
 		setLedMode(LedMode.Off);
 		setCameraMode(CameraMode.Driver);
 		setStreamMode(StreamMode.Main);
@@ -69,15 +77,24 @@ public class Limelight {
 	 * This should be periodically updated every loop time to ensure the most acurate vision movement
 	 */
 	public void updateLimelightValues() {
-
-		tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0); //Whether the limelight has any valid targets (0 or 1)
-		tx = (double) Math.round((float) NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0) * 10) / 10; //Horizontal Offset From Crosshair To Target (LL1: -27 degrees to 27 degrees | LL2: -29.8 to 29.8 degrees)
-		ty = (double) Math.round((float) NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0) * 10) / 10; //Vertical Offset From Crosshair To Target (LL1: -20.5 degrees to 20.5 degrees | LL2: -24.85 to 24.85 degrees)
-		ta = (double) Math.round((float) NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0) * 10) / 10; //Target Area (0% of image to 100% of image)
-		camtran = NetworkTableInstance.getDefault().getTable("limelight").getEntry("camtran").getDoubleArray(defaultCamtranVal);
-		tcornx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tcornx").getDoubleArray(defaultTCornVal);
-		tcorny = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tcorny").getDoubleArray(defaultTCornVal);
-		targetPositionFast = calculateTargetPositionFast();
+		if(pipelineID == 5){
+			double leftX = NetworkTableInstance.getDefault().getTable("GRIP/leftLine").getEntry("x1").getDoubleArray(new double[] {0,0})[0];
+			double leftY = NetworkTableInstance.getDefault().getTable("GRIP/leftLine").getEntry("y1").getDoubleArray(new double[] {0,0})[0];
+			leftCorner = new Point2D.Double(leftX, leftY);
+			double rightX = NetworkTableInstance.getDefault().getTable("GRIP/rightLine").getEntry("x1").getDoubleArray(new double[] {0,0})[0];
+			double rightY = NetworkTableInstance.getDefault().getTable("GRIP/rightLine").getEntry("y1").getDoubleArray(new double[] {0,0})[0];
+			rightCorner = new Point2D.Double(rightX, rightY);
+		}
+		else{
+			tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0); //Whether the limelight has any valid targets (0 or 1)
+			tx = (double) Math.round((float) NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0) * 10) / 10; //Horizontal Offset From Crosshair To Target (LL1: -27 degrees to 27 degrees | LL2: -29.8 to 29.8 degrees)
+			ty = (double) Math.round((float) NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0) * 10) / 10; //Vertical Offset From Crosshair To Target (LL1: -20.5 degrees to 20.5 degrees | LL2: -24.85 to 24.85 degrees)
+			ta = (double) Math.round((float) NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0) * 10) / 10; //Target Area (0% of image to 100% of image)
+			camtran = NetworkTableInstance.getDefault().getTable("limelight").getEntry("camtran").getDoubleArray(defaultCamtranVal);
+			tcornx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tcornx").getDoubleArray(defaultTCornVal);
+			tcorny = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tcorny").getDoubleArray(defaultTCornVal);
+			targetPositionFast = calculateTargetPositionFast();
+		}
 
 	}
 
@@ -160,6 +177,12 @@ public class Limelight {
 	public double getTargetYawFast(){
 		return targetPositionFast[4];
 	}
+	public Point2D.Double getLeftCorner(){
+		return leftCorner;
+	}
+	public Point2D.Double getRightCorner(){
+		return rightCorner;
+	}
 	/**
 	 * Returns the rough distance to the target in inches.
 	 *
@@ -224,6 +247,7 @@ public class Limelight {
 	 * @param pipelineID ID of new active pipeline
 	 */
 	public void setPipeline(int pipelineID) {
+		this.pipelineID = pipelineID;
 		if (pipelineID > 9 || pipelineID < 0) {
 			pipelineID = 0;
 		}

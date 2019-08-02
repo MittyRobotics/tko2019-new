@@ -86,7 +86,7 @@ public class VisionAlignment extends Command {
 	 */
 	@Override
 	public void execute() {
-
+		Limelight.getInstance().updateLimelightValues();
 
 		//Acceleration value that smoothes the starting movement of drive.
 		//TODO: Make acceleration value compensate for current velocity so it smooths the transition when entering vision mode
