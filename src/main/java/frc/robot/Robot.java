@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.autonomous.Odometry;
 import frc.robot.autonomous.TestCommand;
 import frc.robot.autonomous.enums.StreamMode;
+import frc.robot.autonomous.movement.commands.AutoSlider;
 import frc.robot.autonomous.movement.commands.MotionProfileTranslate;
 import frc.robot.autonomous.movement.commands.Translate2dTrajectory;
 import frc.robot.autonomous.vision.Limelight;
@@ -110,7 +111,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotPeriodic() {
 		Scheduler.getInstance().run();
-
+		Compressor.getInstance().start();
 		//System.out.println("asdf");
 
 	}
@@ -130,6 +131,7 @@ public class Robot extends TimedRobot {
 //		waypoints[0] = new Waypoint(new Point2D.Double(0,0),0);
 //		waypoints[1] = new Waypoint(new Point2D.Double(48,-24),0);
 //		new Translate2dTrajectory(waypoints, PathType.CUBIC_HERMITE_PATH, true).start();
+		new AutoSlider().start();
 	}
 	@Override
 	public void autonomousPeriodic() {
@@ -137,7 +139,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		Compressor.getInstance().start();
+
 		//new TankDrive().start();
 		//new TestCommand().start();
 		//new Slide(SliderPosition.Middle).start();

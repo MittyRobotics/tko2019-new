@@ -94,6 +94,8 @@ public class Limelight {
 			tcornx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tcornx").getDoubleArray(defaultTCornVal);
 			tcorny = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tcorny").getDoubleArray(defaultTCornVal);
 			targetPositionFast = calculateTargetPositionFast();
+			leftCorner = new Point2D.Double(tcornx[3], tcorny[3]);
+            rightCorner = new Point2D.Double(tcornx[4], tcorny[4]);
 		}
 
 	}
