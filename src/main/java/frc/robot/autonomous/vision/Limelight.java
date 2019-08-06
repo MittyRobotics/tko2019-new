@@ -47,10 +47,14 @@ public class Limelight {
 	 * camera while vision is not being used.
 	 */
 	private Limelight() {
+
+	}
+
+	public void initDefaultLimelightSettings(){
 		setPipeline(0);
-		setLedMode(LedMode.Off);
-		setCameraMode(CameraMode.Driver);
-		setStreamMode(StreamMode.Main);
+		setLedMode(LedMode.On);
+		setCameraMode(CameraMode.Vision);
+		setStreamMode(StreamMode.Secondary);
 		setSnapshotMode(SnapshotMode.Off);
 	}
 
@@ -98,6 +102,10 @@ public class Limelight {
             rightCorner = new Point2D.Double(tcornx[4], tcorny[4]);
 		}
 
+	}
+
+	public VisionTarget getCurrentTarget(){
+		return new VisionTarget();
 	}
 
 	/**

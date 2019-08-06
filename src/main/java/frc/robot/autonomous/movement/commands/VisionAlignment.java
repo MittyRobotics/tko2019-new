@@ -1,12 +1,10 @@
 package frc.robot.autonomous.movement.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.autonomous.constants.VisionConstants;
+import frc.robot.autonomous.enums.VisionEndType;
+import frc.robot.autonomous.vision.VisionEnd;
 import frc.robot.autonomous.vision.Limelight;
 import frc.robot.drive.DriveTrain;
-import frc.robot.hardware.Gyro;
-
-import java.awt.geom.Point2D;
 
 public class VisionAlignment extends Command {
 
@@ -22,10 +20,8 @@ public class VisionAlignment extends Command {
 	private double lostTargetCooldown = 10;
 	private double reachedTargetCooldown = 10;
 
-	private double prevYaw;
-	private double prevDist;
 
-	double DESIRED_DISTANCE = 10;
+	private double DESIRED_DISTANCE = 10;
 
 	public VisionAlignment(){
 		super("Vision Alignment");
@@ -33,21 +29,14 @@ public class VisionAlignment extends Command {
 	}
 
 	protected void initialize() {
-
+		VisionEnd.getInstance().reset(new VisionEndType[] {VisionEndType.HIGH_DELTA, VisionEndType.LOST_TARGET, VisionEndType.REACHED_TARGET, VisionEndType.FAILED_CALCULATIONS});
 	}
 
 	protected void execute() {
 
 		updateValues();
 
-		checkForLostTarget();
-		checkForHighDelta();
-		checkForReachedTarget();
-
-
-		double drive = 0;
-		double turn = 0;
-		double skew = 0;
+		double drive = 0, turn = 0, skew = 0;
 
 
 		double MAX_SPEED = 0.6;
@@ -75,44 +64,12 @@ public class VisionAlignment extends Command {
 
 		DriveTrain.getInstance().tankDrive(left, right);
 
-
-		prevYaw = yaw;
-		prevDist = distance;
-
 	}
 
-	private void checkForHighDelta(){
-		if(Math.abs(yaw - prevYaw) > 8 || Math.abs(distance - prevDist) > 10){
-			System.out.println("Vision robot alignment target position delta is too high. Checking for end: " + deltaHighTimer + "/" + deltaHighCooldown);
-			deltaHighTimer++;
-		}
-		else{
-			deltaHighTimer = 0;
-		}
-	}
-
-	private void checkForLostTarget(){
-		if(!Limelight.getInstance().isHasTarget()){
-			System.out.println("Vision robot alignment target has been lost. Checking for end: " + lostTargetTimer + "/" + lostTargetCooldown);
-			lostTargetTimer ++;
-		}
-		else{
-			lostTargetTimer = 0;
-		}
-	}
-
-	private void checkForReachedTarget(){
-		if(distance < DESIRED_DISTANCE){
-			System.out.println("Vision robot alignment has reached the target. Checking for end: " + reachedTargetTimer + "/" + reachedTargetCooldown);
-			reachedTargetTimer ++;
-		}
-		else{
-			reachedTargetTimer = 0;
-		}
-	}
 
 	private void updateValues(){
-		if(Limelight.getInstance().isHasTarget()){
+		VisionEnd.getInstance().update(yaw, distance, targetYaw, DESIRED_DISTANCE);
+		if(VisionEnd.getInstance().isSafeToUpdate()){
 			distance = Limelight.getInstance().getTargetYFast();
 			targetYaw = Limelight.getInstance().getTargetYawFast();
 			yaw = Limelight.getInstance().getXAngle();
@@ -121,18 +78,7 @@ public class VisionAlignment extends Command {
 
 
 	protected void end() {
-		if(deltaHighTimer >= deltaHighCooldown){
-			System.out.println("Vision robot alignment ended unexpectedly. Cause: Target position delta is too high");
-		}
-		else if(lostTargetTimer >= lostTargetCooldown){
-			System.out.println("Vision robot alignment ended unexpectedly. Cause: Lost target");
-		}
-		else if(reachedTargetTimer >= reachedTargetCooldown){
-			System.out.println("Vision robot alignment has ended successfully! Cause: reached target");
-		}
-		else{
-			System.out.println("Vision robot alignment ended unexpectedly. Cause: Unknown");
-		}
+		System.out.println("Vision Alignment ended. Cause: " + VisionEnd.getInstance().getEndCause());
 	}
 
 	protected void interrupted() {
@@ -140,6 +86,6 @@ public class VisionAlignment extends Command {
 	}
 
 	protected boolean isFinished() {
-		return deltaHighTimer > deltaHighCooldown || lostTargetTimer > lostTargetCooldown || reachedTargetTimer > reachedTargetCooldown;
+		return VisionEnd.getInstance().isFinished();
 	}
 }
