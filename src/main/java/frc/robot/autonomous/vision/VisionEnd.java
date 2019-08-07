@@ -16,7 +16,7 @@ public class VisionEnd {
 	private double failedCalculationsTimer;
 	private double failedCalculationsCooldown = 10;
 	private double reachedTargetTimer;
-	private double reachedTargetCooldown = 10;
+	private double reachedTargetCooldown = 1;
 	private double lostTargetTimer;
 	private double lostTargetCooldown = 10;
 
@@ -79,7 +79,7 @@ public class VisionEnd {
 	}
 
 	public boolean isSafeToUpdate(){
-		return highDeltaTimer == 0 && lowDeltaTimer == 0 && failedCalculationsTimer == 0 && reachedTargetTimer == 0 && lostTargetTimer == 0;
+		return highDeltaTimer == 0 && failedCalculationsTimer == 0 &&  lostTargetTimer == 0;
 	}
 
 
@@ -95,7 +95,7 @@ public class VisionEnd {
 			if (type == VisionEndType.HIGH_DELTA) {
 				checkForHighDelta(yaw, prevYaw, distance, prevDist);
 			} else if (type == VisionEndType.LOW_DELTA) {
-				checkForLowDelta(yaw, prevYaw, distance, prevDist);
+				checkForLowDelta(distance, prevDist);
 			} else if (type == VisionEndType.FAILED_CALCULATIONS) {
 				checkForFailedCalculations(targetAngle);
 			} else if (type == VisionEndType.REACHED_TARGET) {
@@ -164,8 +164,8 @@ public class VisionEnd {
 		}
 	}
 
-	private void checkForLowDelta(double yaw, double prevYaw, double distance, double prevDist) {
-		if (Math.abs(distance - prevDist) > 2) {
+	private void checkForLowDelta(double distance, double prevDist) {
+		if (Math.abs(distance - prevDist) < .2) {
 			System.out.println("Vision target position delta is too low. Checking for end: " + lowDeltaTimer + "/" + lowDeltaCooldown);
 			lowDeltaTimer++;
 		} else {

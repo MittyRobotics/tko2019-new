@@ -358,6 +358,8 @@ public class Limelight {
 
 				roll = -100;
 
+				//System.out.println("distance: " + y + "target angle: " + yaw);
+
 				double[] position = {
 						x, y, z, pitch, yaw, roll
 				};
@@ -370,8 +372,9 @@ public class Limelight {
 
 	private double calculateDistanceToPoints(Point2D.Double p1, Point2D.Double p2, double distanceBetweenPoints){
 		double pixelDistance = p1.distance(p2);
-		return ((distanceBetweenPoints * VisionConstants.FOCAL_PIXELS_CALIB) / pixelDistance);
+		return ((distanceBetweenPoints * VisionConstants.FOCAL_PIXELS_CALIB_HIGH) / pixelDistance);
 	}
+
 
 	/**
 	 * Prints the received limelight values in an organized line.
@@ -383,7 +386,7 @@ public class Limelight {
 		String a;
 		String h;
 
-		//Set strings to network table values
+		//Set strings to network table valuesf
 		h = Limelight.getInstance().isHasTarget() + "";
 		x = Limelight.getInstance().getXAngle() + "";
 		y = Limelight.getInstance().getYAngle() + "";

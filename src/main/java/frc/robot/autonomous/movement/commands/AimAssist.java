@@ -26,14 +26,14 @@ public class AimAssist extends Command {
 
 		updateValues();
 
-		double left = -OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft);
-		double right =  -OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight);
+		double left = -OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft) / 1.3;
+		double right =  -OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight) / 1.3;
 		//Turn gain tuned for turning speed
-		double TURN_K = 0.01;
+		double TURN_K = 0.005;
 
 		double turn = yawAngle * TURN_K;
 
-		DriveTrain.getInstance().tankDrive(left+turn,right-turn);
+		DriveTrain.getInstance().tankDrive(left+turn,right-turn );
 	}
 
 	private void updateValues(){
@@ -57,6 +57,6 @@ public class AimAssist extends Command {
 	}
 
 	protected boolean isFinished() {
-		return lostTargetCount >= lostTargetCooldown;
+		return false;
 	}
 }

@@ -42,7 +42,7 @@ public class AutoSlider extends Command {
 				double distanceBetweenCorners = leftCorner.distance(rightCorner);
 
 				//TODO: Calibrate distance between target inner corners
-				double distance = ((VisionConstants.DISTANCE_BETWEEN_TARGET_INNER_CORNERS * VisionConstants.FOCAL_PIXELS_CALIB) / distanceBetweenCorners);
+				double distance = ((VisionConstants.DISTANCE_BETWEEN_TARGET_INNER_CORNERS * VisionConstants.FOCAL_PIXELS_CALIB_HIGH) / distanceBetweenCorners);
 
 
 				double xOffset = Math.tan(Math.toRadians(-yaw)) * distance;

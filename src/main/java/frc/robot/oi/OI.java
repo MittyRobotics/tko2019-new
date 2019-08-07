@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import frc.robot.autonomous.movement.commands.LegacyVisionAlignment;
 //import frc.robot.drive.commands.GearShift;
+import frc.robot.autonomous.movement.commands.VisionAlignment;
+import frc.robot.autonomous.vision.VisionScore;
 import frc.robot.cargo.commands.Angle;
 import frc.robot.cargo.commands.Intake;
 import frc.robot.cargo.commands.Outtake;
@@ -51,7 +53,7 @@ public class OI {
 			}
 
 		};
-		vision.whenPressed(new LegacyVisionAlignment());
+		vision.whenPressed(new VisionAlignment());
 		//testProfile.whenPressed(new MotionProfileTranslate(10, 0.2));
 		driveControls();
 		hatchControls();

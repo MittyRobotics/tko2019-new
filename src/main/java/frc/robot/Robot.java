@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.autonomous.Odometry;
 import frc.robot.autonomous.TestCommand;
 import frc.robot.autonomous.enums.StreamMode;
+import frc.robot.autonomous.movement.commands.AimAssist;
 import frc.robot.autonomous.movement.commands.AutoSlider;
 import frc.robot.autonomous.movement.commands.MotionProfileTranslate;
 import frc.robot.autonomous.movement.commands.Translate2dTrajectory;
@@ -126,6 +127,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
+		//new AimAssist().start();
+		new PushBackward().start();
 //		Odometry.getInstance().resetPosition();
 //		Waypoint[] waypoints = new Waypoint[2];
 //		waypoints[0] = new Waypoint(new Point2D.Double(0,0),0);

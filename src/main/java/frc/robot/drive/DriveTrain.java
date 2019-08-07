@@ -73,8 +73,25 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public void tankDrive(double left, double right) {
-		left = left/1.3;
-		right = right/1.3;
+		if (Math.abs(left) < 0.1) {
+			leftDrive[0].set(ControlMode.PercentOutput, 0);
+			leftDrive[1].set(ControlMode.PercentOutput, 0);
+		} else {
+			leftDrive[0].set(ControlMode.PercentOutput, left);
+			leftDrive[1].set(ControlMode.PercentOutput, left);
+		}
+		if (Math.abs(right) < 0.1) {
+			rightDrive[0].set(ControlMode.PercentOutput, 0);
+			rightDrive[1].set(ControlMode.PercentOutput, 0);
+		} else {
+			rightDrive[0].set(ControlMode.PercentOutput, right);
+			rightDrive[1].set(ControlMode.PercentOutput, right);
+		}
+	}
+
+	public void tankDrive(double left, double right, double divide) {
+		left = left/divide;
+		right = right/divide;
 		if (Math.abs(left) < 0.1) {
 			leftDrive[0].set(ControlMode.PercentOutput, 0);
 			leftDrive[1].set(ControlMode.PercentOutput, 0);

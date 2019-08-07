@@ -9,6 +9,7 @@ import frc.robot.autonomous.movement.commands.VisionAlignment;
 import frc.robot.cargo.commands.Angle;
 import frc.robot.cargo.commands.Outtake;
 import frc.robot.cargo.constants.ArmPosition;
+import frc.robot.hatchpanel.commands.PushBackward;
 import frc.robot.hatchpanel.commands.PushForward;
 import frc.robot.hatchpanel.commands.Release;
 import frc.robot.hatchpanel.commands.Slide;
@@ -21,9 +22,10 @@ public class VisionScore extends CommandGroup {
 		return ourInstance;
 	}
 	
-	private VisionScore() {
+	public VisionScore() {
 		//private VisionScore(){} is sad because there is nothing here :(
 		//"Everybody needs a friend" -Bob Ross
+		selectSequence();
 	}
 	
 	/**
@@ -32,8 +34,8 @@ public class VisionScore extends CommandGroup {
 	 * Works for either cargo ship or rocket ship.
 	 */
 	private void hatchSequence() {
-		addParallel(new PushForward());
-		addParallel(new VisionAlignment());
+		addSequential(new PushBackward());
+		addSequential(new VisionAlignment());
 		addSequential(new Release());
 	}
 	

@@ -34,7 +34,7 @@ public class Slider extends Subsystem {
 		slider.setInverted(TalonInversions.SLIDER);
 		slider.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 		slider.setSensorPhase(EncoderInversions.SLIDER);
-		slider.configClosedLoopPeakOutput(0,0.3);
+		slider.configClosedLoopPeakOutput(0,0.5);
 		slider.config_kP(0, PID.SLIDER[0]);
 		slider.config_kI(0, PID.SLIDER[1]);
 		slider.config_kD(0, PID.SLIDER[2]);
@@ -85,6 +85,7 @@ public class Slider extends Subsystem {
 		slider.set(ControlMode.PercentOutput, 0.2);
 		while (!slider.getSensorCollection().isFwdLimitSwitchClosed() && DriverStation.getInstance().isTest()) {
 			try {
+				System.out.println(slider.getSensorCollection().isFwdLimitSwitchClosed());
 				Thread.sleep(20);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
