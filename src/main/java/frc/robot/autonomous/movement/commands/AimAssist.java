@@ -29,8 +29,16 @@ public class AimAssist extends Command {
 
 		double left = -OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft) / 1.3;
 		double right =  -OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight) / 1.3;
-		//Turn gain tuned for turning speed
-		double TURN_K = 0.005;
+		double turn ;
+		if(Limelight.getInstance().isHasTarget() && distance < 70){
+			//Turn gain tuned for turning speed
+			double TURN_K = 0.005;
+			turn = yawAngle * TURN_K;
+
+		}
+		else{
+			turn = 0;
+		}
 
 
 		DriveTrain.getInstance().tankDrive(left+turn,right-turn );
