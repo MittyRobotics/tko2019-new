@@ -9,6 +9,7 @@ import frc.robot.oi.OI;
 public class AimAssist extends Command {
 
 	double yawAngle = 0;
+	double distance = 0;
 	double lostTargetCount = 0;
 	double lostTargetCooldown = 10;
 
@@ -31,7 +32,6 @@ public class AimAssist extends Command {
 		//Turn gain tuned for turning speed
 		double TURN_K = 0.005;
 
-		double turn = yawAngle * TURN_K;
 
 		DriveTrain.getInstance().tankDrive(left+turn,right-turn );
 	}
@@ -39,6 +39,7 @@ public class AimAssist extends Command {
 	private void updateValues(){
 		if(Limelight.getInstance().isHasTarget()){
 			yawAngle = Limelight.getInstance().getXAngle();
+			distance = Limelight.getInstance().getTargetYFast();
 			lostTargetCount = 0;
 		}
 		else{

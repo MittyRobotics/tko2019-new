@@ -127,7 +127,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		//new AimAssist().start();
+		new AimAssist().start();
 		new PushBackward().start();
 //		Odometry.getInstance().resetPosition();
 //		Waypoint[] waypoints = new Waypoint[2];

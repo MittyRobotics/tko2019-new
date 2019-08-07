@@ -37,32 +37,17 @@ public class VisionAlignment extends Command {
 		initDist = distance;
 
 	}
-	private double TURN_K = 0.03;
+
+	private double MAX_SPEED = 35; //in per second
+	private double TURN_DRIVE_RATIO = 0.5; //Ratio of MAX_SPEED allowed for turn. Drive ratio is 1-TURN_DRIVE_RATIO
+	private double DRIVE_K = 1.2; //Drive gain. Decrease if drive is not slowing down fast enough.
+	private double TURN_K = 15; //in per second at max angle (29.8 degrees)
 
 	protected void execute() {
-
 
 		updateValues();
 
 		double drive = 0, turn = 0, skew = 0;
-
-
-		double MAX_SPEED = 1;
-		double TURN_DRIVE_RATIO = 0.5;
-		double TURN_SKEW_RATIO = 1;
-		double DRIVE_K = 0.04;
-//		if(initDist < 50){
-//			DRIVE_K = 0.04;
-//		}
-//		if(initDist < 30){
-//			DESIRED_DISTANCE = DESIRED_DISTANCE - 2;
-//			DRIVE_K = 0.04;
-//		}
-
-
-
-		double SKEW_K = 0.01;
-
 
 		if(distance > DESIRED_DISTANCE){
 			drive = Math.min(MAX_SPEED * (1-TURN_DRIVE_RATIO), (distance-DESIRED_DISTANCE)*DRIVE_K);
@@ -71,33 +56,20 @@ public class VisionAlignment extends Command {
 			drive = 0;
 		}
 
+		double mappedYaw = yaw / 29.8;
 
-
-		turn = Math.min((MAX_SPEED * (TURN_DRIVE_RATIO) * TURN_SKEW_RATIO), Math.max(-(MAX_SPEED * (TURN_DRIVE_RATIO) * TURN_SKEW_RATIO), yaw * TURN_K));
-
-		//double sign = Math.signum(turn);
-
-		//turn = turn * sign;
-
-		skew = Math.min((MAX_SPEED * (TURN_DRIVE_RATIO) * (1-TURN_SKEW_RATIO)), Math.max(-(MAX_SPEED * (TURN_DRIVE_RATIO) * (1-TURN_SKEW_RATIO)), targetYaw * SKEW_K));
+		turn = Math.min((MAX_SPEED * (TURN_DRIVE_RATIO)), Math.max(-(MAX_SPEED * (TURN_DRIVE_RATIO)), mappedYaw * TURN_K));
 
 		if(Double.isNaN(skew)){
 			skew = 0;
 		}
-
-
-		TURN_K -= 0.00001;
 
 		double left = -drive + turn ;
 		double right = -drive - turn ;
 
 		System.out.println("turn: " + turn + " yaw " + yaw + " dist: " + distance + " drive: " + drive + " skew " + skew + "left: " + left + " right: " + right);
 
-
-
-		//double left = -drive +  turn;
-		//double right = -drive + -turn;
-		DriveTrain.getInstance().tankVelocity(left * 35, right * 35);
+		DriveTrain.getInstance().tankVelocity(left, right);
 
 	}
 
