@@ -10,7 +10,6 @@ import team1351.motionprofile.*;
 public class Slide extends Command {
 	private SliderPosition sliderPosition;
 	private TrapezoidalMotionProfile slide;
-	private double startPosition;
 	private double t;
 	public Slide(SliderPosition sliderPosition) {
 		super("Slide");
@@ -24,9 +23,6 @@ public class Slide extends Command {
 		System.out.println("init");
 		slide = Slider.getInstance().slide(sliderPosition);
 		t = 0;
-		startPosition = Slider.getInstance().getSliderPosition();
-
-
 	}
 
 	@Override

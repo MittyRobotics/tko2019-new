@@ -7,14 +7,11 @@ public class Release extends Command {
 	private double timer;
 	private boolean  finish;
 	public Release() {
-		super("Grab");
-		requires(Grabber.getInstance());
-		this.timer = 0;
-		this.finish = false;
+		new Release(0);
 	}
 
 	public Release(double timer) {
-		super("Grab");
+		super("Release");
 		requires(Grabber.getInstance());
 		this.timer = timer;
 		this.finish = false;
@@ -27,7 +24,7 @@ public class Release extends Command {
 			finish = true;
 		}
 
-		System.out.println("Grab");
+		System.out.println("Release");
 	}
 
 	@Override

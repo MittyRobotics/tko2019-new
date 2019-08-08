@@ -7,10 +7,7 @@ public class Grab extends Command {
 	private double timer;
 	private boolean  finish;
 	public Grab() {
-		super("Grab");
-		requires(Grabber.getInstance());
-		timer = 0;
-		finish = false;
+		new Grab(0);
 	}
 
 	public Grab(double timer) {

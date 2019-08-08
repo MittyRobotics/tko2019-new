@@ -22,6 +22,7 @@ public class Pusher extends Subsystem {
 	public void pushForward(){
 		pusher.set(DoubleSolenoid.Value.kReverse);
 	}
+
 	public void pushBackward(){
 		pusher.set(DoubleSolenoid.Value.kForward);
 	}

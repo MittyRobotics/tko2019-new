@@ -29,6 +29,7 @@ public class Slider extends Subsystem {
 	private Slider() {
 		super("Slider");
 	}
+
 	public void initHardware(){
 		slider.configFactoryDefault();
 		slider.setInverted(TalonInversions.SLIDER);
@@ -44,6 +45,7 @@ public class Slider extends Subsystem {
 	protected void initDefaultCommand() {
 	//	setDefaultCommand(new ManualSlide());
 	}
+
 	public TrapezoidalMotionProfile slide(final SliderPosition sliderPosition){
 		new PushForward();
 		if(sliderPosition == SliderPosition.Left){
@@ -54,6 +56,7 @@ public class Slider extends Subsystem {
 			return slide(SliderPositions.RIGHT);
 		}
 	}
+
 	private TrapezoidalMotionProfile slide(final double position){
 		System.out.println("Slide init pos: " + slider.getSelectedSensorPosition(0));
 		return new TrapezoidalMotionProfile(MotionProfileValues.MAX_ACCELERATION, MotionProfileValues.MAX_VELOCITY,  slider.getSelectedSensorPosition(0)/TicksPerInch.SLIDER, position, 0.06);
@@ -67,17 +70,15 @@ public class Slider extends Subsystem {
 			slider.set(ControlMode.PercentOutput, 0);
 		}
 	}
+
 	public void setSliderPosition(double position){
 		//new PushForward();
 		slider.set(ControlMode.Position, position);
 		System.out.println("pos" + position);
 	}
+
 	public double getSliderPosition(){
 		return slider.getSelectedSensorPosition();
-	}
-
-	public boolean getSliderSensor(){
-		return slider.getSensorCollection().isFwdLimitSwitchClosed();
 	}
 
 	public final void zeroEncoder() {

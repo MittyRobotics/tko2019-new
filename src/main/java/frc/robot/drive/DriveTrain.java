@@ -63,16 +63,18 @@ public class DriveTrain extends Subsystem {
 		}
 	}
 
-	public double getMotorOutput() {
-		return leftDrive[0].getMotorOutputPercent();
-	}
-
 	@Override
 	public void initDefaultCommand() {
 		setDefaultCommand(new TankDrive());
 	}
 
 	public void tankDrive(double left, double right) {
+		tankDrive(left, right, 1);
+	}
+
+	public void tankDrive(double left, double right, final double percentCap) {
+		left *= percentCap;
+		right *= percentCap;
 		if (Math.abs(left) < 0.1) {
 			leftDrive[0].set(ControlMode.PercentOutput, 0);
 			leftDrive[1].set(ControlMode.PercentOutput, 0);
@@ -89,31 +91,11 @@ public class DriveTrain extends Subsystem {
 		}
 	}
 
-	public void tankDrive(double left, double right, double divide) {
-		left = left/divide;
-		right = right/divide;
-		if (Math.abs(left) < 0.1) {
-			leftDrive[0].set(ControlMode.PercentOutput, 0);
-			leftDrive[1].set(ControlMode.PercentOutput, 0);
-		} else {
-			leftDrive[0].set(ControlMode.PercentOutput, left);
-			leftDrive[1].set(ControlMode.PercentOutput, left);
-		}
-		if (Math.abs(right) < 0.1) {
-			rightDrive[0].set(ControlMode.PercentOutput, 0);
-			rightDrive[1].set(ControlMode.PercentOutput, 0);
-		} else {
-			rightDrive[0].set(ControlMode.PercentOutput, right);
-			rightDrive[1].set(ControlMode.PercentOutput, right);
-		}
-	}
-
-	public void tankVelocity( double left,  double right) {
-		left = left*TicksPerInch.DRIVE/10;
-		right = right*TicksPerInch.DRIVE/10;
-
-			leftDrive[0].set(ControlMode.Velocity, left);
-			rightDrive[0].set(ControlMode.Velocity, right);
+	public void tankVelocity(double left, double right) {
+		left *= TicksPerInch.DRIVE/10;
+		right *= TicksPerInch.DRIVE/10;
+		leftDrive[0].set(ControlMode.Velocity, left);
+		rightDrive[0].set(ControlMode.Velocity, right);
 	}
 
 	public void wheelDrive(final double drive, final double turn, final boolean inPlace) {
@@ -156,22 +138,15 @@ public class DriveTrain extends Subsystem {
 		}
 	}
 
-	public void resetEncoder(){
-		leftDrive[0].setSelectedSensorPosition(0);
-		rightDrive[0].setSelectedSensorPosition(0);
+	public void translation(final double distance, final double maxSpeed) {
+		translation(distance, distance, maxSpeed);
 	}
 
-	public void translation(final double distance, final double maxSpeed ) {
-		leftDrive[0].configClosedLoopPeakOutput(0, maxSpeed);
-		rightDrive[0].configClosedLoopPeakOutput(0, maxSpeed);
-		leftDrive[0].set(ControlMode.Position, leftDrive[0].getSelectedSensorPosition() + distance * TicksPerInch.DRIVE);
-		rightDrive[0].set(ControlMode.Position, rightDrive[0].getSelectedSensorPosition() + distance * TicksPerInch.DRIVE);
-	}
-	public void translation(final double leftDistance, final double rightDistance, final double maxSpeed ) {
+	public void translation(final double leftDistance, final double rightDistance, final double maxSpeed) {
 		leftDrive[0].configClosedLoopPeakOutput(0, maxSpeed);
 		rightDrive[0].configClosedLoopPeakOutput(0, maxSpeed);
 		leftDrive[0].set(ControlMode.Position, leftDrive[0].getSelectedSensorPosition() + leftDistance * TicksPerInch.DRIVE);
-		rightDrive[0].set(ControlMode.Position, leftDrive[0].getSelectedSensorPosition() + leftDistance * TicksPerInch.DRIVE);
+		rightDrive[0].set(ControlMode.Position, leftDrive[0].getSelectedSensorPosition() + rightDistance * TicksPerInch.DRIVE);
 	}
 
 	public double getTranslationError() {
@@ -206,9 +181,5 @@ public class DriveTrain extends Subsystem {
 	public double getRotationError() {
 //		return controller.getError();
 		return 0;
-	}
-
-	public void disableController() {
-//		controller.disable();
 	}
 }
