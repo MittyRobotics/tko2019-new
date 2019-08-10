@@ -127,14 +127,14 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		new AimAssist().start();
-		new PushBackward().start();
-//		Odometry.getInstance().resetPosition();
-//		Waypoint[] waypoints = new Waypoint[2];
-//		waypoints[0] = new Waypoint(new Point2D.Double(0,0),0);
-//		waypoints[1] = new Waypoint(new Point2D.Double(48,-24),0);
-//		new Translate2dTrajectory(waypoints, PathType.CUBIC_HERMITE_PATH, true).start();
-		new AutoSlider().start();
+//		new AimAssist().start();
+//		new PushBackward().start();
+		Odometry.getInstance().resetPosition();
+		Waypoint[] waypoints = new Waypoint[2];
+		waypoints[0] = new Waypoint(new Point2D.Double(0,0),0);
+		waypoints[1] = new Waypoint(new Point2D.Double(-48,0),0);
+		new Translate2dTrajectory(waypoints, PathType.CUBIC_HERMITE_PATH, true).start();
+//		new AutoSlider().start();
 	}
 	@Override
 	public void autonomousPeriodic() {
@@ -168,13 +168,15 @@ public class Robot extends TimedRobot {
 		Arm.getInstance().zeroEncoder(); //WORKING
 
 		Slider.getInstance().zeroEncoder(); //WORKING
+
 	}
 	
 	@Override
 	public void testPeriodic() {
+//		DriveTrain.getInstance().tankVelocity(50,50);
 		//System.out.println(Slider.getInstance().getSliderSensor());
 		//Rollers.getInstance().intake();   //WORKING
-		System.out.println(Arm.getInstance().getArmPosition());
+	//	System.out.println(Arm.getInstance().getArmPosition());
 		//Slider.getInstance().manualSlide(0.3); //WORKING
 		//Pusher.getInstance().pushForward(); //NOT WORKING (pneumatics issue)
 

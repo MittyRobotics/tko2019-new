@@ -13,6 +13,8 @@ import team1351.motionprofile.TrapezoidalMotionProfile;
 import team1351.purepursuit.*;
 import team1351.purepursuit.enums.PathType;
 
+import java.awt.geom.Point2D;
+
 /**
  * Master autonomous driving class that handles all autonomous driving commands and calculations (vision is a work in
  * progress and is still calculated in the command, it will eventually be moved to master class).
@@ -76,7 +78,7 @@ public class AutonDriver {
 		this.currentPath = PathGenerator.getInstance().generate(waypoints, pathType, AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxAcceleration(), AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxVelocity(), 200);
 		this.currentPathFollower = new PathFollower(currentPath, reversed);
 		this.currentPathFollower.setLookaheadDistance(5);
-		this.currentPathFollower.setWheelDistance(26);
+		this.currentPathFollower.setWheelDistance(27);
 	}
 	public void setupMotionProfile(double setpoint, LinearMovementType movementType) {
 		setupMotionProfile(setpoint,movementType,false);
@@ -114,7 +116,7 @@ public class AutonDriver {
 		this.trajectoryFollowingFinished = true;
 		this.motionProfileFinished = true;
 		this.PIDFinished = true;
-		this.visionFinished = false;
+		this.visionFinished = true;
 
 		this.currentPath = null;
 		this.currentPathFollower = null;
@@ -123,7 +125,8 @@ public class AutonDriver {
 
 
 	public AutonMotionOutput update(double t) {
-		PathFollowerPosition.getInstance().updatePos(Odometry.getInstance().getRobotX(), Odometry.getInstance().getRobotY(), Odometry.getInstance().getRobotHeading());
+		Odometry.getInstance().run();
+		PathFollowerPosition.getInstance().hardSetPos(Odometry.getInstance().getRobotX(), Odometry.getInstance().getRobotY(), Odometry.getInstance().getRobotHeading());
 		AutonMotionOutput output = new AutonMotionOutput(0, 0, 0);
 
 		switch (currentDriveState) {
@@ -175,11 +178,15 @@ public class AutonDriver {
 	private AutonMotionOutput updatePurePursuit() {
 		PathFollowerOutput output = currentPathFollower.update();
 
-		trajectoryFollowingFinished = currentPathFollower.isFinished();
+		//trajectoryFollowingFinished = currentPathFollower.isFinished();
+
+		trajectoryFollowingFinished = Math.abs(Point2D.distance( PathFollowerPosition.getInstance().getRobotX(), PathFollowerPosition.getInstance().getRobotY(), 48,0)) < 2;
 
 		SmartDashboard.putNumber("PP_FF_LeftVelocity", output.getLeftVelocity());
 		SmartDashboard.putNumber("PP_FF_RightVelocity", output.getRightVelocity());
 		System.out.println(currentPathFollower.getCurrentLookaheadPoint().getX() + " " + currentPathFollower.getCurrentLookaheadPoint().getY() + " " + currentPathFollower.getCurvature());
+		SmartDashboard.putNumber("PP_POS_X", PathFollowerPosition.getInstance().getRobotX());
+		SmartDashboard.putNumber("PP_POS_Y", PathFollowerPosition.getInstance().getRobotY());
 		SmartDashboard.putNumber("PP_FF_LookAheadX", currentPathFollower.getCurrentLookaheadPoint().getX());
 		SmartDashboard.putNumber("PP_FF_LookAheadY", currentPathFollower.getCurrentLookaheadPoint().getY());
 		SmartDashboard.putNumber("PP_FF_Curvature", currentPathFollower.getCurvature());

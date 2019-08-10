@@ -342,9 +342,31 @@ public class Limelight {
 				double leftDist = (leftDist1 + leftDist2) / 2;
 				double rightDist = (rightDist1 + rightDist2) / 2;
 
+				Point2D.Double leftCenter = midpoint(points[0], points[2]);
+				Point2D.Double rightCenter = midpoint(points[4], points[6]);
+
+				double lYaw = getYaw(leftCenter);
+				double rYaw = getYaw(rightCenter);
+
+				//Offset of target position from robot
+				double lOffset = getOffset(leftDist, lYaw);
+				double rOffset = getOffset(leftDist, rYaw);
+
+				//Points for left and right target (top down) relative to the robot
+				Point2D.Double lPoint = new Point2D.Double(lOffset, leftDist);
+				Point2D.Double rPoint = new Point2D.Double(rOffset, rightDist);
+
+				int sign = (int)Math.signum(lPoint.y - rPoint.y);
+
+				//Angle of target relative to robot
+				double legO = Math.abs(lPoint.y - rPoint.y);
+				double legA = Math.abs(lPoint.x - rPoint.x);
+				double angle = Math.toDegrees(Math.atan(legO / legA)) * sign;
+
 				double distance = (leftDist + rightDist) /2;
 
 				double sideDistanceOffset = rightDist - leftDist;
+
 
 				y = distance;
 
@@ -354,11 +376,12 @@ public class Limelight {
 
 				pitch = -100;
 
-				yaw = Math.toDegrees(Math.asin(sideDistanceOffset/VisionConstants.DISTANCE_BETWEEN_TARGET_SIDES));
+				//yaw = Math.toDegrees(Math.asin(sideDistanceOffset/VisionConstants.DISTANCE_BETWEEN_TARGET_SIDES));
+				yaw = angle;
 
 				roll = -100;
 
-				//System.out.println("distance: " + y + "target angle: " + yaw);
+				//System.out.println("distance: " + y + "target angle: " + yaw + " lDist: " + leftDist + " rDist: " + rightDist);
 
 				double[] position = {
 						x, y, z, pitch, yaw, roll
@@ -375,6 +398,24 @@ public class Limelight {
 		return ((distanceBetweenPoints * VisionConstants.FOCAL_PIXELS_CALIB_HIGH) / pixelDistance);
 	}
 
+	private double getYaw(Point2D.Double p) {
+		double xPosOffset = Math.abs(VisionConstants.RESOLUTION_WIDTH / 2 - p.x);
+		double yaw = Math.toDegrees(Math.atan(xPosOffset /VisionConstants.FOCAL_PIXELS_CALIB_HIGH));
+		if (p.x < VisionConstants.RESOLUTION_WIDTH / 2) {
+			yaw = -yaw;
+		}
+		return (yaw);
+	}
+
+	private double getOffset(double dist, double yaw) {
+		double offset = dist * Math.tan(Math.toRadians(yaw));
+
+		return (offset);
+	}
+
+	private Point2D.Double midpoint(Point2D.Double p1, Point2D.Double p2){
+		return new Point2D.Double((p1.x + p2.x )/2,(p1.y + p2.y )/2);
+	}
 
 	/**
 	 * Prints the received limelight values in an organized line.

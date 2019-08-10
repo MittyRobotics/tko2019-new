@@ -13,8 +13,10 @@ public class VisionConstants {
 	public static final double DISTANCE_BETWEEN_TARGET_SIDES = 12;
 	public static final double H_FOV = 59.6; //degrees
 	public static final double V_FOV = 49.7; //degrees
-	public static final double RESOLUTION_WIDTH = 320; //pixels
-	public static final double RESOLUTION_HEIGHT = 240; //pixels
+//	public static final double RESOLUTION_WIDTH = 320; //pixels
+//	public static final double RESOLUTION_HEIGHT = 240; //pixels
+	public static final double RESOLUTION_WIDTH = 960; //pixels
+	public static final double RESOLUTION_HEIGHT = 720; //pixels
 	
 	public static final int AREA_TO_STOP = 15; //% of screen TODO: CALIBRATE
 }

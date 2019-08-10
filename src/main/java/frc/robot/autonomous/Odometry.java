@@ -38,7 +38,7 @@ public class Odometry implements Runnable {
 		double deltaLeftPos = DriveTrain.getInstance().getLeftEncoder() - lastLeftEncoderPos;
 		double deltaRightPos = DriveTrain.getInstance().getRightEncoder() - lastRightEncoderPos;
 		double deltaPosition = (deltaLeftPos + deltaRightPos)/2/TicksPerInch.DRIVE;
-		robotX += deltaPosition * Math.cos(Math.toRadians(robotHeading));
+		robotX += deltaPosition * Math.cos(Math.toRadians(robotHeading)) * -1;
 		robotY += deltaPosition * Math.sin(Math.toRadians(robotHeading));
 		lastLeftEncoderPos =  DriveTrain.getInstance().getLeftEncoder();
 		lastRightEncoderPos = DriveTrain.getInstance().getRightEncoder();

@@ -5,5 +5,5 @@ public class TicksPerInch {
 //	public static final double DRIVE = 121;
 	//main robot
 	//Low gear
-	public static final double DRIVE = 232.82;
+	public static final double DRIVE =  79.68;
 }

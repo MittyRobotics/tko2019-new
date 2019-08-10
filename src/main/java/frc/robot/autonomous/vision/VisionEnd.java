@@ -156,7 +156,7 @@ public class VisionEnd {
 	}
 
 	private void checkForHighDelta(double yaw, double prevYaw, double distance, double prevDist) {
-		if (Math.abs(yaw - prevYaw) > 8 || Math.abs(distance - prevDist) > 10) {
+		if (Math.abs(yaw - prevYaw) >20 || Math.abs(distance - prevDist) > 20) {
 			System.out.println("Vision target position delta is too high. Checking for end: " + highDeltaTimer + "/" + highDeltaCooldown);
 			highDeltaTimer++;
 		} else {

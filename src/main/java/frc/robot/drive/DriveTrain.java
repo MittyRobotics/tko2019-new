@@ -94,6 +94,7 @@ public class DriveTrain extends Subsystem {
 	public void tankVelocity(double left, double right) {
 		left *= TicksPerInch.DRIVE/10;
 		right *= TicksPerInch.DRIVE/10;
+		System.out.println(leftDrive[0].getSelectedSensorVelocity() + " | " + rightDrive[0].getSelectedSensorVelocity());
 		leftDrive[0].set(ControlMode.Velocity, left);
 		rightDrive[0].set(ControlMode.Velocity, right);
 	}
