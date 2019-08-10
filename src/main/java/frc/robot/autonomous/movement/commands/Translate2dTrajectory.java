@@ -60,7 +60,7 @@ public class Translate2dTrajectory extends Command {
 
 		//System.out.println("Time for follower calculation: " + (endt-t));
 
-		DriveTrain.getInstance().tankVelocity(output.getLeft(), output.getLeft());
+		DriveTrain.getInstance().tankVelocity(output.getLeft(), output.getRight());
 	}
 
 

@@ -180,6 +180,7 @@ public class AutonDriver {
 
 		//trajectoryFollowingFinished = currentPathFollower.isFinished();
 
+		//TODO: Replace this with actual ending command
 		trajectoryFollowingFinished = Math.abs(Point2D.distance( PathFollowerPosition.getInstance().getRobotX(), PathFollowerPosition.getInstance().getRobotY(), 48,0)) < 2;
 
 		SmartDashboard.putNumber("PP_FF_LeftVelocity", output.getLeftVelocity());
