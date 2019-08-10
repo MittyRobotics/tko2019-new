@@ -98,7 +98,7 @@ public class AutonDriver {
 
 		this.currentPath = null;
 		this.currentPathFollower = null;
-		this.currentMotionProfile = new TrapezoidalMotionProfile(velocityConstraints.getMaxAcceleration(), velocityConstraints.getMaxVelocity(), setpoint, 0.02, reversed);
+		this.currentMotionProfile = new TrapezoidalMotionProfile(velocityConstraints.getMaxAcceleration(), velocityConstraints.getMaxVelocity(), setpoint, 0.06, reversed);
 	}
 
 	public void setupPIDMovement() {
@@ -141,10 +141,10 @@ public class AutonDriver {
 				output = updatePurePursuit();
 				break;
 			case MOTION_ROTATE:
-				output = updateMotionTranslate(t);
+				output = updateMotionRotate(t);
 				break;
 			case MOTION_TRANSLATE:
-				output = updateMotionRotate(t);
+				output = updateMotionTranslate(t);
 				break;
 			case VISION:
 				output = new AutonMotionOutput(0, 0, 0);
