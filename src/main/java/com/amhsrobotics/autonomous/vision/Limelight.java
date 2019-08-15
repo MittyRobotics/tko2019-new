@@ -6,7 +6,6 @@ import com.amhsrobotics.autonomous.enums.LedMode;
 import com.amhsrobotics.autonomous.enums.SnapshotMode;
 import com.amhsrobotics.autonomous.enums.StreamMode;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import frc.robot.autonomous.constants.*;
 
 import java.awt.geom.Point2D;
 /**
