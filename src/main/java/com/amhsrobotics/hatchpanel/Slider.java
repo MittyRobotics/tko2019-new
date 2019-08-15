@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import com.amhsrobotics.hatchpanel.constants.EncoderInversions;
 import com.amhsrobotics.hatchpanel.constants.PID;
 import com.amhsrobotics.hatchpanel.constants.TalonInversions;
-import team1351.motionprofile.TrapezoidalMotionProfile;
+import com.amhsrobotics.motionprofile.TrapezoidalMotionProfile;
 
 public class Slider extends Subsystem {
 	private static Slider ourInstance = new Slider();

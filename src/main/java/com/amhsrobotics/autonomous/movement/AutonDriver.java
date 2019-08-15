@@ -8,10 +8,10 @@ import com.amhsrobotics.autonomous.enums.LinearMovementType;
 import com.amhsrobotics.drive.DriveTrain;
 import com.amhsrobotics.drive.constants.TicksPerInch;
 
-import team1351.motionprofile.MotionFrame;
-import team1351.motionprofile.TrapezoidalMotionProfile;
-import team1351.purepursuit.*;
-import team1351.purepursuit.enums.PathType;
+import com.amhsrobotics.motionprofile.MotionFrame;
+import com.amhsrobotics.motionprofile.TrapezoidalMotionProfile;
+import com.amhsrobotics.purepursuit.*;
+import com.amhsrobotics.purepursuit.enums.PathType;
 
 import java.awt.geom.Point2D;
 

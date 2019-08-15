@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import com.amhsrobotics.autonomous.Odometry;
 import com.amhsrobotics.autonomous.enums.DriveState;
 import com.amhsrobotics.drive.DriveTrain;
-import team1351.purepursuit.Waypoint;
-import team1351.purepursuit.enums.PathType;
+import com.amhsrobotics.purepursuit.Waypoint;
+import com.amhsrobotics.purepursuit.enums.PathType;
 
 /**
  * Robot path following command to follow a generated path from a set of waypoints.

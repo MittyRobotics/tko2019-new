@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 //import GearShift;
 import com.amhsrobotics.cargo.commands.Intake;
 import com.amhsrobotics.cargo.commands.Outtake;
-import team1351.commoncontrols.XboxWheel;
+import com.amhsrobotics.commoncontrols.XboxWheel;
 
 
 public class OI {

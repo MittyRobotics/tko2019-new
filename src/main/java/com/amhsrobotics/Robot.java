@@ -19,8 +19,8 @@ import com.amhsrobotics.hatchpanel.Grabber;
 import com.amhsrobotics.hatchpanel.Pusher;
 import com.amhsrobotics.hatchpanel.Slider;
 import com.amhsrobotics.oi.OI;
-import team1351.purepursuit.Waypoint;
-import team1351.purepursuit.enums.PathType;
+import com.amhsrobotics.purepursuit.Waypoint;
+import com.amhsrobotics.purepursuit.enums.PathType;
 
 import java.awt.geom.Point2D;
 

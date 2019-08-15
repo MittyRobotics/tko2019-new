@@ -13,7 +13,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import team1351.motionprofile.TrapezoidalMotionProfile;
+import com.amhsrobotics.motionprofile.TrapezoidalMotionProfile;
 
 /**
  * Subsystem code for Arm

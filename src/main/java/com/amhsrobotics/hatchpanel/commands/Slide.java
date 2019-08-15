@@ -5,7 +5,7 @@ import com.amhsrobotics.hatchpanel.constants.TicksPerInch;
 import edu.wpi.first.wpilibj.command.Command;
 import com.amhsrobotics.hatchpanel.Slider;
 import com.amhsrobotics.oi.OI;
-import team1351.motionprofile.*;
+import com.amhsrobotics.motionprofile.*;
 
 public class Slide extends Command {
 	private SliderPosition sliderPosition;

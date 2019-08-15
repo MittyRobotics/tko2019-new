@@ -4,8 +4,8 @@ import com.amhsrobotics.cargo.constants.ArmPosition;
 import edu.wpi.first.wpilibj.command.Command;
 import com.amhsrobotics.cargo.Arm;
 import com.amhsrobotics.oi.OI;
-import team1351.motionprofile.MotionFrame;
-import team1351.motionprofile.TrapezoidalMotionProfile;
+import com.amhsrobotics.motionprofile.MotionFrame;
+import com.amhsrobotics.motionprofile.TrapezoidalMotionProfile;
 
 /**
  * Angle command, which sets the arm angle
