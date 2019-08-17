@@ -88,8 +88,8 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public void tankVelocity(double left, double right) {
-		left *= TicksPerInch.DRIVE/10;
-		right *= TicksPerInch.DRIVE/10;
+		left *= TicksPerInch.DRIVE_HIGH/10;
+		right *= TicksPerInch.DRIVE_HIGH/10;
 		System.out.println(leftDrive[0].getSelectedSensorVelocity() + " | " + rightDrive[0].getSelectedSensorVelocity());
 		leftDrive[0].set(ControlMode.Velocity, left);
 		rightDrive[0].set(ControlMode.Velocity, right);
@@ -142,8 +142,8 @@ public class DriveTrain extends Subsystem {
 	public void translation(final double leftDistance, final double rightDistance, final double maxSpeed) {
 		leftDrive[0].configClosedLoopPeakOutput(0, maxSpeed);
 		rightDrive[0].configClosedLoopPeakOutput(0, maxSpeed);
-		leftDrive[0].set(ControlMode.Position, leftDrive[0].getSelectedSensorPosition() + leftDistance * TicksPerInch.DRIVE);
-		rightDrive[0].set(ControlMode.Position, rightDrive[0].getSelectedSensorPosition() + rightDistance * TicksPerInch.DRIVE);
+		leftDrive[0].set(ControlMode.Position, leftDrive[0].getSelectedSensorPosition() + leftDistance * TicksPerInch.DRIVE_HIGH);
+		rightDrive[0].set(ControlMode.Position, rightDrive[0].getSelectedSensorPosition() + rightDistance * TicksPerInch.DRIVE_HIGH);
 	}
 
 	public double getTranslationError() {

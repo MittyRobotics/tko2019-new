@@ -203,8 +203,8 @@ public class AutonDriver {
 
 		double leftEncoder = DriveTrain.getInstance().getLeftEncoder() - leftEncoderReset;
 		double rightEncoder = DriveTrain.getInstance().getRightEncoder() - rightEncoderReset;
-		double leftPosition = leftEncoder / TicksPerInch.DRIVE;
-		double rightPosition = rightEncoder / TicksPerInch.DRIVE;
+		double leftPosition = leftEncoder / TicksPerInch.DRIVE_HIGH;
+		double rightPosition = rightEncoder / TicksPerInch.DRIVE_HIGH;
 		if (position == 0) {
 			leftPosition = 0;
 			rightPosition = 0;

@@ -92,7 +92,7 @@ public class Robot extends TimedRobot {
 
 		t = System.nanoTime();
 		Notifier odometryNotifier = new Notifier(Odometry.getInstance());
-		odometryNotifier.startPeriodic(0.005);
+		odometryNotifier.startPeriodic(0.06);
 		System.out.println("odometry notifier start: " + ((System.nanoTime()-t)/1000000));
 	}
 
