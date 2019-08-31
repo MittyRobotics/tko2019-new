@@ -179,4 +179,7 @@ public class DriveTrain extends Subsystem {
 //		return controller.getError();
 		return 0;
 	}
+	public WPI_TalonSRX getLeftController(){
+		return leftDrive[0];
+	}
 }
