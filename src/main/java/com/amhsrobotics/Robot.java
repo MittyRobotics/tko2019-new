@@ -75,7 +75,7 @@ public class Robot extends TimedRobot {
 		System.out.println("odometry reset: " + ((System.nanoTime()-t)/1000000));
 		t = System.nanoTime();
 
-		OI.getInstance();
+//		OI.getInstance();
 		System.out.println("oi: " +((System.nanoTime()-t)/1000000));
 		t = System.nanoTime();
 		Compressor.getInstance();

@@ -1,6 +1,7 @@
 package com.amhsrobotics.drive;
 
 import com.amhsrobotics.drive.commands.TankDrive;
+import com.amhsrobotics.drive.commands.WheelDrive;
 import com.amhsrobotics.drive.constants.EncoderInversions;
 import com.amhsrobotics.drive.constants.PID;
 import com.amhsrobotics.drive.constants.TalonIds;
@@ -61,7 +62,7 @@ public class DriveTrain extends Subsystem {
 
 	@Override
 	public void initDefaultCommand() {
-		setDefaultCommand(new TankDrive());
+		setDefaultCommand(new WheelDrive(1));
 	}
 
 	public void tankDrive(double left, double right) {

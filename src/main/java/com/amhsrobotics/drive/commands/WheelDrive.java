@@ -27,6 +27,8 @@ public class WheelDrive extends Command {
 		startAngle = Gyro.getInstance().getAngle();
 		controller.setInputRange(-180, 180);
 		prevAngle = startAngle;
+		controller.setSetpoint(startAngle);
+		controller.enable();
 	}
 	
 	@Override
