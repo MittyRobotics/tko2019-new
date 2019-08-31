@@ -58,10 +58,10 @@ public class Robot extends TimedRobot {
 		System.out.println("grab: " +((System.nanoTime()-t)/1000000));
 		t = System.nanoTime();
 
-		Rollers.getInstance();
+//		Rollers.getInstance();
 		System.out.println("roll: " + ((System.nanoTime()-t)/1000000));
 		t = System.nanoTime();
-		Rollers.getInstance().initHardware();
+//		Rollers.getInstance().initHardware();
 		System.out.println("init: " +((System.nanoTime()-t)/1000000));
 		t = System.nanoTime();
 		Arm.getInstance();
