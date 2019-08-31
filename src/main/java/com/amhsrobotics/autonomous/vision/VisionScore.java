@@ -23,12 +23,14 @@ public class VisionScore extends CommandGroup {
 		requires(DriveTrain.getInstance());
 		Waypoint[] waypoints = new Waypoint[2];
 		waypoints[0] = new Waypoint(new Point2D.Double(0,0),0);
-		waypoints[1] = new Waypoint(new Point2D.Double(50,-50),0);
+		waypoints[1] = new Waypoint(new Point2D.Double(40,-50),0);
 		Waypoint[] waypoints1 = new Waypoint[2];
 		waypoints1[0] = new Waypoint(new Point2D.Double(0,0),0);
-		waypoints1[1] = new Waypoint(new Point2D.Double(24,0),0);
+		waypoints1[1] = new Waypoint(new Point2D.Double(40,0),0);
 
-		addSequential(new Translate2dTrajectory(waypoints, PathType.CUBIC_HERMITE_PATH, 50, true));
+		addSequential( new Translate2dTrajectory(waypoints1, PathType.CUBIC_HERMITE_PATH, 0,true));
+
+		addSequential(new Translate2dTrajectory(waypoints, PathType.CUBIC_HERMITE_PATH, 100, true));
 
 		System.out.println("next trajectory");
 

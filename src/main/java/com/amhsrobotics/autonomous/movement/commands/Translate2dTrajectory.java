@@ -17,7 +17,7 @@ public class Translate2dTrajectory extends Command {
 	PathType pathType;
 	boolean reversed;
 
-	double endVelocity = 0;
+	double endVelocity ;
 	double t;
 
 	int motionID;
