@@ -79,25 +79,30 @@ public class Limelight {
 	 * This should be periodically updated every loop time to ensure the most acurate vision movement
 	 */
 	public void updateLimelightValues() {
-		if(pipelineID == 5){
-			double leftX = NetworkTableInstance.getDefault().getTable("GRIP/leftLine").getEntry("x1").getDoubleArray(new double[] {0,0})[0];
-			double leftY = NetworkTableInstance.getDefault().getTable("GRIP/leftLine").getEntry("y1").getDoubleArray(new double[] {0,0})[0];
-			leftCorner = new Point2D.Double(leftX, leftY);
-			double rightX = NetworkTableInstance.getDefault().getTable("GRIP/rightLine").getEntry("x1").getDoubleArray(new double[] {0,0})[0];
-			double rightY = NetworkTableInstance.getDefault().getTable("GRIP/rightLine").getEntry("y1").getDoubleArray(new double[] {0,0})[0];
-			rightCorner = new Point2D.Double(rightX, rightY);
+		try {
+			if (pipelineID == 5) {
+				double leftX = NetworkTableInstance.getDefault().getTable("GRIP/leftLine").getEntry("x1").getDoubleArray(new double[]{0, 0})[0];
+				double leftY = NetworkTableInstance.getDefault().getTable("GRIP/leftLine").getEntry("y1").getDoubleArray(new double[]{0, 0})[0];
+				leftCorner = new Point2D.Double(leftX, leftY);
+				double rightX = NetworkTableInstance.getDefault().getTable("GRIP/rightLine").getEntry("x1").getDoubleArray(new double[]{0, 0})[0];
+				double rightY = NetworkTableInstance.getDefault().getTable("GRIP/rightLine").getEntry("y1").getDoubleArray(new double[]{0, 0})[0];
+				rightCorner = new Point2D.Double(rightX, rightY);
+			} else {
+				tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0); //Whether the limelight has any valid targets (0 or 1)
+				tx = (double) Math.round((float) NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0) * 10) / 10; //Horizontal Offset From Crosshair To Target (LL1: -27 degrees to 27 degrees | LL2: -29.8 to 29.8 degrees)
+				ty = (double) Math.round((float) NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0) * 10) / 10; //Vertical Offset From Crosshair To Target (LL1: -20.5 degrees to 20.5 degrees | LL2: -24.85 to 24.85 degrees)
+				ta = (double) Math.round((float) NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0) * 10) / 10; //Target Area (0% of image to 100% of image)
+				camtran = NetworkTableInstance.getDefault().getTable("limelight").getEntry("camtran").getDoubleArray(defaultCamtranVal);
+				tcornx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tcornx").getDoubleArray(defaultTCornVal);
+				tcorny = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tcorny").getDoubleArray(defaultTCornVal);
+				targetPositionFast = calculateTargetPositionFast();
+				leftCorner = new Point2D.Double(tcornx[3], tcorny[3]);
+				rightCorner = new Point2D.Double(tcornx[4], tcorny[4]);
+			}
 		}
-		else{
-			tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0); //Whether the limelight has any valid targets (0 or 1)
-			tx = (double) Math.round((float) NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0) * 10) / 10; //Horizontal Offset From Crosshair To Target (LL1: -27 degrees to 27 degrees | LL2: -29.8 to 29.8 degrees)
-			ty = (double) Math.round((float) NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0) * 10) / 10; //Vertical Offset From Crosshair To Target (LL1: -20.5 degrees to 20.5 degrees | LL2: -24.85 to 24.85 degrees)
-			ta = (double) Math.round((float) NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0) * 10) / 10; //Target Area (0% of image to 100% of image)
-			camtran = NetworkTableInstance.getDefault().getTable("limelight").getEntry("camtran").getDoubleArray(defaultCamtranVal);
-			tcornx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tcornx").getDoubleArray(defaultTCornVal);
-			tcorny = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tcorny").getDoubleArray(defaultTCornVal);
-			targetPositionFast = calculateTargetPositionFast();
-			leftCorner = new Point2D.Double(tcornx[3], tcorny[3]);
-            rightCorner = new Point2D.Double(tcornx[4], tcorny[4]);
+
+		catch(Exception e){
+
 		}
 
 	}

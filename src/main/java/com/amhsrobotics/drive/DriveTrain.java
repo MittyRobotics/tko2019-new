@@ -8,6 +8,7 @@ import com.amhsrobotics.drive.constants.TalonInversions;
 import com.amhsrobotics.drive.constants.TicksPerInch;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -31,6 +32,7 @@ public class DriveTrain extends Subsystem {
 			WPI_TalonSRX talonSRX = new WPI_TalonSRX(TalonIds.LEFT_DRIVE[i]);
 			talonSRX.configFactoryDefault();
 			talonSRX.setInverted(TalonInversions.LEFT_DRIVE[i]);
+			talonSRX.setNeutralMode(NeutralMode.Coast);
 			if (i == 0) {
 				talonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 				talonSRX.setSensorPhase(EncoderInversions.LEFT_DRIVE);
@@ -46,6 +48,7 @@ public class DriveTrain extends Subsystem {
 			WPI_TalonSRX talonSRX = new WPI_TalonSRX(TalonIds.RIGHT_DRIVE[i]);
 			talonSRX.configFactoryDefault();
 			talonSRX.setInverted(TalonInversions.RIGHT_DRIVE[i]);
+			talonSRX.setNeutralMode(NeutralMode.Coast);
 			if (i == 0) {
 				talonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 				talonSRX.setSensorPhase(EncoderInversions.RIGHT_DRIVE);
@@ -61,7 +64,7 @@ public class DriveTrain extends Subsystem {
 
 	@Override
 	public void initDefaultCommand() {
-		setDefaultCommand(new TankDrive());
+		//setDefaultCommand(new TankDrive());
 	}
 
 	public void tankDrive(double left, double right) {
@@ -90,7 +93,7 @@ public class DriveTrain extends Subsystem {
 	public void tankVelocity(double left, double right) {
 		left *= TicksPerInch.DRIVE_HIGH/10;
 		right *= TicksPerInch.DRIVE_HIGH/10;
-		System.out.println(leftDrive[0].getSelectedSensorVelocity() + " | " + rightDrive[0].getSelectedSensorVelocity());
+		//System.out.println(leftDrive[0].getSelectedSensorVelocity() + " | " + rightDrive[0].getSelectedSensorVelocity());
 		leftDrive[0].set(ControlMode.Velocity, left);
 		rightDrive[0].set(ControlMode.Velocity, right);
 	}

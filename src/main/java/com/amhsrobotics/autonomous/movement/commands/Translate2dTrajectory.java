@@ -17,6 +17,7 @@ public class Translate2dTrajectory extends Command {
 	PathType pathType;
 	boolean reversed;
 
+	double endVelocity = 0;
 	double t;
 
 	int motionID;
@@ -29,12 +30,16 @@ public class Translate2dTrajectory extends Command {
 	}
 
 	public Translate2dTrajectory(Waypoint[] waypoints, boolean reversed) {
-		this(waypoints, PathType.BEZIER_CURVE_PATH, reversed);
+		this(waypoints, PathType.BEZIER_CURVE_PATH,0, reversed);
 	}
 
 	public Translate2dTrajectory(Waypoint[] waypoints, PathType pathType, boolean reversed) {
+		this(waypoints, pathType,0, reversed);
+	}
+	public Translate2dTrajectory(Waypoint[] waypoints, PathType pathType, double endVelocity, boolean reversed) {
 		super("Translate2dTrajectory");
 		requires(DriveTrain.getInstance());
+		this.endVelocity = endVelocity;
 
 		this.waypoints = waypoints;
 		this.pathType = pathType;
@@ -48,7 +53,7 @@ public class Translate2dTrajectory extends Command {
 	public void initialize() {
 		Odometry.getInstance().resetPosition();
 		Odometry.getInstance().setPos(waypoints[0].getWaypoint().getX(),waypoints[0].getWaypoint().getY(),waypoints[0].getAngle());
-		AutonDriver.getInstance().setupTrajectory(waypoints, pathType, reversed);
+		AutonDriver.getInstance().setupTrajectory(waypoints, pathType, endVelocity, reversed);
 	}
 
 

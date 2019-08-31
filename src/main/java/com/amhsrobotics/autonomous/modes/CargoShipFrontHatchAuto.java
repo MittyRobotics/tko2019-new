@@ -15,6 +15,6 @@ public class CargoShipFrontHatchAuto extends CommandGroup {
 		//Drive forward to within range of vision
 		addSequential(new MotionProfileTranslate(48, 0.6));
 		//Start vision score sequence: score hatch panel on cargo ship
-		VisionScore.getInstance().selectSequence();
+		//VisionScore.getInstance().selectSequence();
 	}
 }

@@ -6,7 +6,7 @@ plugins {
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
-def ROBOT_MAIN_CLASS = "frc.robot.Main"
+def ROBOT_MAIN_CLASS = "com.amhsrobotics.Main"
 
 // Define my targets (RoboRIO) and artifacts (deployable files)
 // This is added by GradleRIO's backing project EmbeddedTools.
@@ -58,7 +58,7 @@ dependencies {
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
     compile 'com.github.Mittyrobotics:motion-profile-generator:d4f1c51df7'
-    compile 'com.github.Mittyrobotics:pure-pursuit-controller:cce9999a0d'
+    compile 'com.github.mittyrobotics:pure-pursuit-controller:784a71d38c'
     compile 'com.github.Mittyrobotics:tko-common-controls:v1.1'
 
     testCompile 'junit:junit:4.12' 

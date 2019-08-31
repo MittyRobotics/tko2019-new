@@ -2,14 +2,20 @@ package com.amhsrobotics;
 
 import com.amhsrobotics.autonomous.Odometry;
 import com.amhsrobotics.autonomous.enums.StreamMode;
+import com.amhsrobotics.autonomous.movement.commands.AimAssist;
+import com.amhsrobotics.autonomous.movement.commands.AutoSlider;
 import com.amhsrobotics.autonomous.movement.commands.Translate2dTrajectory;
 import com.amhsrobotics.autonomous.vision.Limelight;
+import com.amhsrobotics.autonomous.vision.VisionScore;
 import com.amhsrobotics.cargo.Arm;
 import com.amhsrobotics.cargo.Rollers;
 import com.amhsrobotics.drive.DriveTrain;
 import com.amhsrobotics.drive.Shifter;
+import com.amhsrobotics.drive.commands.TankDrive;
 import com.amhsrobotics.hardware.Compressor;
 import com.amhsrobotics.hardware.Gyro;
+import com.amhsrobotics.purepursuit.Waypoint;
+import com.amhsrobotics.purepursuit.enums.PathType;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.TimedRobot;
 
@@ -19,8 +25,6 @@ import com.amhsrobotics.hatchpanel.Grabber;
 import com.amhsrobotics.hatchpanel.Pusher;
 import com.amhsrobotics.hatchpanel.Slider;
 import com.amhsrobotics.oi.OI;
-import com.amhsrobotics.purepursuit.Waypoint;
-import com.amhsrobotics.purepursuit.enums.PathType;
 
 import java.awt.geom.Point2D;
 
@@ -114,23 +118,29 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-//		new AimAssist().start();
-//		new PushBackward().start();
+		//new AimAssist().start();
+////		new PushBackward().start();
+//		Odometry.getInstance().resetPosition();
 		Odometry.getInstance().resetPosition();
-		Waypoint[] waypoints = new Waypoint[2];
-		waypoints[0] = new Waypoint(new Point2D.Double(0,0),0);
-		waypoints[1] = new Waypoint(new Point2D.Double(-48,0),0);
-		new Translate2dTrajectory(waypoints, PathType.CUBIC_HERMITE_PATH, true).start();
-//		new AutoSlider().start();
+//		Waypoint[] waypoints = new Waypoint[2];
+//		waypoints[0] = new Waypoint(new Point2D.Double(0,0),0);
+//		waypoints[1] = new Waypoint(new Point2D.Double(48,-24),0);
+//		new Translate2dTrajectory(waypoints, PathType.CUBIC_HERMITE_PATH, true).start();
+		new VisionScore().start();
+		new AutoSlider().start();
+		//DriveTrain.getInstance().tankVelocity(50,50);
+
+
 	}
 	@Override
 	public void autonomousPeriodic() {
+		//System.out.println("left: "+DriveTrain.getInstance().getLeftEncoder() + " right: " + DriveTrain.getInstance().getRightEncoder());
 	}
 
 	@Override
 	public void teleopInit() {
 
-		//new TankDrive().start();
+		new TankDrive().start();
 		//new TestCommand().start();
 		//new Slide(SliderPosition.Middle).start();
 		//new PushBackward().start();

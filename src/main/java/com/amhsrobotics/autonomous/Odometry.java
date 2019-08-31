@@ -37,13 +37,14 @@ public class Odometry implements Runnable {
 		double deltaLeftPos = DriveTrain.getInstance().getLeftEncoder() - lastLeftEncoderPos;
 		double deltaRightPos = DriveTrain.getInstance().getRightEncoder() - lastRightEncoderPos;
 		double deltaPosition = (deltaLeftPos + deltaRightPos)/2/ TicksPerInch.DRIVE_HIGH;
-		robotX += deltaPosition * Math.cos(Math.toRadians(robotHeading)) * -1;
+		robotX += deltaPosition * Math.cos(Math.toRadians(robotHeading));
 		robotY += deltaPosition * Math.sin(Math.toRadians(robotHeading));
 		lastLeftEncoderPos =  DriveTrain.getInstance().getLeftEncoder();
 		lastRightEncoderPos = DriveTrain.getInstance().getRightEncoder();
 		SmartDashboard.putNumber("odometry_X", robotX);
 		SmartDashboard.putNumber("odometry_Y", robotY);
 		SmartDashboard.putNumber("odometry_Heading", robotHeading);
+		//System.out.println("asf");
 	}
 
 	public void resetPosition(){

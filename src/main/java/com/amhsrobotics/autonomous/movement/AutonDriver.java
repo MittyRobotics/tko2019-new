@@ -12,6 +12,7 @@ import com.amhsrobotics.motionprofile.MotionFrame;
 import com.amhsrobotics.motionprofile.TrapezoidalMotionProfile;
 import com.amhsrobotics.purepursuit.*;
 import com.amhsrobotics.purepursuit.enums.PathType;
+import org.opencv.core.Mat;
 
 import java.awt.geom.Point2D;
 
@@ -63,11 +64,15 @@ public class AutonDriver {
 
 		return motionID;
 	}
-
 	public void setupTrajectory(Waypoint[] waypoints, PathType pathType, boolean reversed) {
+		setupTrajectory(waypoints,pathType,0,reversed);
+
+	}
+
+	public void setupTrajectory(Waypoint[] waypoints, PathType pathType, double endVelcoity, boolean reversed) {
 		PathFollowerPosition.getInstance().resetPos(Odometry.getInstance().getRobotX(), Odometry.getInstance().getRobotY(), Odometry.getInstance().getRobotHeading());
 
-		PathGenerator.getInstance().setPathKCurvature(0.8);
+		PathGenerator.getInstance().setPathKCurvature(2);
 
 		this.trajectoryFollowingFinished = false;
 		this.motionProfileFinished = true;
@@ -75,10 +80,12 @@ public class AutonDriver {
 		this.visionFinished = true;
 
 		this.currentMotionProfile = null;
-		this.currentPath = PathGenerator.getInstance().generate(waypoints, pathType, AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxAcceleration(), AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxVelocity(), 200);
+		this.currentPath = PathGenerator.getInstance().generate(waypoints, pathType, AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxAcceleration(), AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxDeceleration(),  AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxVelocity(), 50,endVelcoity, 200);
 		this.currentPathFollower = new PathFollower(currentPath, reversed);
-		this.currentPathFollower.setLookaheadDistance(5);
-		this.currentPathFollower.setWheelDistance(27);
+
+		//currentPathFollower.hardSetCurvature(false, 0.001);
+		currentPathFollower.setLookaheadDistance(15);
+		currentPathFollower.setWheelDistance(27);
 	}
 	public void setupMotionProfile(double setpoint, LinearMovementType movementType) {
 		setupMotionProfile(setpoint,movementType,false);
@@ -93,7 +100,7 @@ public class AutonDriver {
 		if (movementType == LinearMovementType.TRANSLATION) {
 			velocityConstraints = AutoConstants.DRIVE_VELOCITY_CONSTRAINTS;
 		} else {
-			velocityConstraints = new VelocityConstraints(AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxAcceleration() * AutoConstants.INCHES_PER_ANGLE, AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxVelocity() * AutoConstants.INCHES_PER_ANGLE);
+			velocityConstraints = new VelocityConstraints(AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxAcceleration() * AutoConstants.INCHES_PER_ANGLE,AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxAcceleration() * AutoConstants.INCHES_PER_ANGLE, AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxVelocity() * AutoConstants.INCHES_PER_ANGLE);
 		}
 
 		this.currentPath = null;
@@ -178,20 +185,24 @@ public class AutonDriver {
 	private AutonMotionOutput updatePurePursuit() {
 		PathFollowerOutput output = currentPathFollower.update();
 
-		//trajectoryFollowingFinished = currentPathFollower.isFinished();
+		trajectoryFollowingFinished = currentPathFollower.isFinished();
 
 		//TODO: Replace this with actual ending command
-		trajectoryFollowingFinished = Math.abs(Point2D.distance( PathFollowerPosition.getInstance().getRobotX(), PathFollowerPosition.getInstance().getRobotY(), 48,0)) < 2;
+		//trajectoryFollowingFinished = Math.abs(Point2D.distance( PathFollowerPosition.getInstance().getRobotX(), PathFollowerPosition.getInstance().getRobotY(), 48,0)) < 2;
 
 		SmartDashboard.putNumber("PP_FF_LeftVelocity", output.getLeftVelocity());
 		SmartDashboard.putNumber("PP_FF_RightVelocity", output.getRightVelocity());
-		System.out.println(currentPathFollower.getCurrentLookaheadPoint().getX() + " " + currentPathFollower.getCurrentLookaheadPoint().getY() + " " + currentPathFollower.getCurvature());
+		//System.out.println(currentPathFollower.getCurrentLookaheadPoint().getX() + " " + currentPathFollower.getCurrentLookaheadPoint().getY() + " " + currentPathFollower.getCurvature());
 		SmartDashboard.putNumber("PP_POS_X", PathFollowerPosition.getInstance().getRobotX());
 		SmartDashboard.putNumber("PP_POS_Y", PathFollowerPosition.getInstance().getRobotY());
 		SmartDashboard.putNumber("PP_FF_LookAheadX", currentPathFollower.getCurrentLookaheadPoint().getX());
 		SmartDashboard.putNumber("PP_FF_LookAheadY", currentPathFollower.getCurrentLookaheadPoint().getY());
 		SmartDashboard.putNumber("PP_FF_Curvature", currentPathFollower.getCurvature());
-		return new AutonMotionOutput(output.getLeftVelocity(), output.getRightVelocity(), 0);
+		if(Math.abs(currentPathFollower.getCurvature()) > 0.005){
+			System.out.println("Curvature high:  " + currentPathFollower.getCurvature() + " " + output.getLeftVelocity() + " " + output.getRightVelocity());
+		}
+		//Left and right are swapped for now, I will figure it out later
+		return new AutonMotionOutput(output.getRightVelocity(), output.getLeftVelocity(), 0);
 	}
 
 	private AutonMotionOutput updateMotionTranslate(double t) {
@@ -253,17 +264,17 @@ public class AutonDriver {
 				break;
 			case PID_ROTATE:
 			case PID_TANSLATE:
-				finished = motionID != id || currentPathFollower != null || currentPath != null || currentMotionProfile != null || PIDFinished;
+				finished = currentPathFollower != null || currentPath != null || currentMotionProfile != null || PIDFinished;
 				break;
 			case PURE_PURSUIT:
-				finished = motionID != id || currentPathFollower == null || currentPath == null || currentMotionProfile != null || trajectoryFollowingFinished;
+				finished = currentPathFollower == null || currentPath == null || currentMotionProfile != null || trajectoryFollowingFinished;
 				break;
 			case MOTION_ROTATE:
 			case MOTION_TRANSLATE:
-				finished = motionID != id || currentPathFollower != null || currentPath != null || currentMotionProfile == null || motionProfileFinished;
+				finished = currentPathFollower != null || currentPath != null || currentMotionProfile == null || motionProfileFinished;
 				break;
 			case VISION:
-				finished = motionID != id || visionFinished;
+				finished = visionFinished;
 				break;
 		}
 

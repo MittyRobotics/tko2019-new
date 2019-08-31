@@ -54,7 +54,7 @@ public class OI {
 		vision.whenPressed(new VisionAlignment());
 		//testProfile.whenPressed(new MotionProfileTranslate(10, 0.2));
 		driveControls();
-		//hatchControls();
+		hatchControls();
 		hatchControlsXbox();
 		//cargoControls();
 		cargoControlsXbox();
@@ -134,7 +134,7 @@ public class OI {
 				return getJoystick1().getTrigger();
 			}
 		};
-		grab.whenPressed(new Grab());
+		//grab.whenPressed(new Grab());
 		Button release = new Button() {
 			@Override
 			public boolean get() {
