@@ -65,11 +65,16 @@ public class AutonDriver {
 		return motionID;
 	}
 	public void setupTrajectory(Waypoint[] waypoints, PathType pathType, boolean reversed) {
-		setupTrajectory(waypoints,pathType,0,reversed);
+		setupTrajectory(waypoints, AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxAcceleration(), AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxDeceleration(), AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxVelocity(), pathType, 0,reversed);
 
 	}
 
-	public void setupTrajectory(Waypoint[] waypoints, PathType pathType, double endVelcoity, boolean reversed) {
+	public void setupTrajectory(Waypoint[] waypoints, PathType pathType, double endVelocity, boolean reversed) {
+		setupTrajectory(waypoints, AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxAcceleration(), AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxDeceleration(), AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxVelocity(), pathType, endVelocity,reversed);
+
+	}
+
+	public void setupTrajectory(Waypoint[] waypoints, double maxAcceleration, double maxDeceleration, double maxVelocity, PathType pathType, double endVelcoity, boolean reversed) {
 		PathFollowerPosition.getInstance().resetPos(Odometry.getInstance().getRobotX(), Odometry.getInstance().getRobotY(), Odometry.getInstance().getRobotHeading());
 
 		PathGenerator.getInstance().setPathKCurvature(2);
@@ -80,7 +85,7 @@ public class AutonDriver {
 		this.visionFinished = true;
 
 		this.currentMotionProfile = null;
-		this.currentPath = PathGenerator.getInstance().generate(waypoints, pathType, AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxAcceleration(), AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxDeceleration(),  AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxVelocity(), 50,endVelcoity, 200);
+		this.currentPath = PathGenerator.getInstance().generate(waypoints, pathType, maxAcceleration,maxDeceleration, maxVelocity, 50,endVelcoity, 200);
 		this.currentPathFollower = new PathFollower(currentPath, reversed);
 
 		//currentPathFollower.hardSetCurvature(false, 0.001);
@@ -187,11 +192,10 @@ public class AutonDriver {
 
 		trajectoryFollowingFinished = currentPathFollower.isFinished();
 
-		//TODO: Replace this with actual ending command
-		//trajectoryFollowingFinished = Math.abs(Point2D.distance( PathFollowerPosition.getInstance().getRobotX(), PathFollowerPosition.getInstance().getRobotY(), 48,0)) < 2;
-
 		SmartDashboard.putNumber("PP_FF_LeftVelocity", output.getLeftVelocity());
 		SmartDashboard.putNumber("PP_FF_RightVelocity", output.getRightVelocity());
+		SmartDashboard.putNumber("FB_LeftVelocity", DriveTrain.getInstance().getLeftVelocity());
+		SmartDashboard.putNumber("FB_RightVelocity", DriveTrain.getInstance().getRightVelocity());
 		//System.out.println(currentPathFollower.getCurrentLookaheadPoint().getX() + " " + currentPathFollower.getCurrentLookaheadPoint().getY() + " " + currentPathFollower.getCurvature());
 		SmartDashboard.putNumber("PP_POS_X", PathFollowerPosition.getInstance().getRobotX());
 		SmartDashboard.putNumber("PP_POS_Y", PathFollowerPosition.getInstance().getRobotY());

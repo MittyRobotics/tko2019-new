@@ -161,6 +161,15 @@ public class DriveTrain extends Subsystem {
 		return rightDrive[0].getSelectedSensorPosition();
 	}
 
+
+	public double getLeftVelocity() {
+		return leftDrive[0].getSelectedSensorVelocity();
+	}
+
+	public double getRightVelocity() {
+		return rightDrive[0].getSelectedSensorVelocity();
+	}
+
 	//positive is right, negative is left
 	public void rotation(final double angle, final double maxSpeed) {
 //		double target;

@@ -24,6 +24,8 @@ public class VisionScore extends CommandGroup {
 		Waypoint[] waypoints = new Waypoint[2];
 		waypoints[0] = new Waypoint(new Point2D.Double(0,0),0);
 		waypoints[1] = new Waypoint(new Point2D.Double(40,-50),0);
+
+
 		Waypoint[] waypoints1 = new Waypoint[2];
 		waypoints1[0] = new Waypoint(new Point2D.Double(0,0),0);
 		waypoints1[1] = new Waypoint(new Point2D.Double(40,0),0);
