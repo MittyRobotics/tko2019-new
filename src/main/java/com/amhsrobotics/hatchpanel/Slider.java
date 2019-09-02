@@ -1,5 +1,6 @@
 package com.amhsrobotics.hatchpanel;
 
+import com.amhsrobotics.autonomous.movement.commands.AutoSlider;
 import com.amhsrobotics.hatchpanel.commands.PushForward;
 import com.amhsrobotics.hatchpanel.constants.MotionProfileValues;
 import com.amhsrobotics.hatchpanel.constants.SliderPosition;
@@ -40,7 +41,7 @@ public class Slider extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {
-	//	setDefaultCommand(new ManualSlide());
+		setDefaultCommand(new AutoSlider());
 	}
 
 	public TrapezoidalMotionProfile slide(final SliderPosition sliderPosition){

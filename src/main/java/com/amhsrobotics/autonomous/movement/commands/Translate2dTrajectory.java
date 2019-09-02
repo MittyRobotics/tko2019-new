@@ -96,7 +96,12 @@ public class Translate2dTrajectory extends Command {
 	@Override
 	public void end() {
 		System.out.println("Ending Translate2dTrajectory Command!");
-		DriveTrain.getInstance().tankDrive(0, 0);
+		if(reversed){
+			DriveTrain.getInstance().tankVelocity(-endVelocity, -endVelocity);
+		}
+		else {
+			DriveTrain.getInstance().tankVelocity(endVelocity, endVelocity);
+		}
 	}
 
 	@Override

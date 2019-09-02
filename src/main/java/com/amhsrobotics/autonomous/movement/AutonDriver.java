@@ -77,7 +77,7 @@ public class AutonDriver {
 	public void setupTrajectory(Waypoint[] waypoints, double maxAcceleration, double maxDeceleration, double maxVelocity, PathType pathType, double endVelcoity, boolean reversed) {
 		PathFollowerPosition.getInstance().resetPos(Odometry.getInstance().getRobotX(), Odometry.getInstance().getRobotY(), Odometry.getInstance().getRobotHeading());
 
-		PathGenerator.getInstance().setPathKCurvature(2);
+		PathGenerator.getInstance().setPathKCurvature(.6);
 
 		this.trajectoryFollowingFinished = false;
 		this.motionProfileFinished = true;
@@ -89,7 +89,7 @@ public class AutonDriver {
 		this.currentPathFollower = new PathFollower(currentPath, reversed);
 
 		//currentPathFollower.hardSetCurvature(false, 0.001);
-		currentPathFollower.setLookaheadDistance(15);
+		currentPathFollower.setLookaheadDistance(20);
 		currentPathFollower.setWheelDistance(27);
 	}
 	public void setupMotionProfile(double setpoint, LinearMovementType movementType) {
