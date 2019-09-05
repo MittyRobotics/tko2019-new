@@ -1,5 +1,6 @@
 package com.amhsrobotics.climber;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -10,13 +11,11 @@ public class ClimbSubsystem extends Subsystem {
     public static ClimbSubsystem getInstance() {
         return ourInstance;
     }
-    DigitalInput limitSwitch;
     WPI_TalonSRX rightTalon, leftTalon;
     private ClimbSubsystem() {
         WPI_TalonSRX leftTalon = new WPI_TalonSRX(0);
         WPI_TalonSRX rightTalon = new WPI_TalonSRX(1);
 
-        limitSwitch = new DigitalInput(0);
     }
 
     @Override
@@ -26,7 +25,23 @@ public class ClimbSubsystem extends Subsystem {
 
 
     public void resetEncoder(){
-        leftTalon.setSelectedSensorPosition(0);
-        rightTalon.setSelectedSensorPosition(0);
+        while (!leftTalon.getSensorCollection().isFwdLimitSwitchClosed()) {
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        while (!rightTalon.getSensorCollection().isFwdLimitSwitchClosed()) {
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        rightTalon.set(ControlMode.PercentOutput, 0);
+        leftTalon.set(0);
+        rightTalon.setSelectedSensorPosition(0:
+        leftTalon.setSelectedSensorPosition(0:
     }
 }
