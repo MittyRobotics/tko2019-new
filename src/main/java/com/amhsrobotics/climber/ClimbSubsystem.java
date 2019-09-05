@@ -26,6 +26,7 @@ public class ClimbSubsystem extends Subsystem {
 
     public void resetEncoder(){
         while (!leftTalon.getSensorCollection().isFwdLimitSwitchClosed()) {
+            leftTalon.set(ControlMode.PercentOutput, .1);
             try {
                 Thread.sleep(20);
             } catch (InterruptedException e) {
@@ -33,6 +34,7 @@ public class ClimbSubsystem extends Subsystem {
             }
         }
         while (!rightTalon.getSensorCollection().isFwdLimitSwitchClosed()) {
+            rightTalon.set(ControlMode.PercentOutput, .1);
             try {
                 Thread.sleep(20);
             } catch (InterruptedException e) {
@@ -40,8 +42,8 @@ public class ClimbSubsystem extends Subsystem {
             }
         }
         rightTalon.set(ControlMode.PercentOutput, 0);
-        leftTalon.set(0);
-        rightTalon.setSelectedSensorPosition(0:
-        leftTalon.setSelectedSensorPosition(0:
+        leftTalon.set(ControlMode.PercentOutput, 0);
+        rightTalon.setSelectedSensorPosition(0);
+        leftTalon.setSelectedSensorPosition(0);
     }
 }
