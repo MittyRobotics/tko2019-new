@@ -10,23 +10,23 @@ public class ClimbSubsystem extends Subsystem {
     public static ClimbSubsystem getInstance() {
         return ourInstance;
     }
-
+    DigitalInput limitSwitch;
+    WPI_TalonSRX rightTalon, leftTalon;
     private ClimbSubsystem() {
+        WPI_TalonSRX leftTalon = new WPI_TalonSRX(0);
+        WPI_TalonSRX rightTalon = new WPI_TalonSRX(1);
+
+        limitSwitch = new DigitalInput(0);
     }
 
     @Override
     protected void initDefaultCommand() {
 
     }
-    WPI_TalonSRX leftTalon = new WPI_TalonSRX(0);
-    WPI_TalonSRX rightTalon = new WPI_TalonSRX(1);
 
-    DigitalInput limitSwitch;
-
-    limitSwitch = DigitalInput;
 
     public void resetEncoder(){
         leftTalon.setSelectedSensorPosition(0);
-        rightTalon.setSelectedSensorPosition(0)
+        rightTalon.setSelectedSensorPosition(0);
     }
 }
