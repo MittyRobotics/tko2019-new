@@ -3,7 +3,6 @@ package com.amhsrobotics.climber;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.DigitalInput;
 
 public class ClimbSubsystem extends Subsystem {
     private static ClimbSubsystem ourInstance = new ClimbSubsystem();
@@ -46,4 +45,5 @@ public class ClimbSubsystem extends Subsystem {
         rightTalon.setSelectedSensorPosition(0);
         leftTalon.setSelectedSensorPosition(0);
     }
+    public void 
 }
