@@ -3,6 +3,7 @@ package com.amhsrobotics.climber;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class ClimbSubsystem extends Subsystem {
@@ -12,6 +13,7 @@ public class ClimbSubsystem extends Subsystem {
         return ourInstance;
     }
     WPI_TalonSRX rightTalon, leftTalon;
+    Servo servo = new Servo();
     double tpi = 0;
     double increment = 0;
     private ClimbSubsystem() {
@@ -64,8 +66,6 @@ public class ClimbSubsystem extends Subsystem {
 
     public void moveClimber(double position) {
         double setpoint = position*tpi;
-
-
         while ((rightTalon.getSelectedSensorPosition() != setpoint) && (leftTalon.getSelectedSensorPosition() != setpoint)){
             if (setpoint - rightTalon.getSelectedSensorPosition() >= increment) {
                 rightTalon.set(ControlMode.Position, rightTalon.getSelectedSensorPosition() + increment);
@@ -79,5 +79,10 @@ public class ClimbSubsystem extends Subsystem {
                 leftTalon.set(ControlMode.Position, setpoint);
             }
         }
+    }
+
+    public void moveServo(double speed, double angle){
+        servo.set(speed);
+        servo.setAngle(angle);
     }
 }

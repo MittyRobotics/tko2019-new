@@ -1,5 +1,6 @@
-package com.amhsrobotics.climber;
+package com.amhsrobotics.climber.Commands;
 
+import com.amhsrobotics.climber.ClimberWheel;
 import com.amhsrobotics.oi.OI;
 import edu.wpi.first.wpilibj.command.Command;
 
