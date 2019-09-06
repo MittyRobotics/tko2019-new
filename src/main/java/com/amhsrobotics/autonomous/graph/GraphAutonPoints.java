@@ -1,7 +1,10 @@
 package com.amhsrobotics.autonomous.graph;
 
-import java.awt.Color;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
@@ -36,8 +39,18 @@ public class GraphAutonPoints extends JFrame {
         //Changes background color
         XYPlot plot = (XYPlot)chart.getPlot();
         plot.setBackgroundPaint(Color.DARK_GRAY);
+        try {
+            plot.setBackgroundImage(ImageIO.read(new File("images/halfField.jpeg")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        plot.getRangeAxis().setLowerBound(-15);
+        plot.getRangeAxis().setUpperBound(340);
+        plot.getRangeAxis().setUpperMargin(0);
+        plot.getRangeAxis().setLowerMargin(0);
 
-
+        plot.getDomainAxis().setLowerBound(-25);
+        plot.getDomainAxis().setUpperBound(324);
         // Create Panel
         ChartPanel panel = new ChartPanel(chart);
         setContentPane(panel);
@@ -89,8 +102,8 @@ public class GraphAutonPoints extends JFrame {
 
 
         XYSeries series4 = new XYSeries("Helper Pos");
-        series4.add(AutoConstants.LEFT_HELPER_POINT.getWaypoint().getX(), AutoConstants.LEFT_HELPER_POINT.getWaypoint().getY());
-        series4.add(AutoConstants.RIGHT_HELPER_POINT.getWaypoint().getX(), AutoConstants.RIGHT_HELPER_POINT.getWaypoint().getY());
+        series4.add(AutoConstants.BLUE_LEFT_HELPER_POINT.getWaypoint().getX(), AutoConstants.BLUE_LEFT_HELPER_POINT.getWaypoint().getY());
+        series4.add(AutoConstants.BLUE_RIGHT_HELPER_POINT.getWaypoint().getX(), AutoConstants.BLUE_RIGHT_HELPER_POINT.getWaypoint().getY());
 
 
 
@@ -98,6 +111,22 @@ public class GraphAutonPoints extends JFrame {
 
         dataset.addSeries(series4);
 
+        XYSeries series5 = new XYSeries("Field Corners");
+//        series5.add(-10,-1);
+//        series5.add(AutoConstants.FIELD_LENGTH/2 - 18,0);
+//
+//        series5.add(AutoConstants.FIELD_LENGTH/2 - 18, AutoConstants.FIELD_HEIGHT);
+//
+//        series5.add(-10, AutoConstants.FIELD_HEIGHT);
+        series5.add(0,0);
+        series5.add(AutoConstants.FIELD_LENGTH/2 ,0);
+
+        series5.add(AutoConstants.FIELD_LENGTH/2, AutoConstants.FIELD_HEIGHT);
+
+        series5.add(0, AutoConstants.FIELD_HEIGHT);
+
+
+        dataset.addSeries(series5);
 
         return dataset;
     }
