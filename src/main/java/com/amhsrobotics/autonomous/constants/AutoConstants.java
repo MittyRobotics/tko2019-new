@@ -17,14 +17,81 @@ public class AutoConstants {
 
 	//Robot measurements (in inches)
 
-	public static double ROBOT_CENTER_TO_BACK = 20;
-	public static double ROBOT_CENTER_TO_EDGE = 20;
+	public static double ROBOT_CENTER_TO_BACK = 10;
+	public static double ROBOT_CENTER_TO_EDGE = 10;
 
 
+
+	//Field dimensions:
 	public static double FIELD_HEIGHT = 324;
 	public static double FIELD_LENGTH = 648;
 
+	//Cad measurements:
 	public static double ROCKET_HATCH_CENTER_TO_OUTER_EDGE = 10.336; //This value was measured in CAD and should be relatively constant throughout all field elements
+
+
+	//-----Cleaned calibration measurements-----
+
+	public static double RIGHT_FIELD_EDGE_TO_LOADER_CENTER = 27.44;
+	public static double LEFT_FIELD_EDGE_TO_LOADER_CENTER = 27.44;
+	public static double RIGHT_FIELD_EDGE_TO_HAB_1_INNER_EDGE = 97;
+	public static double LEFT_FIELD_EDGE_TO_HAB_1_INNER_EDGE = 97;
+	public static double HAB_1_LENGTH = 48.28;
+	public static double HAB_2_LENGTH = 47;
+	public static double HAB_LENGTH = HAB_1_LENGTH + HAB_2_LENGTH;
+	public static double HAB_OUTER_EDGE_TO_CARGO_SHIP_FRONT = 124.97;
+	public static double FIELD_CENTER_TO_HATCH_ALIGNMENT_TAPE = 10.88;
+	public static double LEFT_FIELD_BACK_TO_ROCKET_HATCH_CENTER = 213.57;
+	public static double RIGHT_FIELD_BACK_TO_ROCKET_HATCH_CENTER = 213.57;
+	public static double LEFT_ROCKET_EXTRUSION = 8;
+	public static double RIGHT_ROCKET_EXTRUSION = 8;
+
+	public static double HELPER_DISTANCE_FROM_LOADER = 150.000;
+
+
+
+	//Start pos
+	public static Waypoint RIGHT_START_POS = new Waypoint(new Point2D.Double(HAB_2_LENGTH + ROBOT_CENTER_TO_BACK, (RIGHT_FIELD_EDGE_TO_HAB_1_INNER_EDGE + ROBOT_CENTER_TO_EDGE)), 0);
+	public static Waypoint CENTER_START_POS = new Waypoint(new Point2D.Double(HAB_2_LENGTH + ROBOT_CENTER_TO_BACK, FIELD_HEIGHT /2), 0);
+	public static Waypoint LEFT_START_POS = new Waypoint(new Point2D.Double(HAB_2_LENGTH + ROBOT_CENTER_TO_BACK, FIELD_HEIGHT - (LEFT_FIELD_EDGE_TO_HAB_1_INNER_EDGE + ROBOT_CENTER_TO_EDGE)), 0);
+
+	//Cargo Ship Front Hatch
+	public static Waypoint RIGHT_FRONT_HATCH = new Waypoint(new Point2D.Double((HAB_LENGTH + HAB_OUTER_EDGE_TO_CARGO_SHIP_FRONT) - ROBOT_CENTER_TO_BACK, FIELD_HEIGHT /2-FIELD_CENTER_TO_HATCH_ALIGNMENT_TAPE), 0);
+	public static Waypoint LEFT_FRONT_HATCH = new Waypoint(new Point2D.Double((HAB_LENGTH + HAB_OUTER_EDGE_TO_CARGO_SHIP_FRONT) - ROBOT_CENTER_TO_BACK, FIELD_HEIGHT /2+FIELD_CENTER_TO_HATCH_ALIGNMENT_TAPE), 0);
+
+	//Loader
+	public static Waypoint RIGHT_LOADER_STATION = new Waypoint(new Point2D.Double(ROBOT_CENTER_TO_BACK,RIGHT_FIELD_EDGE_TO_LOADER_CENTER), 0);
+	public static Waypoint LEFT_LOADER_STATION = new Waypoint(new Point2D.Double(ROBOT_CENTER_TO_BACK, FIELD_HEIGHT -LEFT_FIELD_EDGE_TO_LOADER_CENTER), 0);
+
+	//Rocket Hatch
+	public static Waypoint RIGHT_ROCKET_HATCH = new Waypoint(new Point2D.Double((RIGHT_FIELD_BACK_TO_ROCKET_HATCH_CENTER)  - (Math.sin(Math.toRadians(28.75) )* ROBOT_CENTER_TO_BACK)  ,(RIGHT_ROCKET_EXTRUSION + ROCKET_HATCH_CENTER_TO_OUTER_EDGE) + (Math.cos(Math.toRadians(28.75) )* ROBOT_CENTER_TO_BACK)) , 0);
+	public static Waypoint LEFT_ROCKET_HATCH = new Waypoint(new Point2D.Double((LEFT_FIELD_BACK_TO_ROCKET_HATCH_CENTER)   - (Math.sin(Math.toRadians(28.75) )* ROBOT_CENTER_TO_BACK)  ,FIELD_HEIGHT - ((LEFT_ROCKET_EXTRUSION + ROCKET_HATCH_CENTER_TO_OUTER_EDGE) + (Math.cos(Math.toRadians(28.75) )* ROBOT_CENTER_TO_BACK))) , 0);
+
+	//Helper points
+	public static Waypoint RIGHT_HELPER_POINT = new Waypoint(new Point2D.Double(HELPER_DISTANCE_FROM_LOADER,RIGHT_LOADER_STATION.getWaypoint().getY()), 0);
+	public static Waypoint LEFT_HELPER_POINT = new Waypoint(new Point2D.Double(HELPER_DISTANCE_FROM_LOADER,LEFT_LOADER_STATION.getWaypoint().getY()), 0);
+
+	//------------Standard points (points without robot dimensions taken into account)-------------------
+
+	//Start pos
+	public static Waypoint RIGHT_START_POS_STANDARD = new Waypoint(new Point2D.Double(HAB_2_LENGTH, (RIGHT_FIELD_EDGE_TO_HAB_1_INNER_EDGE + ROBOT_CENTER_TO_EDGE)), 0);
+	public static Waypoint CENTER_START_POS_STANDARD = new Waypoint(new Point2D.Double(HAB_2_LENGTH, FIELD_HEIGHT /2), 0);
+	public static Waypoint LEFT_START_POS_STANDARD = new Waypoint(new Point2D.Double(HAB_2_LENGTH, FIELD_HEIGHT - (LEFT_FIELD_EDGE_TO_HAB_1_INNER_EDGE + ROBOT_CENTER_TO_EDGE)), 0);
+
+	//Cargo Ship Front Hatch
+	public static Waypoint RIGHT_FRONT_HATCH_STANDARD = new Waypoint(new Point2D.Double((HAB_LENGTH + HAB_OUTER_EDGE_TO_CARGO_SHIP_FRONT), FIELD_HEIGHT /2-FIELD_CENTER_TO_HATCH_ALIGNMENT_TAPE), 0);
+	public static Waypoint LEFT_FRONT_HATCH_STANDARD = new Waypoint(new Point2D.Double((HAB_LENGTH + HAB_OUTER_EDGE_TO_CARGO_SHIP_FRONT), FIELD_HEIGHT /2+FIELD_CENTER_TO_HATCH_ALIGNMENT_TAPE), 0);
+
+	//Loader
+	public static Waypoint RIGHT_LOADER_STATION_STANDARD = new Waypoint(new Point2D.Double(0,RIGHT_FIELD_EDGE_TO_LOADER_CENTER), 0);
+	public static Waypoint LEFT_LOADER_STATION_STANDARD = new Waypoint(new Point2D.Double(0, FIELD_HEIGHT -LEFT_FIELD_EDGE_TO_LOADER_CENTER), 0);
+
+	//Rocket Hatch
+	public static Waypoint RIGHT_ROCKET_HATCH_STANDARD = new Waypoint(new Point2D.Double(RIGHT_FIELD_BACK_TO_ROCKET_HATCH_CENTER,RIGHT_ROCKET_EXTRUSION + ROCKET_HATCH_CENTER_TO_OUTER_EDGE), 0);
+	public static Waypoint LEFT_ROCKET_HATCH_STANDARD = new Waypoint(new Point2D.Double(LEFT_FIELD_BACK_TO_ROCKET_HATCH_CENTER, FIELD_HEIGHT - (LEFT_ROCKET_EXTRUSION + ROCKET_HATCH_CENTER_TO_OUTER_EDGE)), 0);
+
+
+
 
 	//----------------BLUE SIDE-----------------
 
@@ -38,8 +105,8 @@ public class AutoConstants {
 	public static double BLUE_FIELD_CENTER_TO_HATCH_ALIGNMENT_TAPE = 10.88;
 	public static double BLUE_FIELD_BACK_TO_CARGO_SHIP = 220.25;
 	public static double BLUE_HAB_2_EDGE_TO_ROCKET_HATCH_CENTER = 166.57;
-	public static double BLUE_ROCKET_EXTRUSION = 8; //Measure
-	public static double BLUE_ROCKET_HYPOTENUSE = 21; //UNKNOWN, MEASURE PLEASE
+	public static double BLUE_ROCKET_EXTRUSION = 8;
+	public static double BLUE_ROCKET_HYPOTENUSE = 21;
 
 	//Helper Point Distance
 	public static double BLUE_HELPER_DISTANCE_FROM_LOADER = 150.000;
@@ -70,9 +137,6 @@ public class AutoConstants {
 	public static Waypoint BLUE_LEFT_FRONT_HATCH_STANDARD = new Waypoint(new Point2D.Double(BLUE_FIELD_BACK_TO_CARGO_SHIP, FIELD_HEIGHT /2+BLUE_FIELD_CENTER_TO_HATCH_ALIGNMENT_TAPE), 0);
 
 
-	public static double blueStandardRocketPointX = Math.sin(Math.toRadians(28.75))*BLUE_ROCKET_HYPOTENUSE;
-
-
 	public static Waypoint BLUE_RIGHT_ROCKET_HATCH = new Waypoint(new Point2D.Double((BLUE_HAB_2_EDGE_TO_ROCKET_HATCH_CENTER + (BLUE_HAB_LENGTH - BLUE_HAB_1_LENGTH))  - (Math.sin(Math.toRadians(28.75) )* ROBOT_CENTER_TO_BACK)  ,BLUE_ROCKET_EXTRUSION + ROCKET_HATCH_CENTER_TO_OUTER_EDGE + (Math.cos(Math.toRadians(28.75) )* ROBOT_CENTER_TO_BACK)) , 0);
 	public static Waypoint BLUE_LEFT_ROCKET_HATCH = new Waypoint(new Point2D.Double((BLUE_HAB_2_EDGE_TO_ROCKET_HATCH_CENTER + (BLUE_HAB_LENGTH - BLUE_HAB_1_LENGTH))   - (Math.sin(Math.toRadians(28.75) )* ROBOT_CENTER_TO_BACK)  ,FIELD_HEIGHT - (BLUE_ROCKET_EXTRUSION + ROCKET_HATCH_CENTER_TO_OUTER_EDGE + (Math.cos(Math.toRadians(28.75) )* ROBOT_CENTER_TO_BACK))) , 0);
 
@@ -93,8 +157,8 @@ public class AutoConstants {
 	public static double RED_FIELD_CENTER_TO_HATCH_ALIGNMENT_TAPE = 10.88;
 	public static double RED_FIELD_BACK_TO_CARGO_SHIP = 220.25;
 	public static double RED_HAB_2_EDGE_TO_ROCKET_HATCH_CENTER = 166.57;
-	public static double RED_ROCKET_EXTRUSION = 8; //Measure
-	public static double RED_ROCKET_HYPOTENUSE = 21; //UNKNOWN, MEASURE PLEASE
+	public static double RED_ROCKET_EXTRUSION = 8;
+	public static double RED_ROCKET_HYPOTENUSE = 21;
 
 	//Helper Point Distance
 	public static double RED_HELPER_DISTANCE_FROM_LOADER = 150.000;
