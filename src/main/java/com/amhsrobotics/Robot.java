@@ -118,17 +118,17 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		//new AimAssist().start();
-////		new PushBackward().start();
+//		//new AimAssist().start();
+//////		new PushBackward().start();
+////		Odometry.getInstance().resetPosition();
 //		Odometry.getInstance().resetPosition();
-		Odometry.getInstance().resetPosition();
-//		Waypoint[] waypoints = new Waypoint[2];
-//		waypoints[0] = new Waypoint(new Point2D.Double(0,0),0);
-//		waypoints[1] = new Waypoint(new Point2D.Double(48,-24),0);
-//		new Translate2dTrajectory(waypoints, PathType.CUBIC_HERMITE_PATH, true).start();
-		new VisionScore().start();
-		new AutoSlider().start();
-		//DriveTrain.getInstance().tankVelocity(50,50);
+////		Waypoint[] waypoints = new Waypoint[2];
+////		waypoints[0] = new Waypoint(new Point2D.Double(0,0),0);
+////		waypoints[1] = new Waypoint(new Point2D.Double(48,-24),0);
+////		new Translate2dTrajectory(waypoints, PathType.CUBIC_HERMITE_PATH, true).start();
+//		new VisionScore().start();
+//		new AutoSlider().start();
+//		//DriveTrain.getInstance().tankVelocity(50,50);
 
 
 	}
@@ -140,7 +140,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 
-		new TankDrive().start();
+//		new TankDrive().start();
 		//new TestCommand().start();
 		//new Slide(SliderPosition.Middle).start();
 		//new PushBackward().start();
@@ -151,6 +151,7 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		//Arm.getInstance().manualAngle(0.2);
 		//System.out.println(Arm.getInstance().getArmPosition());
+		System.out.println(Rollers.getInstance().ballDetected());
 	}
 
 	@Override

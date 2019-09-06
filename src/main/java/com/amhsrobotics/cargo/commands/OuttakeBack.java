@@ -1,18 +1,19 @@
 package com.amhsrobotics.cargo.commands;
 
 import com.amhsrobotics.cargo.Rollers;
+import com.amhsrobotics.cargo.constants.IntakeSpeeds;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * Intake command, which runs the intake if the ball sensor is not pressed
  */
-public class Intake extends Command {
+public class OuttakeBack extends Command {
 
 	/**
 	 * Constructor for Intake
 	 * Sets command to run on the Roller subsystem
 	 */
-	public Intake() {
+	public OuttakeBack() {
 		super("Intake");
 		requires(Rollers.getInstance());
 	}
@@ -22,7 +23,7 @@ public class Intake extends Command {
 	 */
 	@Override
 	protected void initialize() {
-		Rollers.getInstance().intake();
+		Rollers.getInstance().setRollerSpeeds(IntakeSpeeds.TOP_ROLLER_OUTTAKE_BACK, 0);
 	}
 
 	@Override
@@ -32,7 +33,7 @@ public class Intake extends Command {
 
 	@Override
 	protected void end() {
-		Rollers.getInstance().stopRollers();
+
 	}
 
 	@Override
@@ -46,6 +47,6 @@ public class Intake extends Command {
 	 */
 	@Override
 	protected boolean isFinished() {
-		return Rollers.getInstance().ballDetected();
+		return true;
 	}
 }

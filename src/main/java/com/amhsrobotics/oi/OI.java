@@ -1,8 +1,7 @@
 package com.amhsrobotics.oi;
 
 import com.amhsrobotics.autonomous.movement.commands.VisionAlignment;
-import com.amhsrobotics.cargo.commands.Angle;
-import com.amhsrobotics.cargo.commands.StopRollers;
+import com.amhsrobotics.cargo.commands.*;
 import com.amhsrobotics.cargo.constants.ArmPosition;
 import com.amhsrobotics.drive.commands.GearShift;
 import com.amhsrobotics.drive.constants.GearState;
@@ -17,8 +16,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 //import GearShift;
-import com.amhsrobotics.cargo.commands.Intake;
-import com.amhsrobotics.cargo.commands.Outtake;
 import com.amhsrobotics.commoncontrols.XboxWheel;
 
 
@@ -54,9 +51,9 @@ public class OI {
 		vision.whenPressed(new VisionAlignment());
 		//testProfile.whenPressed(new MotionProfileTranslate(10, 0.2));
 		driveControls();
-		hatchControls();
+		//hatchControls();
 		hatchControlsXbox();
-		//cargoControls();
+		cargoControls();
 		cargoControlsXbox();
 
 	}
@@ -178,24 +175,25 @@ public class OI {
 		Button angleCargo = new Button() {
 			@Override
 			public boolean get() {
-				return getJoystick2().getRawButton(5);
-			}
-		};
-		angleCargo.whenPressed(new Angle(ArmPosition.Cargo));
-		Button angleRocket = new Button() {
-			@Override
-			public boolean get() {
-				return getJoystick2().getRawButton(4);
-			}
-		};
-		angleRocket.whenPressed(new Angle(ArmPosition.Rocket));
-		Button angleGround = new Button() {
-			@Override
-			public boolean get() {
 				return getJoystick2().getRawButton(3);
 			}
 		};
-		angleGround.whenPressed(new Angle(ArmPosition.Ground));
+		angleCargo.whenPressed(new OuttakeBack());
+		angleCargo.whenReleased(new StopRollers());
+//		Button angleRocket = new Button() {
+//			@Override
+//			public boolean get() {
+//				return getJoystick2().getRawButton(4);
+//			}
+//		};
+//		angleRocket.whenPressed(new Angle(ArmPosition.Rocket));
+//		Button angleGround = new Button() {
+//			@Override
+//			public boolean get() {
+//				return getJoystick2().getRawButton(3);
+//			}
+//		};
+//		angleGround.whenPressed(new Angle(ArmPosition.Ground));
 	}
 
 	private void hatchControlsXbox(){
