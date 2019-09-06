@@ -45,5 +45,4 @@ public class ClimbSubsystem extends Subsystem {
         rightTalon.setSelectedSensorPosition(0);
         leftTalon.setSelectedSensorPosition(0);
     }
-    public void 
 }
