@@ -3,7 +3,7 @@ package com.amhsrobotics.climber;
 import com.amhsrobotics.oi.OI;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class joystickCommand extends Command {
+public class JoystickCommand extends Command {
     @Override
     protected boolean isFinished() {
         return false;

@@ -23,7 +23,7 @@ public class Slider extends Subsystem {
 		return ourInstance;
 	}
 
-	private Slider() {
+	public Slider() {
 		super("Slider");
 	}
 
