@@ -13,7 +13,7 @@ public class ClimbSubsystem extends Subsystem {
         return ourInstance;
     }
     WPI_TalonSRX rightTalon, leftTalon;
-    Servo servo = new Servo();
+    Servo servo = new Servo(0);
     double tpi = 0;
     double increment = 0;
     private ClimbSubsystem() {
