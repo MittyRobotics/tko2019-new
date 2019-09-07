@@ -10,10 +10,16 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import com.amhsrobotics.autonomous.constants.AutoConstants;
+import com.amhsrobotics.purepursuit.Path;
+import com.amhsrobotics.purepursuit.PathGenerator;
+import com.amhsrobotics.purepursuit.Waypoint;
+import com.amhsrobotics.purepursuit.enums.PathType;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -39,6 +45,14 @@ public class GraphAutonPoints extends JFrame {
         //Changes background color
         XYPlot plot = (XYPlot)chart.getPlot();
         plot.setBackgroundPaint(Color.DARK_GRAY);
+        XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
+        renderer.setSeriesPaint(0, new Color(0, 0xff, 85));
+        renderer.setSeriesPaint(1, new Color(0x00, 0xff, 68));
+        renderer.setSeriesPaint(3, new Color(255, 234, 0));
+        renderer.setDefaultLinesVisible(false);
+
+        plot.setRenderer(renderer);
+
         try {
             plot.setBackgroundImage(ImageIO.read(new File("images/halfField.jpeg")));
         } catch (IOException e) {
@@ -128,7 +142,19 @@ public class GraphAutonPoints extends JFrame {
 
         dataset.addSeries(series5);
 
+        dataset.addSeries(graphPath(AutoConstants.BLUE_LEFT_START_POS, AutoConstants.BLUE_LEFT_ROCKET_HATCH));
+
         return dataset;
+    }
+
+    public static XYSeries graphPath(Waypoint startPoint, Waypoint endPoint){
+        XYSeries series = new XYSeries("Path");
+        Path path = PathGenerator.getInstance().generate(new Waypoint[]{startPoint,endPoint}, PathType.CUBIC_HERMITE_PATH,20,20,50,200);
+        for (int i = 0; i < path.length(); i ++){
+            series.add(path.get(i).getX(), path.get(i).getY());
+        }
+        return series;
+
     }
 
     public static void main(String[] args) {

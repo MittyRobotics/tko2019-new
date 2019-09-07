@@ -1,5 +1,9 @@
 package com.amhsrobotics.autonomous.constants;
 
+import com.amhsrobotics.purepursuit.Waypoint;
+
+import java.awt.geom.Point2D;
+
 /**
  * Constants that are used in the vision system.
  */
@@ -19,4 +23,7 @@ public class VisionConstants {
 	public static final double RESOLUTION_HEIGHT = 720; //pixels
 	
 	public static final int AREA_TO_STOP = 15; //% of screen TODO: CALIBRATE
+
+
+
 }
