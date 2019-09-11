@@ -59,24 +59,6 @@ public class ClimbSubsystem extends Subsystem {
         leftTalon.setSelectedSensorPosition(0);
     }
 
-    public void moveClimber(double position) {
-        double setpoint = position*tpi;
-        double threshold = 0;
-      //  leftTalon.set(ControlMode.Position, setpoint);
-        while ((Math.abs(rightTalon.getSelectedSensorPosition() - setpoint) > threshold) && (Math.abs(leftTalon.getSelectedSensorPosition() - setpoint) > threshold)){
-            if (setpoint - rightTalon.getSelectedSensorPosition() >= increment) {
-                rightTalon.set(ControlMode.Position, rightTalon.getSelectedSensorPosition() + increment);
-            } else {
-                rightTalon.set(ControlMode.Position, setpoint);
-            }
-
-            if (setpoint - leftTalon.getSelectedSensorPosition() >= increment) {
-                leftTalon.set(ControlMode.Position, leftTalon.getSelectedSensorPosition() + increment);
-            } else {
-                leftTalon.set(ControlMode.Position, setpoint);
-            }
-        }
-    }
 
     public void moveServo (double angle){
         servo.setAngle(angle);
