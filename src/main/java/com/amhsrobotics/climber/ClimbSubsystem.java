@@ -16,10 +16,6 @@ public class ClimbSubsystem extends Subsystem {
     Servo servo = new Servo(0);
     double tpi = 0;
     double increment = 0;
-    private ClimbSubsystem() {
-
-
-    }
 
     public void initHardware(){
         WPI_TalonSRX leftTalon = new WPI_TalonSRX(0);
@@ -39,7 +35,6 @@ public class ClimbSubsystem extends Subsystem {
     protected void initDefaultCommand() {
 
     }
-
 
     public void resetEncoder(){
         while (!leftTalon.getSensorCollection().isFwdLimitSwitchClosed()) {
@@ -66,7 +61,9 @@ public class ClimbSubsystem extends Subsystem {
 
     public void moveClimber(double position) {
         double setpoint = position*tpi;
-        while ((rightTalon.getSelectedSensorPosition() != setpoint) && (leftTalon.getSelectedSensorPosition() != setpoint)){
+        double threshold = 0;
+      //  leftTalon.set(ControlMode.Position, setpoint);
+        while ((Math.abs(rightTalon.getSelectedSensorPosition() - setpoint) > threshold) && (Math.abs(leftTalon.getSelectedSensorPosition() - setpoint) > threshold)){
             if (setpoint - rightTalon.getSelectedSensorPosition() >= increment) {
                 rightTalon.set(ControlMode.Position, rightTalon.getSelectedSensorPosition() + increment);
             } else {
@@ -81,8 +78,7 @@ public class ClimbSubsystem extends Subsystem {
         }
     }
 
-    public void moveServo(double speed, double angle){
-        servo.set(speed);
+    public void moveServo (double angle){
         servo.setAngle(angle);
     }
 }

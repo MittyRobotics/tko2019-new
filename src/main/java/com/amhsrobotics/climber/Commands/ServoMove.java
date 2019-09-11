@@ -14,6 +14,6 @@ public class ServoMove extends Command {
     }
 
     protected void execute(){
-        ClimbSubsystem.getInstance().moveServo(1, 90);
+        ClimbSubsystem.getInstance().moveServo( 90);
     }
 }
