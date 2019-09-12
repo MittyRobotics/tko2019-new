@@ -16,11 +16,11 @@ public class ClimberWheel extends Subsystem {
     private ClimberWheel() {
         WPI_TalonSRX leftTalon = new WPI_TalonSRX(0);
         WPI_TalonSRX rightTalon = new WPI_TalonSRX(1);
-        WPI_TalonSRX frontLeft = new WPI_TalonSRX(2);
+        WPI_TalonSRX frontLeft = new WPI_TalonSRX(2); //TODO: use actual drive code?
         WPI_TalonSRX frontRight = new WPI_TalonSRX(3);
     }
 
-    public void moveWheel(double yVal){
+    public void moveWheel(double yVal){ //TODO: make this PID
         if (Math.abs(yVal) > 0.05 ) {
             leftTalon.set(ControlMode.PercentOutput, yVal);
             rightTalon.set(ControlMode.PercentOutput, yVal);

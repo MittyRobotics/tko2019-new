@@ -1,5 +1,7 @@
 package com.amhsrobotics.climber;
 
+import com.amhsrobotics.climber.constants.TalonIds;
+import com.amhsrobotics.motionprofile.TrapezoidalMotionProfile;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -7,33 +9,46 @@ import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class ClimbSubsystem extends Subsystem {
+    public enum ClimberPosition {
+        BOTTOM, TOP
+    }
+
+// TODO: Owen's Trapezoid thing?
+
     private static ClimbSubsystem ourInstance = new ClimbSubsystem();
 
     public static ClimbSubsystem getInstance() {
         return ourInstance;
     }
+
+    public ClimbSubsystem() {
+        super("Climber");
+    }
+
     WPI_TalonSRX rightTalon, leftTalon;
     Servo servo = new Servo(0);
-    double tpi = 0;
-    double increment = 0;
 
     public void initHardware(){
-        WPI_TalonSRX leftTalon = new WPI_TalonSRX(0);
-        WPI_TalonSRX rightTalon = new WPI_TalonSRX(1);
+        WPI_TalonSRX leftTalon = new WPI_TalonSRX(TalonIds.CLIMBER_LEFT);
+        WPI_TalonSRX rightTalon = new WPI_TalonSRX(TalonIds.CLIMBER_RIGHT);
         leftTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
         rightTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-        rightTalon.config_kP(0, 0);
+        rightTalon.config_kP(0, 0);  // TODO:(masha) PID.CLIMBER[0]
         rightTalon.config_kI(0, 0);
         rightTalon.config_kD(0, 0);
         leftTalon.config_kP(0, 0);
         leftTalon.config_kI(0, 0);
         leftTalon.config_kD(0, 0);
-
     }
 
     @Override
     protected void initDefaultCommand() {
 
+    }
+
+    public void setClimberPosition(double position) {
+        leftTalon.set(ControlMode.Position, position); //TODO: make incremental?
+        rightTalon.set(ControlMode.Position, position);
     }
 
     public void resetEncoder(){
@@ -63,4 +78,5 @@ public class ClimbSubsystem extends Subsystem {
     public void moveServo (double angle){
         servo.setAngle(angle);
     }
+        // TODO: figure this out
 }
