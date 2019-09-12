@@ -54,8 +54,10 @@ public class ClimbSubsystem extends Subsystem {
         return rightTalon.getSelectedSensorPosition();
     }
 
+    //TODO: figure out the relation between the two sides - two encoders? one master encoder?
+
     public void setClimberPosition(double position) {
-        leftTalon.set(ControlMode.Position, position); //TODO: make incremental?
+        leftTalon.set(ControlMode.Position, position); //TODO: make incremental
         rightTalon.set(ControlMode.Position, position);
     }
 
@@ -86,5 +88,5 @@ public class ClimbSubsystem extends Subsystem {
     public void moveServo (double angle){
         servo.setAngle(angle);
     }
-        // TODO: figure this out
+        // TODO: figure this out (and in ServoMove command)
 }
