@@ -46,6 +46,11 @@ public class ClimbSubsystem extends Subsystem {
 
     }
 
+    public double getClimberPosition(double position) {
+        leftTalon.getSelectedSensorPosition();
+        rightTalon.getSelectedSensorPosition();
+  }
+
     public void setClimberPosition(double position) {
         leftTalon.set(ControlMode.Position, position); //TODO: make incremental?
         rightTalon.set(ControlMode.Position, position);
