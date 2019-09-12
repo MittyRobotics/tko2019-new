@@ -1,6 +1,7 @@
 package com.amhsrobotics.climber;
 
 import com.amhsrobotics.climber.constants.TalonIds;
+import com.amhsrobotics.climber.constants.TicksPerInch;
 import com.amhsrobotics.motionprofile.TrapezoidalMotionProfile;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -25,7 +26,7 @@ public class ClimbSubsystem extends Subsystem {
         super("Climber");
     }
 
-    WPI_TalonSRX rightTalon, leftTalon;
+    private WPI_TalonSRX rightTalon, leftTalon;
     Servo servo = new Servo(0);
 
     public void initHardware(){
@@ -46,21 +47,22 @@ public class ClimbSubsystem extends Subsystem {
 
     }
 
-    public double getClimberPositionLeft(double position) {
-        return leftTalon.getSelectedSensorPosition();
+    public double getClimberPositionLeft() {
+        return leftTalon.getSelectedSensorPosition() / TicksPerInch.CLIMBER_TPI;
   }
 
-    public double getClimberPositionRight(double position) {
-        return rightTalon.getSelectedSensorPosition();
+    public double getClimberPositionRight() {
+        return rightTalon.getSelectedSensorPosition() / TicksPerInch.CLIMBER_TPI;
     }
 
     //TODO: figure out the relation between the two sides - two encoders? one master encoder?
 
-    public void setClimberPosition(double position) {
-        leftTalon.set(ControlMode.Position, position); //TODO: make incremental
-        rightTalon.set(ControlMode.Position, position);
+    public void setClimberPositionLeft(double position) {
+        leftTalon.set(ControlMode.Position, position * TicksPerInch.CLIMBER_TPI); //TODO: make incremental
     }
-
+    public void setClimberPositionRight(double position) {
+        rightTalon.set(ControlMode.Position, position * TicksPerInch.CLIMBER_TPI);
+    }
     public void resetEncoder(){
         while (!leftTalon.getSensorCollection().isFwdLimitSwitchClosed()) {
             leftTalon.set(ControlMode.PercentOutput, .1);

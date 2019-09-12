@@ -1,4 +1,4 @@
-package com.amhsrobotics.climber.Commands;
+package com.amhsrobotics.climber.commands;
 
 import com.amhsrobotics.climber.ClimbSubsystem;
 import edu.wpi.first.wpilibj.command.Command;
