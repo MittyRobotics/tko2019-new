@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class MoveClimber extends Command {
     private ClimberPosition climberPosition; // TODO: make ClimberPosition file in constants
-    private TrapezoidalMotionProfile climb; // @soph guys, ask Owen for an explanation of this; I'm just trying to make this code closer to the Slide command code
+    private TrapezoidalMotionProfile climb; // Owen's thing
     private double t;
     public MoveClimber(ClimberPosition sliderPosition) {
         super("Slide");
