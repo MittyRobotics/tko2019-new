@@ -34,11 +34,11 @@ public class ClimberWheel extends Subsystem {
     }
 
     public double getLeftWheel(){
-        leftTalon.getSelectedSensorPosition();
+        return leftTalon.getSelectedSensorPosition();
     }
 
     public double getRightWheel(){
-        rightTalon.getSelectedSensorPosition();
+        return rightTalon.getSelectedSensorPosition();
     }
 
 
