@@ -1,6 +1,8 @@
 package com.amhsrobotics.climber;
 
 import com.amhsrobotics.climber.constants.TicksPerInch;
+import com.amhsrobotics.hatchpanel.constants.MotionProfileValues;
+import com.amhsrobotics.motionprofile.TrapezoidalMotionProfile;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -41,6 +43,15 @@ public class ClimberWheel extends Subsystem {
         return rightTalon.getSelectedSensorPosition();
     }
 
+    public TrapezoidalMotionProfile wheelLeft(final double position){
+        System.out.println("Slide init pos: " + leftTalon.getSelectedSensorPosition(0));
+        return new TrapezoidalMotionProfile(MotionProfileValues.MAX_ACCELERATION, MotionProfileValues.MAX_VELOCITY,  leftTalon.getSelectedSensorPosition(0)/ com.amhsrobotics.climber.constants.TicksPerInch.WHEEL_TPI, position, 0.06);
+    }
+
+    public TrapezoidalMotionProfile wheelRight(final double position){
+        System.out.println("Slide init pos: " + rightTalon.getSelectedSensorPosition(0));
+        return new TrapezoidalMotionProfile(MotionProfileValues.MAX_ACCELERATION, MotionProfileValues.MAX_VELOCITY,  rightTalon.getSelectedSensorPosition(0)/ com.amhsrobotics.climber.constants.TicksPerInch.WHEEL_TPI, position, 0.06);
+    }
 
     @Override
     protected void initDefaultCommand() {
