@@ -11,6 +11,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import com.amhsrobotics.autonomous.constants.AutoConstants;
+import com.amhsrobotics.autonomous.constants.AutoPaths;
 import com.amhsrobotics.purepursuit.Path;
 import com.amhsrobotics.purepursuit.PathGenerator;
 import com.amhsrobotics.purepursuit.Waypoint;
@@ -38,7 +39,7 @@ public class GraphAutonPoints extends JFrame {
 
         // Create dataset
         XYDataset dataset = createDataset();
-        XYDataset pathDataset = pathDataset();
+        XYDataset pathDataset = pathDataset(AutoPaths.BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET);
 
         // Create chart
         JFreeChart chart = ChartFactory.createScatterPlot(
@@ -178,21 +179,26 @@ public class GraphAutonPoints extends JFrame {
 
 
 
-    private XYDataset pathDataset() {
+    private XYDataset pathDataset(Waypoint[][] autoPath) {
         XYSeriesCollection dataset = new XYSeriesCollection();
 
 
-        dataset.addSeries(graphPath(AutoConstants.BLUE_LEFT_START_POS, AutoConstants.BLUE_LEFT_FRONT_HATCH,0));
+//        dataset.addSeries(graphPath(AutoConstants.BLUE_LEFT_START_POS, AutoConstants.BLUE_LEFT_FRONT_HATCH,0));
+//
+//        dataset.addSeries(graphPath(AutoConstants.BLUE_LEFT_FRONT_HATCH_REVERSED, AutoConstants.BLUE_LEFT_HELPER_POINT,1));
+//
+//        dataset.addSeries(graphPath(AutoConstants.BLUE_LEFT_HELPER_POINT_REVERSED, AutoConstants.BLUE_LEFT_LOADER_STATION,2));
+//
+//        dataset.addSeries(graphPath(AutoConstants.BLUE_LEFT_LOADER_STATION_REVERSED, AutoConstants.BLUE_LEFT_HELPER_POINT,3));
+//
+//
+//        dataset.addSeries(graphPath(AutoConstants.BLUE_LEFT_HELPER_POINT_REVERSED, AutoConstants.BLUE_LEFT_ROCKET_HATCH,4));
+//
 
-        dataset.addSeries(graphPath(AutoConstants.BLUE_LEFT_FRONT_HATCH_REVERSED, AutoConstants.BLUE_LEFT_HELPER_POINT,1));
+        for(int i = 0; i < autoPath.length; i++){
 
-        dataset.addSeries(graphPath(AutoConstants.BLUE_LEFT_HELPER_POINT_REVERSED, AutoConstants.BLUE_LEFT_LOADER_STATION,2));
-
-        dataset.addSeries(graphPath(AutoConstants.BLUE_LEFT_LOADER_STATION_REVERSED, AutoConstants.BLUE_LEFT_HELPER_POINT,3));
-
-
-        dataset.addSeries(graphPath(AutoConstants.BLUE_LEFT_HELPER_POINT_REVERSED, AutoConstants.BLUE_LEFT_ROCKET_HATCH,4));
-
+            dataset.addSeries(graphPath(autoPath[i], i));
+        }
 
 
 
@@ -202,9 +208,9 @@ public class GraphAutonPoints extends JFrame {
         return dataset;
     }
 
-    public XYSeries graphPath(Waypoint startPoint, Waypoint endPoint, int index){
+    public XYSeries graphPath(Waypoint[] points, int index){
         XYSeries series = new XYSeries("Path" + index);
-        Path path = PathGenerator.getInstance().generate(new Waypoint[]{startPoint,endPoint}, PathType.CUBIC_HERMITE_PATH,5,5,40,20);
+        Path path = PathGenerator.getInstance().generate(points, PathType.CUBIC_HERMITE_PATH,5,5,40,20);
         for (int i = 0; i < path.length(); i ++){
             series.add(path.get(i).getX(), path.get(i).getY());
         }
