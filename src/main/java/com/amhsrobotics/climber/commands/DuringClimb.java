@@ -5,6 +5,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class DuringClimb extends CommandGroup {
     public DuringClimb() {
         addSequential(new MoveClimberDown());
-        addSequential(new MoveClimberUp());
+        addSequential(new MoveClimber());
     }
 }
