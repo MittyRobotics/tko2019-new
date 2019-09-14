@@ -3,7 +3,7 @@ package com.amhsrobotics.climber.commands;
 import com.amhsrobotics.climber.ClimberWheel;
 import com.amhsrobotics.climber.constants.TicksPerInch;
 import com.amhsrobotics.climber.constants.WheelPosition;
-import com.amhsrobotics.hatchpanel.Slider;
+import com.amhsrobotics.drive.DriveTrain;
 import com.amhsrobotics.motionprofile.MotionFrame;
 import com.amhsrobotics.motionprofile.TrapezoidalMotionProfile;
 import edu.wpi.first.wpilibj.command.Command;
@@ -15,14 +15,15 @@ public class MoveWheel2 extends Command {
         super("ClimberWheel");
         this.position = position;
         requires(ClimberWheel.getInstance());
+        requires(DriveTrain.getInstance());
         System.out.println("construct");
     }
 
     @Override
     protected void initialize() {
         System.out.println("init");
-        wheelLeft = ClimberWheel.getInstance().wheelLeft(WheelPosition.WHEEL_POS);
-        wheelRight = ClimberWheel.getInstance().wheelRight(WheelPosition.WHEEL_POS);
+        wheelLeft = ClimberWheel.getInstance().wheelLeft(WheelPosition.WHEEL_POS, false);
+        wheelRight = ClimberWheel.getInstance().wheelRight(WheelPosition.WHEEL_POS, false);
         t = 0;
     }
 
@@ -31,10 +32,11 @@ public class MoveWheel2 extends Command {
         t = timeSinceInitialized();
         MotionFrame frameRight = wheelRight.getFrameAtTime(t);
         MotionFrame frameLeft = wheelLeft.getFrameAtTime(t);
-        Slider.getInstance().setSliderPosition(frameRight.getPosition() * TicksPerInch.WHEEL_TPI);
+        ClimberWheel.getInstance().setRightWheel(frameRight.getPosition());
         System.out.println(frameRight.getPosition());
-        Slider.getInstance().setSliderPosition(frameLeft.getPosition() * TicksPerInch.WHEEL_TPI);
+        ClimberWheel.getInstance().setLeftWheel(frameLeft.getPosition());
         System.out.println(frameLeft.getPosition());
+        DriveTrain.getInstance().tankDrive(wheelLeft.getFrameAtTime(t).getVelocity(), wheelRight.getFrameAtTime(t).getVelocity());
     }
 
     @Override

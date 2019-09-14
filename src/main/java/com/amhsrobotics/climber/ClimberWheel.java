@@ -43,15 +43,17 @@ public class ClimberWheel extends Subsystem {
         return rightTalon.getSelectedSensorPosition();
     }
 
-    public TrapezoidalMotionProfile wheelLeft(final double position){
-        System.out.println("Slide init pos: " + leftTalon.getSelectedSensorPosition(0));
-        return new TrapezoidalMotionProfile(MotionProfileValues.MAX_ACCELERATION, MotionProfileValues.MAX_VELOCITY,  leftTalon.getSelectedSensorPosition(0)/ com.amhsrobotics.climber.constants.TicksPerInch.WHEEL_TPI, position, 0.06);
+    public TrapezoidalMotionProfile wheelLeft(final double position, boolean reversed){
+        System.out.println("Slide init pos: " + leftTalon.getSelectedSensorPosition());
+        return new TrapezoidalMotionProfile(MotionProfileValues.MAX_ACCELERATION, MotionProfileValues.MAX_VELOCITY,  leftTalon.getSelectedSensorPosition(0)/ com.amhsrobotics.climber.constants.TicksPerInch.WHEEL_TPI, position, 0.06, reversed);
     }
 
-    public TrapezoidalMotionProfile wheelRight(final double position){
-        System.out.println("Slide init pos: " + rightTalon.getSelectedSensorPosition(0));
-        return new TrapezoidalMotionProfile(MotionProfileValues.MAX_ACCELERATION, MotionProfileValues.MAX_VELOCITY,  rightTalon.getSelectedSensorPosition(0)/ com.amhsrobotics.climber.constants.TicksPerInch.WHEEL_TPI, position, 0.06);
+    public TrapezoidalMotionProfile wheelRight(final double position, boolean reversed){
+        System.out.println("Slide init pos: " + rightTalon.getSelectedSensorPosition());
+        return new TrapezoidalMotionProfile(MotionProfileValues.MAX_ACCELERATION, MotionProfileValues.MAX_VELOCITY,  rightTalon.getSelectedSensorPosition(0)/ com.amhsrobotics.climber.constants.TicksPerInch.WHEEL_TPI, position, 0.06, reversed);
     }
+
+
 
     @Override
     protected void initDefaultCommand() {

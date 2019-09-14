@@ -1,5 +1,6 @@
 package com.amhsrobotics.climber;
 
+import com.amhsrobotics.climber.constants.MotionProfileValues;
 import com.amhsrobotics.climber.constants.TalonIds;
 import com.amhsrobotics.climber.constants.TicksPerInch;
 import com.amhsrobotics.motionprofile.TrapezoidalMotionProfile;
@@ -7,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class ClimbSubsystem extends Subsystem {
@@ -40,6 +42,7 @@ public class ClimbSubsystem extends Subsystem {
         leftTalon.config_kP(0, 0);
         leftTalon.config_kI(0, 0);
         leftTalon.config_kD(0, 0);
+        Solenoid piston1 = new Solenoid(0);
     }
 
     @Override
@@ -86,9 +89,19 @@ public class ClimbSubsystem extends Subsystem {
         leftTalon.setSelectedSensorPosition(0);
     }
 
+    public TrapezoidalMotionProfile climberLeft(final double position, boolean reversed){
+        System.out.println("Slide init pos: " + leftTalon.getSelectedSensorPosition());
+        return new TrapezoidalMotionProfile(MotionProfileValues.MAX_ACCELERATION, MotionProfileValues.MAX_VELOCITY,  leftTalon.getSelectedSensorPosition(0)/ com.amhsrobotics.climber.constants.TicksPerInch.WHEEL_TPI, position, 0.06, reversed);
+    }
+
+    public TrapezoidalMotionProfile climberRight(final double position, boolean reversed){
+        System.out.println("Slide init pos: " + rightTalon.getSelectedSensorPosition());
+        return new TrapezoidalMotionProfile(MotionProfileValues.MAX_ACCELERATION, MotionProfileValues.MAX_VELOCITY,  rightTalon.getSelectedSensorPosition(0)/ com.amhsrobotics.climber.constants.TicksPerInch.WHEEL_TPI, position, 0.06, reversed);
+    }
 
     public void moveServo (double angle){
         servo.setAngle(angle);
     }
         // TODO: figure this out (and in ServoMove command)
+
 }
