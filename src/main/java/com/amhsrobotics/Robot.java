@@ -1,7 +1,9 @@
 package com.amhsrobotics;
 
 import com.amhsrobotics.autonomous.Odometry;
+import com.amhsrobotics.autonomous.constants.AutoConstants;
 import com.amhsrobotics.autonomous.enums.StreamMode;
+import com.amhsrobotics.autonomous.movement.RateLimiter;
 import com.amhsrobotics.autonomous.movement.commands.AimAssist;
 import com.amhsrobotics.autonomous.movement.commands.AutoSlider;
 import com.amhsrobotics.autonomous.movement.commands.Translate2dTrajectory;
@@ -98,6 +100,9 @@ public class Robot extends TimedRobot {
 		Notifier odometryNotifier = new Notifier(Odometry.getInstance());
 		odometryNotifier.startPeriodic(0.06);
 		System.out.println("odometry notifier start: " + ((System.nanoTime()-t)/1000000));
+
+		RateLimiter.getInstance().setPercentOutputParameters(.25 * 0.06,1);
+		RateLimiter.getInstance().setVelocityParameters(AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxAcceleration(),AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxVelocity());
 	}
 
 	@Override

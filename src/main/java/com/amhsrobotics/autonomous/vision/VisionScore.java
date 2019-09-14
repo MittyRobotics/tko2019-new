@@ -52,9 +52,10 @@ public class VisionScore extends CommandGroup {
 //		addSequential( new Translate2dTrajectory(waypoints2, 50,50,500, PathType.CUBIC_HERMITE_PATH, 0,false));
 
 
-		addSequential( new Translate2dTrajectory(AutoPaths.BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[0], 100,50,500,  PathType.CUBIC_HERMITE_PATH,100,true));
+		addSequential( new Translate2dTrajectory(AutoPaths.BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[0], 150,150,500,  PathType.CUBIC_HERMITE_PATH,100,true));
+		addSequential(new VisionAlignment());
 		addSequential(new PushBackward());
-		addSequential(new Translate2dTrajectory(AutoPaths.BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[1], 150,100,500, PathType.CUBIC_HERMITE_PATH, 100, true));
+		addSequential(new Translate2dTrajectory(AutoPaths.BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[1], 150,150,500, PathType.CUBIC_HERMITE_PATH, 0, true));
 
 	}
 

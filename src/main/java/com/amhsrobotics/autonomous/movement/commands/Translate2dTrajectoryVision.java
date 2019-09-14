@@ -3,6 +3,7 @@ package com.amhsrobotics.autonomous.movement.commands;
 import com.amhsrobotics.autonomous.constants.AutoConstants;
 import com.amhsrobotics.autonomous.movement.AutonDriver;
 import com.amhsrobotics.autonomous.movement.AutonMotionOutput;
+import com.amhsrobotics.autonomous.movement.RateLimiter;
 import com.amhsrobotics.autonomous.vision.Limelight;
 import edu.wpi.first.wpilibj.command.Command;
 import com.amhsrobotics.autonomous.Odometry;
