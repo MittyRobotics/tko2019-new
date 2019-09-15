@@ -6,9 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 
 import com.amhsrobotics.autonomous.constants.AutoConstants;
 import com.amhsrobotics.autonomous.constants.AutoPaths;
@@ -29,13 +27,12 @@ import org.jfree.data.xy.XYSeriesCollection;
 /**
  * @author imssbora
  */
-public class GraphAutonPoints extends JFrame {
-    private static final long serialVersionUID = 6294689542092367723L;
+public class GraphAutonPoints extends JPanel {
 
     private ArrayList<Path> currentPath = new ArrayList();
 
     public GraphAutonPoints(String title) {
-        super(title);
+
 
         // Create dataset
         XYDataset dataset = createDataset();
@@ -44,7 +41,13 @@ public class GraphAutonPoints extends JFrame {
         // Create chart
         JFreeChart chart = ChartFactory.createScatterPlot(
                 "Field Points",
-                "X-Axis", "Y-Axis", dataset);
+                "X-Axis (inches)", "Y-Axis (inches)", dataset);
+
+        chart.removeLegend();
+
+        chart.setBackgroundPaint(new Color(71, 71, 71));
+
+        chart.getTitle().setPaint(new Color(158, 159, 157));
 
 
 
@@ -61,7 +64,10 @@ public class GraphAutonPoints extends JFrame {
             colorRenderer.setSeriesShape(i,rect);
         }
 
-
+        plot.getDomainAxis().setLabelPaint(new Color(158, 159, 157));
+        plot.getRangeAxis().setLabelPaint(new Color(158, 159, 157));
+        plot.getDomainAxis().setTickLabelPaint(new Color(158, 159, 157));
+        plot.getRangeAxis().setTickLabelPaint(new Color(158, 159, 157));
 
 
 
@@ -98,7 +104,11 @@ public class GraphAutonPoints extends JFrame {
 
         // Create Panel
         ChartPanel panel = new ChartPanel(chart);
-        setContentPane(panel);
+
+
+        add(panel);
+        setBackground(new Color(71, 71, 71));
+
     }
 
     private XYDataset createDataset() {
@@ -182,19 +192,6 @@ public class GraphAutonPoints extends JFrame {
     private XYDataset pathDataset(Waypoint[][] autoPath) {
         XYSeriesCollection dataset = new XYSeriesCollection();
 
-
-//        dataset.addSeries(graphPath(AutoConstants.BLUE_LEFT_START_POS, AutoConstants.BLUE_LEFT_FRONT_HATCH,0));
-//
-//        dataset.addSeries(graphPath(AutoConstants.BLUE_LEFT_FRONT_HATCH_REVERSED, AutoConstants.BLUE_LEFT_HELPER_POINT,1));
-//
-//        dataset.addSeries(graphPath(AutoConstants.BLUE_LEFT_HELPER_POINT_REVERSED, AutoConstants.BLUE_LEFT_LOADER_STATION,2));
-//
-//        dataset.addSeries(graphPath(AutoConstants.BLUE_LEFT_LOADER_STATION_REVERSED, AutoConstants.BLUE_LEFT_HELPER_POINT,3));
-//
-//
-//        dataset.addSeries(graphPath(AutoConstants.BLUE_LEFT_HELPER_POINT_REVERSED, AutoConstants.BLUE_LEFT_ROCKET_HATCH,4));
-//
-
         for(int i = 0; i < autoPath.length; i++){
 
             dataset.addSeries(graphPath(autoPath[i], i));
@@ -244,14 +241,5 @@ public class GraphAutonPoints extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            GraphAutonPoints example = new GraphAutonPoints("test");
-            example.setSize(800, 400);
-            example.setLocationRelativeTo(null);
-            example.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            example.setVisible(true);
-        });
 
-    }
 }

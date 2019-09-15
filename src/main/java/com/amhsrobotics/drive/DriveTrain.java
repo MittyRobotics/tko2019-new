@@ -108,7 +108,7 @@ public class DriveTrain extends Subsystem {
 		leftDrive[0].set(ControlMode.Velocity, left);
 		leftDrive[1].set(ControlMode.PercentOutput, leftDrive[0].getMotorOutputPercent());
 		rightDrive[0].set(ControlMode.Velocity, right);
-		leftDrive[1].set(ControlMode.PercentOutput, rightDrive[1].getMotorOutputPercent());
+		leftDrive[1].set(ControlMode.PercentOutput, rightDrive[0].getMotorOutputPercent());
 	}
 
 	public void wheelDrive(final double drive, final double turn, final boolean inPlace) {
