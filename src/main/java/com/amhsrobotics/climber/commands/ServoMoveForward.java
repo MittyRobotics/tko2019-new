@@ -3,13 +3,13 @@ package com.amhsrobotics.climber.commands;
 import com.amhsrobotics.climber.ClimbSubsystem;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ServoMove extends Command {
+public class ServoMoveForward extends Command {
     @Override
     protected boolean isFinished() {
         return false;
     }
 
-    public ServoMove(){
+    public ServoMoveForward(){
         requires(ClimbSubsystem.getInstance());
     }
 

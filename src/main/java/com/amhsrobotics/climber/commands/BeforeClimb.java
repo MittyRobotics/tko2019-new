@@ -11,7 +11,7 @@ public class BeforeClimb extends CommandGroup {
     public BeforeClimb(){
         addSequential(new Slide(SliderPosition.Middle));
         addSequential(new Angle(ArmPosition.Cargo));
-        addSequential(new ServoMove());
+        addSequential(new ServoMoveForward());
         addSequential(new Angle(ArmPosition.Ground));
     }
 }
