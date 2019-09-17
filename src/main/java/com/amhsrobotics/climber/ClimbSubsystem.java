@@ -7,6 +7,7 @@ import com.amhsrobotics.motionprofile.TrapezoidalMotionProfile;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -30,7 +31,6 @@ public class ClimbSubsystem extends Subsystem {
 
     private WPI_TalonSRX rightTalon, leftTalon;
     Servo servo = new Servo(0);
-
     public void initHardware(){
         WPI_TalonSRX leftTalon = new WPI_TalonSRX(TalonIds.CLIMBER_LEFT);
         WPI_TalonSRX rightTalon = new WPI_TalonSRX(TalonIds.CLIMBER_RIGHT);
@@ -42,7 +42,6 @@ public class ClimbSubsystem extends Subsystem {
         leftTalon.config_kP(0, 0);
         leftTalon.config_kI(0, 0);
         leftTalon.config_kD(0, 0);
-        Solenoid piston1 = new Solenoid(0);
     }
 
     @Override
@@ -100,8 +99,7 @@ public class ClimbSubsystem extends Subsystem {
     }
 
     public void moveServo (double angle){
-        servo.setAngle(angle);
+        servo.set(angle);
     }
-        // TODO: figure this out (and in ServoMove command)
 
 }
