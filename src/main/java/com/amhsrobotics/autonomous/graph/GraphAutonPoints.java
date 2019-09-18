@@ -29,6 +29,12 @@ import org.jfree.data.xy.XYSeriesCollection;
  */
 public class GraphAutonPoints extends JPanel {
 
+
+    XYPlot xyPlot;
+    ChartPanel chartPanel;
+    JFreeChart jFreeChart;
+
+
     private ArrayList<Path> currentPath = new ArrayList();
 
     public GraphAutonPoints(String title) {
@@ -53,7 +59,10 @@ public class GraphAutonPoints extends JPanel {
 
         //Changes background color
         XYPlot plot = (XYPlot)chart.getPlot();
+
         plot.setDataset(1,pathDataset);
+        this.xyPlot = plot;
+
         plot.setBackgroundPaint(Color.DARK_GRAY);
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
 
@@ -106,9 +115,13 @@ public class GraphAutonPoints extends JPanel {
         ChartPanel panel = new ChartPanel(chart);
 
 
+
         add(panel);
         setBackground(new Color(71, 71, 71));
 
+        this.jFreeChart = chart;
+
+        this.chartPanel = panel;
     }
 
     private XYDataset createDataset() {
@@ -214,6 +227,11 @@ public class GraphAutonPoints extends JPanel {
         this.currentPath.add( path);
         return series;
 
+    }
+
+    public void updatePath(Waypoint[][] path){
+        xyPlot.setDataset(1,pathDataset(path));
+        chartPanel.repaint();
     }
 
     private class CustomColorRenderer extends XYLineAndShapeRenderer {

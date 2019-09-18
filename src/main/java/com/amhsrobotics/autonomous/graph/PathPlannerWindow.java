@@ -1,11 +1,23 @@
 package com.amhsrobotics.autonomous.graph;
 
+import com.amhsrobotics.autonomous.constants.AutoPaths;
+import com.amhsrobotics.purepursuit.Waypoint;
+
 import javax.swing.*;
 import java.awt.*;
+import java.nio.file.Path;
 
 public class PathPlannerWindow extends JFrame{
 
-	public PathPlannerWindow(){
+	static PathPlannerWindow instance = new PathPlannerWindow();
+
+	public static PathPlannerWindow getInstance(){
+		return instance;
+	}
+
+	public MainPanel mainPanel;
+
+	private PathPlannerWindow(){
 		super("Auton Path Planner");
 
 		setLocationRelativeTo(null);
@@ -20,6 +32,7 @@ public class PathPlannerWindow extends JFrame{
 
 
 		MainPanel mainPanel = new MainPanel();
+		this.mainPanel = mainPanel;
 
 		getContentPane().add(mainPanel, BorderLayout.EAST);
 

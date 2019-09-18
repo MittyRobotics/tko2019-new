@@ -1,15 +1,23 @@
 package com.amhsrobotics.autonomous.graph;
 
+import com.amhsrobotics.autonomous.constants.AutoPaths;
+import com.amhsrobotics.purepursuit.Waypoint;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class MainPanel extends JPanel {
+
+
+	public GraphAutonPoints graphWindow;
 
 	public MainPanel(){
 
 		super();
 
 		GraphAutonPoints graphWindow = new GraphAutonPoints("test");
+
+		this.graphWindow = graphWindow;
 
 		setBackground(new Color(0, 0, 0));
 
