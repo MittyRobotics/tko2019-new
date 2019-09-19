@@ -29,7 +29,7 @@ public class ClimbSubsystem extends Subsystem {
         super("Climber");
     }
 
-    private WPI_TalonSRX rightTalon, leftTalon;
+    public WPI_TalonSRX rightTalon, leftTalon;
     Servo servo = new Servo(0);
     public void initHardware(){
         WPI_TalonSRX leftTalon = new WPI_TalonSRX(TalonIds.CLIMBER_LEFT);
@@ -65,29 +65,6 @@ public class ClimbSubsystem extends Subsystem {
     public void setClimberPositionRight(double position) {
         rightTalon.set(ControlMode.Position, position * TicksPerInch.CLIMBER_TPI);
     }
-    public void resetEncoder(){
-        while (!leftTalon.getSensorCollection().isFwdLimitSwitchClosed()) {
-            leftTalon.set(ControlMode.PercentOutput, .1);
-            try {
-                Thread.sleep(20);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        while (!rightTalon.getSensorCollection().isFwdLimitSwitchClosed()) {
-            rightTalon.set(ControlMode.PercentOutput, .1);
-            try {
-                Thread.sleep(20);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        rightTalon.set(ControlMode.PercentOutput, 0);
-        leftTalon.set(ControlMode.PercentOutput, 0);
-        rightTalon.setSelectedSensorPosition(0);
-        leftTalon.setSelectedSensorPosition(0);
-    }
-
     public TrapezoidalMotionProfile climberLeft(final double position, boolean reversed){
         System.out.println("Slide init pos: " + leftTalon.getSelectedSensorPosition());
         return new TrapezoidalMotionProfile(MotionProfileValues.MAX_ACCELERATION, MotionProfileValues.MAX_VELOCITY,  leftTalon.getSelectedSensorPosition(0)/ com.amhsrobotics.climber.constants.TicksPerInch.WHEEL_TPI, position, 0.06, reversed);

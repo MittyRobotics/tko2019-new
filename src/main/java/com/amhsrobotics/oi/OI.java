@@ -4,6 +4,7 @@ import com.amhsrobotics.autonomous.movement.commands.VisionAlignment;
 import com.amhsrobotics.cargo.commands.Angle;
 import com.amhsrobotics.cargo.commands.StopRollers;
 import com.amhsrobotics.cargo.constants.ArmPosition;
+import com.amhsrobotics.climber.constants.ClimberPosition;
 import com.amhsrobotics.drive.commands.GearShift;
 import com.amhsrobotics.drive.constants.GearState;
 import com.amhsrobotics.hatchpanel.commands.Grab;
@@ -21,6 +22,9 @@ import com.amhsrobotics.cargo.commands.Intake;
 import com.amhsrobotics.cargo.commands.Outtake;
 import com.amhsrobotics.commoncontrols.XboxWheel;
 
+import com.amhsrobotics.climber.commands.*;
+import com.amhsrobotics.climber.ClimbSubsystem;
+import com.amhsrobotics.climber.constants.*;
 
 public class OI {
 	private XboxController controller;
@@ -32,6 +36,7 @@ public class OI {
 	public static OI getInstance() {
 		return ourInstance;
 	}
+
 
 	private OI() {
 
@@ -58,6 +63,7 @@ public class OI {
 		hatchControlsXbox();
 		//cargoControls();
 		cargoControlsXbox();
+
 
 	}
 
@@ -289,5 +295,48 @@ public class OI {
 			}
 		};
 		angleGround.whenPressed(new Angle(ArmPosition.Ground));
+	}
+
+	private void climberControlsXbox(){
+		Button climber = new Button() {
+			@Override
+			public boolean get() {
+				return getXboxController().getXButton();
+			}
+		};
+		climber.whenPressed(new MoveClimber3(ClimberPosition.CLIMB_POS));
+
+		Button moveWheel = new Button() {
+			@Override
+			public boolean get() {
+				return getXboxController().getBButton();
+			}
+		};
+		moveWheel.whenPressed(new MoveWheel2(WheelPosition.WHEEL_POS));
+
+		Button servoUp = new Button() {
+			@Override
+			public boolean get() {
+				return getXboxController().getYButton();
+			}
+		};
+		servoUp.whenPressed(new ServoMoveForward());
+
+		Button servoDown = new Button() {
+			@Override
+			public boolean get() {
+				return getXboxController().getAButton();
+			}
+		};
+		servoDown.whenPressed(new ServoMoveBack());
+
+		Button resetEncoder = new Button() {
+			@Override
+			public boolean get() {
+				return getXboxController().getBumper(GenericHID.Hand.kLeft);
+			}
+		};
+		resetEncoder.whenPressed(new ResetEncoder());
+
 	}
 }

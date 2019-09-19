@@ -6,6 +6,7 @@ import com.amhsrobotics.autonomous.movement.commands.Translate2dTrajectory;
 import com.amhsrobotics.autonomous.vision.Limelight;
 import com.amhsrobotics.cargo.Arm;
 import com.amhsrobotics.cargo.Rollers;
+import com.amhsrobotics.climber.commands.ResetEncoder;
 import com.amhsrobotics.drive.DriveTrain;
 import com.amhsrobotics.drive.Shifter;
 import com.amhsrobotics.hardware.Compressor;
@@ -155,6 +156,7 @@ public class Robot extends TimedRobot {
 		Arm.getInstance().zeroEncoder(); //WORKING
 
 		Slider.getInstance().zeroEncoder(); //WORKING
+		new ResetEncoder().start();
 
 	}
 	
