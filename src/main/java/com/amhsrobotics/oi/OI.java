@@ -297,19 +297,27 @@ public class OI {
 		angleGround.whenPressed(new Angle(ArmPosition.Ground));
 	}
 
-	private void climberControlsXbox(){
-		Button climber = new Button() {
+	private void climberControlsJoystick(){
+		Button climberDown = new Button() {
 			@Override
 			public boolean get() {
-				return getXboxController().getXButton();
+				return getJoystick1().getRawButton(1);
 			}
 		};
-		climber.whenPressed(new MoveClimber3(ClimberPosition.CLIMB_POS));
+		climberDown.whenPressed(new MoveClimber3(ClimberPosition.CLIMB_POS));
+
+		Button climberUp = new Button() {
+			@Override
+			public boolean get() {
+				return getJoystick1().getRawButton(2);
+			}
+		};
+		climberUp.whenPressed(new MoveClimber3(0));
 
 		Button moveWheel = new Button() {
 			@Override
 			public boolean get() {
-				return getXboxController().getBButton();
+				return getJoystick1().getRawButton(3);
 			}
 		};
 		moveWheel.whenPressed(new MoveWheel2(WheelPosition.WHEEL_POS));
@@ -317,7 +325,7 @@ public class OI {
 		Button servoUp = new Button() {
 			@Override
 			public boolean get() {
-				return getXboxController().getYButton();
+				return getJoystick1().getRawButton(4);
 			}
 		};
 		servoUp.whenPressed(new ServoMoveForward());
@@ -325,7 +333,7 @@ public class OI {
 		Button servoDown = new Button() {
 			@Override
 			public boolean get() {
-				return getXboxController().getAButton();
+				return getJoystick1().getRawButton(5);
 			}
 		};
 		servoDown.whenPressed(new ServoMoveBack());
@@ -333,10 +341,17 @@ public class OI {
 		Button resetEncoder = new Button() {
 			@Override
 			public boolean get() {
-				return getXboxController().getBumper(GenericHID.Hand.kLeft);
+				return getJoystick1().getRawButton(6);
 			}
 		};
 		resetEncoder.whenPressed(new ResetEncoder());
 
+		Button buttonOne = new Button() {
+			@Override
+			public boolean get() {
+				return getJoystick1().getRawButton(7);
+			}
+		};
+		buttonOne.whenPressed(new ButtonOne());
 	}
 }
