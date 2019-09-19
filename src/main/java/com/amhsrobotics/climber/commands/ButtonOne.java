@@ -6,8 +6,6 @@ import com.amhsrobotics.climber.constants.ClimberPosition;
 import com.amhsrobotics.hatchpanel.commands.Slide;
 import com.amhsrobotics.hatchpanel.constants.SliderPosition;
 
-import com.amhsrobotics.climber.commands.*;
-
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class ButtonOne extends CommandGroup {
@@ -16,7 +14,7 @@ public class ButtonOne extends CommandGroup {
         addSequential(new Angle(ArmPosition.Cargo));
         addSequential(new ServoMoveForward());
         addSequential(new Angle(ArmPosition.Ground));
-        addSequential(new MoveClimber3(ClimberPosition.CLIMB_POS));
+        addSequential(new MoveClimber(ClimberPosition.CLIMB_POS));
 
     }
 }

@@ -23,7 +23,6 @@ import com.amhsrobotics.cargo.commands.Outtake;
 import com.amhsrobotics.commoncontrols.XboxWheel;
 
 import com.amhsrobotics.climber.commands.*;
-import com.amhsrobotics.climber.ClimbSubsystem;
 import com.amhsrobotics.climber.constants.*;
 
 public class OI {
@@ -304,7 +303,7 @@ public class OI {
 				return getJoystick1().getRawButton(1);
 			}
 		};
-		climberDown.whenPressed(new MoveClimber3(ClimberPosition.CLIMB_POS));
+		climberDown.whenPressed(new MoveClimber(ClimberPosition.CLIMB_POS));
 
 		Button climberUp = new Button() {
 			@Override
@@ -312,7 +311,7 @@ public class OI {
 				return getJoystick1().getRawButton(2);
 			}
 		};
-		climberUp.whenPressed(new MoveClimber3(0));
+		climberUp.whenPressed(new MoveClimber(0));
 
 		Button moveWheel = new Button() {
 			@Override
@@ -320,7 +319,7 @@ public class OI {
 				return getJoystick1().getRawButton(3);
 			}
 		};
-		moveWheel.whenPressed(new MoveWheel2(WheelPosition.WHEEL_POS));
+		moveWheel.whenPressed(new MoveWheel(WheelPosition.WHEEL_POS));
 
 		Button servoUp = new Button() {
 			@Override
