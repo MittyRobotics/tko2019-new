@@ -39,23 +39,23 @@ public class OI {
 
 	private OI() {
 
-		Button vision = new Button() {
-			@Override
-			public boolean get() {
-
-				return getXboxController().getStickButton(GenericHID.Hand.kRight) ;
-			}
-
-		};
-		Button testProfile = new Button() {
-			@Override
-			public boolean get() {
-
-				return getXboxController().getAButton() ;
-			}
-
-		};
-		vision.whenPressed(new VisionAlignment());
+//		Button vision = new Button() {
+//			@Override
+//			public boolean get() {
+//
+//				return getXboxController().getStickButton(GenericHID.Hand.kRight) ;
+//			}
+//
+//		};
+//		Button testProfile = new Button() {
+//			@Override
+//			public boolean get() {
+//
+//				return getXboxController().getAButton() ;
+//			}
+//
+//		};
+//		vision.whenPressed(new VisionAlignment());
 		//testProfile.whenPressed(new MotionProfileTranslate(10, 0.2));
 //		driveControls();
 //		//hatchControls();
