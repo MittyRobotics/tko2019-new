@@ -40,14 +40,14 @@ public class OI {
 			}
 
 		};
-		Button testProfile = new Button() {
-			@Override
-			public boolean get() {
-
-				return getXboxController().getAButton() ;
-			}
-
-		};
+//		Button testProfile = new Button() {
+//			@Override
+//			public boolean get() {
+//
+//				return getXboxController().getAButton() ;
+//			}
+//
+//		};
 		vision.whenPressed(new VisionAlignment());
 		//testProfile.whenPressed(new MotionProfileTranslate(10, 0.2));
 		driveControls();
@@ -172,14 +172,14 @@ public class OI {
 		};
 		outtake.whenPressed(new Outtake());
 		outtake.whenReleased(new StopRollers());
-		Button angleCargo = new Button() {
+		Button outtakeBack = new Button() {
 			@Override
 			public boolean get() {
 				return getJoystick2().getRawButton(3);
 			}
 		};
-		angleCargo.whenPressed(new OuttakeBack());
-		angleCargo.whenReleased(new StopRollers());
+		outtakeBack.whenPressed(new OuttakeBack());
+		outtakeBack.whenReleased(new StopRollers());
 //		Button angleRocket = new Button() {
 //			@Override
 //			public boolean get() {

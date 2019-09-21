@@ -9,9 +9,14 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
+import javax.swing.tree.TreePath;
 import java.awt.*;
+import java.awt.event.*;
 
 public class SequenceTree extends JTree {
+
+    TreePath currentPath;
+
     public SequenceTree(DefaultMutableTreeNode root){
         super(root);
 
@@ -36,23 +41,75 @@ public class SequenceTree extends JTree {
         getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
             @Override
             public void valueChanged(TreeSelectionEvent e) {
-                if(e.getPath().getLastPathComponent().toString().equals("RED Front Left Hatch Auton")){
-                    PathPlannerWindow.getInstance().mainPanel.graphWindow.updatePath(AutoPaths.RED_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET);
+                currentPath = e.getPath();
+        }});
+
+        MouseListener ml = new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                int selRow = getRowForLocation(e.getX(), e.getY());
+                TreePath selPath = getPathForLocation(e.getX(), e.getY());
+                if(selRow != -1) {
+                    if(e.getClickCount() == 1) {
+                        //single click
+                    }
+                    else if(e.getClickCount() == 2) {
+                        //double click
+                        if(selPath.getLastPathComponent().toString().equals("RED Front Left Hatch Auton")){
+                            PathPlannerWindow.getInstance().mainPanel.graphWindow.updatePath(AutoPaths.RED_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET);
+                        }
+                        else if(selPath.getLastPathComponent().toString().equals("BLUE Front Left Hatch Auton")){
+                            PathPlannerWindow.getInstance().mainPanel.graphWindow.updatePath(AutoPaths.BLUE_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET);
+                        }
+                        else if(selPath.getLastPathComponent().toString().equals("RED Front Right Hatch Auton")){
+                            PathPlannerWindow.getInstance().mainPanel.graphWindow.updatePath(AutoPaths.RED_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET);
+                        }
+                        else if(selPath.getLastPathComponent().toString().equals("BLUE Front Right Hatch Auton")){
+                            PathPlannerWindow.getInstance().mainPanel.graphWindow.updatePath(AutoPaths.BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET);
+                        }
+
+                    }
                 }
-                else if(e.getPath().getLastPathComponent().toString().equals("BLUE Front Left Hatch Auton")){
-                    PathPlannerWindow.getInstance().mainPanel.graphWindow.updatePath(AutoPaths.BLUE_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET);
-                }
-                else if(e.getPath().getLastPathComponent().toString().equals("RED Front Right Hatch Auton")){
-                    PathPlannerWindow.getInstance().mainPanel.graphWindow.updatePath(AutoPaths.RED_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET);
-                }
-                else if(e.getPath().getLastPathComponent().toString().equals("BLUE Front Right Hatch Auton")){
-                    PathPlannerWindow.getInstance().mainPanel.graphWindow.updatePath(AutoPaths.BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET);
-                }
+            }
+        };
+
+
+
+        KeyListener kl = new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
 
             }
-        });
 
-        // Finally, set the tree's background color
+            @Override
+            public void keyPressed(KeyEvent e) {
+                //Keycode 13 is enter
+                if(e.getKeyCode() == 10){
+                    if(currentPath.getLastPathComponent().toString().equals("RED Front Left Hatch Auton")){
+                        PathPlannerWindow.getInstance().mainPanel.graphWindow.updatePath(AutoPaths.RED_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET);
+                    }
+                    else if(currentPath.getLastPathComponent().toString().equals("BLUE Front Left Hatch Auton")){
+                        PathPlannerWindow.getInstance().mainPanel.graphWindow.updatePath(AutoPaths.BLUE_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET);
+                    }
+                    else if(currentPath.getLastPathComponent().toString().equals("RED Front Right Hatch Auton")){
+                        PathPlannerWindow.getInstance().mainPanel.graphWindow.updatePath(AutoPaths.RED_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET);
+                    }
+                    else if(currentPath.getLastPathComponent().toString().equals("BLUE Front Right Hatch Auton")){
+                        PathPlannerWindow.getInstance().mainPanel.graphWindow.updatePath(AutoPaths.BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET);
+                    }
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        };
+
+
+
+        addMouseListener(ml);
+        addKeyListener(kl);
+
         setBackground((new Color(80, 80, 80)));
 
         setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));

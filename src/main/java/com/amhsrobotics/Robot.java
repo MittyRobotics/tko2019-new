@@ -144,8 +144,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-
-//		new TankDrive().start();
+		new TankDrive().start();
 		//new TestCommand().start();
 		//new Slide(SliderPosition.Middle).start();
 		//new PushBackward().start();
@@ -156,7 +155,7 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		//Arm.getInstance().manualAngle(0.2);
 		//System.out.println(Arm.getInstance().getArmPosition());
-		System.out.println(Rollers.getInstance().ballDetected());
+//		System.out.println(Rollers.getInstance().ballDetected());
 	}
 
 	@Override

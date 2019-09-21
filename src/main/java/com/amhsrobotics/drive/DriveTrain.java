@@ -65,7 +65,7 @@ public class DriveTrain extends Subsystem {
 
 	@Override
 	public void initDefaultCommand() {
-		//setDefaultCommand(new TankDrive());
+		setDefaultCommand(new TankDrive());
 	}
 
 	public void tankDrive(double left, double right) {
@@ -77,8 +77,8 @@ public class DriveTrain extends Subsystem {
 		left *= percentCap;
 		right *= percentCap;
 
-		left = RateLimiter.getInstance().limitPercentRate(leftDrive[0].getMotorOutputPercent(), left);
-		right = RateLimiter.getInstance().limitPercentRate(rightDrive[0].getMotorOutputPercent(), right);
+//		left = RateLimiter.getInstance().limitPercentRate(leftDrive[0].getMotorOutputPercent(), left);
+//		right = RateLimiter.getInstance().limitPercentRate(rightDrive[0].getMotorOutputPercent(), right);
 
 
 		if (Math.abs(left) < 0.1) {
@@ -101,8 +101,8 @@ public class DriveTrain extends Subsystem {
 		left *= TicksPerInch.DRIVE_HIGH/10;
 		right *= TicksPerInch.DRIVE_HIGH/10;
 
-		left = RateLimiter.getInstance().limitVelocityRate(getLeftVelocity(),left);
-		right = RateLimiter.getInstance().limitVelocityRate(getRightVelocity(),right);
+//		left = RateLimiter.getInstance().limitVelocityRate(getLeftVelocity(),left);
+//		right = RateLimiter.getInstance().limitVelocityRate(getRightVelocity(),right);
 
 		//System.out.println(leftDrive[0].getSelectedSensorVelocity() + " | " + rightDrive[0].getSelectedSensorVelocity());
 		leftDrive[0].set(ControlMode.Velocity, left);
