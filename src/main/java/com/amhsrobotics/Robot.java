@@ -37,7 +37,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		ClimbSubsystem.getInstance();
-		OI.getInstance();
+		ClimbSubsystem.getInstance().initHardware();
+//		OI.getInstance();
 //		long t = System.nanoTime();
 //		DriveTrain.getInstance();
 //		System.out.println("drive: " + ((System.nanoTime()-t)/1000000));
@@ -101,7 +102,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotPeriodic() {
-		Scheduler.getInstance().run();
+//		Scheduler.getInstance().run();
 //		Compressor.getInstance().start();
 		//System.out.println("asdf");
 
@@ -148,7 +149,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void testInit() {
-
+		ClimbSubsystem.getInstance().resetEncoder();
 
 		//new CalibrateArm().start();
 		//new CalibrateSlider().start();
@@ -164,6 +165,12 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void testPeriodic() {
+//		System.out.print("Limit 0: ");
+//		System.out.println(ClimbSubsystem.getInstance().getLimit0());
+//		System.out.print("Limit 1: ");
+//		System.out.println(ClimbSubsystem.getInstance().getLimit1());
+//		ClimbSubsystem.getInstance().setSpeedSlider(OI.getInstance().getJoystick1().getY());
+//		System.out.println(ClimbSubsystem.getInstance().leftTalon.getMotorOutputPercent());
 //		DriveTrain.getInstance().tankVelocity(50,50);
 		//System.out.println(Slider.getInstance().getSliderSensor());
 		//Rollers.getInstance().intake();   //WORKING

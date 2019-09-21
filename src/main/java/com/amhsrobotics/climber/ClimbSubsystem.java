@@ -7,9 +7,7 @@ import com.amhsrobotics.motionprofile.TrapezoidalMotionProfile;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Servo;
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class ClimbSubsystem extends Subsystem {
@@ -30,18 +28,21 @@ public class ClimbSubsystem extends Subsystem {
     }
 
     public WPI_TalonSRX rightTalon, leftTalon;
+    private DigitalInput limit0, limit1;
     Servo servo = new Servo(0);
     public void initHardware(){
-        WPI_TalonSRX leftTalon = new WPI_TalonSRX(TalonIds.CLIMBER_LEFT);
-        WPI_TalonSRX rightTalon = new WPI_TalonSRX(TalonIds.CLIMBER_RIGHT);
-        leftTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-        rightTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-        rightTalon.config_kP(0, 0);  // TODO:(masha) PID.CLIMBER[0]
-        rightTalon.config_kI(0, 0);
-        rightTalon.config_kD(0, 0);
-        leftTalon.config_kP(0, 0);
-        leftTalon.config_kI(0, 0);
-        leftTalon.config_kD(0, 0);
+        limit0 = new DigitalInput(0);
+        limit1 = new DigitalInput(1);
+        leftTalon = new WPI_TalonSRX(TalonIds.CLIMBER_LEFT);
+//        WPI_TalonSRX rightTalon = new WPI_TalonSRX(TalonIds.CLIMBER_RIGHT);
+//        leftTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+//        rightTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+//        rightTalon.config_kP(0, 0);  // TODO:(masha) PID.CLIMBER[0]
+//        rightTalon.config_kI(0, 0);
+//        rightTalon.config_kD(0, 0);
+//        leftTalon.config_kP(0, 0);
+//        leftTalon.config_kI(0, 0);
+//        leftTalon.config_kD(0, 0);
     }
 
     @Override
@@ -79,4 +80,55 @@ public class ClimbSubsystem extends Subsystem {
         servo.set(angle);
     }
 
+    public boolean getLimit0(){
+        return limit0.get();
+    }
+    public boolean getLimit1(){
+        return limit1.get();
+    }
+    public void setSpeedSlider(double speed){
+        leftTalon.set(ControlMode.PercentOutput, speed);
+    }
+    public void resetEncoder(){
+        leftTalon.set(ControlMode.PercentOutput, 0.2);
+        while (!limit1.get()&& DriverStation.getInstance().isTest()) {
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        leftTalon.set(ControlMode.PercentOutput, 0);
+        System.out.println("Slider position reset: 1/2");
+        leftTalon.setSelectedSensorPosition(0);
+        int timer = 0;
+        while (timer < 25 && DriverStation.getInstance().isTest()) {
+            timer ++;
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        leftTalon.set(ControlMode.PercentOutput, -0.2);
+        timer = 0;
+        while (timer < 20 && DriverStation.getInstance().isTest()) {
+            timer ++;
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        leftTalon.set(ControlMode.PercentOutput, 0.1);
+        while (!limit1.get() && DriverStation.getInstance().isTest()) {
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("Slider position reset: 2/2");
+        leftTalon.setSelectedSensorPosition(0);
+    }
 }

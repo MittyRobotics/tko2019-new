@@ -9,26 +9,7 @@ public class ResetEncoder extends Command {
         requires(ClimbSubsystem.getInstance());
     }
     protected void execute() {
-        while (!ClimbSubsystem.getInstance().leftTalon.getSensorCollection().isFwdLimitSwitchClosed()) {
-            ClimbSubsystem.getInstance().leftTalon.set(ControlMode.PercentOutput, .1);
-            try {
-                Thread.sleep(20);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        while (!ClimbSubsystem.getInstance().rightTalon.getSensorCollection().isFwdLimitSwitchClosed()) {
-            ClimbSubsystem.getInstance().rightTalon.set(ControlMode.PercentOutput, .1);
-            try {
-                Thread.sleep(20);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        ClimbSubsystem.getInstance().rightTalon.set(ControlMode.PercentOutput, 0);
-        ClimbSubsystem.getInstance().leftTalon.set(ControlMode.PercentOutput, 0);
-        ClimbSubsystem.getInstance().rightTalon.setSelectedSensorPosition(0);
-        ClimbSubsystem.getInstance().leftTalon.setSelectedSensorPosition(0);
+
     }
 
     @Override
