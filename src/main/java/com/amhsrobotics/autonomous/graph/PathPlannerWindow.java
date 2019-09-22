@@ -1,11 +1,12 @@
 package com.amhsrobotics.autonomous.graph;
 
-import com.amhsrobotics.autonomous.constants.AutoPaths;
+import com.amhsrobotics.purepursuit.Path;
+import com.amhsrobotics.purepursuit.PathGenerator;
 import com.amhsrobotics.purepursuit.Waypoint;
+import com.amhsrobotics.purepursuit.enums.PathType;
 
 import javax.swing.*;
 import java.awt.*;
-import java.nio.file.Path;
 
 public class PathPlannerWindow extends JFrame{
 
@@ -49,5 +50,22 @@ public class PathPlannerWindow extends JFrame{
 	public void updateWindow(){
 		repaint();
 		revalidate();
+	}
+
+	public void setGraphType(GraphType type){
+		if(type==GraphType.PATH){
+			mainPanel.getGraphVelocity().setVisible(false);
+			mainPanel.getGraphAutoPath().setVisible(true);
+			mainPanel.add(mainPanel.getGraphAutoPath());
+		}
+		if(type==GraphType.VELOCITY){
+			mainPanel.getGraphVelocity().setVisible(true);
+			mainPanel.getGraphAutoPath().setVisible(false);
+			mainPanel.add(mainPanel.getGraphVelocity());
+		}
+	}
+
+	public Path createPath(Waypoint[] waypoints){
+		return PathGenerator.getInstance().generate(waypoints, PathType.CUBIC_HERMITE_PATH, 5, 5, 40, 20);
 	}
 }
