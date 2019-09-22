@@ -1,6 +1,7 @@
 package com.amhsrobotics.autonomous.graph;
 
 import com.amhsrobotics.purepursuit.Path;
+import com.amhsrobotics.purepursuit.PathFollower;
 import com.amhsrobotics.purepursuit.PathGenerator;
 import com.amhsrobotics.purepursuit.Waypoint;
 import com.amhsrobotics.purepursuit.enums.PathType;
@@ -26,6 +27,8 @@ public class PathPlannerWindow extends JFrame{
 		setVisible(true);
 		setResizable(false);
 
+		//Set path follow kCurvature
+		PathGenerator.getInstance().setPathKCurvature(2);
 
 		setLayout(new BorderLayout());
 
