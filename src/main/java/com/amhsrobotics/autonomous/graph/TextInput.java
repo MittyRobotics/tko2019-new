@@ -2,8 +2,16 @@ package com.amhsrobotics.autonomous.graph;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class TextInput extends JPanel {
+public class TextInput extends JPanel{
+
+	JTextField inputName;
+	JTextField inputText;
+
+
+
 	public TextInput(Dimension size){
 		super();
 
@@ -16,7 +24,7 @@ public class TextInput extends JPanel {
 
 		inputName.setFont(new Font(Font.DIALOG_INPUT,2,25));
 
-		inputName.setText("Tw = ");
+		inputName.setText("Text Input = ");
 
 
 
@@ -28,6 +36,7 @@ public class TextInput extends JPanel {
 
 		inputName.setBorder(BorderFactory.createEmptyBorder());
 
+		this.inputName = inputName;
 
 		add(inputName, BorderLayout.WEST);
 
@@ -44,6 +53,9 @@ public class TextInput extends JPanel {
 
 		inputText.setBorder(BorderFactory.createEmptyBorder());
 
+
+		this.inputText = inputText;
+
 		add(inputText, BorderLayout.EAST);
 
 		setBackground(new Color(102, 102, 102));
@@ -56,4 +68,46 @@ public class TextInput extends JPanel {
 
 
 	}
+
+	public void setPrompt(String prompt, SideBarPanel panel){
+		inputName.setText(prompt);
+		inputText.setPreferredSize(new Dimension(getWidth()-(inputName.getText().length() * 14),40));
+
+		resetActionListeners();
+
+		inputText.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				panel.nameNode(inputText.getText());
+			}
+		});
+
+
+	}
+
+	public void setPrompt(String prompt, PropertiesTextField propertiesTextField){
+		inputName.setText(prompt);
+		inputText.setPreferredSize(new Dimension(getWidth()-(inputName.getText().length() * 14),40));
+
+		resetActionListeners();
+
+		inputText.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				propertiesTextField.setText(inputText.getText());
+			}
+		});
+
+
+	}
+
+
+	public void resetActionListeners(){
+		for( ActionListener al : inputText.getActionListeners() ) {
+			inputText.removeActionListener( al );
+		}
+
+	}
+
+
 }

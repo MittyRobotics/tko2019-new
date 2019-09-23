@@ -17,7 +17,7 @@ public class GraphVelocity extends Graph {
 	public GraphVelocity(String title) {
 		super(title, "Position (in)", "Velocity (in/s)");
 		setVelocityGraph(AutoPaths.BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET);
-		getPlot().setRenderer(new CustomColorRenderer(true, true, currentPaths));
+		getPlot().setRenderer(new CustomColorRenderer(true, false, currentPaths));
 	}
 
 	public void setVelocityGraph(Path[] paths) {

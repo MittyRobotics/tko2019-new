@@ -24,7 +24,7 @@ public class SequenceTree extends JTree {
 
 
         setPreferredSize(new Dimension(250,200));
-
+        setSize(new Dimension(250,200));
         TreeCellRenderer renderer = getCellRenderer();
 
         DefaultTreeCellRenderer dtcr =
@@ -93,37 +93,26 @@ public class SequenceTree extends JTree {
     }
 
     private void selection(String pathName){
-        if(pathName.equals("RED Front Left Hatch Auton")){
-            PathPlannerWindow.getInstance().setGraphType(GraphType.PATH);
-            PathPlannerWindow.getInstance().mainPanel.graphAutoPath.setPathGraph(AutoPaths.RED_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET);
+
+        PathPlannerWindow.getInstance().getSideBarPanel().getPropertiesPanel().setVisible(false);
+        for(int i = 0; i < PathPlannerWindow.getInstance().getSequences().size(); i++){
+            if(pathName.equals(PathPlannerWindow.getInstance().getSequences().get(i).getName())){
+                PathPlannerWindow.getInstance().setSelectedSequence(PathPlannerWindow.getInstance().getSequences().get(i));
+                PathPlannerWindow.getInstance().setGraphType(GraphType.PATH);
+                PathPlannerWindow.getInstance().mainPanel.getGraphAutoPath().setPathGraph(PathPlannerWindow.getInstance().getSelectedSequence().getPaths());
+                PathPlannerWindow.getInstance().updateWindow();
+                PathPlannerWindow.getInstance().getSideBarPanel().getPropertiesPanel().setVisible(true);
+            }
+            else if(pathName.equals(PathPlannerWindow.getInstance().getSequences().get(i).getName() + " Velocity")){
+                PathPlannerWindow.getInstance().setSelectedSequence(PathPlannerWindow.getInstance().getSequences().get(i));
+                PathPlannerWindow.getInstance().setGraphType(GraphType.VELOCITY);
+                PathPlannerWindow.getInstance().mainPanel.getGraphVelocity().setVelocityGraph(PathPlannerWindow.getInstance().getSelectedSequence().getPaths());
+                PathPlannerWindow.getInstance().updateWindow();
+            }
         }
-        else if(pathName.equals("BLUE Front Left Hatch Auton")){
-            PathPlannerWindow.getInstance().setGraphType(GraphType.PATH);
-            PathPlannerWindow.getInstance().mainPanel.graphAutoPath.setPathGraph(AutoPaths.BLUE_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET);
-        }
-        else if(pathName.equals("RED Front Right Hatch Auton")){
-            PathPlannerWindow.getInstance().setGraphType(GraphType.PATH);
-            PathPlannerWindow.getInstance().mainPanel.graphAutoPath.setPathGraph(AutoPaths.RED_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET);
-        }
-        else if(pathName.equals("BLUE Front Right Hatch Auton")){
-            PathPlannerWindow.getInstance().setGraphType(GraphType.PATH);
-            PathPlannerWindow.getInstance().mainPanel.graphAutoPath.setPathGraph(AutoPaths.BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET);
-        }
-        else if(pathName.equals("RED Front Left Hatch Auton Velocity")){
-            PathPlannerWindow.getInstance().setGraphType(GraphType.VELOCITY);
-            PathPlannerWindow.getInstance().mainPanel.getGraphVelocity().setVelocityGraph(AutoPaths.RED_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET);
-        }
-        else if(pathName.equals("BLUE Front Left Hatch Auton Velocity")){
-            PathPlannerWindow.getInstance().setGraphType(GraphType.VELOCITY);
-            PathPlannerWindow.getInstance().mainPanel.getGraphVelocity().setVelocityGraph(AutoPaths.BLUE_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET);
-        }
-        else if(pathName.equals("RED Front Right Hatch Auton Velocity")){
-            PathPlannerWindow.getInstance().setGraphType(GraphType.VELOCITY);
-            PathPlannerWindow.getInstance().mainPanel.getGraphVelocity().setVelocityGraph(AutoPaths.RED_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET);
-        }
-        else if(pathName.equals("BLUE Front Right Hatch Auton Velocity")){
-            PathPlannerWindow.getInstance().setGraphType(GraphType.VELOCITY);
-            PathPlannerWindow.getInstance().mainPanel.getGraphVelocity().setVelocityGraph(AutoPaths.BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET);
-        }
+
+
+
+
     }
 }

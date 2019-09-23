@@ -5,5 +5,6 @@ import javax.swing.*;
 public class PathPlanner {
 	public static void main(String[] args) {
 		PathPlannerWindow window = PathPlannerWindow.getInstance();
+		System.out.println(window);
 	}
 }

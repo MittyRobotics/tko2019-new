@@ -120,7 +120,14 @@ public class GraphAutoPath extends Graph {
 
 		@Override
 		public Shape getItemShape(int row, int column) {
-			return new Rectangle(2,2);
+			if(column %10 == 0){
+				return new Rectangle(2,2);
+			}
+			else{
+				return  new Rectangle(0,0);
+			}
+
+
 		}
 	}
 
