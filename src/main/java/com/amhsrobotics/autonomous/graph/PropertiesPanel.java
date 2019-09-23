@@ -20,11 +20,11 @@ public class PropertiesPanel extends JPanel {
 		setBackground((new Color(80, 80, 80)));
 		setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 
-		lookaheadText = new PropertiesTextField("Lookahead Distance: " + 15 + "in", "lookaheadDist = ");
-		kCurvatureText = new PropertiesTextField("kCurvature: " + 0.8, "kCurvature = ");
-		maxAccelText = new PropertiesTextField("Max Acceleration: " + 100 + "in/s^2", "maxAcceleration = ");
-		maxDecelText = new PropertiesTextField("Max Deceleration: " + 100 + "in/s^2", "maxDeceleration = ");
-		maxVelText = new PropertiesTextField("Max Velocity: " + 200 + "in/s", "maxVelocity = ");
+		lookaheadText = new PropertiesTextField("Lookahead Distance: ", "in", "lookaheadDist = ", 15);
+		kCurvatureText = new PropertiesTextField("kCurvature: ", "", "lookaheadDist = ", 0.8);
+		maxAccelText = new PropertiesTextField("Max Acceleration: ", "in/s^2", "maxAccel = ", 100);
+		maxDecelText = new PropertiesTextField("Max Deceleration: ", "in/s^2", "maxDecel = ", 100);
+		maxVelText = new PropertiesTextField("Max Velocity: ", "in/s", "maxVel = ", 200);
 
 		add(lookaheadText);
 		add(kCurvatureText);
