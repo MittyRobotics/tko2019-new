@@ -24,7 +24,7 @@ public class TextInput extends JPanel{
 
 		inputName.setFont(new Font(Font.DIALOG_INPUT,2,25));
 
-		inputName.setText("Text Input = ");
+		inputName.setText("");
 
 
 
@@ -69,36 +69,41 @@ public class TextInput extends JPanel{
 
 	}
 
-	public void setPrompt(String prompt, SideBarPanel panel){
+	public void setPrompt(String prompt){
 		inputName.setText(prompt);
+		inputText.setText("" );
 		inputText.setPreferredSize(new Dimension(getWidth()-(inputName.getText().length() * 14),40));
-
 		resetActionListeners();
+	}
+
+
+	public void setPrompt(String prompt, SideBarPanel panel){
+		setPrompt(prompt);
 
 		inputText.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				panel.nameNode(inputText.getText());
+				setPrompt("");
 			}
 		});
-
-
 	}
 
 	public void setPrompt(String prompt, PropertiesTextField propertiesTextField){
-		inputName.setText(prompt);
-		inputText.setPreferredSize(new Dimension(getWidth()-(inputName.getText().length() * 14),40));
-
-		resetActionListeners();
+		setPrompt(prompt);
 
 		inputText.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				propertiesTextField.setText(inputText.getText());
+
+				try{
+					propertiesTextField.setProperty(Double.parseDouble(inputText.getText()));
+				}catch (Exception exception){
+					System.out.println("You did not input a number");
+				}
+				setPrompt("");
 			}
 		});
-
-
 	}
 
 

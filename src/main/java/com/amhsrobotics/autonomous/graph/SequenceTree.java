@@ -102,12 +102,15 @@ public class SequenceTree extends JTree {
                 PathPlannerWindow.getInstance().mainPanel.getGraphAutoPath().setPathGraph(PathPlannerWindow.getInstance().getSelectedSequence().getPaths());
                 PathPlannerWindow.getInstance().updateWindow();
                 PathPlannerWindow.getInstance().getSideBarPanel().getPropertiesPanel().setVisible(true);
+                PathPlannerWindow.getInstance().getSideBarPanel().getPropertiesPanel().updateSelection();
             }
             else if(pathName.equals(PathPlannerWindow.getInstance().getSequences().get(i).getName() + " Velocity")){
                 PathPlannerWindow.getInstance().setSelectedSequence(PathPlannerWindow.getInstance().getSequences().get(i));
                 PathPlannerWindow.getInstance().setGraphType(GraphType.VELOCITY);
                 PathPlannerWindow.getInstance().mainPanel.getGraphVelocity().setVelocityGraph(PathPlannerWindow.getInstance().getSelectedSequence().getPaths());
                 PathPlannerWindow.getInstance().updateWindow();
+                PathPlannerWindow.getInstance().getSideBarPanel().getPropertiesPanel().setVisible(true);
+                PathPlannerWindow.getInstance().getSideBarPanel().getPropertiesPanel().updateSelection();
             }
         }
 
