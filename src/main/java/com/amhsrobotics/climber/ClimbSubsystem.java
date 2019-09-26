@@ -90,8 +90,11 @@ public class ClimbSubsystem extends Subsystem {
         leftTalon.set(ControlMode.PercentOutput, speed);
     }
     public void resetEncoder(){
-        leftTalon.set(ControlMode.PercentOutput, 0.2);
-        while (!limit1.get()&& DriverStation.getInstance().isTest()) {
+        leftTalon.set(ControlMode.PercentOutput, -0.5);
+        while (limit1.get() && DriverStation.getInstance().isTest())
+        {
+            System.out.println("Motor Output: " + ClimbSubsystem.getInstance().leftTalon.getMotorOutputPercent());
+
             try {
                 Thread.sleep(20);
             } catch (InterruptedException e) {
@@ -101,27 +104,27 @@ public class ClimbSubsystem extends Subsystem {
         leftTalon.set(ControlMode.PercentOutput, 0);
         System.out.println("Slider position reset: 1/2");
         leftTalon.setSelectedSensorPosition(0);
-        int timer = 0;
-        while (timer < 25 && DriverStation.getInstance().isTest()) {
-            timer ++;
-            try {
-                Thread.sleep(20);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        leftTalon.set(ControlMode.PercentOutput, -0.2);
-        timer = 0;
-        while (timer < 20 && DriverStation.getInstance().isTest()) {
-            timer ++;
-            try {
-                Thread.sleep(20);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        leftTalon.set(ControlMode.PercentOutput, 0.1);
-        while (!limit1.get() && DriverStation.getInstance().isTest()) {
+//        int timer = 0;
+//        while (timer < 25 && DriverStation.getInstance().isTest()) {
+//            timer ++;
+//            try {
+//                Thread.sleep(20);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+        leftTalon.set(ControlMode.PercentOutput, 0.5);
+//        timer = 0;
+//        while (timer < 20 && DriverStation.getInstance().isTest()) {
+//            timer ++;
+//            try {
+//                Thread.sleep(20);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        leftTalon.set(ControlMode.PercentOutput, -0.3);
+        while (limit0.get() && DriverStation.getInstance().isTest()) {
             try {
                 Thread.sleep(20);
             } catch (InterruptedException e) {
@@ -129,6 +132,33 @@ public class ClimbSubsystem extends Subsystem {
             }
         }
         System.out.println("Slider position reset: 2/2");
+        leftTalon.set(ControlMode.PercentOutput, 0);
         leftTalon.setSelectedSensorPosition(0);
+        System.out.println(leftTalon.getSelectedSensorPosition());
+    }
+    public boolean safety() {
+        if (getLimit0() == false) {
+            leftTalon.set(ControlMode.PercentOutput, -0.5);
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("safety");
+            return true;
+        }
+        if (getLimit1() == false) {
+            leftTalon.set(ControlMode.PercentOutput, 0.5);
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("safety");
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

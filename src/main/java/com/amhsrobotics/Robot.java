@@ -38,7 +38,7 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		ClimbSubsystem.getInstance();
 		ClimbSubsystem.getInstance().initHardware();
-//		OI.getInstance();
+		OI.getInstance();
 //		long t = System.nanoTime();
 //		DriveTrain.getInstance();
 //		System.out.println("drive: " + ((System.nanoTime()-t)/1000000));
@@ -139,18 +139,20 @@ public class Robot extends TimedRobot {
 		//new Slide(SliderPosition.Middle).start();
 		//new PushBackward().start();
 		//Slider.getInstance().setSliderPosition(-500);
+
 	}
 
 	@Override
 	public void teleopPeriodic() {
 		//Arm.getInstance().manualAngle(0.2);
 		//System.out.println(Arm.getInstance().getArmPosition());
+
 	}
 
 	@Override
 	public void testInit() {
-		ClimbSubsystem.getInstance().resetEncoder();
-
+//		ClimbSubsystem.getInstance().resetEncoder();
+//		OI.getInstance();
 		//new CalibrateArm().start();
 		//new CalibrateSlider().start();
 		//new Slide(SliderPosition.Middle).start();
@@ -160,17 +162,20 @@ public class Robot extends TimedRobot {
 
 //		Slider.getInstance().zeroEncoder(); //WORKING
 //		new ResetEncoder().start();
-
 	}
 	
 	@Override
 	public void testPeriodic() {
-//		System.out.print("Limit 0: ");
-//		System.out.println(ClimbSubsystem.getInstance().getLimit0());
-//		System.out.print("Limit 1: ");
-//		System.out.println(ClimbSubsystem.getInstance().getLimit1());
-//		ClimbSubsystem.getInstance().setSpeedSlider(OI.getInstance().getJoystick1().getY());
-//		System.out.println(ClimbSubsystem.getInstance().leftTalon.getMotorOutputPercent());
+//		ClimbSubsystem.getInstance().safety();
+		System.out.print("Limit 0: ");
+		System.out.println(ClimbSubsystem.getInstance().getLimit0());
+		System.out.print("Limit 1: ");
+		System.out.println(ClimbSubsystem.getInstance().getLimit1());
+		if (!ClimbSubsystem.getInstance().safety()) {
+			ClimbSubsystem.getInstance().setSpeedSlider(OI.getInstance().getJoystick1().getY());
+		}
+		System.out.println(ClimbSubsystem.getInstance().leftTalon.getSelectedSensorPosition());
+//		OI.getInstance();
 //		DriveTrain.getInstance().tankVelocity(50,50);
 		//System.out.println(Slider.getInstance().getSliderSensor());
 		//Rollers.getInstance().intake();   //WORKING
