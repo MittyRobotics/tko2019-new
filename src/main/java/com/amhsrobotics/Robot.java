@@ -132,9 +132,9 @@ public class Robot extends TimedRobot {
 ////		waypoints[1] = new Waypoint(new Point2D.Double(48,-24),0);
 ////		new Translate2dTrajectory(waypoints, PathType.CUBIC_HERMITE_PATH, true).start();
 //		new VisionScore().start();
-//		new AutoSlider().start();
-//		//DriveTrain.getInstance().tankVelocity(50,50);
-
+////		new AutoSlider().start();
+////		//DriveTrain.getInstance().tankVelocity(50,50);
+//	new VisionScore().start();
 
 	}
 	@Override

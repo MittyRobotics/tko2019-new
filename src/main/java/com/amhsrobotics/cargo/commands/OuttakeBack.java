@@ -23,7 +23,8 @@ public class OuttakeBack extends Command {
 	 */
 	@Override
 	protected void initialize() {
-		Rollers.getInstance().setRollerSpeeds(IntakeSpeeds.TOP_ROLLER_OUTTAKE_BACK, 0);
+		Rollers.getInstance().setRollerSpeeds(1, 1);
+
 	}
 
 	@Override

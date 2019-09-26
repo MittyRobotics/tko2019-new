@@ -88,6 +88,11 @@ public class Rollers extends Subsystem {
 		bottomRoller.set(ControlMode.PercentOutput, bottomRollerSpeed);
 	}
 
+	public void setRollerCurrent(final double topRollerCurrent, final double bottomRollerCurrent){
+		topRoller.set(ControlMode.Current, topRollerCurrent);
+		bottomRoller.set(ControlMode.Current, bottomRollerCurrent);
+	}
+
 	/**
 	 * Returns if the ball is fully intaked
 	 * @return if ball sensor is pressed

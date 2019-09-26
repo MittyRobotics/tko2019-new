@@ -1,6 +1,7 @@
 package com.amhsrobotics.oi;
 
 import com.amhsrobotics.autonomous.movement.commands.VisionAlignment;
+import com.amhsrobotics.autonomous.movement.commands.VisionAlignmentCargo;
 import com.amhsrobotics.cargo.commands.*;
 import com.amhsrobotics.cargo.constants.ArmPosition;
 import com.amhsrobotics.drive.commands.GearShift;
@@ -48,9 +49,9 @@ public class OI {
 //			}
 //
 //		};
-		vision.whenPressed(new VisionAlignment());
+		vision.whenPressed(new VisionAlignmentCargo());
 		//testProfile.whenPressed(new MotionProfileTranslate(10, 0.2));
-		driveControls();
+//		driveControls();
 		//hatchControls();
 		hatchControlsXbox();
 		cargoControls();
