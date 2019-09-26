@@ -1,39 +1,46 @@
 package com.amhsrobotics.autonomous.constants;
 
+import com.amhsrobotics.purepursuit.Path;
+import com.amhsrobotics.purepursuit.PathGenerator;
 import com.amhsrobotics.purepursuit.Waypoint;
+import com.amhsrobotics.purepursuit.enums.PathType;
 
 import java.awt.geom.Point2D;
 
 public class AutoPaths {
 
-	private static double habExtendDistance = 50;
+	public static Path[] BLUE_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET = new Path[]{
+			PathGenerator.getInstance().generate(new Waypoint[]{AutoWaypoints.BLUE_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[0][0], AutoWaypoints.BLUE_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[0][1],AutoWaypoints.BLUE_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[0][2]}, PathType.CUBIC_HERMITE_PATH,150,150,100,200),
+			PathGenerator.getInstance().generate(new Waypoint[]{AutoWaypoints.BLUE_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[1][0], AutoWaypoints.BLUE_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[1][1]}, PathType.CUBIC_HERMITE_PATH,150,150,100,200),
+			PathGenerator.getInstance().generate(new Waypoint[]{AutoWaypoints.BLUE_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[2][0], AutoWaypoints.BLUE_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[2][1]}, PathType.CUBIC_HERMITE_PATH,150,150,100,200),
+			PathGenerator.getInstance().generate(new Waypoint[]{AutoWaypoints.BLUE_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[3][0], AutoWaypoints.BLUE_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[3][1]}, PathType.CUBIC_HERMITE_PATH,150,150,100,200),
+			PathGenerator.getInstance().generate(new Waypoint[]{AutoWaypoints.BLUE_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[4][0], AutoWaypoints.BLUE_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[4][1]}, PathType.CUBIC_HERMITE_PATH,150,150,100,200)
+	};
 
-	public static Waypoint[][] BLUE_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET = new Waypoint[][]{
-			{AutoConstants.BLUE_LEFT_START_POS, new Waypoint(new Point2D.Double(AutoConstants.BLUE_LEFT_START_POS.getWaypoint().getX() + habExtendDistance, AutoConstants.BLUE_LEFT_START_POS.getWaypoint().getY()), AutoConstants.BLUE_LEFT_START_POS.getAngle()), AutoConstants.BLUE_LEFT_FRONT_HATCH},
-			{AutoConstants.BLUE_LEFT_FRONT_HATCH_REVERSED, AutoConstants.BLUE_LEFT_HELPER_POINT},
-			{AutoConstants.BLUE_LEFT_HELPER_POINT_REVERSED, AutoConstants.BLUE_LEFT_LOADER_STATION},
-			{AutoConstants.BLUE_LEFT_LOADER_STATION_REVERSED, AutoConstants.BLUE_LEFT_HELPER_POINT},
-			{AutoConstants.BLUE_LEFT_HELPER_POINT_REVERSED, AutoConstants.BLUE_LEFT_ROCKET_HATCH}
+	public static Path[] RED_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET = new Path[]{
+			PathGenerator.getInstance().generate(new Waypoint[]{AutoWaypoints.RED_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[0][0], AutoWaypoints.RED_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[0][1],AutoWaypoints.RED_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[0][2]}, PathType.CUBIC_HERMITE_PATH,150,150,100,200),
+			PathGenerator.getInstance().generate(new Waypoint[]{AutoWaypoints.RED_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[1][0], AutoWaypoints.RED_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[1][1]}, PathType.CUBIC_HERMITE_PATH,2150,150,100,200),
+			PathGenerator.getInstance().generate(new Waypoint[]{AutoWaypoints.RED_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[2][0], AutoWaypoints.RED_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[2][1]}, PathType.CUBIC_HERMITE_PATH,150,150,100,200),
+			PathGenerator.getInstance().generate(new Waypoint[]{AutoWaypoints.RED_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[3][0], AutoWaypoints.RED_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[3][1]}, PathType.CUBIC_HERMITE_PATH,150,150,100,200),
+			PathGenerator.getInstance().generate(new Waypoint[]{AutoWaypoints.RED_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[4][0], AutoWaypoints.RED_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[4][1]}, PathType.CUBIC_HERMITE_PATH,2150,150,100,200)
 	};
-	public static Waypoint[][] RED_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET = new Waypoint[][]{
-			{AutoConstants.RED_LEFT_START_POS, new Waypoint(new Point2D.Double(AutoConstants.RED_LEFT_START_POS.getWaypoint().getX() + habExtendDistance, AutoConstants.RED_LEFT_START_POS.getWaypoint().getY()), AutoConstants.RED_LEFT_START_POS.getAngle()), AutoConstants.RED_LEFT_FRONT_HATCH},
-			{AutoConstants.RED_LEFT_FRONT_HATCH_REVERSED, AutoConstants.RED_LEFT_HELPER_POINT},
-			{AutoConstants.RED_LEFT_HELPER_POINT_REVERSED, AutoConstants.RED_LEFT_LOADER_STATION},
-			{AutoConstants.RED_LEFT_LOADER_STATION_REVERSED, AutoConstants.RED_LEFT_HELPER_POINT},
-			{AutoConstants.RED_LEFT_HELPER_POINT_REVERSED, AutoConstants.RED_LEFT_ROCKET_HATCH}
+
+
+	public static Path[] BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET = new Path[]{
+			PathGenerator.getInstance().generate(new Waypoint[]{AutoWaypoints.BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[0][0], AutoWaypoints.BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[0][1],AutoWaypoints.BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[0][2]}, PathType.CUBIC_HERMITE_PATH,150,150,100,200),
+			PathGenerator.getInstance().generate(new Waypoint[]{AutoWaypoints.BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[1][0], AutoWaypoints.BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[1][1]}, PathType.CUBIC_HERMITE_PATH,150,150,100,200),
+			PathGenerator.getInstance().generate(new Waypoint[]{AutoWaypoints.BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[2][0], AutoWaypoints.BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[2][1]}, PathType.CUBIC_HERMITE_PATH,150,150,100,200),
+			PathGenerator.getInstance().generate(new Waypoint[]{AutoWaypoints.BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[3][0], AutoWaypoints.BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[3][1]}, PathType.CUBIC_HERMITE_PATH,150,150,100,200),
+			PathGenerator.getInstance().generate(new Waypoint[]{AutoWaypoints.BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[4][0], AutoWaypoints.BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[4][1]}, PathType.CUBIC_HERMITE_PATH,150,150,100,200)
 	};
-	public static Waypoint[][] BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET = new Waypoint[][]{
-			{AutoConstants.BLUE_RIGHT_START_POS, new Waypoint(new Point2D.Double(AutoConstants.BLUE_RIGHT_START_POS.getWaypoint().getX() + habExtendDistance, AutoConstants.BLUE_RIGHT_START_POS.getWaypoint().getY()), AutoConstants.BLUE_RIGHT_START_POS.getAngle()), AutoConstants.BLUE_RIGHT_FRONT_HATCH},
-			{AutoConstants.BLUE_RIGHT_FRONT_HATCH_REVERSED, AutoConstants.BLUE_RIGHT_HELPER_POINT},
-			{AutoConstants.BLUE_RIGHT_HELPER_POINT_REVERSED, AutoConstants.BLUE_RIGHT_LOADER_STATION},
-			{AutoConstants.BLUE_RIGHT_LOADER_STATION_REVERSED, AutoConstants.BLUE_RIGHT_HELPER_POINT},
-			{AutoConstants.BLUE_RIGHT_HELPER_POINT_REVERSED, AutoConstants.BLUE_RIGHT_ROCKET_HATCH}
+
+
+	public static Path[] RED_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET = new Path[]{
+			PathGenerator.getInstance().generate(new Waypoint[]{AutoWaypoints.RED_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[0][0], AutoWaypoints.RED_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[0][1],AutoWaypoints.RED_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[0][2]}, PathType.CUBIC_HERMITE_PATH,150,150,100,200),
+			PathGenerator.getInstance().generate(new Waypoint[]{AutoWaypoints.RED_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[1][0], AutoWaypoints.RED_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[1][1]}, PathType.CUBIC_HERMITE_PATH,150,150,100,200),
+			PathGenerator.getInstance().generate(new Waypoint[]{AutoWaypoints.RED_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[2][0], AutoWaypoints.RED_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[2][1]}, PathType.CUBIC_HERMITE_PATH,150,150,100,200),
+			PathGenerator.getInstance().generate(new Waypoint[]{AutoWaypoints.RED_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[3][0], AutoWaypoints.RED_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[3][1]}, PathType.CUBIC_HERMITE_PATH,150,150,100,200),
+			PathGenerator.getInstance().generate(new Waypoint[]{AutoWaypoints.RED_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[4][0], AutoWaypoints.RED_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[4][1]}, PathType.CUBIC_HERMITE_PATH,150,150,100,200)
 	};
-	public static Waypoint[][] RED_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET = new Waypoint[][]{
-			{AutoConstants.BLUE_RIGHT_START_POS, new Waypoint(new Point2D.Double(AutoConstants.BLUE_RIGHT_START_POS.getWaypoint().getX() + habExtendDistance, AutoConstants.BLUE_RIGHT_START_POS.getWaypoint().getY()), AutoConstants.BLUE_RIGHT_START_POS.getAngle()), AutoConstants.BLUE_RIGHT_FRONT_HATCH},
-			{AutoConstants.RED_RIGHT_FRONT_HATCH_REVERSED, AutoConstants.RED_RIGHT_HELPER_POINT},
-			{AutoConstants.RED_RIGHT_HELPER_POINT_REVERSED, AutoConstants.RED_RIGHT_LOADER_STATION},
-			{AutoConstants.RED_RIGHT_LOADER_STATION_REVERSED, AutoConstants.RED_RIGHT_HELPER_POINT},
-			{AutoConstants.RED_RIGHT_HELPER_POINT_REVERSED, AutoConstants.RED_RIGHT_ROCKET_HATCH}
-	};
+
 }

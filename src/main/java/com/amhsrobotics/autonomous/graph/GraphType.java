@@ -1,5 +1,6 @@
 package com.amhsrobotics.autonomous.graph;
 
-public class GraphVelociity {
-
+public enum GraphType {
+	PATH,
+	VELOCITY
 }
