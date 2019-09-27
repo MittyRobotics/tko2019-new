@@ -27,10 +27,10 @@ public class AutoSelector {
 		AutoMode mode = AutoMode.getMode(modeID);
 		switch (mode) {
 			case EXIT_HAB_AUTO:
-				ExitHabAuto.getInstance().start();
+				new ExitHabAuto().start();
 				break;
 			case CARGO_SHIP_FRONT_HATCH_AUTO:
-				CargoShipFrontHatchAuto.getInstance().start();
+				new CargoShipFrontHatchAuto().start();
 				break;
 			default:
 				//Invalid autonomous mode

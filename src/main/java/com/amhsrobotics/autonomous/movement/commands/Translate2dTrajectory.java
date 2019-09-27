@@ -30,14 +30,14 @@ public class Translate2dTrajectory extends Command {
 	int motionID;
 
 	public Translate2dTrajectory(Waypoint[] waypoints) {
-		this(waypoints, PathType.BEZIER_CURVE_PATH, false);
+		this(waypoints, PathType.CUBIC_HERMITE_PATH, false);
 	}
 	public Translate2dTrajectory(Waypoint[] waypoints, PathType pathType) {
 		this(waypoints, pathType, false);
 	}
 
 	public Translate2dTrajectory(Waypoint[] waypoints, boolean reversed) {
-		this(waypoints, PathType.BEZIER_CURVE_PATH,0, reversed);
+		this(waypoints, PathType.CUBIC_HERMITE_PATH,0, reversed);
 	}
 
 	public Translate2dTrajectory(Waypoint[] waypoints, PathType pathType, boolean reversed) {

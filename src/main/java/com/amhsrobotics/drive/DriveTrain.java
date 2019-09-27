@@ -98,11 +98,14 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public void tankVelocity(double left, double right) {
-		left *= TicksPerInch.DRIVE_HIGH/10;
-		right *= TicksPerInch.DRIVE_HIGH/10;
 
 //		left = RateLimiter.getInstance().limitVelocityRate(getLeftVelocity(),left);
 //		right = RateLimiter.getInstance().limitVelocityRate(getRightVelocity(),right);
+
+
+		left *= TicksPerInch.DRIVE_HIGH/10;
+		right *= TicksPerInch.DRIVE_HIGH/10;
+
 
 		//System.out.println(leftDrive[0].getSelectedSensorVelocity() + " | " + rightDrive[0].getSelectedSensorVelocity());
 		leftDrive[0].set(ControlMode.Velocity, left);
