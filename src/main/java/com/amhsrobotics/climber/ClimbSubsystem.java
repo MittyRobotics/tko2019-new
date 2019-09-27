@@ -89,11 +89,11 @@ public class ClimbSubsystem extends Subsystem {
     public void setSpeedSlider(double speed){
         leftTalon.set(ControlMode.PercentOutput, speed);
     }
-    public void resetEncoder(){
-        leftTalon.set(ControlMode.PercentOutput, -0.5);
+    public void zeroEncoder(){
+        leftTalon.set(ControlMode.PercentOutput, -0.3);
         while (limit1.get() && DriverStation.getInstance().isTest())
         {
-            System.out.println("Motor Output: " + ClimbSubsystem.getInstance().leftTalon.getMotorOutputPercent());
+//            System.out.println("Motor Output: " + ClimbSubsystem.getInstance().leftTalon.getMotorOutputPercent());
 
             try {
                 Thread.sleep(20);

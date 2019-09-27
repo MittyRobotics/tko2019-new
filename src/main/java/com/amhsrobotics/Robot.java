@@ -151,7 +151,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void testInit() {
-//		ClimbSubsystem.getInstance().resetEncoder();
+		ClimbSubsystem.getInstance().zeroEncoder();
 //		OI.getInstance();
 		//new CalibrateArm().start();
 		//new CalibrateSlider().start();
