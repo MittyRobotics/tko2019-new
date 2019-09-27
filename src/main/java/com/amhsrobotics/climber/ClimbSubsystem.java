@@ -15,8 +15,6 @@ public class ClimbSubsystem extends Subsystem {
         BOTTOM, TOP
     }
 
-// TODO: Owen's Trapezoid thing?
-
     private static ClimbSubsystem ourInstance = new ClimbSubsystem();
 
     public static ClimbSubsystem getInstance() {
@@ -35,14 +33,15 @@ public class ClimbSubsystem extends Subsystem {
         limit1 = new DigitalInput(1);
         leftTalon = new WPI_TalonSRX(TalonIds.CLIMBER_LEFT);
 //        WPI_TalonSRX rightTalon = new WPI_TalonSRX(TalonIds.CLIMBER_RIGHT);
-//        leftTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+        leftTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 //        rightTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-//        rightTalon.config_kP(0, 0);  // TODO:(masha) PID.CLIMBER[0]
+//        rightTalon.config_kP(0, 0);
 //        rightTalon.config_kI(0, 0);
 //        rightTalon.config_kD(0, 0);
-//        leftTalon.config_kP(0, 0);
-//        leftTalon.config_kI(0, 0);
-//        leftTalon.config_kD(0, 0);
+        leftTalon.config_kP(0, 0.005);
+        leftTalon.config_kI(0, 0);
+        leftTalon.config_kD(0, 0.05);
+        leftTalon.setSensorPhase(true);
     }
 
     @Override
@@ -89,20 +88,25 @@ public class ClimbSubsystem extends Subsystem {
     public void setSpeedSlider(double speed){
         leftTalon.set(ControlMode.PercentOutput, speed);
     }
+    public void getTalonCurrent(){
+        System.out.println("Current: " + leftTalon.getOutputCurrent());
+    }
     public void zeroEncoder(){
-        leftTalon.set(ControlMode.PercentOutput, -0.3);
-        while (limit1.get() && DriverStation.getInstance().isTest())
+        leftTalon.set(ControlMode.PercentOutput, -0.4);
+        while (!limit1.get() && DriverStation.getInstance().isEnabled())
         {
+            leftTalon.set(ControlMode.PercentOutput, -0.4);
+
 //            System.out.println("Motor Output: " + ClimbSubsystem.getInstance().leftTalon.getMotorOutputPercent());
 
-            try {
-                Thread.sleep(20);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                Thread.sleep(20);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
         }
         leftTalon.set(ControlMode.PercentOutput, 0);
-        System.out.println("Slider position reset: 1/2");
+//        System.out.println("Slider position reset: 1/2");
         leftTalon.setSelectedSensorPosition(0);
 //        int timer = 0;
 //        while (timer < 25 && DriverStation.getInstance().isTest()) {
@@ -125,16 +129,16 @@ public class ClimbSubsystem extends Subsystem {
 //        }
 //        leftTalon.set(ControlMode.PercentOutput, -0.3);
         while (limit0.get() && DriverStation.getInstance().isTest()) {
-            try {
-                Thread.sleep(20);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                Thread.sleep(20);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
         }
-        System.out.println("Slider position reset: 2/2");
+//        System.out.println("Slider position reset: 2/2");
         leftTalon.set(ControlMode.PercentOutput, 0);
         leftTalon.setSelectedSensorPosition(0);
-        System.out.println(leftTalon.getSelectedSensorPosition());
+//        System.out.println(leftTalon.getSelectedSensorPosition());
     }
     public boolean safety() {
         if (getLimit0() == false) {

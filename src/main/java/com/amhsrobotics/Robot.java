@@ -7,7 +7,10 @@ import com.amhsrobotics.autonomous.vision.Limelight;
 import com.amhsrobotics.cargo.Arm;
 import com.amhsrobotics.cargo.Rollers;
 import com.amhsrobotics.climber.ClimbSubsystem;
+import com.amhsrobotics.climber.commands.MoveClimber;
 import com.amhsrobotics.climber.commands.ResetEncoder;
+import com.amhsrobotics.climber.constants.ClimberPosition;
+import com.amhsrobotics.climber.constants.TicksPerInch;
 import com.amhsrobotics.drive.DriveTrain;
 import com.amhsrobotics.drive.Shifter;
 import com.amhsrobotics.hardware.Compressor;
@@ -30,7 +33,7 @@ import java.awt.geom.Point2D;
 public class Robot extends TimedRobot {
 
 	Robot() {
-		super(0.06);
+		super(0.1);
 	}
 
 	@SuppressWarnings("ResultOfMethodCallIgnored")
@@ -102,9 +105,9 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotPeriodic() {
-//		Scheduler.getInstance().run();
+		Scheduler.getInstance().run();
 //		Compressor.getInstance().start();
-		//System.out.println("asdf");
+//		System.out.println("asdf");
 
 	}
 
@@ -144,6 +147,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
+		Scheduler.getInstance().run();
+//		System.out.println(ClimbSubsystem.getInstance().leftTalon.getSelectedSensorPosition()/ TicksPerInch.CLIMBER_TPI);
 		//Arm.getInstance().manualAngle(0.2);
 		//System.out.println(Arm.getInstance().getArmPosition());
 
@@ -151,7 +156,10 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void testInit() {
+//		ClimbSubsystem.getInstance();
 		ClimbSubsystem.getInstance().zeroEncoder();
+//		System.out.println(ClimbSubsystem.getInstance().leftTalon.getSelectedSensorPosition());
+
 //		OI.getInstance();
 		//new CalibrateArm().start();
 		//new CalibrateSlider().start();
@@ -167,21 +175,20 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testPeriodic() {
 //		ClimbSubsystem.getInstance().safety();
-		System.out.print("Limit 0: ");
-		System.out.println(ClimbSubsystem.getInstance().getLimit0());
-		System.out.print("Limit 1: ");
-		System.out.println(ClimbSubsystem.getInstance().getLimit1());
-		if (!ClimbSubsystem.getInstance().safety()) {
-			ClimbSubsystem.getInstance().setSpeedSlider(OI.getInstance().getJoystick1().getY());
-		}
+//		System.out.print("Limit 0: ");
+//		System.out.println(ClimbSubsystem.getInstance().getLimit0());
+//		System.out.print("Limit 1: ");
+//		System.out.println(ClimbSubsystem.getInstance().getLimit1());
+//		if (!ClimbSubsystem.getInstance().safety()) {
+//			ClimbSubsystem.getInstance().setSpeedSlider(OI.getInstance().getJoystick1().getY());
+//		}
 		System.out.println(ClimbSubsystem.getInstance().leftTalon.getSelectedSensorPosition());
-//		OI.getInstance();
 //		DriveTrain.getInstance().tankVelocity(50,50);
 		//System.out.println(Slider.getInstance().getSliderSensor());
 		//Rollers.getInstance().intake();   //WORKING
 	//	System.out.println(Arm.getInstance().getArmPosition());
 		//Slider.getInstance().manualSlide(0.3); //WORKING
-		//Pusher.getInstance().pushForward(); //NOT WORKING (pneumatics issue)
+//		Pusher.getInstance().pushForward(); //NOT WORKING (pneumatics issue)
 
 
 		//System.out.println("Running");

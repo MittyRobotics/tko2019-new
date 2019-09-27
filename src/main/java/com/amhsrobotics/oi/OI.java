@@ -301,57 +301,57 @@ public class OI {
 		Button climberDown = new Button() {
 			@Override
 			public boolean get() {
-				return getJoystick1().getRawButton(1);
-			}
-		};
-		climberDown.whenPressed(new MoveClimber(ClimberPosition.CLIMB_POS));
-
-		Button climberUp = new Button() {
-			@Override
-			public boolean get() {
-				return getJoystick1().getRawButton(2);
-			}
-		};
-		climberUp.whenPressed(new MoveClimber(0));
-
-		Button moveWheel = new Button() {
-			@Override
-			public boolean get() {
 				return getJoystick1().getRawButton(3);
 			}
 		};
-		moveWheel.whenPressed(new MoveWheel(WheelPosition.WHEEL_POS));
+		climberDown.whenPressed(new MoveClimberManualRamp(ClimberPosition.CLIMB_POS));
 
-		Button servoUp = new Button() {
-			@Override
-			public boolean get() {
-				return getJoystick1().getRawButton(4);
-			}
-		};
-		servoUp.whenPressed(new ServoMoveForward());
-
-		Button servoDown = new Button() {
-			@Override
-			public boolean get() {
-				return getJoystick1().getRawButton(5);
-			}
-		};
-		servoDown.whenPressed(new ServoMoveBack());
-
-		Button resetEncoder = new Button() {
-			@Override
-			public boolean get() {
-				return getJoystick1().getRawButton(6);
-			}
-		};
-		resetEncoder.whenPressed(new ResetEncoder());
-
-		Button buttonOne = new Button() {
-			@Override
-			public boolean get() {
-				return getJoystick1().getRawButton(7);
-			}
-		};
-		buttonOne.whenPressed(new ButtonOne());
+//		Button climberUp = new Button() {
+//			@Override
+//			public boolean get() {
+//				return getJoystick1().getRawButton(2);
+//			}
+//		};
+//		climberUp.whenPressed(new MoveClimber(0));
+//
+//		Button moveWheel = new Button() {
+//			@Override
+//			public boolean get() {
+//				return getJoystick1().getRawButton(1);
+//			}
+//		};
+//		moveWheel.whenPressed(new MoveWheel(WheelPosition.WHEEL_POS));
+//
+//		Button servoUp = new Button() {
+//			@Override
+//			public boolean get() {
+//				return getJoystick1().getRawButton(4);
+//			}
+//		};
+//		servoUp.whenPressed(new ServoMoveForward());
+//
+//		Button servoDown = new Button() {
+//			@Override
+//			public boolean get() {
+//				return getJoystick1().getRawButton(5);
+//			}
+//		};
+//		servoDown.whenPressed(new ServoMoveBack());
+//
+//		Button resetEncoder = new Button() {
+//			@Override
+//			public boolean get() {
+//				return getJoystick1().getRawButton(6);
+//			}
+//		};
+//		resetEncoder.whenPressed(new ResetEncoder());
+//
+//		Button buttonOne = new Button() {
+//			@Override
+//			public boolean get() {
+//				return getJoystick1().getRawButton(7);
+//			}
+//		};
+//		buttonOne.whenPressed(new ButtonOne());
 	}
 }

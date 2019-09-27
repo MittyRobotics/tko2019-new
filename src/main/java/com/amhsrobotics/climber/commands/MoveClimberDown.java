@@ -1,6 +1,7 @@
 package com.amhsrobotics.climber.commands;
 
 import com.amhsrobotics.climber.ClimbSubsystem;
+import com.amhsrobotics.climber.constants.TicksPerInch;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -12,15 +13,15 @@ public class MoveClimberDown extends Command {
         return false;
     }
     WPI_TalonSRX rightTalon, leftTalon;
-    double tpi = 0;
-    double increment = 0;
+    double tpi = TicksPerInch.CLIMBER_TPI;
+    double increment = 4;
     public MoveClimberDown(){
         requires(ClimbSubsystem.getInstance());
-        WPI_TalonSRX leftTalon = new WPI_TalonSRX(0);
+        WPI_TalonSRX leftTalon = new WPI_TalonSRX(27);
         WPI_TalonSRX rightTalon = new WPI_TalonSRX(1);
         leftTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
         rightTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-        rightTalon.config_kP(0, 0);
+        rightTalon.config_kP(0, .005);
         rightTalon.config_kI(0, 0);
         rightTalon.config_kD(0, 0);
         leftTalon.config_kP(0, 0);
