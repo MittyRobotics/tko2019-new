@@ -5,6 +5,14 @@ import com.amhsrobotics.climber.constants.ClimberPosition;
 import com.amhsrobotics.climber.constants.TicksPerInch;
 import edu.wpi.first.wpilibj.command.Command;
 
+/*
+    PLEASE DO NOT TOUCH ANYTHING HERE
+    yes I know it's disgusting
+    yes I know it doesn't make sense
+    but it wORKS
+    SO DON"T TOUCH IT
+ */
+
 public class MoveClimberManualRamp extends Command {
     private final double increment = 3;
     private double position, currentPos;

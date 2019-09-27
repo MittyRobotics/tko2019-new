@@ -10,6 +10,14 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+/*
+    PLEASE DO NOT TOUCH ANYTHING HERE
+    yes I know it's disgusting
+    yes I know it doesn't make sense
+    but it wORKS
+    SO DON"T TOUCH IT
+ */
+
 public class ClimbSubsystem extends Subsystem {
     public enum ClimberPosition {
         BOTTOM, TOP
