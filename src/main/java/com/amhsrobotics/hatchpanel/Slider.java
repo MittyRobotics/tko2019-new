@@ -41,7 +41,7 @@ public class Slider extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {
-//		setDefaultCommand(new AutoSlider());
+		setDefaultCommand(new AutoSlider());
 	}
 
 	public TrapezoidalMotionProfile slide(final SliderPosition sliderPosition){

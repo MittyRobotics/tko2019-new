@@ -39,9 +39,9 @@ public class VisionAlignmentCargo extends Command {
     }
 
     private double MAX_SPEED = 150; //in per second
-    private double TURN_DRIVE_RATIO = 0.6; //Ratio of MAX_SPEED allowed for turn. Drive ratio is 1-TURN_DRIVE_RATIO
-    private double DRIVE_K = 5; //Drive gain. Decrease if drive is not slowing down fast enough.
-    private double TURN_K = 30; //in per second at max angle (29.8 degrees)
+    private double TURN_DRIVE_RATIO = 0.65; //Ratio of MAX_SPEED allowed for turn. Drive ratio is 1-TURN_DRIVE_RATIO
+    private double DRIVE_K = 7; //Drive gain. Decrease if drive is not slowing down fast enough.
+    private double TURN_K = 35; //in per second at max angle (29.8 degrees)
 
     protected void execute() {
 

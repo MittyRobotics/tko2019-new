@@ -2,6 +2,7 @@ package com.amhsrobotics.oi;
 
 import com.amhsrobotics.autonomous.movement.commands.VisionAlignment;
 import com.amhsrobotics.autonomous.movement.commands.VisionAlignmentCargo;
+import com.amhsrobotics.cargo.Rollers;
 import com.amhsrobotics.cargo.commands.*;
 import com.amhsrobotics.cargo.constants.ArmPosition;
 import com.amhsrobotics.drive.commands.GearShift;
@@ -250,6 +251,8 @@ public class OI {
 		//pushBackward.whenPressed(new PushBackward());
 
 	}
+
+
 	private void cargoControlsXbox(){
 		Button intake = new Button() {
 			@Override
@@ -262,11 +265,20 @@ public class OI {
 		Button outtake = new Button() {
 			@Override
 			public boolean get() {
-				return getXboxController().getTriggerAxis(GenericHID.Hand.kRight) < 0.3;
+				return getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.3;
 			}
 		};
 		outtake.whenPressed(new Outtake());
 		outtake.whenReleased(new StopRollers());
+
+		Button outtakeBack = new Button() {
+			@Override
+			public boolean get() {
+				return getXboxController().getBumper(GenericHID.Hand.kLeft);
+			}
+		};
+		outtakeBack.whenPressed(new OuttakeBack());
+		outtakeBack.whenReleased(new StopRollers());
 		Button angleCargo = new Button() {
 			@Override
 			public boolean get() {

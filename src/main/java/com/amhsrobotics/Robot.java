@@ -101,7 +101,7 @@ public class Robot extends TimedRobot {
 		odometryNotifier.startPeriodic(0.06);
 		System.out.println("odometry notifier start: " + ((System.nanoTime()-t)/1000000));
 
-		RateLimiter.getInstance().setPercentOutputParameters(.25 * 0.06,1);
+		RateLimiter.getInstance().setPercentOutputParameters(.1 ,1);
 		RateLimiter.getInstance().setVelocityParameters(AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxAcceleration(),AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxVelocity());
 	}
 

@@ -23,11 +23,13 @@ public class RateLimiter {
 
     public double limitVelocityRate(double currentVelocity, double desiredVelocity){
         double sign = Math.signum(desiredVelocity-currentVelocity);
+
         if(Math.abs(desiredVelocity-currentVelocity) < maxVelocityChange){
             return desiredVelocity;
         }
         else {
-            return Math.min(currentVelocity + (maxVelocityChange * sign), maxVelocity);
+            System.out.println(currentVelocity + " " + desiredVelocity + " " + currentVelocity + (70 * sign));
+            return currentVelocity + (70 * sign);
         }
     }
 
@@ -38,10 +40,13 @@ public class RateLimiter {
 
     public double limitPercentRate(double currentPercent, double desiredPercent){
         double sign = Math.signum(desiredPercent-currentPercent);
+
         if(Math.abs(desiredPercent-currentPercent) < maxPercentChange){
+            System.out.println(currentPercent + " " + desiredPercent);
             return desiredPercent;
         }
         else {
+            System.out.println(currentPercent + " " + desiredPercent + " " + maxPercent + " " +  Math.min(currentPercent + (maxPercentChange * sign), maxPercent) + " " + maxPercentChange);
             return Math.min(currentPercent + (maxPercentChange * sign), maxPercent);
         }
     }
