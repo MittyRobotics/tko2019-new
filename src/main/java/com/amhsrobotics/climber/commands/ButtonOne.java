@@ -12,7 +12,6 @@ public class ButtonOne extends CommandGroup {
     public ButtonOne(){
         addSequential(new Slide(SliderPosition.Middle));
         addSequential(new Angle(ArmPosition.Cargo));
-        addSequential(new ServoMoveForward());
         addSequential(new Angle(ArmPosition.Ground));
         addSequential(new MoveClimber(ClimberPosition.CLIMB_POS));
 

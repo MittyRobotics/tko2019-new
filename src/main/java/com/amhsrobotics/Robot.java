@@ -182,7 +182,6 @@ public class Robot extends TimedRobot {
 //		if (!ClimbSubsystem.getInstance().safety()) {
 //			ClimbSubsystem.getInstance().setSpeedSlider(OI.getInstance().getJoystick1().getY());
 //		}
-		System.out.println(ClimbSubsystem.getInstance().leftTalon.getSelectedSensorPosition());
 //		DriveTrain.getInstance().tankVelocity(50,50);
 		//System.out.println(Slider.getInstance().getSliderSensor());
 		//Rollers.getInstance().intake();   //WORKING
