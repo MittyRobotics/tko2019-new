@@ -5,14 +5,16 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class ServoAngle extends Command {
 	private double angle;
-	public ServoAngle(double angle){
+	private int servo;
+	public ServoAngle(int servo, double angle){
 		super("Servo Angle");
+		this.servo = servo;
 		this.angle = angle;
 		requires(Servo.getInstance());
 	}
 	@Override
 	protected void initialize(){
-		Servo.getInstance().setAngle(angle);
+		Servo.getInstance().setAngle(servo, angle);
 	}
 	@Override
 	protected boolean isFinished() {

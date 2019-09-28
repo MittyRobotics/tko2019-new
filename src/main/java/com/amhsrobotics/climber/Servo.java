@@ -8,20 +8,24 @@ public class Servo extends Subsystem {
 	public static Servo getInstance() {
 		return ourInstance;
 	}
-	private edu.wpi.first.wpilibj.Servo servo;
+	private edu.wpi.first.wpilibj.Servo servo1, servo2;
 	private Servo() {
 		super("Servo");
 	}
 	public void initHardware(){
-		servo = new edu.wpi.first.wpilibj.Servo(0);
-		servo.setAngle(0);
+		servo1 = new edu.wpi.first.wpilibj.Servo(0);
+		servo2 = new edu.wpi.first.wpilibj.Servo(1);
 	}
 
 	@Override
 	protected void initDefaultCommand() {
 
 	}
-	public void setAngle(double angle){
-		servo.setAngle(angle);
+	public void setAngle(int servo, double angle){
+		if(servo == 1){
+			servo1.setAngle(angle);
+		} else {
+			servo2.setAngle(angle);
+		}
 	}
 }

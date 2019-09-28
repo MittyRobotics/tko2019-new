@@ -325,6 +325,7 @@ public class OI {
 				return getJoystick1().getRawButton(11);
 			}
 		};
-		angleServo.whenPressed(new ServoAngle(180));
+		angleServo.whenPressed(new ServoAngle(1, 180));
+		angleServo.whenPressed(new ServoAngle(2, 180));
 	}
 }
