@@ -147,7 +147,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		Scheduler.getInstance().run();
 //		System.out.println(ClimbSubsystem.getInstance().leftTalon.getSelectedSensorPosition()/ TicksPerInch.CLIMBER_TPI);
 		//Arm.getInstance().manualAngle(0.2);
 		//System.out.println(Arm.getInstance().getArmPosition());
