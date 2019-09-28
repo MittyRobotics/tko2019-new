@@ -33,19 +33,18 @@ public class ClimbSubsystem extends Subsystem {
         super("Climber");
     }
 
-    public WPI_TalonSRX rightTalon, leftTalon;
+    private WPI_TalonSRX rightTalon, leftTalon;
     private DigitalInput limit0, limit1;
-    Servo servo = new Servo(0);
     public void initHardware(){
         limit0 = new DigitalInput(0);
         limit1 = new DigitalInput(1);
         leftTalon = new WPI_TalonSRX(TalonIds.CLIMBER_LEFT);
-//        WPI_TalonSRX rightTalon = new WPI_TalonSRX(TalonIds.CLIMBER_RIGHT);
+        rightTalon = new WPI_TalonSRX(TalonIds.CLIMBER_RIGHT);
         leftTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-//        rightTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-//        rightTalon.config_kP(0, 0);
-//        rightTalon.config_kI(0, 0);
-//        rightTalon.config_kD(0, 0);
+        rightTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+        rightTalon.config_kP(0, 0.005);
+        rightTalon.config_kI(0, 0);
+        rightTalon.config_kD(0, 0.05);
         leftTalon.config_kP(0, 0.005);
         leftTalon.config_kI(0, 0);
         leftTalon.config_kD(0, 0.05);
@@ -83,10 +82,6 @@ public class ClimbSubsystem extends Subsystem {
         return new TrapezoidalMotionProfile(MotionProfileValues.MAX_ACCELERATION, MotionProfileValues.MAX_VELOCITY,  rightTalon.getSelectedSensorPosition(0)/ com.amhsrobotics.climber.constants.TicksPerInch.WHEEL_TPI, position, 0.06, reversed);
     }
 
-    public void moveServo (double angle){
-        servo.set(angle);
-    }
-
     public boolean getLimit0(){
         return limit0.get();
     }
@@ -100,10 +95,10 @@ public class ClimbSubsystem extends Subsystem {
         System.out.println("Current: " + leftTalon.getOutputCurrent());
     }
     public void zeroEncoder(){
-        leftTalon.set(ControlMode.PercentOutput, -0.4);
-        while (!limit1.get() && DriverStation.getInstance().isEnabled())
+        leftTalon.set(ControlMode.PercentOutput, -0.2);
+        while (!leftTalon.getSensorCollection().isFwdLimitSwitchClosed() && DriverStation.getInstance().isTest())
         {
-            leftTalon.set(ControlMode.PercentOutput, -0.4);
+            leftTalon.set(ControlMode.PercentOutput, -0.2);
 
 //            System.out.println("Motor Output: " + ClimbSubsystem.getInstance().leftTalon.getMotorOutputPercent());
 
@@ -125,7 +120,7 @@ public class ClimbSubsystem extends Subsystem {
 //                e.printStackTrace();
 //            }
 //        }
-        leftTalon.set(ControlMode.PercentOutput, 0.5);
+        leftTalon.set(ControlMode.PercentOutput, 0.25);
 //        timer = 0;
 //        while (timer < 20 && DriverStation.getInstance().isTest()) {
 //            timer ++;
@@ -136,7 +131,7 @@ public class ClimbSubsystem extends Subsystem {
 //            }
 //        }
 //        leftTalon.set(ControlMode.PercentOutput, -0.3);
-        while (limit0.get() && DriverStation.getInstance().isTest()) {
+        while (!leftTalon.getSensorCollection().isRevLimitSwitchClosed() && DriverStation.getInstance().isTest()) {
 //            try {
 //                Thread.sleep(20);
 //            } catch (InterruptedException e) {
@@ -146,31 +141,53 @@ public class ClimbSubsystem extends Subsystem {
 //        System.out.println("Slider position reset: 2/2");
         leftTalon.set(ControlMode.PercentOutput, 0);
         leftTalon.setSelectedSensorPosition(0);
+
+        rightTalon.set(ControlMode.PercentOutput, -0.2);
+        while (!rightTalon.getSensorCollection().isFwdLimitSwitchClosed() && DriverStation.getInstance().isTest())
+        {
+            rightTalon.set(ControlMode.PercentOutput, -0.2);
+
+//            System.out.println("Motor Output: " + ClimbSubsystem.getInstance().leftTalon.getMotorOutputPercent());
+
+//            try {
+//                Thread.sleep(20);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+        }
+        rightTalon.set(ControlMode.PercentOutput, 0);
+//        System.out.println("Slider position reset: 1/2");
+        rightTalon.setSelectedSensorPosition(0);
+//        int timer = 0;
+//        while (timer < 25 && DriverStation.getInstance().isTest()) {
+//            timer ++;
+//            try {
+//                Thread.sleep(20);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+        rightTalon.set(ControlMode.PercentOutput, 0.25);
+//        timer = 0;
+//        while (timer < 20 && DriverStation.getInstance().isTest()) {
+//            timer ++;
+//            try {
+//                Thread.sleep(20);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        leftTalon.set(ControlMode.PercentOutput, -0.3);
+        while (!rightTalon.getSensorCollection().isRevLimitSwitchClosed() && DriverStation.getInstance().isTest()) {
+//            try {
+//                Thread.sleep(20);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+        }
+//        System.out.println("Slider position reset: 2/2");
+        rightTalon.set(ControlMode.PercentOutput, 0);
+        rightTalon.setSelectedSensorPosition(0);
 //        System.out.println(leftTalon.getSelectedSensorPosition());
-    }
-    public boolean safety() {
-        if (getLimit0() == false) {
-            leftTalon.set(ControlMode.PercentOutput, -0.5);
-            try {
-                Thread.sleep(20);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println("safety");
-            return true;
-        }
-        if (getLimit1() == false) {
-            leftTalon.set(ControlMode.PercentOutput, 0.5);
-            try {
-                Thread.sleep(20);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println("safety");
-            return true;
-        }
-        else {
-            return false;
-        }
     }
 }

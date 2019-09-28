@@ -6,42 +6,34 @@ import com.amhsrobotics.climber.constants.WheelPosition;
 import com.amhsrobotics.drive.DriveTrain;
 import com.amhsrobotics.motionprofile.MotionFrame;
 import com.amhsrobotics.motionprofile.TrapezoidalMotionProfile;
+import com.amhsrobotics.oi.OI;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class MoveWheel extends Command {
-    private TrapezoidalMotionProfile wheelLeft, wheelRight;
-    private double t, position;
-    public MoveWheel(double position) {
+    public MoveWheel() {
         super("ClimberWheel");
-        this.position = position;
-        requires(ClimberWheel.getInstance());
         requires(DriveTrain.getInstance());
-        System.out.println("construct");
+        requires(ClimberWheel.getInstance());
     }
 
     @Override
     protected void initialize() {
-        System.out.println("init");
-        wheelLeft = ClimberWheel.getInstance().wheelLeft(WheelPosition.WHEEL_POS, false);
-        wheelRight = ClimberWheel.getInstance().wheelRight(WheelPosition.WHEEL_POS, false);
-        t = 0;
+
     }
 
     @Override
     protected void execute() {
-        t = timeSinceInitialized();
-        MotionFrame frameRight = wheelRight.getFrameAtTime(t);
-        MotionFrame frameLeft = wheelLeft.getFrameAtTime(t);
-        ClimberWheel.getInstance().setRightWheel(frameRight.getPosition());
-        System.out.println(frameRight.getPosition());
-        ClimberWheel.getInstance().setLeftWheel(frameLeft.getPosition());
-        System.out.println(frameLeft.getPosition());
-        DriveTrain.getInstance().tankDrive(wheelLeft.getFrameAtTime(t).getVelocity(), wheelRight.getFrameAtTime(t).getVelocity());
+        ClimberWheel.getInstance().setLeftSpeed(0.1);
+        ClimberWheel.getInstance().setRightSpeed(0.1);
+        DriveTrain.getInstance().tankDrive(0.1, 0.1);
     }
 
     @Override
     protected void end(){
-        System.out.println("end");
+        ClimberWheel.getInstance().setLeftSpeed(0);
+        ClimberWheel.getInstance().setRightSpeed(0);
+        DriveTrain.getInstance().tankDrive(0, 0);
     }
 
     @Override
@@ -51,6 +43,8 @@ public class MoveWheel extends Command {
 
     @Override
     protected boolean isFinished() {
-        return (wheelLeft.isFinished() && wheelRight.isFinished());
+        return Math.abs(OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft)) > 0.1
+                || Math.abs(OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight))
+                > 0.1;
     }
 }
