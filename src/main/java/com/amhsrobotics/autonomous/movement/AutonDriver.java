@@ -49,6 +49,9 @@ public class AutonDriver {
 	private boolean visionFinished = true;
 
 
+	private Point2D.Double lastPos;
+
+
 	public static AutonDriver getInstance() {
 		return ourInstance;
 	}
@@ -77,7 +80,7 @@ public class AutonDriver {
 	public void setupTrajectory(Waypoint[] waypoints, double maxAcceleration, double maxDeceleration, double maxVelocity, PathType pathType, double endVelcoity, boolean reversed) {
 		PathFollowerPosition.getInstance().resetPos(Odometry.getInstance().getRobotX(), Odometry.getInstance().getRobotY(), Odometry.getInstance().getRobotHeading());
 
-		PathGenerator.getInstance().setPathKCurvature(.6);
+		PathGenerator.getInstance().setPathKCurvature(1);
 
 		this.trajectoryFollowingFinished = false;
 		this.motionProfileFinished = true;
@@ -85,11 +88,11 @@ public class AutonDriver {
 		this.visionFinished = true;
 
 		this.currentMotionProfile = null;
-		this.currentPath = PathGenerator.getInstance().generate(waypoints, pathType, maxAcceleration,maxDeceleration, maxVelocity, 50,endVelcoity, 200);
+		this.currentPath = PathGenerator.getInstance().generate(waypoints, pathType, maxAcceleration,maxDeceleration, maxVelocity, 0,endVelcoity, 200);
 		this.currentPathFollower = new PathFollower(currentPath, reversed);
 
 		//currentPathFollower.hardSetCurvature(false, 0.001);
-		currentPathFollower.setLookaheadDistance(20);
+		currentPathFollower.setLookaheadDistance(15);
 		currentPathFollower.setWheelDistance(27);
 	}
 	public void setupMotionProfile(double setpoint, LinearMovementType movementType) {
@@ -196,14 +199,14 @@ public class AutonDriver {
 		SmartDashboard.putNumber("PP_FF_RightVelocity", output.getRightVelocity());
 		SmartDashboard.putNumber("FB_LeftVelocity", DriveTrain.getInstance().getLeftVelocity());
 		SmartDashboard.putNumber("FB_RightVelocity", DriveTrain.getInstance().getRightVelocity());
-		//System.out.println(currentPathFollower.getCurrentLookaheadPoint().getX() + " " + currentPathFollower.getCurrentLookaheadPoint().getY() + " " + currentPathFollower.getCurvature());
+		System.out.println(currentPathFollower.getCurrentLookaheadPoint().getX() + " " + currentPathFollower.getCurrentLookaheadPoint().getY() + " " + currentPathFollower.getCurvature() + " " + Odometry.getInstance().getRobotX() + " " + Odometry.getInstance().getRobotY());
 		SmartDashboard.putNumber("PP_POS_X", PathFollowerPosition.getInstance().getRobotX());
 		SmartDashboard.putNumber("PP_POS_Y", PathFollowerPosition.getInstance().getRobotY());
 		SmartDashboard.putNumber("PP_FF_LookAheadX", currentPathFollower.getCurrentLookaheadPoint().getX());
 		SmartDashboard.putNumber("PP_FF_LookAheadY", currentPathFollower.getCurrentLookaheadPoint().getY());
 		SmartDashboard.putNumber("PP_FF_Curvature", currentPathFollower.getCurvature());
 		if(Math.abs(currentPathFollower.getCurvature()) > 0.005){
-			System.out.println("Curvature high:  " + currentPathFollower.getCurvature() + " " + output.getLeftVelocity() + " " + output.getRightVelocity());
+			//System.out.println("Curvature high:  " + currentPathFollower.getCurvature() + " " + output.getLeftVelocity() + " " + output.getRightVelocity());
 		}
 		//Left and right are swapped for now, I will figure it out later
 		return new AutonMotionOutput(output.getRightVelocity(), output.getLeftVelocity(), 0);
@@ -307,6 +310,15 @@ public class AutonDriver {
 
 	public DriveState getCurrentDriveState() {
 		return currentDriveState;
+	}
+
+
+	public Point2D.Double getLastPos() {
+		return lastPos;
+	}
+
+	public void setLastPos(Point2D.Double lastPos) {
+		this.lastPos = lastPos;
 	}
 
 }

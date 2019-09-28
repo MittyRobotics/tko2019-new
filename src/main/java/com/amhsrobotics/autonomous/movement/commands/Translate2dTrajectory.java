@@ -11,6 +11,9 @@ import com.amhsrobotics.drive.DriveTrain;
 import com.amhsrobotics.purepursuit.Waypoint;
 import com.amhsrobotics.purepursuit.enums.PathType;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+
 /**
  * Robot path following command to follow a generated path from a set of waypoints.
  */
@@ -61,6 +64,14 @@ public class Translate2dTrajectory extends Command {
 		requires(DriveTrain.getInstance());
 		this.endVelocity = endVelocity;
 
+		double initX = waypoints[0].getWaypoint().getX();
+		double initY = waypoints[0].getWaypoint().getY();
+		for(int i = 0; i < waypoints.length; i++){
+			waypoints[i] = new Waypoint(new Point2D.Double(Math.abs(waypoints[i].getWaypoint().getX() - initX), (waypoints[i].getWaypoint().getY() - initY)),waypoints[i].getAngle());
+
+		}
+
+
 		this.waypoints = waypoints;
 		this.pathType = pathType;
 		this.reversed = reversed;
@@ -76,8 +87,11 @@ public class Translate2dTrajectory extends Command {
 
 	@Override
 	public void initialize() {
+		System.out.println("Init point: " + waypoints[0].getWaypoint().getX() + " " + waypoints[0].getWaypoint().getY());
+		System.out.println("Init point: " + waypoints[1].getWaypoint().getX() + " " + waypoints[1].getWaypoint().getY());
 		Odometry.getInstance().resetPosition();
 		Odometry.getInstance().setPos(waypoints[0].getWaypoint().getX(),waypoints[0].getWaypoint().getY(),waypoints[0].getAngle());
+		System.out.println(Odometry.getInstance().getRobotX());
 		AutonDriver.getInstance().setupTrajectory(waypoints, maxAcceleration, maxDeceleration, maxVelocity, pathType, endVelocity, reversed);
 	}
 

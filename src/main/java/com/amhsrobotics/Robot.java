@@ -3,6 +3,7 @@ package com.amhsrobotics;
 import com.amhsrobotics.autonomous.Odometry;
 import com.amhsrobotics.autonomous.constants.AutoConstants;
 import com.amhsrobotics.autonomous.enums.StreamMode;
+import com.amhsrobotics.autonomous.modes.CargoShipFrontHatchAuto;
 import com.amhsrobotics.autonomous.movement.RateLimiter;
 import com.amhsrobotics.autonomous.movement.commands.AimAssist;
 import com.amhsrobotics.autonomous.movement.commands.AutoSlider;
@@ -123,18 +124,9 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-//		//new AimAssist().start();
-//////		new PushBackward().start();
-////		Odometry.getInstance().resetPosition();
-//		Odometry.getInstance().resetPosition();
-////		Waypoint[] waypoints = new Waypoint[2];
-////		waypoints[0] = new Waypoint(new Point2D.Double(0,0),0);
-////		waypoints[1] = new Waypoint(new Point2D.Double(48,-24),0);
-////		new Translate2dTrajectory(waypoints, PathType.CUBIC_HERMITE_PATH, true).start();
-//		new VisionScore().start();
-////		new AutoSlider().start();
-////		//DriveTrain.getInstance().tankVelocity(50,50);
-//	new VisionScore().start();
+		new CargoShipFrontHatchAuto(2).start();
+		//new Translate2dTrajectory(new Waypoint[]{new Waypoint(new Point2D.Double(0,0), 0), new Waypoint(new Point2D.Double(55.75, -145.44),-90)},20,20,100,PathType.CUBIC_HERMITE_PATH,0,false).start();
+
 
 	}
 	@Override

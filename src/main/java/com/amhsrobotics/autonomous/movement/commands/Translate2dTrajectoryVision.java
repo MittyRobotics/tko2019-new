@@ -12,6 +12,8 @@ import com.amhsrobotics.drive.DriveTrain;
 import com.amhsrobotics.purepursuit.Waypoint;
 import com.amhsrobotics.purepursuit.enums.PathType;
 
+import java.awt.geom.Point2D;
+
 /**
  * Robot path following command to follow a generated path from a set of waypoints.
  */
@@ -37,15 +39,20 @@ public class Translate2dTrajectoryVision extends Command {
     double prevDist = 0;
 
     double hasTargetCount = 0;
-    double hasTargetCooldown = 20;
+    double hasTargetCooldown = 5;
     double distanceCount = 0;
-    double distanceCooldown = 20;
+    double distanceCooldown = 1;
     double angleCount = 0;
-    double angleCooldown = 20;
+    double angleCooldown = 1;
 
     double intiVisionDist = 100;
     double targetLockedDistThreshold = 20;
-    double targetLockedAngleThreshold = 8;
+    double targetLockedAngleThreshold = 10;
+
+    private double initX;
+    private double initY;
+
+    private boolean realWorld = false;
 
     public Translate2dTrajectoryVision(Waypoint[] waypoints) {
         this(waypoints, PathType.BEZIER_CURVE_PATH, false);
@@ -78,6 +85,33 @@ public class Translate2dTrajectoryVision extends Command {
         super("Translate2dTrajectory");
         requires(DriveTrain.getInstance());
         this.endVelocity = endVelocity;
+        double initX = waypoints[0].getWaypoint().getX();
+        double initY = waypoints[0].getWaypoint().getY();
+        for(int i = 0; i < waypoints.length; i++){
+            waypoints[i] = new Waypoint(new Point2D.Double(waypoints[i].getWaypoint().getX() - initX, waypoints[i].getWaypoint().getY() - initY),waypoints[i].getAngle());
+            System.out.println("Init point: " + waypoints[i].getWaypoint().getX() + " " + waypoints[i].getWaypoint().getY());
+        }
+        this.waypoints = waypoints;
+        this.pathType = pathType;
+        this.reversed = reversed;
+
+        this.maxAcceleration = maxAcceleration;
+        this.maxDeceleration = maxDeceleration;
+        this.maxVelocity = maxVelocity;
+
+        this.motionID = AutonDriver.getInstance().initNewDriveMethod(DriveState.PURE_PURSUIT);
+    }
+    public Translate2dTrajectoryVision(Waypoint[] waypoints, double maxAcceleration, double maxDeceleration, double maxVelocity,  PathType pathType, double endVelocity, boolean reversed, Point2D.Double lastPos) {
+        super("Translate2dTrajectory");
+        requires(DriveTrain.getInstance());
+        this.endVelocity = endVelocity;
+        double initX = waypoints[0].getWaypoint().getX();
+        double initY = waypoints[0].getWaypoint().getY();
+
+        for(int i = 0; i < waypoints.length; i++){
+            waypoints[i] = new Waypoint(new Point2D.Double(Math.abs(waypoints[i].getWaypoint().getX() - initX), waypoints[i].getWaypoint().getY() - initY),waypoints[i].getAngle());
+        }
+
 
         this.waypoints = waypoints;
         this.pathType = pathType;
@@ -121,34 +155,40 @@ public class Translate2dTrajectoryVision extends Command {
         angle = Limelight.getInstance().getXAngle();
         if(Math.abs(prevDist - distance) < targetLockedDistThreshold){
             distanceCount ++;
+            System.out.println("Target locked dist");
         }
         else{
             distanceCount = 0;
         }
         if(Math.abs(prevAngle - angle) < targetLockedAngleThreshold){
             angleCount ++;
+            System.out.println("Target locked angle");
         }
         else{
             angleCount = 0;
         }
         if(hasTarget){
             hasTargetCount ++;
+            System.out.println("Target locked has");
         }
         else{
             hasTargetCount = 0;
         }
+        prevDist = distance;
+        prevAngle = angle;
     }
 
 
     @Override
     public void end() {
-        System.out.println("Ending Translate2dTrajectory Command!");
+        System.out.println("Ending Translate2dTrajectoryVision Command!");
         if(reversed){
             DriveTrain.getInstance().tankVelocity(-endVelocity, -endVelocity);
         }
         else {
             DriveTrain.getInstance().tankVelocity(endVelocity, endVelocity);
         }
+        AutonDriver.getInstance().setLastPos(new Point2D.Double(Odometry.getInstance().getRobotX(), Odometry.getInstance().getRobotY()));
     }
 
     @Override
