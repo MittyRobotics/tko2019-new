@@ -301,57 +301,30 @@ public class OI {
 		Button climberDown = new Button() {
 			@Override
 			public boolean get() {
-				return getJoystick1().getRawButton(3);
+				return getJoystick1().getRawButton(8);
 			}
 		};
 		climberDown.whenPressed(new MoveClimberManualRamp(ClimberPosition.CLIMB_POS));
-
-//		Button climberUp = new Button() {
-//			@Override
-//			public boolean get() {
-//				return getJoystick1().getRawButton(2);
-//			}
-//		};
-//		climberUp.whenPressed(new MoveClimber(0));
-//
-//		Button moveWheel = new Button() {
-//			@Override
-//			public boolean get() {
-//				return getJoystick1().getRawButton(1);
-//			}
-//		};
-//		moveWheel.whenPressed(new MoveWheel(WheelPosition.WHEEL_POS));
-//
-//		Button servoUp = new Button() {
-//			@Override
-//			public boolean get() {
-//				return getJoystick1().getRawButton(4);
-//			}
-//		};
-//		servoUp.whenPressed(new ServoMoveForward());
-//
-//		Button servoDown = new Button() {
-//			@Override
-//			public boolean get() {
-//				return getJoystick1().getRawButton(5);
-//			}
-//		};
-//		servoDown.whenPressed(new ServoMoveBack());
-//
-//		Button resetEncoder = new Button() {
-//			@Override
-//			public boolean get() {
-//				return getJoystick1().getRawButton(6);
-//			}
-//		};
-//		resetEncoder.whenPressed(new ResetEncoder());
-//
-//		Button buttonOne = new Button() {
-//			@Override
-//			public boolean get() {
-//				return getJoystick1().getRawButton(7);
-//			}
-//		};
-//		buttonOne.whenPressed(new ButtonOne());
+		Button climberUp = new Button() {
+			@Override
+			public boolean get() {
+				return getJoystick1().getRawButton(9);
+			}
+		};
+		climberUp.whenPressed(new MoveClimberManualRamp(0));
+		Button driveForward = new Button() {
+			@Override
+			public boolean get() {
+				return getJoystick1().getRawButton(10);
+			}
+		};
+		driveForward.whenPressed(new MoveWheel());
+		Button angleServo = new Button() {
+			@Override
+			public boolean get() {
+				return getJoystick1().getRawButton(11);
+			}
+		};
+		angleServo.whenPressed(new ServoAngle(180));
 	}
 }
