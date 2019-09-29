@@ -1,10 +1,7 @@
-package com.amhsrobotics.autonomous.graph;
+package com.amhsrobotics.autonomous.graph.rewrite;
 
 import com.amhsrobotics.autonomous.constants.AutoConstants;
-import com.amhsrobotics.autonomous.constants.AutoPaths;
-import com.amhsrobotics.autonomous.constants.AutoWaypoints;
 import com.amhsrobotics.purepursuit.Path;
-import com.amhsrobotics.purepursuit.Waypoint;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
@@ -12,18 +9,26 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 public class GraphAutoPath extends Graph {
 
+
+	private static GraphAutoPath ourInstance = new GraphAutoPath();
+
+	public static GraphAutoPath getInstance(){
+		return ourInstance;
+	}
+
 	Path[] currentPaths;
 
-	public GraphAutoPath(String title) {
-		super(title, "", "");
+	public GraphAutoPath() {
+		super("", "", "");
+		getChartPanel().setDomainZoomable(false);
+		getChartPanel().setRangeZoomable(false);
 		setFieldImage();
 		graphFieldPoints();
-		setPathGraph(AutoPaths.BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET);
-		getPlot().setRenderer(1,new CustomColorRenderer(true,true,currentPaths));
+		setPathGraph(new Path[]{});
+
 	}
 
 	public void graphFieldPoints() {
@@ -70,6 +75,7 @@ public class GraphAutoPath extends Graph {
 
 	public void setPathGraph(Path[] paths) {
 		currentPaths = paths;
+		getPlot().setRenderer(1,new CustomColorRenderer(true,true,currentPaths));
 		getPlot().setDataset(1, pathDataset(paths));
 		getChartPanel().repaint();
 	}
@@ -94,6 +100,16 @@ public class GraphAutoPath extends Graph {
 		return series;
 	}
 
+	public void removeGuessLines(){
+
+	}
+
+	public void graphGuessLines(double x, double y){
+		graphPointsInSeries(new Point2D.Double[]{new Point2D.Double(x,-1000),new Point2D.Double(x,1000)},true,1);
+		graphPointsInSeries(new Point2D.Double[]{new Point2D.Double(-1000,y),new Point2D.Double(1000,y)},1);
+
+	}
+
 	private class CustomColorRenderer extends XYLineAndShapeRenderer {
 
 		private double[] colorByVelocity;
@@ -106,15 +122,21 @@ public class GraphAutoPath extends Graph {
 
 		@Override
 		public Paint getItemPaint(int row, int col) {
-			double velocity = path[row].get(col).getVelocity();
-			double upperBounds = 0;
-			for(int i = 0; i < path[row].length(); i++){
-				if(path[row].get(i).getVelocity() > upperBounds){
-					upperBounds = path[row].get(i).getVelocity();
+			if(row == 0){
+				double velocity = path[row].get(col).getVelocity();
+				double upperBounds = 0;
+				for(int i = 0; i < path[row].length(); i++){
+					if(path[row].get(i).getVelocity() > upperBounds){
+						upperBounds = path[row].get(i).getVelocity();
+					}
 				}
-			}
 
-			return Color.getHSBColor( (float) (velocity / upperBounds) / 4, 1f, 0.75f);
+				return Color.getHSBColor( (float) (velocity / upperBounds) / 4, 1f, 0.75f);
+
+			}
+			else{
+				return Color.YELLOW;
+			}
 
 		}
 

@@ -1,4 +1,4 @@
-package com.amhsrobotics.autonomous.graph;
+package com.amhsrobotics.autonomous.graph.rewrite;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -42,6 +42,8 @@ public class Graph extends JPanel {
                 "",
                 domainTitle, rangeTitle, dataset);
 
+
+
         //Chart graphics
         chart.removeLegend();
         chart.setBackgroundPaint(new Color(71, 71, 71));
@@ -79,6 +81,8 @@ public class Graph extends JPanel {
 
         //Set size of graph (standardized)
         panel.setPreferredSize(new Dimension((int)(582*1.5),(int)(595*1.5)));
+
+        plot.setDataset(1,new XYSeriesCollection());
 
         this.plot = plot;
         this.chartPanel = panel;

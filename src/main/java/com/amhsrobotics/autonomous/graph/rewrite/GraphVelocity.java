@@ -1,9 +1,8 @@
-package com.amhsrobotics.autonomous.graph;
+package com.amhsrobotics.autonomous.graph.rewrite;
 
 
 import com.amhsrobotics.autonomous.constants.AutoPaths;
 import com.amhsrobotics.purepursuit.Path;
-import com.amhsrobotics.purepursuit.Waypoint;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 
 import java.awt.*;
@@ -12,10 +11,16 @@ import java.awt.geom.Point2D;
 
 public class GraphVelocity extends Graph {
 
+	private static GraphVelocity ourInstance = new GraphVelocity();
+
+	public static GraphVelocity getInstance(){
+		return ourInstance;
+	}
+
 	Path[] currentPaths;
 
-	public GraphVelocity(String title) {
-		super(title, "Position (in)", "Velocity (in/s)");
+	public GraphVelocity() {
+		super("", "Position (in)", "Velocity (in/s)");
 		setVelocityGraph(AutoPaths.BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET);
 		getPlot().setRenderer(new CustomColorRenderer(true, false, currentPaths));
 	}

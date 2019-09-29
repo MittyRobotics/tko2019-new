@@ -1,7 +1,6 @@
 package com.amhsrobotics.autonomous.movement;
 
 import com.amhsrobotics.autonomous.enums.PathPropertyType;
-import com.amhsrobotics.autonomous.graph.PathPlannerWindow;
 import com.amhsrobotics.purepursuit.Path;
 import com.amhsrobotics.purepursuit.PathGenerator;
 import com.amhsrobotics.purepursuit.Waypoint;
@@ -19,8 +18,13 @@ public class PathProperties {
 	private double maxAcceleration;
 	private double maxDeceleration;
 	private double maxVelocity;
+	private double startVelocity;
+	private double endVelocity;
+	private boolean reversed;
+	private boolean vision;
+	private String name;
 
-	public PathProperties(Waypoint[] waypoints, double lookaheadDist, double kCurvature, double maxAcceleration, double maxDeceleration, double maxVelocity){
+	public PathProperties(Waypoint[] waypoints, double lookaheadDist, double kCurvature, double maxAcceleration, double maxDeceleration, double maxVelocity, double startVelocity, double endVelocity, boolean reversed, boolean vision, String name){
 		this.waypoints = waypoints;
 		this.path = PathGenerator.getInstance().generate(waypoints, PathType.CUBIC_HERMITE_PATH,maxAcceleration,maxDeceleration,maxVelocity,0,0,200);
 		this.lookaheadDist = lookaheadDist;
@@ -28,13 +32,19 @@ public class PathProperties {
 		this.maxAcceleration = maxAcceleration;
 		this.maxDeceleration = maxDeceleration;
 		this.maxVelocity = maxVelocity;
+		this.startVelocity = startVelocity;
+		this.endVelocity = endVelocity;
+		this.reversed = reversed;
+		this.vision = vision;
+		this.name = name;
 	}
 
 	public void regeneratePath(){
-		this.path = PathGenerator.getInstance().generate(waypoints, PathType.CUBIC_HERMITE_PATH,maxAcceleration,maxDeceleration,maxVelocity,50,0,200);
+		this.path = PathGenerator.getInstance().generate(waypoints, PathType.CUBIC_HERMITE_PATH,maxAcceleration,maxDeceleration,maxVelocity,startVelocity,endVelocity,200);
 	}
 
 	public Path getPath() {
+		regeneratePath();
 		return path;
 	}
 
@@ -130,5 +140,48 @@ public class PathProperties {
 		}
 	}
 
+	public double getEndVelocity() {
+		return endVelocity;
+	}
 
+	public void setEndVelocity(double endVelocity) {
+		this.endVelocity = endVelocity;
+	}
+
+
+	public boolean isReversed() {
+		return reversed;
+	}
+
+	public void setReversed(boolean reversed) {
+		this.reversed = reversed;
+	}
+
+	public boolean getReversed(){
+		return reversed;
+	}
+	public boolean getVision() {
+		return vision;
+	}
+
+	public void setVision(boolean vision) {
+		this.vision = vision;
+	}
+
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public double getStartVelocity() {
+		return startVelocity;
+	}
+
+	public void setStartVelocity(double startVelocity) {
+		this.startVelocity = startVelocity;
+	}
 }

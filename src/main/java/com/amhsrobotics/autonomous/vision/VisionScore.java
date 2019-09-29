@@ -1,9 +1,7 @@
 package com.amhsrobotics.autonomous.vision;
 
-import com.amhsrobotics.autonomous.constants.AutoPaths;
 import com.amhsrobotics.autonomous.constants.AutoWaypoints;
 import com.amhsrobotics.autonomous.movement.commands.Translate2dTrajectory;
-import com.amhsrobotics.autonomous.movement.commands.Translate2dTrajectoryVision;
 import com.amhsrobotics.autonomous.movement.commands.VisionAlignment;
 import com.amhsrobotics.drive.DriveTrain;
 import com.amhsrobotics.hatchpanel.commands.*;
@@ -43,11 +41,11 @@ public class VisionScore extends CommandGroup {
 //		addSequential(new Release());
 //		addSequential( new Translate2dTrajectory(waypoints2, 50,50,500, PathType.CUBIC_HERMITE_PATH, 0,false));
 
-		addSequential(new PushForward());
-		addSequential( new Translate2dTrajectoryVision(AutoWaypoints.BLUE_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[0], 150,150,500,  PathType.CUBIC_HERMITE_PATH,100,true));
-		addSequential(new VisionAlignment());
-		addSequential(new Release());
-		addSequential(new Translate2dTrajectory(AutoWaypoints.BLUE_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[1], 150,150,500, PathType.CUBIC_HERMITE_PATH, 0, true));
+//		addSequential(new PushForward());
+//		addSequential( new Translate2dTrajectory(AutoWaypoints.BLUE_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[0], 150,150,500,  PathType.CUBIC_HERMITE_PATH,100,true));
+//		addSequential(new VisionAlignment());
+//		addSequential(new Release());
+//		addSequential(new Translate2dTrajectory(AutoWaypoints.BLUE_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[1], 150,150,500, PathType.CUBIC_HERMITE_PATH, 0, true));
 
 	}
 

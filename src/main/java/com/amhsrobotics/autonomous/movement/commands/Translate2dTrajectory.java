@@ -3,7 +3,9 @@ package com.amhsrobotics.autonomous.movement.commands;
 import com.amhsrobotics.autonomous.constants.AutoConstants;
 import com.amhsrobotics.autonomous.movement.AutonDriver;
 import com.amhsrobotics.autonomous.movement.AutonMotionOutput;
+import com.amhsrobotics.autonomous.movement.PathProperties;
 import com.amhsrobotics.autonomous.movement.RateLimiter;
+import com.amhsrobotics.autonomous.vision.Limelight;
 import edu.wpi.first.wpilibj.command.Command;
 import com.amhsrobotics.autonomous.Odometry;
 import com.amhsrobotics.autonomous.enums.DriveState;
@@ -23,6 +25,7 @@ public class Translate2dTrajectory extends Command {
 	boolean reversed;
 
 	double endVelocity ;
+	double startVelocity;
 	double t;
 
 	double maxAcceleration;
@@ -32,37 +35,44 @@ public class Translate2dTrajectory extends Command {
 
 	int motionID;
 
-	public Translate2dTrajectory(Waypoint[] waypoints) {
-		this(waypoints, PathType.CUBIC_HERMITE_PATH, false);
-	}
-	public Translate2dTrajectory(Waypoint[] waypoints, PathType pathType) {
-		this(waypoints, pathType, false);
+	boolean vision;
+
+
+
+	boolean hasTarget = false;
+	double distance = 0;
+	double angle = 0;
+	double prevAngle = 0;
+	double prevDist = 0;
+
+	double hasTargetCount = 0;
+	double hasTargetCooldown = 10;
+	double distanceCount = 0;
+	double distanceCooldown = 1;
+	double angleCount = 0;
+	double angleCooldown = 1;
+
+	double intiVisionDist = 100;
+	double targetLockedDistThreshold = 20;
+	double targetLockedAngleThreshold = 10;
+
+	double maxDistToEnd = 80;
+
+	public Translate2dTrajectory(PathProperties properties) {
+		this(properties.getWaypoints(),properties.getMaxAcceleration(),properties.getMaxDeceleration(),properties.getMaxVelocity(),PathType.CUBIC_HERMITE_PATH,properties.getEndVelocity(),properties.getStartVelocity(), properties.getReversed(), properties.getVision());
 	}
 
-	public Translate2dTrajectory(Waypoint[] waypoints, boolean reversed) {
-		this(waypoints, PathType.CUBIC_HERMITE_PATH,0, reversed);
+
+	public Translate2dTrajectory(Waypoint[] waypoints, double maxAcceleration, double maxDeceleration, double maxVelocity,  PathType pathType,  double startVelocity, double endVelocity, boolean reversed) {
+
+		this(waypoints, maxAcceleration,maxDeceleration,maxVelocity,pathType,startVelocity, endVelocity,reversed,false);
 	}
 
-	public Translate2dTrajectory(Waypoint[] waypoints, PathType pathType, boolean reversed) {
-		this(waypoints, pathType,0, reversed);
-	}
-	public Translate2dTrajectory(Waypoint[] waypoints, PathType pathType, double endVelocity, boolean reversed) {
-//		super("Translate2dTrajectory");
-//		requires(DriveTrain.getInstance());
-//		this.endVelocity = endVelocity;
-//
-//		this.waypoints = waypoints;
-//		this.pathType = pathType;
-//		this.reversed = reversed;
-//
-//		this.motionID = AutonDriver.getInstance().initNewDriveMethod(DriveState.PURE_PURSUIT);
-		this(waypoints, AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxAcceleration(),  AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxDeceleration(), AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxVelocity(),pathType,endVelocity,reversed);
-	}
-
-	public Translate2dTrajectory(Waypoint[] waypoints, double maxAcceleration, double maxDeceleration, double maxVelocity,  PathType pathType, double endVelocity, boolean reversed) {
+	public Translate2dTrajectory(Waypoint[] waypoints, double maxAcceleration, double maxDeceleration, double maxVelocity,  PathType pathType, double startVelocity, double endVelocity, boolean reversed, boolean vision) {
 		super("Translate2dTrajectory");
 		requires(DriveTrain.getInstance());
 		this.endVelocity = endVelocity;
+		this.startVelocity = startVelocity;
 
 		double initX = waypoints[0].getWaypoint().getX();
 		double initY = waypoints[0].getWaypoint().getY();
@@ -81,7 +91,10 @@ public class Translate2dTrajectory extends Command {
 		this.maxVelocity = maxVelocity;
 
 		this.motionID = AutonDriver.getInstance().initNewDriveMethod(DriveState.PURE_PURSUIT);
+
+		this.vision = vision;
 	}
+
 
 
 
@@ -92,13 +105,18 @@ public class Translate2dTrajectory extends Command {
 		Odometry.getInstance().resetPosition();
 		Odometry.getInstance().setPos(waypoints[0].getWaypoint().getX(),waypoints[0].getWaypoint().getY(),waypoints[0].getAngle());
 		System.out.println(Odometry.getInstance().getRobotX());
-		AutonDriver.getInstance().setupTrajectory(waypoints, maxAcceleration, maxDeceleration, maxVelocity, pathType, endVelocity, reversed);
+		AutonDriver.getInstance().setupTrajectory(waypoints, maxAcceleration, maxDeceleration, maxVelocity, pathType, startVelocity, endVelocity, reversed);
 	}
 
 
 	@Override
 	public void execute() {
 		t = timeSinceInitialized();
+
+		if(vision){
+			updateLimelight();
+		}
+
 		AutonMotionOutput output = AutonDriver.getInstance().update(t);
 		double endt = timeSinceInitialized();
 
@@ -107,6 +125,37 @@ public class Translate2dTrajectory extends Command {
 		DriveTrain.getInstance().tankVelocity(output.getLeft(), output.getRight());
 	}
 
+	public void updateLimelight(){
+		if(vision){
+			Limelight.getInstance().updateLimelightValues();
+			hasTarget = Limelight.getInstance().isHasTarget();
+			distance = Limelight.getInstance().getTargetYFast();
+			angle = Limelight.getInstance().getXAngle();
+			if(Math.abs(prevDist - distance) < targetLockedDistThreshold && distance < maxDistToEnd){
+				distanceCount ++;
+				System.out.println("Target locked dist");
+			}
+			else{
+				distanceCount = 0;
+			}
+			if(Math.abs(prevAngle - angle) < targetLockedAngleThreshold){
+				angleCount ++;
+				System.out.println("Target locked angle");
+			}
+			else{
+				angleCount = 0;
+			}
+			if(hasTarget){
+				hasTargetCount ++;
+				System.out.println("Target locked has");
+			}
+			else{
+				hasTargetCount = 0;
+			}
+			prevDist = distance;
+			prevAngle = angle;
+		}
+	}
 
 	@Override
 	public void end() {
@@ -126,6 +175,6 @@ public class Translate2dTrajectory extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return AutonDriver.getInstance().isFinished(motionID);
+		return AutonDriver.getInstance().isFinished(motionID)  || (hasTargetCount > hasTargetCooldown && distanceCount > distanceCooldown && angleCount > angleCooldown && vision);
 	}
 }
