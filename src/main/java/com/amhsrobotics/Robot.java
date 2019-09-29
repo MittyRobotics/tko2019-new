@@ -124,9 +124,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-//		new CargoShipFrontHatchAuto(2).start();
-		//new Translate2dTrajectory(new Waypoint[]{new Waypoint(new Point2D.Double(0,0), 0), new Waypoint(new Point2D.Double(55.75, -145.44),-90)},20,20,100,PathType.CUBIC_HERMITE_PATH,0,false).start();
-
+		//new CargoShipFrontHatchAuto(0).start();
+		new Translate2dTrajectory(new Waypoint[]{new Waypoint(new Point2D.Double(0,0), 0), new Waypoint(new Point2D.Double(48,12 ),0)},20,20,100,PathType.CUBIC_HERMITE_PATH,0,0,false,false).start();
 
 	}
 	@Override

@@ -68,10 +68,10 @@ public class AutonDriver {
 		return motionID;
 	}
 
-	public void setupTrajectory(Waypoint[] waypoints, double maxAcceleration, double maxDeceleration, double maxVelocity, PathType pathType, double startVelocity, double endVelcoity, boolean reversed) {
+	public void setupTrajectory(Waypoint[] waypoints, double lookahead, double kCurvature, double maxAcceleration, double maxDeceleration, double maxVelocity, PathType pathType, double startVelocity, double endVelcoity, boolean reversed) {
 		PathFollowerPosition.getInstance().resetPos(Odometry.getInstance().getRobotX(), Odometry.getInstance().getRobotY(), Odometry.getInstance().getRobotHeading());
 
-		PathGenerator.getInstance().setPathKCurvature(1);
+		PathGenerator.getInstance().setPathKCurvature(kCurvature);
 
 		this.trajectoryFollowingFinished = false;
 		this.motionProfileFinished = true;
@@ -83,7 +83,7 @@ public class AutonDriver {
 		this.currentPathFollower = new PathFollower(currentPath, reversed);
 
 		//currentPathFollower.hardSetCurvature(false, 0.001);
-		currentPathFollower.setLookaheadDistance(15);
+		currentPathFollower.setLookaheadDistance(lookahead);
 		currentPathFollower.setWheelDistance(27);
 	}
 	public void setupMotionProfile(double setpoint, LinearMovementType movementType) {
@@ -190,7 +190,7 @@ public class AutonDriver {
 		SmartDashboard.putNumber("PP_FF_RightVelocity", output.getRightVelocity());
 		SmartDashboard.putNumber("FB_LeftVelocity", DriveTrain.getInstance().getLeftVelocity());
 		SmartDashboard.putNumber("FB_RightVelocity", DriveTrain.getInstance().getRightVelocity());
-		System.out.println(currentPathFollower.getCurrentLookaheadPoint().getX() + " " + currentPathFollower.getCurrentLookaheadPoint().getY() + " " + currentPathFollower.getCurvature() + " " + Odometry.getInstance().getRobotX() + " " + Odometry.getInstance().getRobotY());
+		System.out.println(currentPathFollower.getCurrentLookaheadPoint().getX() + " " + currentPathFollower.getCurrentLookaheadPoint().getY() + " " + currentPathFollower.getCurvature() + " " + Odometry.getInstance().getRobotX() + " " + Odometry.getInstance().getRobotY() + "");
 		SmartDashboard.putNumber("PP_POS_X", PathFollowerPosition.getInstance().getRobotX());
 		SmartDashboard.putNumber("PP_POS_Y", PathFollowerPosition.getInstance().getRobotY());
 		SmartDashboard.putNumber("PP_FF_LookAheadX", currentPathFollower.getCurrentLookaheadPoint().getX());

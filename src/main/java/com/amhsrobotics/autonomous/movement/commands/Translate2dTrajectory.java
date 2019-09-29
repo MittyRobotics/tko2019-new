@@ -58,8 +58,13 @@ public class Translate2dTrajectory extends Command {
 
 	double maxDistToEnd = 80;
 
+	double lookahead = 15;
+	double kCurvature = .8;
+
 	public Translate2dTrajectory(PathProperties properties) {
 		this(properties.getWaypoints(),properties.getMaxAcceleration(),properties.getMaxDeceleration(),properties.getMaxVelocity(),PathType.CUBIC_HERMITE_PATH,properties.getEndVelocity(),properties.getStartVelocity(), properties.getReversed(), properties.getVision());
+		this.lookahead = properties.getLookaheadDist();
+		this.kCurvature = properties.getkCurvature();
 	}
 
 
@@ -74,11 +79,12 @@ public class Translate2dTrajectory extends Command {
 		this.endVelocity = endVelocity;
 		this.startVelocity = startVelocity;
 
+
 		double initX = waypoints[0].getWaypoint().getX();
 		double initY = waypoints[0].getWaypoint().getY();
 		double initAngle = waypoints[0].getAngle();
 		for(int i = 0; i < waypoints.length; i++){
-			waypoints[i] = new Waypoint(new Point2D.Double(Math.abs(waypoints[i].getWaypoint().getX() - initX), (waypoints[i].getWaypoint().getY() - initY)),waypoints[i].getAngle()-initAngle);
+			waypoints[i] = new Waypoint(new Point2D.Double(Math.abs(waypoints[i].getWaypoint().getX() - initX), -(waypoints[i].getWaypoint().getY() - initY)),waypoints[i].getAngle()-initAngle);
 
 		}
 
@@ -106,7 +112,7 @@ public class Translate2dTrajectory extends Command {
 		Odometry.getInstance().resetPosition();
 		Odometry.getInstance().setPos(waypoints[0].getWaypoint().getX(),waypoints[0].getWaypoint().getY(),waypoints[0].getAngle());
 		System.out.println(Odometry.getInstance().getRobotX());
-		AutonDriver.getInstance().setupTrajectory(waypoints, maxAcceleration, maxDeceleration, maxVelocity, pathType, startVelocity, endVelocity, reversed);
+		AutonDriver.getInstance().setupTrajectory(waypoints, lookahead,kCurvature, maxAcceleration, maxDeceleration, maxVelocity, pathType, startVelocity, endVelocity, reversed);
 	}
 
 
