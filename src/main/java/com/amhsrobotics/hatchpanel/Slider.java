@@ -1,6 +1,7 @@
 package com.amhsrobotics.hatchpanel;
 
 import com.amhsrobotics.autonomous.movement.commands.AutoSlider;
+import com.amhsrobotics.hatchpanel.commands.ManualSlide;
 import com.amhsrobotics.hatchpanel.commands.PushForward;
 import com.amhsrobotics.hatchpanel.constants.MotionProfileValues;
 import com.amhsrobotics.hatchpanel.constants.SliderPosition;
@@ -70,7 +71,7 @@ public class Slider extends Subsystem {
 	}
 
 	public void setSliderPosition(double position){
-		//new PushForward();
+		new PushForward();
 		slider.set(ControlMode.Position, position);
 		//System.out.println("pos" + position);
 	}

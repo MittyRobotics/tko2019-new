@@ -17,9 +17,7 @@ public class ManualSlide extends Command {
 	@Override
 	protected void execute() {
 
-		if (Math.abs(OI.getInstance().getJoystick1().getX()) > 0.2) {
-			Slider.getInstance().manualSlide(OI.getInstance().getJoystick1().getX());
-		}
+			Slider.getInstance().manualSlide(OI.getInstance().getJoystick1().getX() / 4);
 	}
 
 	@Override

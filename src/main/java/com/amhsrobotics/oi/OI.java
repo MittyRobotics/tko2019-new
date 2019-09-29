@@ -53,7 +53,7 @@ public class OI {
 		vision.whenPressed(new VisionAlignmentCargo());
 		//testProfile.whenPressed(new MotionProfileTranslate(10, 0.2));
 //		driveControls();
-		//hatchControls();
+		hatchControls();
 		hatchControlsXbox();
 		cargoControls();
 		cargoControlsXbox();
