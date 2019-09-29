@@ -76,8 +76,9 @@ public class Translate2dTrajectory extends Command {
 
 		double initX = waypoints[0].getWaypoint().getX();
 		double initY = waypoints[0].getWaypoint().getY();
+		double initAngle = waypoints[0].getAngle();
 		for(int i = 0; i < waypoints.length; i++){
-			waypoints[i] = new Waypoint(new Point2D.Double(Math.abs(waypoints[i].getWaypoint().getX() - initX), (waypoints[i].getWaypoint().getY() - initY)),waypoints[i].getAngle());
+			waypoints[i] = new Waypoint(new Point2D.Double(Math.abs(waypoints[i].getWaypoint().getX() - initX), (waypoints[i].getWaypoint().getY() - initY)),waypoints[i].getAngle()-initAngle);
 
 		}
 

@@ -1,6 +1,6 @@
 package com.amhsrobotics.autonomous.graph.rewrite;
 
-import com.amhsrobotics.autonomous.constants.AutoPathSequences;
+import com.amhsrobotics.autonomous.constants.AutoPaths;
 import com.amhsrobotics.autonomous.movement.PathProperties;
 
 import javax.swing.*;
@@ -40,7 +40,7 @@ public class Window extends JFrame {
 
 		pack();
 
-		for(PathProperties properties : AutoPathSequences.paths){
+		for(PathProperties properties : AutoPaths.paths){
 			paths.add(properties);
 		}
 	}

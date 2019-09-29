@@ -1,6 +1,6 @@
 package com.amhsrobotics.autonomous.modes;
 
-import com.amhsrobotics.autonomous.constants.AutoPathSequences;
+import com.amhsrobotics.autonomous.constants.AutoPaths;
 import com.amhsrobotics.autonomous.constants.AutoWaypoints;
 import com.amhsrobotics.autonomous.movement.commands.Translate2dTrajectory;
 import com.amhsrobotics.autonomous.movement.commands.VisionAlignment;
@@ -57,7 +57,7 @@ public class CargoShipFrontHatchAuto extends CommandGroup {
 		System.out.println("Started approach cargo ship stage");
 		addSequential(new PushForward());
 		//addSequential( new Translate2dTrajectory(AutoWaypoints.BLUE_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[0], 150,50,500,  PathType.CUBIC_HERMITE_PATH,10,true, true));
-		addSequential( new Translate2dTrajectory(AutoPathSequences.B_LEFT_START_TO_FRONT_CS));
+		addSequential( new Translate2dTrajectory(AutoPaths.B_LEFT_START_TO_FRONT_CS));
 		System.out.println("Ended approach cargo ship stage");
 	}
 	public void visionPlace1(){
@@ -69,13 +69,13 @@ public class CargoShipFrontHatchAuto extends CommandGroup {
 	public void driveToHelperPoint1(){
 		System.out.println("Started drive to helper point 1 stage");
 		//addSequential(new Translate2dTrajectory(AutoWaypoints.BLUE_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[1], 50,50,200, PathType.CUBIC_HERMITE_PATH, 0,false, false));
-		addSequential( new Translate2dTrajectory(AutoPathSequences.B_LEFT_FRONT_CS_TO_LEFT_HELPER));
+		addSequential( new Translate2dTrajectory(AutoPaths.B_LEFT_FRONT_CS_TO_LEFT_HELPER));
 		System.out.println("Ended drive to helper point 1 stage");
 	}
 	public void approachLoader(){
 		System.out.println("Started approach loader stage");
 		//addSequential(new Translate2dTrajectory(AutoWaypoints.BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[2], 10,1,50, PathType.CUBIC_HERMITE_PATH, 0, true, true));
-		addSequential( new Translate2dTrajectory(AutoPathSequences.B_LEFT_HELPER_TO_LEFT_LOADER));
+		addSequential( new Translate2dTrajectory(AutoPaths.B_LEFT_HELPER_TO_LEFT_LOADER));
 		System.out.println("Ended approach loader stage");
 	}
 	public void visionPickup(){
