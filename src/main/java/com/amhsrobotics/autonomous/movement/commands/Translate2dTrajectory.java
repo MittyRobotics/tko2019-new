@@ -46,14 +46,14 @@ public class Translate2dTrajectory extends Command {
 	double prevDist = 0;
 
 	double hasTargetCount = 0;
-	double hasTargetCooldown = 10;
+	double hasTargetCooldown = 5;
 	double distanceCount = 0;
-	double distanceCooldown = 1;
+	double distanceCooldown = 5;
 	double angleCount = 0;
-	double angleCooldown = 1;
+	double angleCooldown = 5;
 
 	double intiVisionDist = 100;
-	double targetLockedDistThreshold = 20;
+	double targetLockedDistThreshold = 40;
 	double targetLockedAngleThreshold = 10;
 
 	double maxDistToEnd = 80;
@@ -166,12 +166,16 @@ public class Translate2dTrajectory extends Command {
 
 	@Override
 	public void end() {
-		System.out.println("Ending Translate2dTrajectory Command!");
+		System.out.println("Ending Translate2dTrajectory Command!" + endVelocity);
 		if(reversed){
 			DriveTrain.getInstance().tankVelocity(-endVelocity, -endVelocity);
 		}
 		else {
 			DriveTrain.getInstance().tankVelocity(endVelocity, endVelocity);
+		}
+
+		if(endVelocity == 0){
+			DriveTrain.getInstance().tankDrive(0, 0);
 		}
 	}
 

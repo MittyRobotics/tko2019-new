@@ -18,7 +18,7 @@ public class AutoConstants {
 	//Robot measurements (in inches)
 
 	public static double ROBOT_CENTER_TO_BACK = 14.5;
-	public static double ROBOT_CENTER_TO_EDGE = 14.5;
+	public static double ROBOT_CENTER_TO_EDGE = 27/2;
 
 
 

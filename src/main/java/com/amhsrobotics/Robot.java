@@ -124,8 +124,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		//new CargoShipFrontHatchAuto(0).start();
-		new Translate2dTrajectory(new Waypoint[]{new Waypoint(new Point2D.Double(0,0), 0), new Waypoint(new Point2D.Double(48,12 ),0)},20,20,100,PathType.CUBIC_HERMITE_PATH,0,0,false,false).start();
+		new CargoShipFrontHatchAuto(0).start();
+		//new Translate2dTrajectory(new Waypoint[]{new Waypoint(new Point2D.Double(0,0), 0), new Waypoint(new Point2D.Double(100,0 ),0)},20,20,100,PathType.CUBIC_HERMITE_PATH,0,0,true,false).start();
 
 	}
 	@Override
@@ -144,6 +144,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
+//		System.out.println((DriveTrain.getInstance().getLeftEncoder() + DriveTrain.getInstance().getRightEncoder())/2);
 		//Arm.getInstance().manualAngle(0.2);
 		//System.out.println(Arm.getInstance().getArmPosition());
 //		System.out.println(Rollers.getInstance().ballDetected());

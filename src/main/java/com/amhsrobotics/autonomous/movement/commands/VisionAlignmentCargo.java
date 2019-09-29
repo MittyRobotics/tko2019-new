@@ -22,7 +22,7 @@ public class VisionAlignmentCargo extends Command {
     private double reachedTargetCooldown = 10;
 
 
-    private double DESIRED_DISTANCE =13;
+    private double DESIRED_DISTANCE =15;
 
     public VisionAlignmentCargo(){
         super("Vision Alignment Cargo");
@@ -38,10 +38,10 @@ public class VisionAlignmentCargo extends Command {
 
     }
 
-    private double MAX_SPEED = 150; //in per second
-    private double TURN_DRIVE_RATIO = 0.65; //Ratio of MAX_SPEED allowed for turn. Drive ratio is 1-TURN_DRIVE_RATIO
-    private double DRIVE_K = 7; //Drive gain. Decrease if drive is not slowing down fast enough.
-    private double TURN_K = 35; //in per second at max angle (29.8 degrees)
+    private double MAX_SPEED = 100; //in per second
+    private double TURN_DRIVE_RATIO = 0.5; //Ratio of MAX_SPEED allowed for turn. Drive ratio is 1-TURN_DRIVE_RATIO
+    private double DRIVE_K = 4; //Drive gain. Decrease if drive is not slowing down fast enough.
+    private double TURN_K = 40; //in per second at max angle (29.8 degrees)
 
     protected void execute() {
 

@@ -48,7 +48,7 @@ public class AutoSlider extends Command {
 				sliderOffset = Math.max(Math.min(sliderOffset, SliderPositions.RIGHT), SliderPositions.LEFT);
 
 				//System.out.println(sliderOffset + " " + xOffset + " " + yaw + " " + distance);
-				if(distance < 50){
+				if(distance < 100){
 					Slider.getInstance().setSliderPosition(sliderOffset * TicksPerInch.SLIDER);
 				}
 			}

@@ -4,6 +4,7 @@ import com.amhsrobotics.autonomous.constants.AutoPaths;
 import com.amhsrobotics.autonomous.constants.AutoWaypoints;
 import com.amhsrobotics.autonomous.movement.commands.Translate2dTrajectory;
 import com.amhsrobotics.autonomous.movement.commands.VisionAlignment;
+import com.amhsrobotics.autonomous.movement.commands.VisionAlignmentCargo;
 import com.amhsrobotics.drive.DriveTrain;
 import com.amhsrobotics.hatchpanel.commands.Grab;
 import com.amhsrobotics.hatchpanel.commands.PushBackward;
@@ -18,12 +19,15 @@ public class CargoShipFrontHatchAuto extends CommandGroup {
 		addSequential(new Grab());
 		if(stage == 0){
 			approachCargoShip();
-//			visionPlace1();
+			visionPlace1();
+			driveToHelperPoint1();
+//			approachLoader();
 		}
 		else if(stage == 1){
 			visionPlace1();
 		}
 		else if(stage == 2){
+			addSequential(new Release());
 			driveToHelperPoint1();
 		}
 		else if(stage == 3){
@@ -59,14 +63,13 @@ public class CargoShipFrontHatchAuto extends CommandGroup {
 		System.out.println("Started approach cargo ship stage");
 		addSequential(new PushBackward());
 		//addSequential( new Translate2dTrajectory(AutoWaypoints.BLUE_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[0], 150,50,500,  PathType.CUBIC_HERMITE_PATH,10,true, true));
-		addSequential( new Translate2dTrajectory(AutoPaths.B_RIGHT_START_TO_END_HAB));
 		System.out.println("reached end hab");
-//		addSequential( new Translate2dTrajectory(AutoPaths.B_RIGHT_END_HAB_TO_FRONT_CS));
+		addSequential( new Translate2dTrajectory(AutoPaths.B_RIGHT_END_HAB_TO_FRONT_CS));
 		System.out.println("Ended approach cargo ship stage");
 	}
 	public void visionPlace1(){
 		System.out.println("Started vision place 1 stage");
-		addSequential(new VisionAlignment());
+		addSequential(new VisionAlignmentCargo());
 		addSequential(new Release());
 		System.out.println("Ended vision place 1 stage");
 	}
@@ -79,7 +82,7 @@ public class CargoShipFrontHatchAuto extends CommandGroup {
 	public void approachLoader(){
 		System.out.println("Started approach loader stage");
 		//addSequential(new Translate2dTrajectory(AutoWaypoints.BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[2], 10,1,50, PathType.CUBIC_HERMITE_PATH, 0, true, true));
-		addSequential( new Translate2dTrajectory(AutoPaths.B_LEFT_HELPER_TO_LEFT_LOADER));
+		addSequential( new Translate2dTrajectory(AutoPaths.B_RIGHT_HELPER_TO_LEFT_LOADER));
 		System.out.println("Ended approach loader stage");
 	}
 	public void visionPickup(){
