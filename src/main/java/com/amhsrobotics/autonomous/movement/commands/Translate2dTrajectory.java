@@ -1,6 +1,7 @@
 package com.amhsrobotics.autonomous.movement.commands;
 
 import com.amhsrobotics.autonomous.constants.AutoConstants;
+import com.amhsrobotics.autonomous.graph.rewrite.WaypointPanel;
 import com.amhsrobotics.autonomous.movement.AutonDriver;
 import com.amhsrobotics.autonomous.movement.AutonMotionOutput;
 import com.amhsrobotics.autonomous.movement.PathProperties;
@@ -76,29 +77,22 @@ public class Translate2dTrajectory extends Command {
 	public Translate2dTrajectory(Waypoint[] waypoints, double maxAcceleration, double maxDeceleration, double maxVelocity,  PathType pathType, double startVelocity, double endVelocity, boolean reversed, boolean vision) {
 		super("Translate2dTrajectory");
 		requires(DriveTrain.getInstance());
-		this.endVelocity = endVelocity;
-		this.startVelocity = startVelocity;
 
-
-		double initX = waypoints[0].getWaypoint().getX();
-		double initY = waypoints[0].getWaypoint().getY();
-		double initAngle = waypoints[0].getAngle();
+		//Convert waypoints to local position
+		Waypoint initWaypoint = new Waypoint(waypoints[0].getWaypoint(), waypoints[0].getAngle());
 		for(int i = 0; i < waypoints.length; i++){
-			waypoints[i] = new Waypoint(new Point2D.Double(Math.abs(waypoints[i].getWaypoint().getX() - initX), -(waypoints[i].getWaypoint().getY() - initY)),waypoints[i].getAngle()-initAngle);
-
+			waypoints[i] = worldToLocalPos(initWaypoint,waypoints[i]);
 		}
 
-
+		this.endVelocity = endVelocity;
+		this.startVelocity = startVelocity;
 		this.waypoints = waypoints;
 		this.pathType = pathType;
 		this.reversed = reversed;
-
 		this.maxAcceleration = maxAcceleration;
 		this.maxDeceleration = maxDeceleration;
 		this.maxVelocity = maxVelocity;
-
 		this.motionID = AutonDriver.getInstance().initNewDriveMethod(DriveState.PURE_PURSUIT);
-
 		this.vision = vision;
 	}
 
@@ -162,6 +156,51 @@ public class Translate2dTrajectory extends Command {
 			prevDist = distance;
 			prevAngle = angle;
 		}
+	}
+
+	//Assuming world point is on standard XY plane,
+	// world positive X vector is 0 degrees,
+	// world positive Y vecotor is 90 degrees,
+	// world positive X vector is 0 degrees locally,
+	// world positive Y vector is -90 degrees locally,
+	// local 0 degrees is forward for the robot,
+	// local 90 degrees is right for the robot,
+	// and robot must always starts facing local 0 degrees
+	/*World:
+	      90
+	      |
+	180-------0
+	      |
+	     -90
+
+	       +Y
+		    |
+      -X ------- +X
+            |
+           -Y
+
+	*/
+
+	/*Local:
+		 -90
+		  |
+	180-------0
+		  |
+		  90
+
+		   -Y
+		    |
+      -X ------- +X
+            |
+           +Y
+
+	 */
+	public Waypoint worldToLocalPos(Waypoint initPoint, Waypoint point){
+		double newX = point.getWaypoint().getX() - initPoint.getWaypoint().getX();
+		double newY = point.getWaypoint().getY() - initPoint.getWaypoint().getY();
+		newY = -newY;
+		double angle = initPoint.getAngle()-point.getAngle();
+		return new Waypoint(new Point2D.Double(newX, newY),angle);
 	}
 
 	@Override

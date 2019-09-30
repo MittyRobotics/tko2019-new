@@ -65,8 +65,8 @@ public class AutoConstants {
 
 
 	//Loader
-	public static Waypoint BLUE_RIGHT_LOADER_STATION = new Waypoint(new Point2D.Double(ROBOT_CENTER_TO_BACK, FIELD_HEIGHT - BLUE_LEFT_FIELD_EDGE_TO_LOADER_CENTER), 180);
-	public static Waypoint BLUE_LEFT_LOADER_STATION = new Waypoint(new Point2D.Double(ROBOT_CENTER_TO_BACK, BLUE_LEFT_FIELD_EDGE_TO_LOADER_CENTER), 180);
+	public static Waypoint BLUE_RIGHT_LOADER_STATION = new Waypoint(new Point2D.Double(ROBOT_CENTER_TO_BACK, BLUE_LEFT_FIELD_EDGE_TO_LOADER_CENTER), 180);
+	public static Waypoint BLUE_LEFT_LOADER_STATION = new Waypoint(new Point2D.Double(ROBOT_CENTER_TO_BACK, FIELD_HEIGHT - BLUE_LEFT_FIELD_EDGE_TO_LOADER_CENTER), 180);
 
 	public static Waypoint BLUE_RIGHT_LOADER_STATION_REVERSED = new Waypoint(new Point2D.Double(ROBOT_CENTER_TO_BACK, BLUE_RIGHT_FIELD_EDGE_TO_LOADER_CENTER), 0);
 	public static Waypoint BLUE_LEFT_LOADER_STATION_REVERSED = new Waypoint(new Point2D.Double(ROBOT_CENTER_TO_BACK, FIELD_HEIGHT - BLUE_LEFT_FIELD_EDGE_TO_LOADER_CENTER), 0);
@@ -81,11 +81,11 @@ public class AutoConstants {
 
 
 	//Helper points
-	public static Waypoint BLUE_RIGHT_HELPER_POINT = new Waypoint(new Point2D.Double(BLUE_HELPER_DISTANCE_FROM_LOADER,BLUE_RIGHT_LOADER_STATION.getWaypoint().getY()), 90);
-	public static Waypoint BLUE_LEFT_HELPER_POINT = new Waypoint(new Point2D.Double(BLUE_HELPER_DISTANCE_FROM_LOADER,BLUE_LEFT_LOADER_STATION.getWaypoint().getY()), -90);
+	public static Waypoint BLUE_RIGHT_HELPER_POINT = new Waypoint(new Point2D.Double(BLUE_HELPER_DISTANCE_FROM_LOADER,BLUE_RIGHT_LOADER_STATION.getWaypoint().getY()), -90);
+	public static Waypoint BLUE_LEFT_HELPER_POINT = new Waypoint(new Point2D.Double(BLUE_HELPER_DISTANCE_FROM_LOADER,BLUE_LEFT_LOADER_STATION.getWaypoint().getY()), 90);
 
-	public static Waypoint BLUE_RIGHT_HELPER_POINT_REVERSED = new Waypoint(new Point2D.Double(BLUE_HELPER_DISTANCE_FROM_LOADER,BLUE_RIGHT_LOADER_STATION.getWaypoint().getY()), -90);
-	public static Waypoint BLUE_LEFT_HELPER_POINT_REVERSED = new Waypoint(new Point2D.Double(BLUE_HELPER_DISTANCE_FROM_LOADER,BLUE_LEFT_LOADER_STATION.getWaypoint().getY()), 90);
+	public static Waypoint BLUE_RIGHT_HELPER_POINT_REVERSED = new Waypoint(new Point2D.Double(BLUE_HELPER_DISTANCE_FROM_LOADER,BLUE_RIGHT_LOADER_STATION.getWaypoint().getY()), 90);
+	public static Waypoint BLUE_LEFT_HELPER_POINT_REVERSED = new Waypoint(new Point2D.Double(BLUE_HELPER_DISTANCE_FROM_LOADER,BLUE_LEFT_LOADER_STATION.getWaypoint().getY()), -90);
 
 
 	public static Waypoint BLUE_RIGHT_HELPER_POINT_TURN = new Waypoint(new Point2D.Double(BLUE_HELPER_DISTANCE_FROM_LOADER,BLUE_RIGHT_LOADER_STATION.getWaypoint().getY()), 180);

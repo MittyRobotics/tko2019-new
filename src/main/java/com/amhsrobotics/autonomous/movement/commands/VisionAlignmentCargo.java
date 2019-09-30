@@ -38,8 +38,8 @@ public class VisionAlignmentCargo extends Command {
 
     }
 
-    private double MAX_SPEED = 100; //in per second
-    private double TURN_DRIVE_RATIO = 0.5; //Ratio of MAX_SPEED allowed for turn. Drive ratio is 1-TURN_DRIVE_RATIO
+    private double MAX_TURN_SPEED = 50; //Max speed cap applied to drive and turn values (in/sec)
+    private double MAX_DRIVE_SPEED = 50;
     private double DRIVE_K = 4; //Drive gain. Decrease if drive is not slowing down fast enough.
     private double TURN_K = 40; //in per second at max angle (29.8 degrees)
 
@@ -49,16 +49,13 @@ public class VisionAlignmentCargo extends Command {
 
         double drive = 0, turn = 0;
 
-        if(distance > DESIRED_DISTANCE){
-            drive = Math.min(MAX_SPEED * (1-TURN_DRIVE_RATIO), (distance-DESIRED_DISTANCE)*DRIVE_K);
-        }
-        else{
-            drive = 0;
-        }
+//      drive = Math.min(MAX_SPEED * (1-TURN_DRIVE_RATIO), (distance-DESIRED_DISTANCE)*DRIVE_K);
+        drive = mapRange((distance-DESIRED_DISTANCE)*DRIVE_K,0,MAX_DRIVE_SPEED);
+
 
         double mappedYaw = yaw / 29.8;
-        turn = Math.min((MAX_SPEED * (TURN_DRIVE_RATIO)), Math.max(-(MAX_SPEED * (TURN_DRIVE_RATIO)), mappedYaw * TURN_K));
-
+//        turn = Math.min((MAX_SPEED * (TURN_DRIVE_RATIO)), Math.max(-(MAX_SPEED * (TURN_DRIVE_RATIO)), mappedYaw * TURN_K));
+        turn = mapRange(mappedYaw * TURN_K,-MAX_TURN_SPEED,MAX_TURN_SPEED);
 
         double left = -drive + turn ;
         double right = -drive - turn ;
@@ -90,5 +87,9 @@ public class VisionAlignmentCargo extends Command {
 
     protected boolean isFinished() {
         return VisionEnd.getInstance().isFinished();
+    }
+
+    double mapRange(double val, double min, double max){
+        return Math.min(Math.max(val,min),max);
     }
 }

@@ -64,7 +64,7 @@ public class CargoShipFrontHatchAuto extends CommandGroup {
 		addSequential(new PushBackward());
 		//addSequential( new Translate2dTrajectory(AutoWaypoints.BLUE_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[0], 150,50,500,  PathType.CUBIC_HERMITE_PATH,10,true, true));
 		System.out.println("reached end hab");
-		addSequential( new Translate2dTrajectory(AutoPaths.B_RIGHT_END_HAB_TO_FRONT_CS));
+		addSequential( new Translate2dTrajectory(AutoPaths.B_RIGHT_START_TO_FRONT_CS));
 		System.out.println("Ended approach cargo ship stage");
 	}
 	public void visionPlace1(){
