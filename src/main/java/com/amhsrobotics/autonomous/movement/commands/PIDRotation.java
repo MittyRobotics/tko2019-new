@@ -1,64 +1,59 @@
 package com.amhsrobotics.autonomous.movement.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
-import com.amhsrobotics.autonomous.enums.DriveState;
-import com.amhsrobotics.autonomous.enums.RotationDirection;
-import com.amhsrobotics.autonomous.movement.AutonDriver;
 import com.amhsrobotics.drive.DriveTrain;
-
-/**
- * PIDRotation command for rotating the robot's chassis a set amount of degrees using a PID control loop.
- * <p>
- * This command takes in an angle in degrees, a maximum output in percent output (0 to 1), and a direction value to rotate the robot.
- */
+import com.amhsrobotics.drive.constants.PID;
+import com.amhsrobotics.hardware.Gyro;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.command.Command;
 public class PIDRotation extends Command {
-	double setpoint;
-	double maxOutput;
-	double t;
-
-	int motionID;
-
-	public PIDRotation(double setpoint, RotationDirection direction) {
-		this(setpoint,0.5,direction);
-	}
-
-	public PIDRotation(double setpoint, double maxOutput, RotationDirection direction) {
-		super("PIDRotation");
+	private double target;
+	private PIDController controller;
+	private int count = 0;
+	public PIDRotation(double target){
 		requires(DriveTrain.getInstance());
 
-		this.setpoint = Math.abs(setpoint) * direction.value;
-		this.maxOutput = maxOutput;
+		this.target = target;
+	}
+	@Override
+	protected void initialize(){
+		final double MAX_SPEED = 1;
+		target += Gyro.getInstance().getAngle();
+		PIDOutput dummyOutput = output -> {
 
-		this.motionID = AutonDriver.getInstance().initNewDriveMethod(DriveState.PID_ROTATE);
+		};
+		controller = new PIDController(PID.TURN[0], PID.TURN[1], PID.TURN[2], Gyro.getInstance(),
+				dummyOutput);
+		controller.setOutputRange(-MAX_SPEED, MAX_SPEED);
+		controller.enable();
 	}
 
 	@Override
-	public void initialize() {
-		AutonDriver.getInstance().setupPIDMovement();
-		DriveTrain.getInstance().rotation(setpoint,maxOutput);
+	protected void execute(){
+		final double RAMP_RATE = 4;
+		final double THRESHOLD = 1;
+		if(target - Gyro.getInstance().getAngle() > RAMP_RATE){
+			controller.setSetpoint(Gyro.getInstance().getAngle() + RAMP_RATE);
+		} else if(target - Gyro.getInstance().getAngle() < -RAMP_RATE){
+			controller.setSetpoint(Gyro.getInstance().getAngle() - RAMP_RATE);
+		} else {
+			controller.setSetpoint(Gyro.getInstance().getAngle());
+		}
+		if(Math.abs(target - Gyro.getInstance().getAngle()) < THRESHOLD){
+			count++;
+		} else {
+			count = 0;
+		}
+		DriveTrain.getInstance().tankDrive(controller.get(), -controller.get());
 	}
 
-
 	@Override
-	public void execute() {
-		t = timeSinceInitialized();
-		AutonDriver.getInstance().update(t);
-	}
-
-
-	@Override
-	public void end() {
-		System.out.println("Ending PIDRotation Command!");
+	protected void end(){
 		DriveTrain.getInstance().tankDrive(0, 0);
 	}
 
 	@Override
-	public void interrupted() {
-		end();
-	}
-
-	@Override
 	protected boolean isFinished() {
-		return AutonDriver.getInstance().isFinished(motionID);
+		return count > 5;
 	}
 }
