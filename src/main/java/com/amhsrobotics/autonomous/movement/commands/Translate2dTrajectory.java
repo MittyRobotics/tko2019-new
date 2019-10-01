@@ -62,26 +62,22 @@ public class Translate2dTrajectory extends Command {
 	double lookahead = 15;
 	double kCurvature = .8;
 
-	public Translate2dTrajectory(PathProperties properties) {
-		this(properties.getWaypoints(),properties.getMaxAcceleration(),properties.getMaxDeceleration(),properties.getMaxVelocity(),PathType.CUBIC_HERMITE_PATH,properties.getEndVelocity(),properties.getStartVelocity(), properties.getReversed(), properties.getVision());
+	public Translate2dTrajectory(PathProperties properties, boolean worldPos) {
+		this(properties.getWaypoints(),properties.getMaxAcceleration(),properties.getMaxDeceleration(),properties.getMaxVelocity(),PathType.CUBIC_HERMITE_PATH,properties.getEndVelocity(),properties.getStartVelocity(), properties.getReversed(), properties.getVision(),worldPos);
 		this.lookahead = properties.getLookaheadDist();
 		this.kCurvature = properties.getkCurvature();
 	}
 
-
-	public Translate2dTrajectory(Waypoint[] waypoints, double maxAcceleration, double maxDeceleration, double maxVelocity,  PathType pathType,  double startVelocity, double endVelocity, boolean reversed) {
-
-		this(waypoints, maxAcceleration,maxDeceleration,maxVelocity,pathType,startVelocity, endVelocity,reversed,false);
-	}
-
-	public Translate2dTrajectory(Waypoint[] waypoints, double maxAcceleration, double maxDeceleration, double maxVelocity,  PathType pathType, double startVelocity, double endVelocity, boolean reversed, boolean vision) {
+	public Translate2dTrajectory(Waypoint[] waypoints, double maxAcceleration, double maxDeceleration, double maxVelocity,  PathType pathType, double startVelocity, double endVelocity, boolean reversed, boolean vision, boolean worldPos) {
 		super("Translate2dTrajectory");
 		requires(DriveTrain.getInstance());
 
 		//Convert waypoints to local position
 		Waypoint initWaypoint = new Waypoint(waypoints[0].getWaypoint(), waypoints[0].getAngle());
-		for(int i = 0; i < waypoints.length; i++){
-			waypoints[i] = worldToLocalPos(initWaypoint,waypoints[i]);
+		if(worldPos){
+			for(int i = 0; i < waypoints.length; i++){
+				waypoints[i] = worldToLocalPos(initWaypoint,waypoints[i]);
+			}
 		}
 
 		this.endVelocity = endVelocity;

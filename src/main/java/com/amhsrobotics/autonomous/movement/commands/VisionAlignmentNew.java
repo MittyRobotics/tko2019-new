@@ -7,7 +7,7 @@ import com.amhsrobotics.autonomous.vision.VisionEnd;
 import com.amhsrobotics.autonomous.vision.Limelight;
 import com.amhsrobotics.drive.DriveTrain;
 
-public class VisionAlignmentCargo extends Command {
+public class VisionAlignmentNew extends Command {
 
     private double distance;
     private double targetYaw;
@@ -24,7 +24,7 @@ public class VisionAlignmentCargo extends Command {
 
     private double DESIRED_DISTANCE =15;
 
-    public VisionAlignmentCargo(){
+    public VisionAlignmentNew(){
         super("Vision Alignment Cargo");
         requires(DriveTrain.getInstance());
     }
@@ -38,10 +38,10 @@ public class VisionAlignmentCargo extends Command {
 
     }
 
-    private double MAX_TURN_SPEED = 50; //Max speed cap applied to drive and turn values (in/sec)
-    private double MAX_DRIVE_SPEED = 50;
-    private double DRIVE_K = 4; //Drive gain. Decrease if drive is not slowing down fast enough.
-    private double TURN_K = 40; //in per second at max angle (29.8 degrees)
+    private double MAX_TURN_SPEED = 100; //Max speed cap applied to drive and turn values (in/sec)
+    private double MAX_DRIVE_SPEED = 100;
+    private double DRIVE_K = 6; //Drive gain. Decrease if drive is not slowing down fast enough.
+    private double TURN_K = 150; //in per second at max angle (29.8 degrees)
 
     protected void execute() {
 

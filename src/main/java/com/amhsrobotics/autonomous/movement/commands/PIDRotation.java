@@ -17,7 +17,7 @@ public class PIDRotation extends Command {
 	}
 	@Override
 	protected void initialize(){
-		final double MAX_SPEED = 1;
+		final double MAX_SPEED = .3;
 		target += Gyro.getInstance().getAngle();
 		PIDOutput dummyOutput = output -> {
 
@@ -30,7 +30,7 @@ public class PIDRotation extends Command {
 
 	@Override
 	protected void execute(){
-		final double RAMP_RATE = 4;
+		final double RAMP_RATE = 20;
 		final double THRESHOLD = 1;
 		if(target - Gyro.getInstance().getAngle() > RAMP_RATE){
 			controller.setSetpoint(Gyro.getInstance().getAngle() + RAMP_RATE);
@@ -44,7 +44,9 @@ public class PIDRotation extends Command {
 		} else {
 			count = 0;
 		}
-		DriveTrain.getInstance().tankDrive(controller.get(), -controller.get());
+
+		System.out.println(controller.get());
+		DriveTrain.getInstance().tankDrive(-controller.get(),controller.get());
 	}
 
 	@Override
@@ -54,6 +56,6 @@ public class PIDRotation extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return count > 5;
+		return count > 1;
 	}
 }

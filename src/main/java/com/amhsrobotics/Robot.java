@@ -7,6 +7,7 @@ import com.amhsrobotics.autonomous.modes.CargoShipFrontHatchAuto;
 import com.amhsrobotics.autonomous.movement.RateLimiter;
 import com.amhsrobotics.autonomous.movement.commands.AimAssist;
 import com.amhsrobotics.autonomous.movement.commands.AutoSlider;
+import com.amhsrobotics.autonomous.movement.commands.PIDRotation;
 import com.amhsrobotics.autonomous.movement.commands.Translate2dTrajectory;
 import com.amhsrobotics.autonomous.vision.Limelight;
 import com.amhsrobotics.autonomous.vision.VisionScore;
@@ -124,9 +125,10 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		new CargoShipFrontHatchAuto(0).start();
-		//new Translate2dTrajectory(new Waypoint[]{new Waypoint(new Point2D.Double(0,0), 0), new Waypoint(new Point2D.Double(100,0 ),0)},20,20,100,PathType.CUBIC_HERMITE_PATH,0,0,true,false).start();
+		//new CargoShipFrontHatchAuto(0).start();
 
+		//new Translate2dTrajectory(new Waypoint[]{new Waypoint(new Point2D.Double(0,0), 0), new Waypoint(new Point2D.Double(100,24 ),0)},50,50,300,PathType.CUBIC_HERMITE_PATH,0,0,true,false,false).start();
+		new PIDRotation(90).start();
 	}
 	@Override
 	public void autonomousPeriodic() {
@@ -135,7 +137,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		new TankDrive().start();
+//		new TankDrive().start();
+		//DriveTrain.getInstance().tankVelocity(-.5, -.5);
 		//new TestCommand().start();
 		//new Slide(SliderPosition.Middle).start();
 		//new PushBackward().start();
@@ -144,7 +147,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-//		System.out.println((DriveTrain.getInstance().getLeftEncoder() + DriveTrain.getInstance().getRightEncoder())/2);
+//		System.out.println(DriveTrain.getInstance().getLeftEncoder() + " " + DriveTrain.getInstance().getRightEncoder());
+
 		//Arm.getInstance().manualAngle(0.2);
 		//System.out.println(Arm.getInstance().getArmPosition());
 //		System.out.println(Rollers.getInstance().ballDetected());

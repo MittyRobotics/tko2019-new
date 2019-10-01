@@ -1,16 +1,12 @@
 package com.amhsrobotics.autonomous.modes;
 
+import com.amhsrobotics.autonomous.constants.AutoConstants;
 import com.amhsrobotics.autonomous.constants.AutoPaths;
-import com.amhsrobotics.autonomous.constants.AutoWaypoints;
-import com.amhsrobotics.autonomous.movement.commands.PIDRotation;
-import com.amhsrobotics.autonomous.movement.commands.Translate2dTrajectory;
-import com.amhsrobotics.autonomous.movement.commands.VisionAlignment;
-import com.amhsrobotics.autonomous.movement.commands.VisionAlignmentCargo;
+import com.amhsrobotics.autonomous.movement.commands.*;
 import com.amhsrobotics.drive.DriveTrain;
 import com.amhsrobotics.hatchpanel.commands.Grab;
 import com.amhsrobotics.hatchpanel.commands.PushBackward;
 import com.amhsrobotics.hatchpanel.commands.Release;
-import com.amhsrobotics.purepursuit.enums.PathType;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class CargoShipFrontHatchAuto extends CommandGroup {
@@ -65,18 +61,18 @@ public class CargoShipFrontHatchAuto extends CommandGroup {
 		addSequential(new PushBackward());
 		//addSequential( new Translate2dTrajectory(AutoWaypoints.BLUE_LEFT_HATCH_CARGOSHIP_HATCH_ROCKET[0], 150,50,500,  PathType.CUBIC_HERMITE_PATH,10,true, true));
 		System.out.println("reached end hab");
-		addSequential( new Translate2dTrajectory(AutoPaths.B_RIGHT_START_TO_FRONT_CS));
+		addSequential( new Translate2dTrajectory(AutoPaths.B_RIGHT_START_TO_FRONT_CS,true));
 		System.out.println("Ended approach cargo ship stage");
 	}
 	public void visionPlace1(){
 		System.out.println("Started vision place 1 stage");
-		addSequential(new VisionAlignmentCargo());
+		addSequential(new VisionAlignmentNew());
 		addSequential(new Release());
 		System.out.println("Ended vision place 1 stage");
 	}
 	public void driveToHelperPoint1(){
 		System.out.println("Started drive to helper point 1 stage");
-		addSequential( new Translate2dTrajectory(AutoPaths.B_RIGHT_FRONT_CS_TO_RIGHT_HELPER));
+		addSequential( new Translate2dTrajectory(AutoPaths.B_RIGHT_FRONT_CS_TO_RIGHT_HELPER,true));
 		System.out.println("Ended drive to helper point 1 stage");
 	}
 	public void turn1(){
@@ -87,7 +83,7 @@ public class CargoShipFrontHatchAuto extends CommandGroup {
 	}
 	public void approachLoader(){
 		System.out.println("Started approach loader stage");
-		addSequential( new Translate2dTrajectory(AutoPaths.B_RIGHT_HELPER_TO_RIGHT_LOADER));
+		addSequential( new MotionProfileTranslate(AutoConstants.BLUE_RIGHT_HELPER_POINT.getWaypoint().getX() - AutoConstants.BLUE_RIGHT_LOADER_STATION.getWaypoint().getX()));
 		System.out.println("Ended approach loader stage");
 	}
 	public void visionPickup(){
@@ -98,12 +94,12 @@ public class CargoShipFrontHatchAuto extends CommandGroup {
 	}
 	public void driveToHelperPoint2(){
 		System.out.println("Started drive to helper point 2 stage");
-		addSequential(new Translate2dTrajectory(AutoWaypoints.BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[3], 10,1,50, PathType.CUBIC_HERMITE_PATH, 0,0, false, false));
+
 		System.out.println("Ended drive to helper point 2 stage");
 	}
 	public void approachRocket(){
 		System.out.println("Started approach rocket stage");
-		addSequential(new Translate2dTrajectory(AutoWaypoints.BLUE_RIGHT_HATCH_CARGOSHIP_HATCH_ROCKET[4], 10,1,50, PathType.CUBIC_HERMITE_PATH, 0,0, true));
+
 		System.out.println("Ended approach rocket stage");
 	}
 	public void visionPlace2(){

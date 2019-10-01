@@ -12,6 +12,6 @@ import java.awt.geom.Point2D;
 public class ExitHabAuto extends CommandGroup {
 	public ExitHabAuto() {
 		requires(DriveTrain.getInstance());
-		addSequential(new Translate2dTrajectory(new Waypoint[]{new Waypoint(new Point2D.Double(0,0), 0),new Waypoint(new Point2D.Double(100,0), 0)}, 50,50,200,PathType.CUBIC_HERMITE_PATH,0,0,false));
+		addSequential(new Translate2dTrajectory(new Waypoint[]{new Waypoint(new Point2D.Double(0,0), 0),new Waypoint(new Point2D.Double(100,0), 0)}, 50,50,200,PathType.CUBIC_HERMITE_PATH,0,0,false,false,false));
 	}
 }
