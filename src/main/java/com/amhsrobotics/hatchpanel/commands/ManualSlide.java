@@ -32,6 +32,6 @@ public class ManualSlide extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return false;
+		return Math.abs(OI.getInstance().getJoystick1().getX()) < 0.2;
 	}
 }

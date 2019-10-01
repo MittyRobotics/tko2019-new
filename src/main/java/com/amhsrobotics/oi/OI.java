@@ -6,6 +6,7 @@ import com.amhsrobotics.cargo.constants.ArmPosition;
 import com.amhsrobotics.drive.commands.GearShift;
 import com.amhsrobotics.drive.constants.GearState;
 import com.amhsrobotics.hatchpanel.commands.Grab;
+import com.amhsrobotics.hatchpanel.commands.ManualSlide;
 import com.amhsrobotics.hatchpanel.commands.PushBackward;
 import com.amhsrobotics.hatchpanel.commands.PushForward;
 import com.amhsrobotics.hatchpanel.commands.Release;
@@ -153,6 +154,13 @@ public class OI {
 			}
 		};
 		pushBackward.whenPressed(new PushBackward());
+		Button manualSlide = new Button() {
+			@Override
+			public boolean get() {
+				return Math.abs(getJoystick1().getX()) > 0.2;
+			}
+		};
+		manualSlide.whenPressed(new ManualSlide());
 	}
 
 	private void cargoControls(){
