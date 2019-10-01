@@ -37,7 +37,7 @@ public class PIDRotation extends Command {
 		} else if(target - Gyro.getInstance().getAngle() < -RAMP_RATE){
 			controller.setSetpoint(Gyro.getInstance().getAngle() - RAMP_RATE);
 		} else {
-			controller.setSetpoint(Gyro.getInstance().getAngle());
+			controller.setSetpoint(target);
 		}
 		if(Math.abs(target - Gyro.getInstance().getAngle()) < THRESHOLD){
 			count++;

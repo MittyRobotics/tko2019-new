@@ -1,6 +1,5 @@
 package com.amhsrobotics.drive;
 
-import com.amhsrobotics.autonomous.movement.RateLimiter;
 import com.amhsrobotics.drive.commands.TankDrive;
 import com.amhsrobotics.drive.constants.EncoderInversions;
 import com.amhsrobotics.drive.constants.PID;
@@ -156,15 +155,9 @@ public class DriveTrain extends Subsystem {
 		}
 	}
 
-	public void translation(final double distance, final double maxSpeed) {
-		translation(distance, distance, maxSpeed);
-	}
-
-	public void translation(final double leftDistance, final double rightDistance, final double maxSpeed) {
-		leftDrive[0].configClosedLoopPeakOutput(0, maxSpeed);
-		rightDrive[0].configClosedLoopPeakOutput(0, maxSpeed);
-		leftDrive[0].set(ControlMode.Position, leftDrive[0].getSelectedSensorPosition() + leftDistance * TicksPerInch.DRIVE_HIGH);
-		rightDrive[0].set(ControlMode.Position, rightDrive[0].getSelectedSensorPosition() + rightDistance * TicksPerInch.DRIVE_HIGH);
+	public void translation(final double leftDistance, final double rightDistance) {
+		leftDrive[0].set(ControlMode.Position, leftDistance * TicksPerInch.DRIVE_HIGH);
+		rightDrive[0].set(ControlMode.Position, rightDistance * TicksPerInch.DRIVE_HIGH);
 	}
 
 	public double getTranslationError() {
