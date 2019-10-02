@@ -54,7 +54,7 @@ public class Translate2dTrajectory extends Command {
 	double angleCooldown = 5;
 
 	double intiVisionDist = 100;
-	double targetLockedDistThreshold = 40;
+	double targetLockedDistThreshold = 30;
 	double targetLockedAngleThreshold = 10;
 
 	double maxDistToEnd = 80;
@@ -63,7 +63,7 @@ public class Translate2dTrajectory extends Command {
 	double kCurvature = .8;
 
 	public Translate2dTrajectory(PathProperties properties, boolean worldPos) {
-		this(properties.getWaypoints(),properties.getMaxAcceleration(),properties.getMaxDeceleration(),properties.getMaxVelocity(),PathType.CUBIC_HERMITE_PATH,properties.getEndVelocity(),properties.getStartVelocity(), properties.getReversed(), properties.getVision(),worldPos);
+		this(properties.getWaypoints(),properties.getMaxAcceleration(),properties.getMaxDeceleration(),properties.getMaxVelocity(),PathType.CUBIC_HERMITE_PATH,properties.getStartVelocity(),properties.getEndVelocity(), properties.getReversed(), properties.getVision(),worldPos);
 		this.lookahead = properties.getLookaheadDist();
 		this.kCurvature = properties.getkCurvature();
 	}
@@ -76,7 +76,7 @@ public class Translate2dTrajectory extends Command {
 		Waypoint initWaypoint = new Waypoint(waypoints[0].getWaypoint(), waypoints[0].getAngle());
 		if(worldPos){
 			for(int i = 0; i < waypoints.length; i++){
-				waypoints[i] = worldToLocalPos(initWaypoint,waypoints[i]);
+				waypoints[i] = worldToLocalPos(initWaypoint,waypoints[i], reversed);
 			}
 		}
 
@@ -191,10 +191,15 @@ public class Translate2dTrajectory extends Command {
            +Y
 
 	 */
-	public Waypoint worldToLocalPos(Waypoint initPoint, Waypoint point){
-		double newX = point.getWaypoint().getX() - initPoint.getWaypoint().getX();
+	public Waypoint worldToLocalPos(Waypoint initPoint, Waypoint point, boolean reversed){
+		double newX = Math.abs(point.getWaypoint().getX() - initPoint.getWaypoint().getX());
 		double newY = point.getWaypoint().getY() - initPoint.getWaypoint().getY();
 		newY = -newY;
+
+		if(!reversed){
+			newY = -newY;
+		}
+
 		double angle = initPoint.getAngle()-point.getAngle();
 		return new Waypoint(new Point2D.Double(newX, newY),angle);
 	}
@@ -208,10 +213,10 @@ public class Translate2dTrajectory extends Command {
 		else {
 			DriveTrain.getInstance().tankVelocity(endVelocity, endVelocity);
 		}
-
-		if(endVelocity == 0){
-			DriveTrain.getInstance().tankDrive(0, 0);
-		}
+//
+//		if(endVelocity == 0){
+//			DriveTrain.getInstance().tankDrive(0, 0);
+//		}
 	}
 
 	@Override

@@ -12,13 +12,14 @@ public class PIDRotation extends Command {
 	private int count = 0;
 	public PIDRotation(double target){
 		requires(DriveTrain.getInstance());
+		setTimeout(2);
 
 		this.target = target;
 	}
 	@Override
 	protected void initialize(){
-		final double MAX_SPEED = .3;
-		target += Gyro.getInstance().getAngle();
+		final double MAX_SPEED = .5;
+//		target += Gyro.getInstance().getAngle();
 		PIDOutput dummyOutput = output -> {
 
 		};
@@ -26,19 +27,20 @@ public class PIDRotation extends Command {
 				dummyOutput);
 		controller.setOutputRange(-MAX_SPEED, MAX_SPEED);
 		controller.enable();
+		controller.setSetpoint(target);
 	}
 
 	@Override
 	protected void execute(){
-		final double RAMP_RATE = 20;
-		final double THRESHOLD = 1;
-		if(target - Gyro.getInstance().getAngle() > RAMP_RATE){
-			controller.setSetpoint(Gyro.getInstance().getAngle() + RAMP_RATE);
-		} else if(target - Gyro.getInstance().getAngle() < -RAMP_RATE){
-			controller.setSetpoint(Gyro.getInstance().getAngle() - RAMP_RATE);
-		} else {
-			controller.setSetpoint(target);
-		}
+//		final double RAMP_RATE = 3;
+		final double THRESHOLD = 3;
+//		if(target - Gyro.getInstance().getAngle() > RAMP_RATE){
+//			controller.setSetpoint(Gyro.getInstance().getAngle() + RAMP_RATE);
+//		} else if(target - Gyro.getInstance().getAngle() < -RAMP_RATE){
+//			controller.setSetpoint(Gyro.getInstance().getAngle() - RAMP_RATE);
+//		} else {
+//			controller.setSetpoint(target);
+//		}
 		if(Math.abs(target - Gyro.getInstance().getAngle()) < THRESHOLD){
 			count++;
 		} else {

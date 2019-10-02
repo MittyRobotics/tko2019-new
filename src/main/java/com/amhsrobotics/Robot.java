@@ -42,7 +42,6 @@ public class Robot extends TimedRobot {
 	@SuppressWarnings("ResultOfMethodCallIgnored")
 	@Override
 	public void robotInit() {
-
 		long t = System.nanoTime();
 		DriveTrain.getInstance();
 		System.out.println("drive: " + ((System.nanoTime()-t)/1000000));
@@ -125,10 +124,10 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		//new CargoShipFrontHatchAuto(0).start();
+		new CargoShipFrontHatchAuto().start();
 
 		//new Translate2dTrajectory(new Waypoint[]{new Waypoint(new Point2D.Double(0,0), 0), new Waypoint(new Point2D.Double(100,24 ),0)},50,50,300,PathType.CUBIC_HERMITE_PATH,0,0,true,false,false).start();
-		new PIDRotation(90).start();
+		//new PIDRotation(90).start();
 	}
 	@Override
 	public void autonomousPeriodic() {
@@ -171,6 +170,7 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void testPeriodic() {
+		System.out.println(DriveTrain.getInstance().getLeftEncoder() + " " + DriveTrain.getInstance().getRightEncoder());
 //		DriveTrain.getInstance().tankVelocity(50,50);
 		//System.out.println(Slider.getInstance().getSliderSensor());
 		//Rollers.getInstance().intake();   //WORKING

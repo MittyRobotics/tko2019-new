@@ -155,6 +155,11 @@ public class DriveTrain extends Subsystem {
 		}
 	}
 
+
+	public void translation(final double leftDistance, final double rightDistance, double maxOutput) {
+		translation(leftDistance,rightDistance);
+	}
+
 	public void translation(final double leftDistance, final double rightDistance) {
 		leftDrive[0].set(ControlMode.Position, leftDistance * TicksPerInch.DRIVE_HIGH);
 		rightDrive[0].set(ControlMode.Position, rightDistance * TicksPerInch.DRIVE_HIGH);
