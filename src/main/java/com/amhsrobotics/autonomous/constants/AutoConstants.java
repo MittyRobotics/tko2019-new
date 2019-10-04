@@ -48,8 +48,8 @@ public class AutoConstants {
 	public static double BLUE_RIGHT_ROCKET_EXTRUSION = 8;
 
 	public static double BLUE_HELPER_DISTANCE_FROM_LOADER = 100.000;
-	public static double BLUE_TUNING_SHIFT_CARGO = 13;
-	public static double BLUE_TUNING_SHIFT_LOADER = -25;
+	public static double BLUE_TUNING_SHIFT_CARGO = 0;
+	public static double BLUE_TUNING_SHIFT_LOADER = 1;
 
 
 
@@ -83,8 +83,8 @@ public class AutoConstants {
 
 
 	//Helper points
-	public static Waypoint BLUE_RIGHT_HELPER_POINT = new Waypoint(new Point2D.Double(BLUE_HELPER_DISTANCE_FROM_LOADER,BLUE_RIGHT_LOADER_STATION.getWaypoint().getY() - 60), -90);
-	public static Waypoint BLUE_LEFT_HELPER_POINT = new Waypoint(new Point2D.Double(BLUE_HELPER_DISTANCE_FROM_LOADER,BLUE_LEFT_LOADER_STATION.getWaypoint().getY()), 90);
+	public static Waypoint BLUE_RIGHT_HELPER_POINT = new Waypoint(new Point2D.Double(BLUE_HELPER_DISTANCE_FROM_LOADER,BLUE_RIGHT_LOADER_STATION.getWaypoint().getY() + BLUE_TUNING_SHIFT_LOADER), -90);
+	public static Waypoint BLUE_LEFT_HELPER_POINT = new Waypoint(new Point2D.Double(BLUE_HELPER_DISTANCE_FROM_LOADER,BLUE_LEFT_LOADER_STATION.getWaypoint().getY() + BLUE_TUNING_SHIFT_LOADER), 90);
 
 	public static Waypoint BLUE_RIGHT_HELPER_POINT_REVERSED = new Waypoint(new Point2D.Double(BLUE_HELPER_DISTANCE_FROM_LOADER,BLUE_RIGHT_LOADER_STATION.getWaypoint().getY()), 90);
 	public static Waypoint BLUE_LEFT_HELPER_POINT_REVERSED = new Waypoint(new Point2D.Double(BLUE_HELPER_DISTANCE_FROM_LOADER,BLUE_LEFT_LOADER_STATION.getWaypoint().getY()), -90);

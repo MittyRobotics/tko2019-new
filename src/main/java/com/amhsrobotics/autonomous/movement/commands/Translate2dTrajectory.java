@@ -47,13 +47,12 @@ public class Translate2dTrajectory extends Command {
 	double prevDist = 0;
 
 	double hasTargetCount = 0;
-	double hasTargetCooldown = 5;
+	double hasTargetCooldown = 3;
 	double distanceCount = 0;
-	double distanceCooldown = 5;
+	double distanceCooldown = 3;
 	double angleCount = 0;
-	double angleCooldown = 5;
+	double angleCooldown = 3;
 
-	double intiVisionDist = 100;
 	double targetLockedDistThreshold = 30;
 	double targetLockedAngleThreshold = 10;
 

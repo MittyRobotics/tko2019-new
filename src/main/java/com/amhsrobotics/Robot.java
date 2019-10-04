@@ -146,7 +146,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-//		System.out.println(DriveTrain.getInstance().getLeftEncoder() + " " + DriveTrain.getInstance().getRightEncoder());
+		System.out.println("Left: " + DriveTrain.getInstance().getLeftEncoder() + " Right: " + DriveTrain.getInstance().getRightEncoder());
 
 		//Arm.getInstance().manualAngle(0.2);
 		//System.out.println(Arm.getInstance().getArmPosition());

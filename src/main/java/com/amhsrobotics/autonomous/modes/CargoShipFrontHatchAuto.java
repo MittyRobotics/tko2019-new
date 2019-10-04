@@ -18,9 +18,9 @@ public class CargoShipFrontHatchAuto extends CommandGroup {
 		if(stage == 0){
 			approachCargoShip();
 			visionPlace1();
-			driveToHelperPoint1();
-			turn1();
-			visionPickup();
+//			driveToHelperPoint1();
+//			turn1();
+//			visionPickup();
 		}
 		else if(stage == 1){
 			visionPlace1();
@@ -29,6 +29,8 @@ public class CargoShipFrontHatchAuto extends CommandGroup {
 			addSequential(new Release());
 			driveToHelperPoint1();
 			turn1();
+			approachLoader();
+			visionPickup();
 		}
 		else if(stage == 3){
 			approachLoader();
