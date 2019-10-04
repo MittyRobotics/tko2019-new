@@ -65,7 +65,7 @@ public class Arm extends Subsystem {
 	 */
 	@Override
 	protected void initDefaultCommand() {
-		//setDefaultCommand(new ManualAngle());
+		setDefaultCommand(new ManualAngle());
 	}
 
 	/**

@@ -64,7 +64,7 @@ public class Slider extends Subsystem {
 
 	public void manualSlide(final double value){
 		new PushForward();
-		if (Math.abs(value) > 0.1) {
+		if (Math.abs(value) > 0.2) {
 			slider.set(ControlMode.PercentOutput, value);
 		} else {
 			slider.set(ControlMode.PercentOutput, 0);

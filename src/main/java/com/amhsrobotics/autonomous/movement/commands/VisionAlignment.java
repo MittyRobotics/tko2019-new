@@ -1,6 +1,5 @@
 package com.amhsrobotics.autonomous.movement.commands;
 
-import com.amhsrobotics.autonomous.movement.RateLimiter;
 import edu.wpi.first.wpilibj.command.Command;
 import com.amhsrobotics.autonomous.enums.StreamMode;
 import com.amhsrobotics.autonomous.enums.VisionEndType;

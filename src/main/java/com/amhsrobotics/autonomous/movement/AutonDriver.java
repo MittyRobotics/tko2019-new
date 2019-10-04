@@ -71,7 +71,7 @@ public class AutonDriver {
 	public void setupTrajectory(Waypoint[] waypoints, double lookahead, double kCurvature, double maxAcceleration, double maxDeceleration, double maxVelocity, PathType pathType, double startVelocity, double endVelcoity, boolean reversed) {
 		PathFollowerPosition.getInstance().resetPos(Odometry.getInstance().getRobotX(), Odometry.getInstance().getRobotY(), Odometry.getInstance().getRobotHeading());
 
-		System.out.println(lookahead + " " + kCurvature);
+//		System.out.println(lookahead + " " + kCurvature);
 
 		PathGenerator.getInstance().setPathKCurvature(kCurvature);
 
@@ -193,15 +193,15 @@ public class AutonDriver {
 		SmartDashboard.putNumber("PP_FF_RightVelocity", output.getRightVelocity());
 		SmartDashboard.putNumber("FB_LeftVelocity", DriveTrain.getInstance().getLeftVelocity());
 		SmartDashboard.putNumber("FB_RightVelocity", DriveTrain.getInstance().getRightVelocity());
-		System.out.println(currentPathFollower.getCurrentLookaheadPoint().getX() + " " + currentPathFollower.getCurrentLookaheadPoint().getY() + " " + currentPathFollower.getCurvature() + " " + Odometry.getInstance().getRobotX() + " " + Odometry.getInstance().getRobotY() + "");
 		SmartDashboard.putNumber("PP_POS_X", PathFollowerPosition.getInstance().getRobotX());
 		SmartDashboard.putNumber("PP_POS_Y", PathFollowerPosition.getInstance().getRobotY());
 		SmartDashboard.putNumber("PP_FF_LookAheadX", currentPathFollower.getCurrentLookaheadPoint().getX());
 		SmartDashboard.putNumber("PP_FF_LookAheadY", currentPathFollower.getCurrentLookaheadPoint().getY());
 		SmartDashboard.putNumber("PP_FF_Curvature", currentPathFollower.getCurvature());
-		if(Math.abs(currentPathFollower.getCurvature()) > 0.005){
-			//System.out.println("Curvature high:  " + currentPathFollower.getCurvature() + " " + output.getLeftVelocity() + " " + output.getRightVelocity());
-		}
+
+		//Print out values for debug
+		//System.out.println(currentPathFollower.getCurrentLookaheadPoint().getX() + " " + currentPathFollower.getCurrentLookaheadPoint().getY() + " " + currentPathFollower.getCurvature() + " " + Odometry.getInstance().getRobotX() + " " + Odometry.getInstance().getRobotY() + "");
+
 		//Left and right are swapped for now, I will figure it out later
 		return new AutonMotionOutput(output.getRightVelocity(), output.getLeftVelocity(), 0);
 	}

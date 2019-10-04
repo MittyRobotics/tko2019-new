@@ -1,25 +1,15 @@
 package com.amhsrobotics;
 
 import com.amhsrobotics.autonomous.Odometry;
-import com.amhsrobotics.autonomous.constants.AutoConstants;
 import com.amhsrobotics.autonomous.enums.StreamMode;
-import com.amhsrobotics.autonomous.modes.CargoShipFrontHatchAuto;
-import com.amhsrobotics.autonomous.movement.RateLimiter;
-import com.amhsrobotics.autonomous.movement.commands.AimAssist;
-import com.amhsrobotics.autonomous.movement.commands.AutoSlider;
-import com.amhsrobotics.autonomous.movement.commands.PIDRotation;
-import com.amhsrobotics.autonomous.movement.commands.Translate2dTrajectory;
+import com.amhsrobotics.autonomous.modes.BR_CargoShipFrontHatchAuto;
 import com.amhsrobotics.autonomous.vision.Limelight;
-import com.amhsrobotics.autonomous.vision.VisionScore;
 import com.amhsrobotics.cargo.Arm;
 import com.amhsrobotics.cargo.Rollers;
 import com.amhsrobotics.drive.DriveTrain;
 import com.amhsrobotics.drive.Shifter;
-import com.amhsrobotics.drive.commands.TankDrive;
 import com.amhsrobotics.hardware.Compressor;
 import com.amhsrobotics.hardware.Gyro;
-import com.amhsrobotics.purepursuit.Waypoint;
-import com.amhsrobotics.purepursuit.enums.PathType;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.TimedRobot;
 
@@ -29,8 +19,6 @@ import com.amhsrobotics.hatchpanel.Grabber;
 import com.amhsrobotics.hatchpanel.Pusher;
 import com.amhsrobotics.hatchpanel.Slider;
 import com.amhsrobotics.oi.OI;
-
-import java.awt.geom.Point2D;
 
 
 public class Robot extends TimedRobot {
@@ -102,16 +90,12 @@ public class Robot extends TimedRobot {
 		odometryNotifier.startPeriodic(0.06);
 		System.out.println("odometry notifier start: " + ((System.nanoTime()-t)/1000000));
 
-		RateLimiter.getInstance().setPercentOutputParameters(.1 ,1);
-		RateLimiter.getInstance().setVelocityParameters(AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxAcceleration(),AutoConstants.DRIVE_VELOCITY_CONSTRAINTS.getMaxVelocity());
 	}
 
 	@Override
 	public void robotPeriodic() {
 		Scheduler.getInstance().run();
 		Compressor.getInstance().start();
-		//System.out.println("asdf");
-
 	}
 
 	@Override
@@ -124,62 +108,29 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		new CargoShipFrontHatchAuto().start();
+		new BR_CargoShipFrontHatchAuto().start();
 
-		//new Translate2dTrajectory(new Waypoint[]{new Waypoint(new Point2D.Double(0,0), 0), new Waypoint(new Point2D.Double(100,24 ),0)},50,50,300,PathType.CUBIC_HERMITE_PATH,0,0,true,false,false).start();
-		//new PIDRotation(90).start();
 	}
 	@Override
 	public void autonomousPeriodic() {
-		//System.out.println("left: "+DriveTrain.getInstance().getLeftEncoder() + " right: " + DriveTrain.getInstance().getRightEncoder());
 	}
 
 	@Override
 	public void teleopInit() {
-//		new TankDrive().start();
-		//DriveTrain.getInstance().tankVelocity(-.5, -.5);
-		//new TestCommand().start();
-		//new Slide(SliderPosition.Middle).start();
-		//new PushBackward().start();
-		//Slider.getInstance().setSliderPosition(-500);
 	}
 
 	@Override
 	public void teleopPeriodic() {
-		System.out.println("Left: " + DriveTrain.getInstance().getLeftEncoder() + " Right: " + DriveTrain.getInstance().getRightEncoder());
-
-		//Arm.getInstance().manualAngle(0.2);
-		//System.out.println(Arm.getInstance().getArmPosition());
-//		System.out.println(Rollers.getInstance().ballDetected());
 	}
 
 	@Override
 	public void testInit() {
-
-
-		//new CalibrateArm().start();
-		//new CalibrateSlider().start();
-		//new Slide(SliderPosition.Middle).start();
-		//TrapezoidalMotionProfile test = new TrapezoidalMotionProfile(2,8,4,12,0.06,true);
-		//new TestCommand().start();
-		Arm.getInstance().zeroEncoder(); //WORKING
-
-		Slider.getInstance().zeroEncoder(); //WORKING
-
+		Arm.getInstance().zeroEncoder();
+		Slider.getInstance().zeroEncoder();
 	}
 	
 	@Override
 	public void testPeriodic() {
-		System.out.println(DriveTrain.getInstance().getLeftEncoder() + " " + DriveTrain.getInstance().getRightEncoder());
-//		DriveTrain.getInstance().tankVelocity(50,50);
-		//System.out.println(Slider.getInstance().getSliderSensor());
-		//Rollers.getInstance().intake();   //WORKING
-	//	System.out.println(Arm.getInstance().getArmPosition());
-		//Slider.getInstance().manualSlide(0.3); //WORKING
-		//Pusher.getInstance().pushForward(); //NOT WORKING (pneumatics issue)
-
-
-		//System.out.println("Running");
-		//System.out.println("run");
+		System.out.println("Left" + DriveTrain.getInstance().getLeftEncoder() + " Right " + DriveTrain.getInstance().getRightEncoder());
 	}
 }

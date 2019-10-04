@@ -1,11 +1,8 @@
 package com.amhsrobotics.autonomous.movement.commands;
 
-import com.amhsrobotics.autonomous.constants.AutoConstants;
-import com.amhsrobotics.autonomous.graph.rewrite.WaypointPanel;
 import com.amhsrobotics.autonomous.movement.AutonDriver;
 import com.amhsrobotics.autonomous.movement.AutonMotionOutput;
 import com.amhsrobotics.autonomous.movement.PathProperties;
-import com.amhsrobotics.autonomous.movement.RateLimiter;
 import com.amhsrobotics.autonomous.vision.Limelight;
 import edu.wpi.first.wpilibj.command.Command;
 import com.amhsrobotics.autonomous.Odometry;
@@ -14,7 +11,6 @@ import com.amhsrobotics.drive.DriveTrain;
 import com.amhsrobotics.purepursuit.Waypoint;
 import com.amhsrobotics.purepursuit.enums.PathType;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 
 /**
@@ -96,8 +92,8 @@ public class Translate2dTrajectory extends Command {
 
 	@Override
 	public void initialize() {
-		System.out.println("Init point: " + waypoints[0].getWaypoint().getX() + " " + waypoints[0].getWaypoint().getY());
-		System.out.println("Init point: " + waypoints[1].getWaypoint().getX() + " " + waypoints[1].getWaypoint().getY());
+		System.out.println("Init point 0: " + waypoints[0].getWaypoint().getX() + " " + waypoints[0].getWaypoint().getY());
+		System.out.println("Init point 1: " + waypoints[1].getWaypoint().getX() + " " + waypoints[1].getWaypoint().getY());
 		Odometry.getInstance().resetPosition();
 		Odometry.getInstance().setPos(waypoints[0].getWaypoint().getX(),waypoints[0].getWaypoint().getY(),waypoints[0].getAngle());
 		System.out.println(Odometry.getInstance().getRobotX());

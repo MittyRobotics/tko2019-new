@@ -2,7 +2,7 @@ package com.amhsrobotics.autonomous;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.amhsrobotics.autonomous.enums.AutoMode;
-import com.amhsrobotics.autonomous.modes.CargoShipFrontHatchAuto;
+import com.amhsrobotics.autonomous.modes.BL_CargoShipFrontHatchAuto;
 import com.amhsrobotics.autonomous.modes.ExitHabAuto;
 
 
@@ -30,7 +30,7 @@ public class AutoSelector {
 				new ExitHabAuto().start();
 				break;
 			case CARGO_SHIP_FRONT_HATCH_AUTO:
-				new CargoShipFrontHatchAuto().start();
+				new BL_CargoShipFrontHatchAuto().start();
 				break;
 			default:
 				//Invalid autonomous mode

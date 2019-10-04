@@ -1,19 +1,26 @@
 package com.amhsrobotics.autonomous.modes;
 
-import com.amhsrobotics.autonomous.constants.AutoConstants;
 import com.amhsrobotics.autonomous.constants.AutoPaths;
-import com.amhsrobotics.autonomous.movement.commands.*;
+import com.amhsrobotics.autonomous.movement.commands.PIDRotation;
+import com.amhsrobotics.autonomous.movement.commands.Translate2dTrajectory;
+import com.amhsrobotics.autonomous.movement.commands.VisionAlignment;
+import com.amhsrobotics.autonomous.movement.commands.VisionAlignmentNew;
 import com.amhsrobotics.drive.DriveTrain;
-import com.amhsrobotics.hardware.Gyro;
+import com.amhsrobotics.hatchpanel.Grabber;
+import com.amhsrobotics.hatchpanel.Pusher;
 import com.amhsrobotics.hatchpanel.commands.Grab;
 import com.amhsrobotics.hatchpanel.commands.PushBackward;
 import com.amhsrobotics.hatchpanel.commands.PushForward;
 import com.amhsrobotics.hatchpanel.commands.Release;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class CargoShipFrontHatchAuto extends CommandGroup {
+public class BR_CargoShipFrontHatchAuto extends CommandGroup {
 
-	public CargoShipFrontHatchAuto(int stage){
+	//WORKING TUNED AUTONOMOUS
+	public BR_CargoShipFrontHatchAuto(int stage){
+		requires(DriveTrain.getInstance());
+		requires(Grabber.getInstance());
+		requires(Pusher.getInstance());
 		addSequential(new Grab());
 		if(stage == 0){
 			approachCargoShip();
@@ -41,19 +48,12 @@ public class CargoShipFrontHatchAuto extends CommandGroup {
 		else if(stage == 5){
 			visionPickup();
 		}
-		else if(stage == 6){
-			driveToHelperPoint2();
-		}
-		else if(stage == 7){
-			approachRocket();
-		}
-		else if(stage == 8){
-			visionPlace2();
-		}
 	}
 
-	public CargoShipFrontHatchAuto() {
+	public BR_CargoShipFrontHatchAuto() {
 		requires(DriveTrain.getInstance());
+		requires(Grabber.getInstance());
+		requires(Pusher.getInstance());
 		addSequential(new Grab());
 		addSequential(new PushForward());
 		approachCargoShip();
@@ -100,21 +100,5 @@ public class CargoShipFrontHatchAuto extends CommandGroup {
 		addSequential(new VisionAlignmentNew());
 		addSequential(new Grab());
 		System.out.println("Ended vision pickup stage");
-	}
-	public void driveToHelperPoint2(){
-		System.out.println("Started drive to helper point 2 stage");
-
-		System.out.println("Ended drive to helper point 2 stage");
-	}
-	public void approachRocket(){
-		System.out.println("Started approach rocket stage");
-
-		System.out.println("Ended approach rocket stage");
-	}
-	public void visionPlace2(){
-		System.out.println("Started vision place 2 stage");
-		addSequential(new VisionAlignment());
-		addSequential(new Release());
-		System.out.println("Ended vision place 2 stage");
 	}
 }
