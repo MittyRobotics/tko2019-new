@@ -32,7 +32,7 @@ public class VisionAlignmentNew extends Command {
     private double initDist = 0;
     protected void initialize() {
         VisionEnd.getInstance().reset(new VisionEndType[] {VisionEndType.HIGH_DELTA, VisionEndType.LOST_TARGET, VisionEndType.REACHED_TARGET, VisionEndType.LOW_DELTA});
-        Limelight.getInstance().setStreamMode(StreamMode.Main);
+        Limelight.getInstance().setStreamMode(StreamMode.Secondary);
         updateValues();
         initDist = distance;
 

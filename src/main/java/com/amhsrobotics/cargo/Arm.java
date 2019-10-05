@@ -187,4 +187,7 @@ public class Arm extends Subsystem {
 		arm[0].setSelectedSensorPosition(0);
 		//arm[0].setSelectedSensorPosition(0);
 	}
+	public void getLimitSwitches(){
+		System.out.println("Forward: " + arm[0].getSensorCollection().isFwdLimitSwitchClosed() + " Reverse: " + arm[0].getSensorCollection().isRevLimitSwitchClosed());
+	}
 }

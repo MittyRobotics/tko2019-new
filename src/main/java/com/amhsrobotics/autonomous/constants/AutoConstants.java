@@ -48,7 +48,7 @@ public class AutoConstants {
 	public static double BLUE_RIGHT_ROCKET_EXTRUSION = 8;
 
 	public static double BLUE_HELPER_DISTANCE_FROM_LOADER = 100.000;
-	public static double BLUE_TUNING_SHIFT_CARGO = 0;
+	public static double BLUE_TUNING_SHIFT_CARGO = 3;
 	public static double BLUE_TUNING_SHIFT_LOADER = 1;
 
 
@@ -131,7 +131,7 @@ public class AutoConstants {
 	public static double RED_RIGHT_ROCKET_EXTRUSION = 8;
 
 	public static double RED_HELPER_DISTANCE_FROM_LOADER = 100.00;
-	public static double RED_TUNING_SHIFT_CARGO = 0;
+	public static double RED_TUNING_SHIFT_CARGO = 3;
 	public static double RED_TUNING_SHIFT_LOADER = 1;
 
 

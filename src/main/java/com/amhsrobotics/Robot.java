@@ -8,6 +8,7 @@ import com.amhsrobotics.cargo.Arm;
 import com.amhsrobotics.cargo.Rollers;
 import com.amhsrobotics.drive.DriveTrain;
 import com.amhsrobotics.drive.Shifter;
+import com.amhsrobotics.drive.commands.TankDrive;
 import com.amhsrobotics.hardware.Compressor;
 import com.amhsrobotics.hardware.Gyro;
 import edu.wpi.first.wpilibj.Notifier;
@@ -85,11 +86,12 @@ public class Robot extends TimedRobot {
 		Limelight.getInstance().enableVisionMode();
 		Limelight.getInstance().setStreamMode(StreamMode.Secondary);
 		System.out.println("Limelight: " + ((System.nanoTime()-t)/1000000));
-
 		t = System.nanoTime();
 		Notifier odometryNotifier = new Notifier(Odometry.getInstance());
 		odometryNotifier.startPeriodic(0.06);
 		System.out.println("odometry notifier start: " + ((System.nanoTime()-t)/1000000));
+		Slider.getInstance().setSliderPosition(0);
+		Arm.getInstance().setArmPosition(0);
 
 	}
 
@@ -122,6 +124,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+//		autonCommand.cancel();
+		new TankDrive().start();
 	}
 
 	@Override
@@ -130,12 +134,13 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void testInit() {
-		Arm.getInstance().zeroEncoder();
+//		Arm.getInstance().zeroEncoder();
 		Slider.getInstance().zeroEncoder();
 	}
 	
 	@Override
 	public void testPeriodic() {
-		System.out.println("Left" + DriveTrain.getInstance().getLeftEncoder() + " Right " + DriveTrain.getInstance().getRightEncoder());
+		Arm.getInstance().getLimitSwitches();
+//		System.out.println("Left" + DriveTrain.getInstance().getLeftEncoder() + " Right " + DriveTrain.getInstance().getRightEncoder());
 	}
 }
