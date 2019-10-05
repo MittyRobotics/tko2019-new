@@ -32,15 +32,15 @@ public class AutoConstants {
 
 	//-----Cleaned calibration measurements-----
 
-	public static double BLUE_RIGHT_FIELD_EDGE_TO_LOADER_CENTER = 27.44;
-	public static double BLUE_LEFT_FIELD_EDGE_TO_LOADER_CENTER = 27.44;
-	public static double BLUE_RIGHT_FIELD_EDGE_TO_HAB_1_INNER_EDGE = 97;
-	public static double BLUE_LEFT_FIELD_EDGE_TO_HAB_1_INNER_EDGE = 97;
-	public static double BLUE_HAB_1_LENGTH = 48.28;
-	public static double BLUE_HAB_2_LENGTH = 47;
+	public static double BLUE_RIGHT_FIELD_EDGE_TO_LOADER_CENTER = 24.25;
+	public static double BLUE_LEFT_FIELD_EDGE_TO_LOADER_CENTER = 24.5;
+	public static double BLUE_RIGHT_FIELD_EDGE_TO_HAB_1_INNER_EDGE = 95.5;
+	public static double BLUE_LEFT_FIELD_EDGE_TO_HAB_1_INNER_EDGE = 96.5;
+	public static double BLUE_HAB_1_LENGTH = 48;
+	public static double BLUE_HAB_2_LENGTH = 48;
 	public static double BLUE_HAB_LENGTH = BLUE_HAB_1_LENGTH + BLUE_HAB_2_LENGTH;
-	public static double BLUE_HAB_OUTER_EDGE_TO_CARGO_SHIP_FRONT = 124.97;
-	public static double BLUE_FIELD_CENTER_TO_HATCH_ALIGNMENT_TAPE = 10.88;
+	public static double BLUE_HAB_OUTER_EDGE_TO_CARGO_SHIP_FRONT = 125;
+	public static double BLUE_FIELD_CENTER_TO_HATCH_ALIGNMENT_TAPE = 10.75;
 	public static double BLUE_LEFT_FIELD_BACK_TO_ROCKET_HATCH_CENTER = 213.57;
 	public static double BLUE_RIGHT_FIELD_BACK_TO_ROCKET_HATCH_CENTER = 213.57;
 
@@ -115,15 +115,15 @@ public class AutoConstants {
 
 
 	//-----Cleaned calibration measurements-----
-	public static double RED_RIGHT_FIELD_EDGE_TO_LOADER_CENTER = 27.44;
-	public static double RED_LEFT_FIELD_EDGE_TO_LOADER_CENTER = 27.44;
-	public static double RED_RIGHT_FIELD_EDGE_TO_HAB_1_INNER_EDGE = 97;
-	public static double RED_LEFT_FIELD_EDGE_TO_HAB_1_INNER_EDGE = 97;
-	public static double RED_HAB_1_LENGTH = 48.28;
-	public static double RED_HAB_2_LENGTH = 47;
+	public static double RED_RIGHT_FIELD_EDGE_TO_LOADER_CENTER = 25;
+	public static double RED_LEFT_FIELD_EDGE_TO_LOADER_CENTER = 24;
+	public static double RED_RIGHT_FIELD_EDGE_TO_HAB_1_INNER_EDGE = 96;
+	public static double RED_LEFT_FIELD_EDGE_TO_HAB_1_INNER_EDGE = 96.25;
+	public static double RED_HAB_1_LENGTH = 48.5;
+	public static double RED_HAB_2_LENGTH = 48.5;
 	public static double RED_HAB_LENGTH = RED_HAB_1_LENGTH + RED_HAB_2_LENGTH;
-	public static double RED_HAB_OUTER_EDGE_TO_CARGO_SHIP_FRONT = 124.97;
-	public static double RED_FIELD_CENTER_TO_HATCH_ALIGNMENT_TAPE = 10.88;
+	public static double RED_HAB_OUTER_EDGE_TO_CARGO_SHIP_FRONT = 125;
+	public static double RED_FIELD_CENTER_TO_HATCH_ALIGNMENT_TAPE = 10.5;
 	public static double RED_LEFT_FIELD_BACK_TO_ROCKET_HATCH_CENTER = 213.57;
 	public static double RED_RIGHT_FIELD_BACK_TO_ROCKET_HATCH_CENTER = 213.57;
 

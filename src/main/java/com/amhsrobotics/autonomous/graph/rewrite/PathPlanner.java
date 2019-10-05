@@ -1,6 +1,7 @@
 package com.amhsrobotics.autonomous.graph.rewrite;
 
 public class PathPlanner {
+	@SuppressWarnings("ResultOfMethodCallIgnored")
 	public static void main(String[] args) {
 		Window.getInstance();
 		GraphPanel.getInstance();

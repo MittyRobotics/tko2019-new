@@ -53,7 +53,8 @@ public class Arm extends Subsystem {
 				talonSRX.config_kP(0, PID.ARM[0]);
 				talonSRX.config_kI(0, PID.ARM[1]);
 				talonSRX.config_kD(0, PID.ARM[2]);
-			} else {
+			}
+			else {
 				talonSRX.set(ControlMode.Follower, TalonIds.ARM[0]);
 			}
 			arm[i] = talonSRX;
@@ -101,6 +102,7 @@ public class Arm extends Subsystem {
 	 */
 	public void setArmPosition(double position){
 		arm[0].set(ControlMode.Position, position);
+//		arm[1].set(ControlMode.PercentOutput, arm[0].getMotorOutputPercent());
 	}
 
 	/**
@@ -118,8 +120,10 @@ public class Arm extends Subsystem {
 	public void manualAngle(double value){
 		if (Math.abs(value) > 0.2) {
 			arm[0].set(ControlMode.PercentOutput, -value);
+//			arm[1].set(ControlMode.PercentOutput, arm[0].getMotorOutputPercent());
 		} else {
 			arm[0].set(ControlMode.PercentOutput, 0);
+//			arm[1].set(ControlMode.PercentOutput, 0);
 		}
 	}
 

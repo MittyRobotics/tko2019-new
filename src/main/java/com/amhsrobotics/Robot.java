@@ -13,6 +13,7 @@ import com.amhsrobotics.hardware.Gyro;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.TimedRobot;
 
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 import com.amhsrobotics.hatchpanel.Grabber;
@@ -22,7 +23,7 @@ import com.amhsrobotics.oi.OI;
 
 
 public class Robot extends TimedRobot {
-
+	private Command autonCommand;
 	Robot() {
 		super(0.06);
 	}
@@ -108,11 +109,15 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		new BR_CargoShipFrontHatchAuto().start();
+		autonCommand = new BR_CargoShipFrontHatchAuto();
+		autonCommand.start();
 
 	}
 	@Override
 	public void autonomousPeriodic() {
+		if(OI.getInstance().getJoystick2().getRawButtonPressed(9)){
+			autonCommand.cancel();
+		}
 	}
 
 	@Override
