@@ -166,7 +166,7 @@ public class AutoConstants {
 
 
 	//Helper points
-	public static Waypoint RED_RIGHT_HELPER_POINT = new Waypoint(new Point2D.Double(RED_HELPER_DISTANCE_FROM_LOADER, RED_RIGHT_LOADER_STATION.getWaypoint().getY() - 60), -90);
+	public static Waypoint RED_RIGHT_HELPER_POINT = new Waypoint(new Point2D.Double(RED_HELPER_DISTANCE_FROM_LOADER, RED_RIGHT_LOADER_STATION.getWaypoint().getY()), -90);
 	public static Waypoint RED_LEFT_HELPER_POINT = new Waypoint(new Point2D.Double(RED_HELPER_DISTANCE_FROM_LOADER, RED_LEFT_LOADER_STATION.getWaypoint().getY()), 90);
 
 	public static Waypoint RED_RIGHT_HELPER_POINT_REVERSED = new Waypoint(new Point2D.Double(RED_HELPER_DISTANCE_FROM_LOADER, RED_RIGHT_LOADER_STATION.getWaypoint().getY()), 90);

@@ -1,5 +1,6 @@
 package com.amhsrobotics.autonomous.graph.rewrite;
 
+import com.amhsrobotics.autonomous.constants.AutoPaths;
 import com.amhsrobotics.purepursuit.Path;
 
 import javax.swing.*;
