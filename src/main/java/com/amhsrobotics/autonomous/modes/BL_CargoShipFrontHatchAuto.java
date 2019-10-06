@@ -3,6 +3,7 @@ package com.amhsrobotics.autonomous.modes;
 import com.amhsrobotics.autonomous.constants.AutoConstants;
 import com.amhsrobotics.autonomous.constants.AutoPaths;
 import com.amhsrobotics.autonomous.movement.commands.*;
+import com.amhsrobotics.autonomous.vision.Limelight;
 import com.amhsrobotics.drive.DriveTrain;
 import com.amhsrobotics.hardware.Gyro;
 import com.amhsrobotics.hatchpanel.Grabber;
@@ -12,6 +13,7 @@ import com.amhsrobotics.hatchpanel.commands.PushBackward;
 import com.amhsrobotics.hatchpanel.commands.PushForward;
 import com.amhsrobotics.hatchpanel.commands.Release;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 
 public class BL_CargoShipFrontHatchAuto extends CommandGroup {
 
@@ -50,6 +52,7 @@ public class BL_CargoShipFrontHatchAuto extends CommandGroup {
 	}
 
 	public BL_CargoShipFrontHatchAuto() {
+		Limelight.getInstance().setPipeline(0);
 		requires(DriveTrain.getInstance());
 		requires(Grabber.getInstance());
 		requires(Pusher.getInstance());
@@ -57,6 +60,7 @@ public class BL_CargoShipFrontHatchAuto extends CommandGroup {
 		addSequential(new PushForward());
 		approachCargoShip();
 		visionPlace1();
+		addSequential(new WaitCommand(.1));
 		driveToHelperPoint1();
 		turn1();
 		approachLoader();

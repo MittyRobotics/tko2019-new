@@ -18,7 +18,11 @@ public class TankDrive extends Command {
 	
 	@Override
 	protected void execute() {
-		DriveTrain.getInstance().tankDrive(-OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft), -OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight), 1/1.3);
+		if(OI.getInstance().getJoystick2().getRawButton(8)){
+			DriveTrain.getInstance().tankDrive(-OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft), -OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight), 1);
+		} else {
+			DriveTrain.getInstance().tankDrive(-OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft), -OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight), .65);
+		}
 	}
 	
 	@Override

@@ -5,6 +5,7 @@ import com.amhsrobotics.autonomous.movement.commands.PIDRotation;
 import com.amhsrobotics.autonomous.movement.commands.Translate2dTrajectory;
 import com.amhsrobotics.autonomous.movement.commands.VisionAlignment;
 import com.amhsrobotics.autonomous.movement.commands.VisionAlignmentNew;
+import com.amhsrobotics.autonomous.vision.Limelight;
 import com.amhsrobotics.drive.DriveTrain;
 import com.amhsrobotics.hatchpanel.Grabber;
 import com.amhsrobotics.hatchpanel.Pusher;
@@ -13,6 +14,7 @@ import com.amhsrobotics.hatchpanel.commands.PushBackward;
 import com.amhsrobotics.hatchpanel.commands.PushForward;
 import com.amhsrobotics.hatchpanel.commands.Release;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 
 public class RR_CargoShipFrontHatchAuto extends CommandGroup {
 
@@ -51,6 +53,7 @@ public class RR_CargoShipFrontHatchAuto extends CommandGroup {
 	}
 
 	public RR_CargoShipFrontHatchAuto() {
+		Limelight.getInstance().setPipeline(0);
 		requires(DriveTrain.getInstance());
 		requires(Grabber.getInstance());
 		requires(Pusher.getInstance());
@@ -59,6 +62,7 @@ public class RR_CargoShipFrontHatchAuto extends CommandGroup {
 		addSequential(new PushForward());
 		approachCargoShip();
 		visionPlace1();
+		addSequential(new WaitCommand(.1));
 		driveToHelperPoint1();
 		turn1();
 		approachLoader();

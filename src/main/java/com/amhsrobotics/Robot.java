@@ -3,6 +3,7 @@ package com.amhsrobotics;
 import com.amhsrobotics.autonomous.Odometry;
 import com.amhsrobotics.autonomous.enums.StreamMode;
 import com.amhsrobotics.autonomous.modes.BR_CargoShipFrontHatchAuto;
+import com.amhsrobotics.autonomous.modes.RR_CargoShipFrontHatchAuto;
 import com.amhsrobotics.autonomous.vision.Limelight;
 import com.amhsrobotics.cargo.Arm;
 import com.amhsrobotics.cargo.Rollers;
@@ -105,25 +106,34 @@ public class Robot extends TimedRobot {
 	public void disabledInit() {
 	}
 
+
+
 	@Override
 	public void disabledPeriodic(){
 	}
 
 	@Override
 	public void autonomousInit() {
-		autonCommand = new BR_CargoShipFrontHatchAuto();
+		Limelight.getInstance().setStreamMode(StreamMode.Secondary);
+		Limelight.getInstance().setPipeline(0);
+		autonCommand = new RR_CargoShipFrontHatchAuto();
 		autonCommand.start();
 
 	}
+
+
 	@Override
 	public void autonomousPeriodic() {
 		if(OI.getInstance().getJoystick2().getRawButtonPressed(9)){
 			autonCommand.cancel();
+			new TankDrive().start();
 		}
 	}
 
 	@Override
 	public void teleopInit() {
+		Limelight.getInstance().setStreamMode(StreamMode.Secondary);
+		Limelight.getInstance().setPipeline(1);
 //		autonCommand.cancel();
 		new TankDrive().start();
 	}
@@ -134,6 +144,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void testInit() {
+		Limelight.getInstance().setStreamMode(StreamMode.Secondary);
 //		Arm.getInstance().zeroEncoder();
 		Slider.getInstance().zeroEncoder();
 	}
