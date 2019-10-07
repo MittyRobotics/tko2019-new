@@ -45,7 +45,7 @@ public class Arm extends Subsystem {
 		for (int i = 0; i < arm.length; i++) {
 			WPI_TalonSRX talonSRX = new WPI_TalonSRX(TalonIds.ARM[i]);
 			talonSRX.configFactoryDefault();
-			talonSRX.setInverted(TalonInversions.ROLLERS[i]);
+			talonSRX.setInverted(TalonInversions.ARM[i]);
 			if (i == 0) {
 				talonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 				talonSRX.setSensorPhase(EncoderInversions.ARM);
@@ -102,16 +102,8 @@ public class Arm extends Subsystem {
 	 */
 	public void setArmPosition(double position){
 		arm[0].set(ControlMode.Position, position);
-//		arm[1].set(ControlMode.PercentOutput, arm[0].getMotorOutputPercent());
 	}
 
-	/**
-	 * gives back the current arm position
-	 * @return arm position
-	 */
-	public double getArmPosition(){
-		return arm[0].getSelectedSensorPosition();
-	}
 
 	/**
 	 * Sets the arm motor speeds based on percent output
@@ -120,10 +112,8 @@ public class Arm extends Subsystem {
 	public void manualAngle(double value){
 		if (Math.abs(value) > 0.2) {
 			arm[0].set(ControlMode.PercentOutput, -value);
-//			arm[1].set(ControlMode.PercentOutput, arm[0].getMotorOutputPercent());
 		} else {
 			arm[0].set(ControlMode.PercentOutput, 0);
-//			arm[1].set(ControlMode.PercentOutput, 0);
 		}
 	}
 
@@ -133,7 +123,6 @@ public class Arm extends Subsystem {
 	public final void zeroEncoder() {
 		arm[0].set(ControlMode.PercentOutput, -0.3);
 		while (!arm[0].getSensorCollection().isRevLimitSwitchClosed() && DriverStation.getInstance().isTest()) {
-//			System.out.println(conveyorTalons[0].getSelectedSensorPosition());
 			try {
 				Thread.sleep(5);
 			} catch (InterruptedException e) {
@@ -141,7 +130,6 @@ public class Arm extends Subsystem {
 			}
 		}
 		arm[0].set(ControlMode.PercentOutput, 0);
-		//calibrateCommand.setFinished();
 		System.out.println("Arm encoder reset!");
 		arm[0].setSelectedSensorPosition(0);
 
@@ -185,9 +173,9 @@ public class Arm extends Subsystem {
 		}
 		System.out.println("Arm position reset: 2/2");
 		arm[0].setSelectedSensorPosition(0);
-		//arm[0].setSelectedSensorPosition(0);
 	}
-	public void getLimitSwitches(){
-		System.out.println("Forward: " + arm[0].getSensorCollection().isFwdLimitSwitchClosed() + " Reverse: " + arm[0].getSensorCollection().isRevLimitSwitchClosed());
+
+	public boolean isRevLimitSwitchPressed(){
+		return arm[0].getSensorCollection().isRevLimitSwitchClosed();
 	}
 }

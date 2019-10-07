@@ -29,11 +29,6 @@ public class HoldPosition extends Command {
         Arm.getInstance().setArmPosition(pos);
     }
 
-    @Override
-    protected void execute() {
-
-    }
-
     /**
      * Sets the motor to stop moving when the command ends
      */

@@ -52,7 +52,6 @@ public class Angle extends Command {
 	 */
 	@Override
 	protected void end() {
-		//Arm.getInstance().setArmPosition(angle.getFrameAtTime(t).getPosition());
 		new HoldPosition(angle.getFrameAtTime(t).getPosition()).start();
 	}
 
