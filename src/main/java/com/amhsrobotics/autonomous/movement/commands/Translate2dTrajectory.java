@@ -52,7 +52,7 @@ public class Translate2dTrajectory extends Command {
 	double targetLockedDistThreshold = 30;
 	double targetLockedAngleThreshold = 10;
 
-	double maxDistToEnd = 80;
+	double maxDistToEnd = 85;
 
 	double lookahead = 15;
 	double kCurvature = .8;

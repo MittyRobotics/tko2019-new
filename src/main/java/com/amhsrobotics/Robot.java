@@ -116,8 +116,11 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		Limelight.getInstance().setStreamMode(StreamMode.Secondary);
 		Limelight.getInstance().setPipeline(0);
-		autonCommand = new RR_CargoShipFrontHatchAuto();
+
+
+		autonCommand = new BR_CargoShipFrontHatchAuto();
 		autonCommand.start();
+
 
 	}
 

@@ -94,14 +94,14 @@ public class OI {
 				return getXboxController().getBumper(GenericHID.Hand.kLeft);
 			}
 		};
-		shiftLow.whenPressed(new GearShift(GearState.Low));
-		Button shiftHigh = new Button() {
-			@Override
-			public boolean get() {
-				return getXboxController().getBumper(GenericHID.Hand.kRight);
-			}
-		};
-		shiftHigh.whenPressed(new GearShift(GearState.High));
+//		shiftLow.whenPressed(new GearShift(GearState.Low));
+//		Button shiftHigh = new Button() {
+//			@Override
+//			public boolean get() {
+//				return getXboxController().getBumper(GenericHID.Hand.kRight);
+//			}
+//		};
+//		shiftHigh.whenPressed(new GearShift(GearState.High));
 	}
 
 	private void hatchControls(){

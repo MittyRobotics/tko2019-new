@@ -25,11 +25,17 @@ public class Shifter extends Subsystem {
 	public void shiftGear(GearState gearState) {
 		switch (gearState) {
 			case High:
-				gearShift.set(DoubleSolenoid.Value.kForward);
+				if(gearShift.get() != DoubleSolenoid.Value.kForward){
+					gearShift.set(DoubleSolenoid.Value.kForward);
+				}
 			case Low:
-				gearShift.set(DoubleSolenoid.Value.kReverse);
+				if(gearShift.get() != DoubleSolenoid.Value.kReverse){
+					gearShift.set(DoubleSolenoid.Value.kReverse);
+				}
 			case Off:
-				gearShift.set(DoubleSolenoid.Value.kOff);
+				if(gearShift.get() != DoubleSolenoid.Value.kOff){
+					gearShift.set(DoubleSolenoid.Value.kOff);
+				}
 		}
 	}
 }

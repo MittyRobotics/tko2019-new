@@ -60,11 +60,11 @@ public class BL_CargoShipFrontHatchAuto extends CommandGroup {
 		addSequential(new PushForward());
 		approachCargoShip();
 		visionPlace1();
-		addSequential(new WaitCommand(.1));
-		driveToHelperPoint1();
-		turn1();
-		approachLoader();
-		visionPickup();
+//		addSequential(new WaitCommand(.1));
+//		driveToHelperPoint1();
+//		turn1();
+//		approachLoader();
+//		visionPickup();
 	}
 
 	public void approachCargoShip(){
