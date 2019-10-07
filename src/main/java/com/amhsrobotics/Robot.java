@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		long t = System.nanoTime();
 		DriveTrain.getInstance();
-		System.out.println("drive: " + ((System.nanoTime()-t)/1000000));
+		System.out.println("drive: " + ((System.nanoTime()-t)/1000000) + "");
 		t = System.nanoTime();
 		DriveTrain.getInstance().initHardware();
 		System.out.println("init: " + ((System.nanoTime()-t)/1000000));
