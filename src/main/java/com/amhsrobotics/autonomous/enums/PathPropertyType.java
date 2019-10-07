@@ -1,0 +1,18 @@
+package com.amhsrobotics.autonomous.enums;
+
+public enum PathPropertyType {
+	LOOKAHEAD,
+	KCURVATURE,
+	MAXACCEL,
+	MAXDECEL,
+	MAXVEL,
+	STARTVEL,
+	ENDVEL,
+	REVERSED,
+	VISION,
+	NAME,
+	WAYPOINT1,
+	WAYPOINT2,
+	WAYPOINT1ANGLE,
+	WAYPOINT2ANGLE
+}

@@ -32,7 +32,7 @@ public class Intake extends Command {
 
 	@Override
 	protected void end() {
-
+		Rollers.getInstance().stopRollers();
 	}
 
 	@Override

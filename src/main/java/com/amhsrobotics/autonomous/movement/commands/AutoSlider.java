@@ -43,14 +43,18 @@ public class AutoSlider extends Command {
 
 				double xOffset = Math.tan(Math.toRadians(-yaw)) * distance;
 
-				double sliderOffset = -8 + xOffset;
+				double sliderOffset = -8 + xOffset + 2;
 
 				sliderOffset = Math.max(Math.min(sliderOffset, SliderPositions.RIGHT), SliderPositions.LEFT);
 
 				//System.out.println(sliderOffset + " " + xOffset + " " + yaw + " " + distance);
-				if(distance < 50){
-					Slider.getInstance().setSliderPosition(sliderOffset * TicksPerInch.SLIDER);
+				if(distance < 100){
+//					if(Math.abs((Slider.getInstance().getSliderPosition()/TicksPerInch.SLIDER)-sliderOffset) > 0.1){
+						Slider.getInstance().setSliderPosition(sliderOffset * TicksPerInch.SLIDER);
+//					}
+
 				}
+
 			}
 		}
 		catch(Exception e){

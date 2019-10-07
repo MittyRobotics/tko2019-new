@@ -8,6 +8,7 @@ import com.amhsrobotics.drive.constants.TalonInversions;
 import com.amhsrobotics.drive.constants.TicksPerInch;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -31,13 +32,15 @@ public class DriveTrain extends Subsystem {
 			WPI_TalonSRX talonSRX = new WPI_TalonSRX(TalonIds.LEFT_DRIVE[i]);
 			talonSRX.configFactoryDefault();
 			talonSRX.setInverted(TalonInversions.LEFT_DRIVE[i]);
+			talonSRX.setNeutralMode(NeutralMode.Coast);
 			if (i == 0) {
 				talonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 				talonSRX.setSensorPhase(EncoderInversions.LEFT_DRIVE);
 				talonSRX.config_kP(0, PID.DRIVE[0]);
 				talonSRX.config_kI(0, PID.DRIVE[1]);
 				talonSRX.config_kD(0, PID.DRIVE[2]);
-			} else {
+				talonSRX.setSelectedSensorPosition(0);
+=			} else {
 				//talonSRX.set(ControlMode.Follower, TalonIds.LEFT_DRIVE[0]);
 			}
 			leftDrive[i] = talonSRX;
@@ -46,12 +49,14 @@ public class DriveTrain extends Subsystem {
 			WPI_TalonSRX talonSRX = new WPI_TalonSRX(TalonIds.RIGHT_DRIVE[i]);
 			talonSRX.configFactoryDefault();
 			talonSRX.setInverted(TalonInversions.RIGHT_DRIVE[i]);
+			talonSRX.setNeutralMode(NeutralMode.Coast);
 			if (i == 0) {
 				talonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 				talonSRX.setSensorPhase(EncoderInversions.RIGHT_DRIVE);
 				talonSRX.config_kP(0, PID.DRIVE[0]);
 				talonSRX.config_kI(0, PID.DRIVE[1]);
 				talonSRX.config_kD(0, PID.DRIVE[2]);
+				talonSRX.setSelectedSensorPosition(0);
 			} else {
 				//talonSRX.set(ControlMode.Follower, TalonIds.RIGHT_DRIVE[0]);
 			}
@@ -69,8 +74,14 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public void tankDrive(double left, double right, final double percentCap) {
+
 		left *= percentCap;
 		right *= percentCap;
+
+//		left = RateLimiter.getInstance().limitPercentRate(leftDrive[0].getMotorOutputPercent(), left);
+//		right = RateLimiter.getInstance().limitPercentRate(rightDrive[0].getMotorOutputPercent(), right);
+
+
 		if (Math.abs(left) < 0.1) {
 			leftDrive[0].set(ControlMode.PercentOutput, 0);
 			leftDrive[1].set(ControlMode.PercentOutput, 0);
@@ -88,11 +99,20 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public void tankVelocity(double left, double right) {
-		left *= TicksPerInch.DRIVE/10;
-		right *= TicksPerInch.DRIVE/10;
-		System.out.println(leftDrive[0].getSelectedSensorVelocity() + " | " + rightDrive[0].getSelectedSensorVelocity());
+
+//		left = RateLimiter.getInstance().limitVelocityRate(getLeftVelocity(),left);
+//		right = RateLimiter.getInstance().limitVelocityRate(getRightVelocity(),right);
+
+
+		left *= TicksPerInch.DRIVE_HIGH/10;
+		right *= TicksPerInch.DRIVE_HIGH/10;
+
+
+		//System.out.println(leftDrive[0].getSelectedSensorVelocity() + " | " + rightDrive[0].getSelectedSensorVelocity());
 		leftDrive[0].set(ControlMode.Velocity, left);
+		leftDrive[1].set(ControlMode.PercentOutput, leftDrive[0].getMotorOutputPercent());
 		rightDrive[0].set(ControlMode.Velocity, right);
+		leftDrive[1].set(ControlMode.PercentOutput, rightDrive[0].getMotorOutputPercent());
 	}
 
 	public void wheelDrive(final double drive, final double turn, final boolean inPlace) {
@@ -135,15 +155,14 @@ public class DriveTrain extends Subsystem {
 		}
 	}
 
-	public void translation(final double distance, final double maxSpeed) {
-		translation(distance, distance, maxSpeed);
+
+	public void translation(final double leftDistance, final double rightDistance, double maxOutput) {
+		translation(leftDistance,rightDistance);
 	}
 
-	public void translation(final double leftDistance, final double rightDistance, final double maxSpeed) {
-		leftDrive[0].configClosedLoopPeakOutput(0, maxSpeed);
-		rightDrive[0].configClosedLoopPeakOutput(0, maxSpeed);
-		leftDrive[0].set(ControlMode.Position, leftDrive[0].getSelectedSensorPosition() + leftDistance * TicksPerInch.DRIVE);
-		rightDrive[0].set(ControlMode.Position, rightDrive[0].getSelectedSensorPosition() + rightDistance * TicksPerInch.DRIVE);
+	public void translation(final double leftDistance, final double rightDistance) {
+		leftDrive[0].set(ControlMode.Position, leftDistance * TicksPerInch.DRIVE_HIGH);
+		rightDrive[0].set(ControlMode.Position, rightDistance * TicksPerInch.DRIVE_HIGH);
 	}
 
 	public double getTranslationError() {
@@ -156,6 +175,15 @@ public class DriveTrain extends Subsystem {
 
 	public double getRightEncoder() {
 		return rightDrive[0].getSelectedSensorPosition();
+	}
+
+
+	public double getLeftVelocity() {
+		return leftDrive[0].getSelectedSensorVelocity();
+	}
+
+	public double getRightVelocity() {
+		return rightDrive[0].getSelectedSensorVelocity();
 	}
 
 	//positive is right, negative is left

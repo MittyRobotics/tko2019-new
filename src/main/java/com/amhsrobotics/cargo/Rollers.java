@@ -62,6 +62,8 @@ public class Rollers extends Subsystem {
 		}
 	}
 
+
+
 	/**
 	 * Sets rollers to outtake a cargo ball
 	 */
@@ -81,9 +83,14 @@ public class Rollers extends Subsystem {
 	 * @param topRollerSpeed set top roller speeds
 	 * @param bottomRollerSpeed set bottom rollers speeds
 	 */
-	private void setRollerSpeeds(final double topRollerSpeed, final double bottomRollerSpeed){
+	public void setRollerSpeeds(final double topRollerSpeed, final double bottomRollerSpeed){
 		topRoller.set(ControlMode.PercentOutput, topRollerSpeed);
 		bottomRoller.set(ControlMode.PercentOutput, bottomRollerSpeed);
+	}
+
+	public void setRollerCurrent(final double topRollerCurrent, final double bottomRollerCurrent){
+		topRoller.set(ControlMode.Current, topRollerCurrent);
+		bottomRoller.set(ControlMode.Current, bottomRollerCurrent);
 	}
 
 	/**

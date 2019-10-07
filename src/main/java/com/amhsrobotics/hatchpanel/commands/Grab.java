@@ -48,6 +48,6 @@ public class Grab extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return finish;
+		return true;
 	}
 }

@@ -1,5 +1,7 @@
 package com.amhsrobotics.hatchpanel;
 
+import com.amhsrobotics.autonomous.movement.commands.AutoSlider;
+import com.amhsrobotics.hatchpanel.commands.ManualSlide;
 import com.amhsrobotics.hatchpanel.commands.PushForward;
 import com.amhsrobotics.hatchpanel.constants.MotionProfileValues;
 import com.amhsrobotics.hatchpanel.constants.SliderPosition;
@@ -32,7 +34,8 @@ public class Slider extends Subsystem {
 		slider.setInverted(TalonInversions.SLIDER);
 		slider.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 		slider.setSensorPhase(EncoderInversions.SLIDER);
-		slider.configClosedLoopPeakOutput(0,0.5);
+		slider.configClosedLoopPeakOutput(0,.5);
+//		slider.configClosedLoopPeakOutput(0,.5);
 		slider.config_kP(0, PID.SLIDER[0]);
 		slider.config_kI(0, PID.SLIDER[1]);
 		slider.config_kD(0, PID.SLIDER[2]);
@@ -40,7 +43,7 @@ public class Slider extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {
-	//	setDefaultCommand(new ManualSlide());
+		setDefaultCommand(new AutoSlider());
 	}
 
 	public TrapezoidalMotionProfile slide(final SliderPosition sliderPosition){
@@ -58,10 +61,12 @@ public class Slider extends Subsystem {
 		System.out.println("Slide init pos: " + slider.getSelectedSensorPosition(0));
 		return new TrapezoidalMotionProfile(MotionProfileValues.MAX_ACCELERATION, MotionProfileValues.MAX_VELOCITY,  slider.getSelectedSensorPosition(0)/ TicksPerInch.SLIDER, position, 0.06);
 	}
-
+	public void setEncoder(double value){
+		slider.setSelectedSensorPosition(0);
+	}
 	public void manualSlide(final double value){
 		new PushForward();
-		if (Math.abs(value) > 0.1) {
+		if (Math.abs(value) > 0.2) {
 			slider.set(ControlMode.PercentOutput, value);
 		} else {
 			slider.set(ControlMode.PercentOutput, 0);
@@ -69,7 +74,7 @@ public class Slider extends Subsystem {
 	}
 
 	public void setSliderPosition(double position){
-		//new PushForward();
+		new PushForward();
 		slider.set(ControlMode.Position, position);
 		//System.out.println("pos" + position);
 	}

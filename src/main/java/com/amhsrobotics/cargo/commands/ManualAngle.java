@@ -29,9 +29,9 @@ public class ManualAngle extends Command {
 	 */
 	@Override
 	protected void execute() {
-		if (Math.abs(OI.getInstance().getJoystick2().getY()) > 0.35) {
-			Arm.getInstance().manualAngle(OI.getInstance().getJoystick2().getY());
-		}
+//		if (Math.abs(OI.getInstance().getJoystick2().getY()) > 0.15) {
+			Arm.getInstance().manualAngle(OI.getInstance().getJoystick2().getY()/2);
+//		}
 	}
 
 	/**

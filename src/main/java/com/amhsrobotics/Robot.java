@@ -2,31 +2,30 @@ package com.amhsrobotics;
 
 import com.amhsrobotics.autonomous.Odometry;
 import com.amhsrobotics.autonomous.enums.StreamMode;
-import com.amhsrobotics.autonomous.movement.commands.Translate2dTrajectory;
+import com.amhsrobotics.autonomous.modes.BR_CargoShipFrontHatchAuto;
+import com.amhsrobotics.autonomous.modes.RR_CargoShipFrontHatchAuto;
 import com.amhsrobotics.autonomous.vision.Limelight;
 import com.amhsrobotics.cargo.Arm;
 import com.amhsrobotics.cargo.Rollers;
 import com.amhsrobotics.drive.DriveTrain;
 import com.amhsrobotics.drive.Shifter;
+import com.amhsrobotics.drive.commands.TankDrive;
 import com.amhsrobotics.hardware.Compressor;
 import com.amhsrobotics.hardware.Gyro;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.TimedRobot;
 
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 import com.amhsrobotics.hatchpanel.Grabber;
 import com.amhsrobotics.hatchpanel.Pusher;
 import com.amhsrobotics.hatchpanel.Slider;
 import com.amhsrobotics.oi.OI;
-import com.amhsrobotics.purepursuit.Waypoint;
-import com.amhsrobotics.purepursuit.enums.PathType;
-
-import java.awt.geom.Point2D;
 
 
 public class Robot extends TimedRobot {
-
+	private Command autonCommand;
 	Robot() {
 		super(0.06);
 	}
@@ -34,7 +33,6 @@ public class Robot extends TimedRobot {
 	@SuppressWarnings("ResultOfMethodCallIgnored")
 	@Override
 	public void robotInit() {
-
 		long t = System.nanoTime();
 		DriveTrain.getInstance();
 		System.out.println("drive: " + ((System.nanoTime()-t)/1000000));
@@ -89,24 +87,26 @@ public class Robot extends TimedRobot {
 		Limelight.getInstance().enableVisionMode();
 		Limelight.getInstance().setStreamMode(StreamMode.Secondary);
 		System.out.println("Limelight: " + ((System.nanoTime()-t)/1000000));
-
 		t = System.nanoTime();
 		Notifier odometryNotifier = new Notifier(Odometry.getInstance());
-		odometryNotifier.startPeriodic(0.005);
+		odometryNotifier.startPeriodic(0.06);
 		System.out.println("odometry notifier start: " + ((System.nanoTime()-t)/1000000));
+		Slider.getInstance().setSliderPosition(0);
+		Arm.getInstance().setArmPosition(0);
+
 	}
 
 	@Override
 	public void robotPeriodic() {
 		Scheduler.getInstance().run();
 		Compressor.getInstance().start();
-		//System.out.println("asdf");
-
 	}
 
 	@Override
 	public void disabledInit() {
 	}
+
+
 
 	@Override
 	public void disabledPeriodic(){
@@ -114,61 +114,47 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-//		new AimAssist().start();
-//		new PushBackward().start();
-		Odometry.getInstance().resetPosition();
-		Waypoint[] waypoints = new Waypoint[2];
-		waypoints[0] = new Waypoint(new Point2D.Double(0,0),0);
-		waypoints[1] = new Waypoint(new Point2D.Double(-48,0),0);
-		new Translate2dTrajectory(waypoints, PathType.CUBIC_HERMITE_PATH, true).start();
-//		new AutoSlider().start();
+		Limelight.getInstance().setStreamMode(StreamMode.Secondary);
+		Limelight.getInstance().setPipeline(0);
+
+
+		autonCommand = new BR_CargoShipFrontHatchAuto();
+		autonCommand.start();
+
+
 	}
+
+
 	@Override
 	public void autonomousPeriodic() {
+		if(OI.getInstance().getJoystick2().getRawButtonPressed(9)){
+			autonCommand.cancel();
+			new TankDrive().start();
+		}
 	}
 
 	@Override
 	public void teleopInit() {
-
-		//new TankDrive().start();
-		//new TestCommand().start();
-		//new Slide(SliderPosition.Middle).start();
-		//new PushBackward().start();
-		//Slider.getInstance().setSliderPosition(-500);
+		Limelight.getInstance().setStreamMode(StreamMode.Secondary);
+		Limelight.getInstance().setPipeline(1);
+//		autonCommand.cancel();
+		new TankDrive().start();
 	}
 
 	@Override
 	public void teleopPeriodic() {
-		//Arm.getInstance().manualAngle(0.2);
-		//System.out.println(Arm.getInstance().getArmPosition());
 	}
 
 	@Override
 	public void testInit() {
-
-
-		//new CalibrateArm().start();
-		//new CalibrateSlider().start();
-		//new Slide(SliderPosition.Middle).start();
-		//TrapezoidalMotionProfile test = new TrapezoidalMotionProfile(2,8,4,12,0.06,true);
-		//new TestCommand().start();
-		Arm.getInstance().zeroEncoder(); //WORKING
-
-		Slider.getInstance().zeroEncoder(); //WORKING
-
+		Limelight.getInstance().setStreamMode(StreamMode.Secondary);
+//		Arm.getInstance().zeroEncoder();
+		Slider.getInstance().zeroEncoder();
 	}
 	
 	@Override
 	public void testPeriodic() {
-//		DriveTrain.getInstance().tankVelocity(50,50);
-		//System.out.println(Slider.getInstance().getSliderSensor());
-		//Rollers.getInstance().intake();   //WORKING
-	//	System.out.println(Arm.getInstance().getArmPosition());
-		//Slider.getInstance().manualSlide(0.3); //WORKING
-		//Pusher.getInstance().pushForward(); //NOT WORKING (pneumatics issue)
-
-
-		//System.out.println("Running");
-		//System.out.println("run");
+		Arm.getInstance().getLimitSwitches();
+//		System.out.println("Left" + DriveTrain.getInstance().getLeftEncoder() + " Right " + DriveTrain.getInstance().getRightEncoder());
 	}
 }

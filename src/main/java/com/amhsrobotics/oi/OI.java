@@ -1,12 +1,12 @@
 package com.amhsrobotics.oi;
 
-import com.amhsrobotics.autonomous.movement.commands.VisionAlignment;
-import com.amhsrobotics.cargo.commands.Angle;
-import com.amhsrobotics.cargo.commands.StopRollers;
+import com.amhsrobotics.autonomous.movement.commands.VisionAlignmentNew;
+import com.amhsrobotics.cargo.commands.*;
 import com.amhsrobotics.cargo.constants.ArmPosition;
 import com.amhsrobotics.drive.commands.GearShift;
 import com.amhsrobotics.drive.constants.GearState;
 import com.amhsrobotics.hatchpanel.commands.Grab;
+import com.amhsrobotics.hatchpanel.commands.ManualSlide;
 import com.amhsrobotics.hatchpanel.commands.PushBackward;
 import com.amhsrobotics.hatchpanel.commands.PushForward;
 import com.amhsrobotics.hatchpanel.commands.Release;
@@ -17,8 +17,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 //import GearShift;
-import com.amhsrobotics.cargo.commands.Intake;
-import com.amhsrobotics.cargo.commands.Outtake;
 import com.amhsrobotics.commoncontrols.XboxWheel;
 
 
@@ -43,20 +41,20 @@ public class OI {
 			}
 
 		};
-		Button testProfile = new Button() {
-			@Override
-			public boolean get() {
-
-				return getXboxController().getAButton() ;
-			}
-
-		};
-		vision.whenPressed(new VisionAlignment());
+//		Button testProfile = new Button() {
+//			@Override
+//			public boolean get() {
+//
+//				return getXboxController().getAButton() ;
+//			}
+//
+//		};
+		vision.whenPressed(new VisionAlignmentNew());
 		//testProfile.whenPressed(new MotionProfileTranslate(10, 0.2));
-		driveControls();
-		//hatchControls();
+//		driveControls();
+		hatchControls();
 		hatchControlsXbox();
-		//cargoControls();
+		cargoControls();
 		cargoControlsXbox();
 
 	}
@@ -96,14 +94,14 @@ public class OI {
 				return getXboxController().getBumper(GenericHID.Hand.kLeft);
 			}
 		};
-		shiftLow.whenPressed(new GearShift(GearState.Low));
-		Button shiftHigh = new Button() {
-			@Override
-			public boolean get() {
-				return getXboxController().getBumper(GenericHID.Hand.kRight);
-			}
-		};
-		shiftHigh.whenPressed(new GearShift(GearState.High));
+//		shiftLow.whenPressed(new GearShift(GearState.Low));
+//		Button shiftHigh = new Button() {
+//			@Override
+//			public boolean get() {
+//				return getXboxController().getBumper(GenericHID.Hand.kRight);
+//			}
+//		};
+//		shiftHigh.whenPressed(new GearShift(GearState.High));
 	}
 
 	private void hatchControls(){
@@ -134,7 +132,7 @@ public class OI {
 				return getJoystick1().getTrigger();
 			}
 		};
-		grab.whenPressed(new Grab());
+		//grab.whenPressed(new Grab());
 		Button release = new Button() {
 			@Override
 			public boolean get() {
@@ -156,6 +154,13 @@ public class OI {
 			}
 		};
 		pushBackward.whenPressed(new PushBackward());
+		Button manualSlide = new Button() {
+			@Override
+			public boolean get() {
+				return Math.abs(getJoystick1().getX()) > 0.2;
+			}
+		};
+		manualSlide.whenPressed(new ManualSlide());
 	}
 
 	private void cargoControls(){
@@ -175,27 +180,28 @@ public class OI {
 		};
 		outtake.whenPressed(new Outtake());
 		outtake.whenReleased(new StopRollers());
-		Button angleCargo = new Button() {
-			@Override
-			public boolean get() {
-				return getJoystick2().getRawButton(5);
-			}
-		};
-		angleCargo.whenPressed(new Angle(ArmPosition.Cargo));
-		Button angleRocket = new Button() {
-			@Override
-			public boolean get() {
-				return getJoystick2().getRawButton(4);
-			}
-		};
-		angleRocket.whenPressed(new Angle(ArmPosition.Rocket));
-		Button angleGround = new Button() {
+		Button outtakeBack = new Button() {
 			@Override
 			public boolean get() {
 				return getJoystick2().getRawButton(3);
 			}
 		};
-		angleGround.whenPressed(new Angle(ArmPosition.Ground));
+		outtakeBack.whenPressed(new OuttakeBack());
+		outtakeBack.whenReleased(new StopRollers());
+//		Button angleRocket = new Button() {
+//			@Override
+//			public boolean get() {
+//				return getJoystick2().getRawButton(4);
+//			}
+//		};
+//		angleRocket.whenPressed(new Angle(ArmPosition.Rocket));
+//		Button angleGround = new Button() {
+//			@Override
+//			public boolean get() {
+//				return getJoystick2().getRawButton(3);
+//			}
+//		};
+//		angleGround.whenPressed(new Angle(ArmPosition.Ground));
 	}
 
 	private void hatchControlsXbox(){
@@ -251,6 +257,8 @@ public class OI {
 		//pushBackward.whenPressed(new PushBackward());
 
 	}
+
+
 	private void cargoControlsXbox(){
 		Button intake = new Button() {
 			@Override
@@ -263,11 +271,20 @@ public class OI {
 		Button outtake = new Button() {
 			@Override
 			public boolean get() {
-				return getXboxController().getTriggerAxis(GenericHID.Hand.kRight) < 0.3;
+				return getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.3;
 			}
 		};
 		outtake.whenPressed(new Outtake());
 		outtake.whenReleased(new StopRollers());
+
+		Button outtakeBack = new Button() {
+			@Override
+			public boolean get() {
+				return getXboxController().getBumper(GenericHID.Hand.kLeft);
+			}
+		};
+		outtakeBack.whenPressed(new OuttakeBack());
+		outtakeBack.whenReleased(new StopRollers());
 		Button angleCargo = new Button() {
 			@Override
 			public boolean get() {
