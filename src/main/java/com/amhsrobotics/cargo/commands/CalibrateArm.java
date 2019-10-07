@@ -19,62 +19,81 @@ public class CalibrateArm extends Command {
 		requires(Arm.getInstance());
 	}
 
+	/**
+	 * Initializes the first state of the state machine
+	 */
 	@Override
 	protected void initialize() {
 		state = CalibrateState.Up1;
 		t = 0;
+		Arm.getInstance().manualAngle(-0.3);
 	}
 
+	/**
+	 * Runs the state machine until it reaches the end state
+	 */
 	@Override
 	protected void execute() {
 		switch (state){
 			case Up1:
-				Arm.getInstance().manualAngle(-0.3);
 				if(Arm.getInstance().isRevLimitSwitchPressed()){
+					Arm.getInstance().manualAngle(0);
 					state = CalibrateState.Stop1;
 					t = timeSinceInitialized();
 				}
 			case Stop1:
-				Arm.getInstance().manualAngle(0);
 				if(timeSinceInitialized() - t > 0.1){
+					Arm.getInstance().manualAngle(0.2);
 					state = CalibrateState.Down;
 					t = timeSinceInitialized();
 				}
 			case Down:
-				Arm.getInstance().manualAngle(0.2);
 				if(timeSinceInitialized() - t > 0.5){
+					Arm.getInstance().manualAngle(0);
 					state = CalibrateState.Stop2;
 					t = timeSinceInitialized();
 				}
 			case Stop2:
-				Arm.getInstance().manualAngle(0);
 				if(timeSinceInitialized() - t > 0.1){
+					Arm.getInstance().manualAngle(-0.15);
 					state = CalibrateState.Up2;
 				}
 			case Up2:
-				Arm.getInstance().manualAngle(-0.15);
 				if(Arm.getInstance().isRevLimitSwitchPressed()){
+					Arm.getInstance().manualAngle(0);
 					state = CalibrateState.End;
 				}
-			case End:
-				Arm.getInstance().manualAngle(0);
 		}
 	}
 
+	/**
+	 * Sets the arm to stop moving when the reset ends
+	 */
 	@Override
 	protected void end() {
 		Arm.getInstance().manualAngle(0);
 	}
 
+	/**
+	 * Sets the arm to stop moving when the reset is interrupted
+	 */
 	@Override
 	protected void interrupted() {
 		end();
 	}
 
+	/**
+	 * Tells if the state machine is finished
+	 * @return if state reaches the end state
+	 */
 	@Override
 	protected boolean isFinished() {
 		return state == CalibrateState.End;
 	}
+
+	/**
+	 * The Enum with all of the different states in the state machine
+	 */
 	enum CalibrateState {
 		Up1, Stop1, Down, Stop2, Up2, End
 	}
