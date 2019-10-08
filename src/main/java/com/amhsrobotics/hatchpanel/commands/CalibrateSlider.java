@@ -2,7 +2,7 @@ package com.amhsrobotics.hatchpanel.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import com.amhsrobotics.hatchpanel.Slider;
-
+//TODO: Rewrite
 public class CalibrateSlider extends Command {
 	private boolean finished;
 	public CalibrateSlider() {
@@ -14,7 +14,7 @@ public class CalibrateSlider extends Command {
 
 	@Override
 	protected void initialize() {
-		//Slider.getInstance().zeroEncoder(this);
+
 	}
 
 	@Override
