@@ -5,7 +5,6 @@ import com.amhsrobotics.drive.constants.EncoderInversions;
 import com.amhsrobotics.drive.constants.PID;
 import com.amhsrobotics.drive.constants.TalonIds;
 import com.amhsrobotics.drive.constants.TalonInversions;
-import com.amhsrobotics.drive.constants.TicksPerInch;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -86,69 +85,5 @@ public class DriveTrain extends Subsystem {
 			rightDrive[0].set(ControlMode.PercentOutput, right);
 			rightDrive[1].set(ControlMode.PercentOutput, right);
 		}
-	}
-
-	public void tankVelocity(double left, double right) {
-		left *= TicksPerInch.DRIVE_HIGH/10;
-		right *= TicksPerInch.DRIVE_HIGH/10;
-
-		leftDrive[0].set(ControlMode.Velocity, left);
-		leftDrive[1].set(ControlMode.PercentOutput, leftDrive[0].getMotorOutputPercent());
-		rightDrive[0].set(ControlMode.Velocity, right);
-		leftDrive[1].set(ControlMode.PercentOutput, rightDrive[0].getMotorOutputPercent());
-	}
-
-	public void translation(final double leftDistance, final double rightDistance, double maxOutput) {
-		leftDrive[0].configClosedLoopPeakOutput(0, maxOutput);
-		rightDrive[0].configClosedLoopPeakOutput(0, maxOutput);
-		translation(leftDistance,rightDistance);
-	}
-
-	public void translation(final double leftDistance, final double rightDistance) {
-		leftDrive[0].set(ControlMode.Position, leftDistance * TicksPerInch.DRIVE_HIGH);
-		rightDrive[0].set(ControlMode.Position, rightDistance * TicksPerInch.DRIVE_HIGH);
-	}
-
-	public double getTranslationError() {
-		return leftDrive[0].getClosedLoopError();
-	}
-
-	public double getLeftEncoder() {
-		return leftDrive[0].getSelectedSensorPosition();
-	}
-
-	public double getRightEncoder() {
-		return rightDrive[0].getSelectedSensorPosition();
-	}
-
-
-	public double getLeftVelocity() {
-		return leftDrive[0].getSelectedSensorVelocity();
-	}
-
-	public double getRightVelocity() {
-		return rightDrive[0].getSelectedSensorVelocity();
-	}
-
-	//TODO: Do we need rotation?
-	public void rotation(final double angle, final double maxSpeed) {
-//		double target;
-//		controller.setContinuous(true);
-//		controller.setInputRange(0, 360);
-//		controller.setOutputRange(-maxSpeed, maxSpeed);
-//		if (Gyro.getInstance().getAngle() + angle < 0) {
-//			target = Gyro.getInstance().getAngle() + angle + 360;
-//		} else if (Gyro.getInstance().getAngle() + angle >= 360) {
-//			target = Gyro.getInstance().getAngle() + angle - 360;
-//		} else {
-//			target = Gyro.getInstance().getAngle() + angle;
-//		}
-//		controller.setSetpoint(target);
-//		controller.enable();
-	}
-
-	public double getRotationError() {
-//		return controller.getError();
-		return 0;
 	}
 }
