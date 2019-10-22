@@ -15,8 +15,9 @@ public class TankDrive extends Command {
 
 	@Override
 	protected void execute() {
-		DriveTrain.getInstance().tankDrive(OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft),
-				OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight));
+		double left = OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft);
+		double right = OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight);
+		DriveTrain.getInstance().tankDrive(left, right);
 	}
 
 	@Override

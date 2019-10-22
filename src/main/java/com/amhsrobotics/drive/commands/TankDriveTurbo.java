@@ -15,10 +15,11 @@ public class TankDriveTurbo extends Command {
 
 	@Override
 	protected void execute() {
+		final double START_PERCENTAGE = 0.75;
 		double left = OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft);
 		double right = OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight);
 		double trigger = OI.getInstance().getXboxController().getTriggerAxis(GenericHID.Hand.kRight);
-		DriveTrain.getInstance().tankDrive(left, right, 0.75 + trigger/4);
+		DriveTrain.getInstance().tankDrive(left, right, START_PERCENTAGE + trigger * (1-START_PERCENTAGE));
 	}
 
 	@Override

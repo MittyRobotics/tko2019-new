@@ -13,7 +13,9 @@ public class TankDriveJoystick extends Command {
 
 	@Override
 	protected void execute() {
-			DriveTrain.getInstance().tankDrive(OI.getInstance().getJoystick1().getY(), OI.getInstance().getJoystick2().getY());
+		double left = OI.getInstance().getJoystick1().getY();
+		double right = OI.getInstance().getJoystick2().getY();
+		DriveTrain.getInstance().tankDrive(left, right);
 	}
 
 	@Override

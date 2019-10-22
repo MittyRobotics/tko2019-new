@@ -15,12 +15,19 @@ public class TriggerDrive extends Command {
 
 	@Override
 	protected void execute() {
+		final double PERCENT_CAP = 0.7;
 		double driveF = OI.getInstance().getXboxController()
 				.getTriggerAxis(GenericHID.Hand.kLeft);
 		double driveB = OI.getInstance().getXboxController()
 				.getTriggerAxis(GenericHID.Hand.kRight);
 		double turn = OI.getInstance().getXboxController().getX(GenericHID.Hand.kLeft);
 		boolean brake = OI.getInstance().getXboxController().getAButton();
+		boolean fullSpeed = OI.getInstance().getXboxController().getStickButton(GenericHID.Hand.kLeft);
+		if(!fullSpeed){
+			driveF *= PERCENT_CAP;
+			driveB *= PERCENT_CAP;
+			turn *= PERCENT_CAP;
+		}
 		double drive = (driveF - driveB) * (1-turn/2);
 		if(brake) {
 			DriveTrain.getInstance().tankDrive(0, 0);
