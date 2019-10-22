@@ -5,18 +5,20 @@ import com.amhsrobotics.oi.OI;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class TankDrive extends Command {
+public class TankDriveTurbo extends Command {
 
-	public TankDrive() {
-		super("Tank Drive");
+	public TankDriveTurbo() {
+		super("Tank Drive Turbo");
 		requires(DriveTrain.getInstance());
 	}
 
 
 	@Override
 	protected void execute() {
-		DriveTrain.getInstance().tankDrive(OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft),
-				OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight));
+		double left = OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft);
+		double right = OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight);
+		double trigger = OI.getInstance().getXboxController().getTriggerAxis(GenericHID.Hand.kRight);
+		DriveTrain.getInstance().tankDrive(left, right, 0.75 + trigger/4);
 	}
 
 	@Override

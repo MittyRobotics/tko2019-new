@@ -71,14 +71,14 @@ public class DriveTrain extends Subsystem {
 		left *= percentCap;
 		right *= percentCap;
 
-		if (Math.abs(left) < 0.1) {
+		if (Math.abs(left) < 0.05) {
 			leftDrive[0].set(ControlMode.PercentOutput, 0);
 			leftDrive[1].set(ControlMode.PercentOutput, 0);
 		} else {
 			leftDrive[0].set(ControlMode.PercentOutput, left);
 			leftDrive[1].set(ControlMode.PercentOutput, left);
 		}
-		if (Math.abs(right) < 0.1) {
+		if (Math.abs(right) < 0.05) {
 			rightDrive[0].set(ControlMode.PercentOutput, 0);
 			rightDrive[1].set(ControlMode.PercentOutput, 0);
 		} else {

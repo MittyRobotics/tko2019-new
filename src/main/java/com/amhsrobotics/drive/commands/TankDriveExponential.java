@@ -2,21 +2,23 @@ package com.amhsrobotics.drive.commands;
 
 import com.amhsrobotics.drive.DriveTrain;
 import com.amhsrobotics.oi.OI;
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class TankDrive extends Command {
+public class TankDriveExponential extends Command {
 
-	public TankDrive() {
-		super("Tank Drive");
+	public TankDriveExponential() {
+		super("Tank Drive Exponential");
 		requires(DriveTrain.getInstance());
 	}
 
 
 	@Override
 	protected void execute() {
-		DriveTrain.getInstance().tankDrive(OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft),
-				OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight));
+		double left = OI.getInstance().getJoystick1().getY();
+		double right = OI.getInstance().getJoystick2().getY();
+		left = Math.pow(left, 2) * Math.signum(left);
+		right = Math.pow(right, 2) * Math.signum(right);
+		DriveTrain.getInstance().tankDrive(left, right);
 	}
 
 	@Override
