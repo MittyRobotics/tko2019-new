@@ -7,6 +7,7 @@ import com.amhsrobotics.autonomous.vision.Limelight;
 import com.amhsrobotics.cargo.Arm;
 import com.amhsrobotics.cargo.Rollers;
 import com.amhsrobotics.climber.ClimbSubsystem;
+import com.amhsrobotics.climber.ClimberWheel;
 import com.amhsrobotics.climber.commands.MoveClimber;
 import com.amhsrobotics.climber.commands.ResetEncoder;
 import com.amhsrobotics.climber.constants.ClimberPosition;
@@ -15,6 +16,7 @@ import com.amhsrobotics.drive.DriveTrain;
 import com.amhsrobotics.drive.Shifter;
 import com.amhsrobotics.hardware.Compressor;
 import com.amhsrobotics.hardware.Gyro;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.TimedRobot;
 
@@ -41,6 +43,7 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		ClimbSubsystem.getInstance();
 		ClimbSubsystem.getInstance().initHardware();
+		ClimberWheel.getInstance();
 		OI.getInstance();
 //		long t = System.nanoTime();
 //		DriveTrain.getInstance();
@@ -156,7 +159,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testInit() {
 //		ClimbSubsystem.getInstance();
-		ClimbSubsystem.getInstance().zeroEncoder();
+//		ClimbSubsystem.getInstance().zeroEncoder();
 //		System.out.println(ClimbSubsystem.getInstance().leftTalon.getSelectedSensorPosition());
 
 //		OI.getInstance();
@@ -174,10 +177,10 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testPeriodic() {
 //		ClimbSubsystem.getInstance().safety();
-//		System.out.print("Limit 0: ");
-//		System.out.println(ClimbSubsystem.getInstance().getLimit0());
-//		System.out.print("Limit 1: ");
-//		System.out.println(ClimbSubsystem.getInstance().getLimit1());
+		System.out.print("Limit 0: ");
+		System.out.println(ClimberWheel.rightTalon.getSensorCollection().isRevLimitSwitchClosed());
+		System.out.print("Limit 1: ");
+		System.out.println(ClimberWheel.leftTalon.getSensorCollection().isRevLimitSwitchClosed());
 //		if (!ClimbSubsystem.getInstance().safety()) {
 //			ClimbSubsystem.getInstance().setSpeedSlider(OI.getInstance().getJoystick1().getY());
 //		}
@@ -188,6 +191,13 @@ public class Robot extends TimedRobot {
 		//Slider.getInstance().manualSlide(0.3); //WORKING
 //		Pusher.getInstance().pushForward(); //NOT WORKING (pneumatics issue)
 
+		/*
+		if (0.1 < Math.abs(OI.getInstance().getJoystick1().getY())) {
+			ClimbSubsystem.rightTalon.set(ControlMode.PercentOutput, OI.getInstance().getJoystick1().getY());
+		} else {
+			ClimbSubsystem.rightTalon.set(ControlMode.PercentOutput, 0);
+		}
+		*/
 
 		//System.out.println("Running");
 		//System.out.println("run");

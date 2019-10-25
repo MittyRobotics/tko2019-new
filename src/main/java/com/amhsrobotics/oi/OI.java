@@ -76,7 +76,7 @@ public class OI {
 
 	public Joystick getJoystick1(){
 		if(joystick1 == null){
-			joystick1 = new Joystick(1);
+			joystick1 = new Joystick(0);
 		}
 		return joystick1;
 	}
