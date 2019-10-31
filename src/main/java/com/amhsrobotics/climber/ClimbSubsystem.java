@@ -34,10 +34,10 @@ public class ClimbSubsystem extends Subsystem {
     }
 
     public static WPI_TalonSRX rightTalon, leftTalon;
-//    private DigitalInput limit0, limit1;
+    private DigitalInput limit1, limit2;
     public void initHardware(){
-//        limit0 = new DigitalInput(0);
-//        limit1 = new DigitalInput(1);
+        limit1 = new DigitalInput(1);
+        limit2 = new DigitalInput(2);
         leftTalon = new WPI_TalonSRX(TalonIds.CLIMBER_LEFT);
         rightTalon = new WPI_TalonSRX(TalonIds.CLIMBER_RIGHT);
         leftTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
@@ -82,12 +82,12 @@ public class ClimbSubsystem extends Subsystem {
         return new TrapezoidalMotionProfile(MotionProfileValues.MAX_ACCELERATION, MotionProfileValues.MAX_VELOCITY,  rightTalon.getSelectedSensorPosition(0)/ com.amhsrobotics.climber.constants.TicksPerInch.WHEEL_TPI, position, 0.06, reversed);
     }
 
-//    public boolean getLimit0(){
-//        return limit0.get();
-//    }
-//    public boolean getLimit1(){
-//        return limit1.get();
-//    }
+    public boolean getLimit1(){
+        return limit1.get();
+    }
+    public boolean getLimit2(){
+        return limit2.get();
+    }
     public void setSpeedSlider(double speed){
         leftTalon.set(ControlMode.PercentOutput, speed);
     }

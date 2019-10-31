@@ -177,10 +177,10 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testPeriodic() {
 //		ClimbSubsystem.getInstance().safety();
-		System.out.print("Limit 0: ");
-		System.out.println(ClimberWheel.rightTalon.getSensorCollection().isRevLimitSwitchClosed());
 		System.out.print("Limit 1: ");
-		System.out.println(ClimberWheel.leftTalon.getSensorCollection().isRevLimitSwitchClosed());
+		System.out.println(ClimbSubsystem.getInstance().getLimit1());
+		System.out.print("Limit 2: ");
+		System.out.println(ClimbSubsystem.getInstance().getLimit2());
 //		if (!ClimbSubsystem.getInstance().safety()) {
 //			ClimbSubsystem.getInstance().setSpeedSlider(OI.getInstance().getJoystick1().getY());
 //		}
