@@ -19,6 +19,7 @@ import com.amhsrobotics.drive.Shifter;
 import com.amhsrobotics.hardware.Compressor;
 import com.amhsrobotics.hardware.Gyro;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -187,17 +188,26 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testPeriodic() {
 //		ClimbSubsystem.getInstance().safety();
+
+		//manually move up and down with j1 and floor the cargo with j2 - works but doesn't make it up to hab 3 because mechanical reasons ish
 		OI.getInstance();
 		System.out.print("Limit 1: ");
 		System.out.println(ClimbSubsystem.getInstance().getLimit1());
 		System.out.print("Limit 2: ");
 		System.out.println(ClimbSubsystem.getInstance().getLimit2());
 		System.out.println(Arm.getInstance().getArmPosition());
+
 		if (!ClimbSubsystem.getInstance().getLimit1()) {
 			ClimbSubsystem.getInstance().leftTalon.set(ControlMode.PercentOutput,OI.getInstance().getJoystick1().getY() * 0.8);
 			ClimbSubsystem.getInstance().rightTalon.set(ControlMode.PercentOutput,OI.getInstance().getJoystick1().getY() * 0.8);
 		}
+
 		Arm.getInstance().arm[0].set(ControlMode.PercentOutput, OI.getInstance().getJoystick2().getY() * 0.8);
+		if (ClimbSubsystem.getInstance().leftTalon.getMotorOutputPercent() > 0.1 && ClimbSubsystem.getInstance().rightTalon.getMotorOutputPercent() > 0.1) {
+			ClimberWheel.getInstance().leftTalon.setNeutralMode(NeutralMode.Brake);
+			ClimberWheel.getInstance().rightTalon.setNeutralMode(NeutralMode.Brake);
+		}
+
 //		DriveTrain.getInstance().tankVelocity(50,50);
 		//System.out.println(Slider.getInstance().getSliderSensor());
 		//Rollers.getInstance().intake();   //WORKING
