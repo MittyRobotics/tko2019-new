@@ -204,9 +204,14 @@ public class Robot extends TimedRobot {
 
 		Arm.getInstance().arm[0].set(ControlMode.PercentOutput, OI.getInstance().getJoystick2().getY() * 0.8);
 		if (ClimbSubsystem.getInstance().leftTalon.getMotorOutputPercent() > 0.1 && ClimbSubsystem.getInstance().rightTalon.getMotorOutputPercent() > 0.1) {
-			ClimberWheel.getInstance().leftTalon.setNeutralMode(NeutralMode.Brake);
-			ClimberWheel.getInstance().rightTalon.setNeutralMode(NeutralMode.Brake);
+//			ClimberWheel.getInstance().leftTalon.setNeutralMode(NeutralMode.Brake);
+//			ClimberWheel.getInstance().rightTalon.setNeutralMode(NeutralMode.Brake);
+
+			ClimberWheel.getInstance().leftTalon.set(ControlMode.PercentOutput, OI.getInstance().getJoystick1().getY() * 0.1);
+			ClimberWheel.getInstance().rightTalon.set(ControlMode.PercentOutput, OI.getInstance().getJoystick1().getY() * 0.1);
 		}
+
+
 
 //		DriveTrain.getInstance().tankVelocity(50,50);
 		//System.out.println(Slider.getInstance().getSliderSensor());
