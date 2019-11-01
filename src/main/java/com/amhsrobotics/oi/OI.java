@@ -60,7 +60,7 @@ public class OI {
 //		driveControls();
 //		//hatchControls();
 //		hatchControlsXbox();
-//		//cargoControls();
+		cargoControls();
 //		cargoControlsXbox();
 		climberControlsJoystick();
 
@@ -164,7 +164,7 @@ public class OI {
 //		pushBackward.whenPressed(new PushBackward());
 //	}
 //
-//	private void cargoControls(){
+	public void cargoControls(){
 //		Button intake = new Button() {
 //			@Override
 //			public boolean get() {
@@ -195,15 +195,15 @@ public class OI {
 //			}
 //		};
 //		angleRocket.whenPressed(new Angle(ArmPosition.Rocket));
-//		Button angleGround = new Button() {
-//			@Override
-//			public boolean get() {
-//				return getJoystick2().getRawButton(3);
-//			}
-//		};
-//		angleGround.whenPressed(new Angle(ArmPosition.Ground));
-//	}
-//
+		Button angleGround = new Button() {
+			@Override
+			public boolean get() {
+				return getJoystick1().getRawButton(3);
+			}
+		};
+		angleGround.whenPressed(new Angle(ArmPosition.Ground));
+	}
+
 //	private void hatchControlsXbox(){
 //		Button slideLeft = new Button() {
 //			@Override

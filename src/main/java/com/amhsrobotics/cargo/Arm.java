@@ -20,7 +20,7 @@ import com.amhsrobotics.motionprofile.TrapezoidalMotionProfile;
  */
 public class Arm extends Subsystem {
 	private static Arm ourInstance = new Arm();
-	private WPI_TalonSRX[] arm = new WPI_TalonSRX[TalonIds.ARM.length];
+	public WPI_TalonSRX[] arm = new WPI_TalonSRX[TalonIds.ARM.length];
 
 	/**
 	 * Static function to make this class a singleton

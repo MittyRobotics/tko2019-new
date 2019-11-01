@@ -6,6 +6,8 @@ import com.amhsrobotics.autonomous.movement.commands.Translate2dTrajectory;
 import com.amhsrobotics.autonomous.vision.Limelight;
 import com.amhsrobotics.cargo.Arm;
 import com.amhsrobotics.cargo.Rollers;
+import com.amhsrobotics.cargo.commands.Angle;
+import com.amhsrobotics.cargo.constants.ArmPosition;
 import com.amhsrobotics.climber.ClimbSubsystem;
 import com.amhsrobotics.climber.ClimberWheel;
 import com.amhsrobotics.climber.commands.MoveClimber;
@@ -17,9 +19,11 @@ import com.amhsrobotics.drive.Shifter;
 import com.amhsrobotics.hardware.Compressor;
 import com.amhsrobotics.hardware.Gyro;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.TimedRobot;
 
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 import com.amhsrobotics.hatchpanel.Grabber;
@@ -44,7 +48,10 @@ public class Robot extends TimedRobot {
 		ClimbSubsystem.getInstance();
 		ClimbSubsystem.getInstance().initHardware();
 		ClimberWheel.getInstance();
+		Arm.getInstance();
+		Arm.getInstance().initHardware();
 		OI.getInstance();
+		Arm.getInstance().setArmPosition(0);
 //		long t = System.nanoTime();
 //		DriveTrain.getInstance();
 //		System.out.println("drive: " + ((System.nanoTime()-t)/1000000));
@@ -100,7 +107,8 @@ public class Robot extends TimedRobot {
 //		Limelight.getInstance().setStreamMode(StreamMode.Secondary);
 //		System.out.println("Limelight: " + ((System.nanoTime()-t)/1000000));
 //
-//		t = System.nanoTime();
+//		t = System.nanoTime();		Arm.getInstance().zeroEncoder(); //WORKING
+
 //		Notifier odometryNotifier = new Notifier(Odometry.getInstance());
 //		odometryNotifier.startPeriodic(0.005);
 //		System.out.println("odometry notifier start: " + ((System.nanoTime()-t)/1000000));
@@ -161,14 +169,16 @@ public class Robot extends TimedRobot {
 //		ClimbSubsystem.getInstance();
 //		ClimbSubsystem.getInstance().zeroEncoder();
 //		System.out.println(ClimbSubsystem.getInstance().leftTalon.getSelectedSensorPosition());
+//		Arm.getInstance().zeroEncoder(); //WORKING
 
 //		OI.getInstance();
+//		Arm.getInstance();
+//		Arm.getInstance().initHardware();
 		//new CalibrateArm().start();
 		//new CalibrateSlider().start();
 		//new Slide(SliderPosition.Middle).start();
 		//TrapezoidalMotionProfile test = new TrapezoidalMotionProfile(2,8,4,12,0.06,true);
 		//new TestCommand().start();
-//		Arm.getInstance().zeroEncoder(); //WORKING
 
 //		Slider.getInstance().zeroEncoder(); //WORKING
 //		new ResetEncoder().start();
@@ -177,13 +187,17 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testPeriodic() {
 //		ClimbSubsystem.getInstance().safety();
+		OI.getInstance();
 		System.out.print("Limit 1: ");
 		System.out.println(ClimbSubsystem.getInstance().getLimit1());
 		System.out.print("Limit 2: ");
 		System.out.println(ClimbSubsystem.getInstance().getLimit2());
-//		if (!ClimbSubsystem.getInstance().safety()) {
-//			ClimbSubsystem.getInstance().setSpeedSlider(OI.getInstance().getJoystick1().getY());
-//		}
+		System.out.println(Arm.getInstance().getArmPosition());
+		if (!ClimbSubsystem.getInstance().getLimit1()) {
+			ClimbSubsystem.getInstance().leftTalon.set(ControlMode.PercentOutput,OI.getInstance().getJoystick1().getY() * 0.8);
+			ClimbSubsystem.getInstance().rightTalon.set(ControlMode.PercentOutput,OI.getInstance().getJoystick1().getY() * 0.8);
+		}
+		Arm.getInstance().arm[0].set(ControlMode.PercentOutput, OI.getInstance().getJoystick2().getY() * 0.8);
 //		DriveTrain.getInstance().tankVelocity(50,50);
 		//System.out.println(Slider.getInstance().getSliderSensor());
 		//Rollers.getInstance().intake();   //WORKING

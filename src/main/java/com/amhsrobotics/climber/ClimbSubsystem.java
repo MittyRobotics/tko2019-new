@@ -142,7 +142,7 @@ public class ClimbSubsystem extends Subsystem {
         leftTalon.set(ControlMode.PercentOutput, 0);
         leftTalon.setSelectedSensorPosition(0);
 
-        rightTalon.set(ControlMode.PercentOutput, -0.2);
+//        rightTalon.set(ControlMode.PercentOutput, -0.2);
         while (!rightTalon.getSensorCollection().isFwdLimitSwitchClosed() && DriverStation.getInstance().isTest())
         {
             rightTalon.set(ControlMode.PercentOutput, -0.2);
