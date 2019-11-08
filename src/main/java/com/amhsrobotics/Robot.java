@@ -48,11 +48,11 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		ClimbSubsystem.getInstance();
 		ClimbSubsystem.getInstance().initHardware();
-		ClimberWheel.getInstance();
-		Arm.getInstance();
-		Arm.getInstance().initHardware();
-		OI.getInstance();
-		Arm.getInstance().setArmPosition(0);
+//		ClimberWheel.getInstance();
+//		Arm.getInstance();
+//		Arm.getInstance().initHardware();
+////		OI.getInstance();
+//		Arm.getInstance().setArmPosition(0);
 //		long t = System.nanoTime();
 //		DriveTrain.getInstance();
 //		System.out.println("drive: " + ((System.nanoTime()-t)/1000000));
@@ -154,7 +154,7 @@ public class Robot extends TimedRobot {
 		//new Slide(SliderPosition.Middle).start();
 		//new PushBackward().start();
 		//Slider.getInstance().setSliderPosition(-500);
-
+		ClimbSubsystem.getInstance().resetEncoder();
 	}
 
 	@Override
@@ -162,7 +162,6 @@ public class Robot extends TimedRobot {
 //		System.out.println(ClimbSubsystem.getInstance().leftTalon.getSelectedSensorPosition()/ TicksPerInch.CLIMBER_TPI);
 		//Arm.getInstance().manualAngle(0.2);
 		//System.out.println(Arm.getInstance().getArmPosition());
-
 	}
 
 	@Override
@@ -190,34 +189,40 @@ public class Robot extends TimedRobot {
 //		ClimbSubsystem.getInstance().safety();
 
 		//manually move up and down with j1 and floor the cargo with j2 - works but doesn't make it up to hab 3 because mechanical reasons ish
-		OI.getInstance();
-		System.out.print("Limit 1: ");
-		System.out.println(ClimbSubsystem.getInstance().getLimit1());
-		System.out.print("Limit 2: ");
-		System.out.println(ClimbSubsystem.getInstance().getLimit2());
-		System.out.println(Arm.getInstance().getArmPosition());
+//
+//		OI.getInstance();
+//		System.out.print("Limit 1: ");
+//		System.out.println(ClimbSubsystem.getInstance().getLimit1());
+//		System.out.print("Limit 2: ");
+//		System.out.println(ClimbSubsystem.getInstance().getLimit2());
+//		System.out.println(Arm.getInstance().getArmPosition());
+//
+//		if (!ClimbSubsystem.getInstance().getLimit1()) {
+//			ClimbSubsystem.getInstance().leftTalon.set(ControlMode.PercentOutput,OI.getInstance().getJoystick1().getY() * 0.8);
+//			ClimbSubsystem.getInstance().rightTalon.set(ControlMode.PercentOutput,OI.getInstance().getJoystick2().getY() * 0.8);
+//		}
+//
+////		Arm.getInstance().arm[0].set(ControlMode.PercentOutput, OI.getInstance().getJoystick4().getY());
+//		Arm.getInstance().arm[1].set(ControlMode.PercentOutput, OI.getInstance().getJoystick4().getY());
+//
+//		ClimberWheel.getInstance().leftTalon.set(ControlMode.PercentOutput, -OI.getInstance().getJoystick3().getY()*0.6);
+//		ClimberWheel.getInstance().rightTalon.set(ControlMode.PercentOutput, OI.getInstance().getJoystick3().getY()*0.6);
 
-		if (!ClimbSubsystem.getInstance().getLimit1()) {
-			ClimbSubsystem.getInstance().leftTalon.set(ControlMode.PercentOutput,OI.getInstance().getJoystick1().getY() * 0.8);
-			ClimbSubsystem.getInstance().rightTalon.set(ControlMode.PercentOutput,OI.getInstance().getJoystick1().getY() * 0.8);
-		}
 
-		Arm.getInstance().arm[0].set(ControlMode.PercentOutput, OI.getInstance().getJoystick2().getY() * 0.8);
-		if (ClimbSubsystem.getInstance().leftTalon.getMotorOutputPercent() > 0.1 && ClimbSubsystem.getInstance().rightTalon.getMotorOutputPercent() > 0.1) {
+//		if (ClimbSubsystem.getInstance().leftTalon.getMotorOutputPercent() > 0.1 && ClimbSubsystem.getInstance().rightTalon.getMotorOutputPercent() > 0.1) {
 //			ClimberWheel.getInstance().leftTalon.setNeutralMode(NeutralMode.Brake);
 //			ClimberWheel.getInstance().rightTalon.setNeutralMode(NeutralMode.Brake);
-
-			ClimberWheel.getInstance().leftTalon.set(ControlMode.PercentOutput, OI.getInstance().getJoystick1().getY() * 0.1);
-			ClimberWheel.getInstance().rightTalon.set(ControlMode.PercentOutput, OI.getInstance().getJoystick1().getY() * 0.1);
-		}
-
+//
+//			ClimberWheel.getInstance().leftTalon.set(ControlMode.PercentOutput, OI.getInstance().getJoystick1().getY() * 0.1);
+//			ClimberWheel.getInstance().rightTalon.set(ControlMode.PercentOutput, OI.getInstance().getJoystick1().getY() * 0.1);
+//		}
 
 
 //		DriveTrain.getInstance().tankVelocity(50,50);
-		//System.out.println(Slider.getInstance().getSliderSensor());
-		//Rollers.getInstance().intake();   //WORKING
-	//	System.out.println(Arm.getInstance().getArmPosition());
-		//Slider.getInstance().manualSlide(0.3); //WORKING
+			//System.out.println(Slider.getInstance().getSliderSensor());
+			//Rollers.getInstance().intake();   //WORKING
+			//	System.out.println(Arm.getInstance().getArmPosition());
+			//Slider.getInstance().manualSlide(0.3); //WORKING
 //		Pusher.getInstance().pushForward(); //NOT WORKING (pneumatics issue)
 
 		/*
@@ -228,7 +233,7 @@ public class Robot extends TimedRobot {
 		}
 		*/
 
-		//System.out.println("Running");
-		//System.out.println("run");
+			//System.out.println("Running");
+			//System.out.println("run");
 	}
 }

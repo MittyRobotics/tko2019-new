@@ -18,8 +18,8 @@ public class ClimberWheel extends Subsystem {
     public static WPI_TalonSRX rightTalon, leftTalon;
     private double TicksPerInch = 1;
     public ClimberWheel() {
-        leftTalon = new WPI_TalonSRX(41);
-        rightTalon = new WPI_TalonSRX(42);
+        leftTalon = new WPI_TalonSRX(40);
+        rightTalon = new WPI_TalonSRX(43);
     }
 
 

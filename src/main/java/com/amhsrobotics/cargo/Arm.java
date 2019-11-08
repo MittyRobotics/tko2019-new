@@ -54,7 +54,7 @@ public class Arm extends Subsystem {
 				talonSRX.config_kI(0, PID.ARM[1]);
 				talonSRX.config_kD(0, PID.ARM[2]);
 			} else {
-				talonSRX.set(ControlMode.Follower, TalonIds.ARM[0]);
+//				talonSRX.set(ControlMode.Follower, TalonIds.ARM[0]);
 			}
 			arm[i] = talonSRX;
 		}

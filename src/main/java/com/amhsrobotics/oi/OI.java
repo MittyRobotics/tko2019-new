@@ -29,6 +29,8 @@ public class OI {
 	private XboxController controller;
 	private Joystick joystick1;
 	private Joystick joystick2;
+	private Joystick joystick3;
+	private Joystick joystick4;
 	private XboxWheel wheel;
 	private static OI ourInstance = new OI();
 
@@ -83,9 +85,23 @@ public class OI {
 
 	public Joystick getJoystick2(){
 		if(joystick2 == null){
-			joystick2 = new Joystick(2);
+			joystick2 = new Joystick(1);
 		}
 		return joystick2;
+	}
+
+	public Joystick getJoystick3(){
+		if(joystick3 == null){
+			joystick3 = new Joystick(2);
+		}
+		return joystick3;
+	}
+
+	public Joystick getJoystick4(){
+		if(joystick4 == null){
+			joystick4 = new Joystick(3);
+		}
+		return joystick4;
 	}
 
 	public XboxWheel getSteeringWheel(){
