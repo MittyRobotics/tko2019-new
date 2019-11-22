@@ -91,9 +91,8 @@ public class Robot extends TimedRobot {
 		Notifier odometryNotifier = new Notifier(Odometry.getInstance());
 		odometryNotifier.startPeriodic(0.06);
 		System.out.println("odometry notifier start: " + ((System.nanoTime()-t)/1000000));
-		Slider.getInstance().setSliderPosition(0);
+		Slider.getInstance().newSliderPos(0);
 		Arm.getInstance().setArmPosition(0);
-
 	}
 
 	@Override
@@ -149,12 +148,13 @@ public class Robot extends TimedRobot {
 	public void testInit() {
 		Limelight.getInstance().setStreamMode(StreamMode.Secondary);
 //		Arm.getInstance().zeroEncoder();
-		Slider.getInstance().zeroEncoder();
+//		Slider.getInstance().zeroEncoder();
 	}
 	
 	@Override
 	public void testPeriodic() {
-		Arm.getInstance().getLimitSwitches();
+//		Arm.getInstance().getLimitSwitches();
+		System.out.println(Slider.getInstance().getSliderPosition());
 //		System.out.println("Left" + DriveTrain.getInstance().getLeftEncoder() + " Right " + DriveTrain.getInstance().getRightEncoder());
 	}
 }

@@ -43,7 +43,7 @@ public class Slider extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new AutoSlider());
+//		setDefaultCommand(new AutoSlider());
 	}
 
 	public TrapezoidalMotionProfile slide(final SliderPosition sliderPosition){
@@ -72,7 +72,9 @@ public class Slider extends Subsystem {
 			slider.set(ControlMode.PercentOutput, 0);
 		}
 	}
-
+	public void newSliderPos(double pos){
+		slider.setSelectedSensorPosition(0);
+	}
 	public void setSliderPosition(double position){
 		new PushForward();
 		slider.set(ControlMode.Position, position);
