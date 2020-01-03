@@ -59,7 +59,6 @@ dependencies {
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
     compile 'com.github.Mittyrobotics:motion-profile-generator:d4f1c51df7'
     compile 'com.github.mittyrobotics:pure-pursuit-controller:81f28382bd'
-    compile 'com.github.Mittyrobotics:tko-common-controls:v1.1'
 
     // https://mvnrepository.com/artifact/org.jfree/jfreechart
     compile group: 'org.jfree', name: 'jfreechart', version: '1.5.0'

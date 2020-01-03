@@ -7,7 +7,6 @@ import com.amhsrobotics.cargo.commands.Outtake;
 import com.amhsrobotics.cargo.commands.OuttakeBack;
 import com.amhsrobotics.cargo.commands.StopRollers;
 import com.amhsrobotics.cargo.constants.ArmPosition;
-import com.amhsrobotics.commoncontrols.XboxWheel;
 import com.amhsrobotics.drive.commands.GearShift;
 import com.amhsrobotics.drive.constants.GearState;
 import com.amhsrobotics.hatchpanel.commands.Grab;
@@ -26,7 +25,6 @@ public class OI {
 	private XboxController controller;
 	private Joystick joystick1;
 	private Joystick joystick2;
-	private XboxWheel wheel;
 	private static OI ourInstance = new OI();
 
 	public static OI getInstance() {
@@ -73,12 +71,6 @@ public class OI {
 		return joystick2;
 	}
 
-	public XboxWheel getSteeringWheel(){
-		if(wheel == null){
-			wheel = new XboxWheel(3);
-		}
-		return wheel;
-	}
 
 	private void driveControls(){
 		Button shiftLow = new Button() {
