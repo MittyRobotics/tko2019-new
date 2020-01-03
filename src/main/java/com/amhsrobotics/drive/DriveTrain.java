@@ -39,6 +39,8 @@ public class DriveTrain extends Subsystem {
 				talonSRX.config_kI(0, PID.DRIVE[1]);
 				talonSRX.config_kD(0, PID.DRIVE[2]);
 				talonSRX.setSelectedSensorPosition(0);
+			} else {
+				//talonSRX.set(ControlMode.Follower, TalonIds.LEFT_DRIVE[0]);
 			}
 			leftDrive[i] = talonSRX;
 		}
