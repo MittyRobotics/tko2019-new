@@ -1,16 +1,15 @@
 package com.amhsrobotics.cargo.commands;
 
 import com.amhsrobotics.cargo.Rollers;
-import com.amhsrobotics.cargo.constants.IntakeSpeeds;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Intake command, which runs the intake if the ball sensor is not pressed
+ * Outtake Back command, which runs to shoot the ball using vision
  */
 public class OuttakeBack extends Command {
 
 	/**
-	 * Constructor for Intake
+	 * Constructor for Outtake
 	 * Sets command to run on the Roller subsystem
 	 */
 	public OuttakeBack() {
@@ -19,32 +18,17 @@ public class OuttakeBack extends Command {
 	}
 
 	/**
-	 * Sets to roller motors to intake the ball
+	 * Sets to roller motors to outtake the ball
 	 */
 	@Override
 	protected void initialize() {
-		Rollers.getInstance().setRollerSpeeds(1, 1);
+		Rollers.getInstance().visionOuttake();
 
-	}
-
-	@Override
-	protected void execute() {
-
-	}
-
-	@Override
-	protected void end() {
-
-	}
-
-	@Override
-	protected void interrupted() {
-		end();
 	}
 
 	/**
 	 * checks if the command is finished
-	 * @return if the ball is detected
+	 * @return always true
 	 */
 	@Override
 	protected boolean isFinished() {

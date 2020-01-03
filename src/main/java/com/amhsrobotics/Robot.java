@@ -3,25 +3,21 @@ package com.amhsrobotics;
 import com.amhsrobotics.autonomous.Odometry;
 import com.amhsrobotics.autonomous.enums.StreamMode;
 import com.amhsrobotics.autonomous.modes.BR_CargoShipFrontHatchAuto;
-import com.amhsrobotics.autonomous.modes.RR_CargoShipFrontHatchAuto;
 import com.amhsrobotics.autonomous.vision.Limelight;
 import com.amhsrobotics.cargo.Arm;
 import com.amhsrobotics.cargo.Rollers;
 import com.amhsrobotics.drive.DriveTrain;
 import com.amhsrobotics.drive.Shifter;
-import com.amhsrobotics.drive.commands.TankDrive;
 import com.amhsrobotics.hardware.Compressor;
 import com.amhsrobotics.hardware.Gyro;
-import edu.wpi.first.wpilibj.Notifier;
-import edu.wpi.first.wpilibj.TimedRobot;
-
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
-
 import com.amhsrobotics.hatchpanel.Grabber;
 import com.amhsrobotics.hatchpanel.Pusher;
 import com.amhsrobotics.hatchpanel.Slider;
 import com.amhsrobotics.oi.OI;
+import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 
 
 public class Robot extends TimedRobot {
@@ -128,20 +124,20 @@ public class Robot extends TimedRobot {
 	public void autonomousPeriodic() {
 		if(OI.getInstance().getJoystick2().getRawButtonPressed(9)){
 			autonCommand.cancel();
-			new TankDrive().start();
 		}
 	}
 
 	@Override
 	public void teleopInit() {
-		Limelight.getInstance().setStreamMode(StreamMode.Secondary);
 		Limelight.getInstance().setPipeline(1);
-//		autonCommand.cancel();
-		new TankDrive().start();
+		if(autonCommand != null){
+			autonCommand.cancel();
+		}
 	}
 
 	@Override
 	public void teleopPeriodic() {
+
 	}
 
 	@Override

@@ -19,19 +19,12 @@ public class ManualAngle extends Command {
 		requires(Arm.getInstance());
 	}
 
-	@Override
-	protected void initialize() {
-
-	}
-
 	/**
 	 * Sets motor speeds for the arm based on joystick value
 	 */
 	@Override
 	protected void execute() {
-//		if (Math.abs(OI.getInstance().getJoystick2().getY()) > 0.15) {
 			Arm.getInstance().manualAngle(OI.getInstance().getJoystick2().getY()/2);
-//		}
 	}
 
 	/**

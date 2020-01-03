@@ -25,16 +25,17 @@ public class Intake extends Command {
 		Rollers.getInstance().intake();
 	}
 
-	@Override
-	protected void execute() {
-
-	}
-
+	/**
+	 * Stops the rollers when the command ends
+	 */
 	@Override
 	protected void end() {
 		Rollers.getInstance().stopRollers();
 	}
 
+	/**
+	 * Stops the rollers when the command is interrupted
+	 */
 	@Override
 	protected void interrupted() {
 		end();

@@ -15,9 +15,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Rollers extends Subsystem {
 	private static Rollers ourInstance = new Rollers();
-	private WPI_TalonSRX topRoller = new WPI_TalonSRX(TalonIds.ROLLERS[0]);
-	private WPI_TalonSRX bottomRoller = new WPI_TalonSRX(TalonIds.ROLLERS[1]);
-	private DigitalInput ballSensor = new DigitalInput(SwitchIds.BALL_SENSOR); //switch is inverted
+	private WPI_TalonSRX topRoller;
+	private WPI_TalonSRX bottomRoller;
+	private DigitalInput ballSensor; //switch is inverted
 
 	/**
 	 * Static function to make this class a singleton
@@ -38,8 +38,11 @@ public class Rollers extends Subsystem {
 	 * Initialize talons for the Roller subsystem
 	 */
 	public void initHardware(){
+		topRoller = new WPI_TalonSRX(TalonIds.ROLLERS[0]);
+		bottomRoller = new WPI_TalonSRX(TalonIds.ROLLERS[0]);
 		topRoller.setInverted(TalonInversions.ROLLERS[0]);
 		bottomRoller.setInverted(TalonInversions.ROLLERS[1]);
+		ballSensor = new DigitalInput(SwitchIds.BALL_SENSOR);
 	}
 
 	/**
@@ -60,6 +63,9 @@ public class Rollers extends Subsystem {
 		} else {
 			stopRollers();
 		}
+	}
+	public void visionOuttake(){
+		setRollerSpeeds(OuttakeSpeeds.TOP_VISION_ROLLER, OuttakeSpeeds.BOTTOM_VISION_ROLLER);
 	}
 
 
@@ -83,15 +89,11 @@ public class Rollers extends Subsystem {
 	 * @param topRollerSpeed set top roller speeds
 	 * @param bottomRollerSpeed set bottom rollers speeds
 	 */
-	public void setRollerSpeeds(final double topRollerSpeed, final double bottomRollerSpeed){
+	private void setRollerSpeeds(final double topRollerSpeed, final double bottomRollerSpeed){
 		topRoller.set(ControlMode.PercentOutput, topRollerSpeed);
 		bottomRoller.set(ControlMode.PercentOutput, bottomRollerSpeed);
 	}
 
-	public void setRollerCurrent(final double topRollerCurrent, final double bottomRollerCurrent){
-		topRoller.set(ControlMode.Current, topRollerCurrent);
-		bottomRoller.set(ControlMode.Current, bottomRollerCurrent);
-	}
 
 	/**
 	 * Returns if the ball is fully intaked

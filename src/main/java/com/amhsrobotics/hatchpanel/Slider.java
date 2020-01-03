@@ -1,7 +1,6 @@
 package com.amhsrobotics.hatchpanel;
 
 import com.amhsrobotics.autonomous.movement.commands.AutoSlider;
-import com.amhsrobotics.hatchpanel.commands.ManualSlide;
 import com.amhsrobotics.hatchpanel.commands.PushForward;
 import com.amhsrobotics.hatchpanel.constants.MotionProfileValues;
 import com.amhsrobotics.hatchpanel.constants.SliderPosition;
@@ -61,9 +60,7 @@ public class Slider extends Subsystem {
 		System.out.println("Slide init pos: " + slider.getSelectedSensorPosition(0));
 		return new TrapezoidalMotionProfile(MotionProfileValues.MAX_ACCELERATION, MotionProfileValues.MAX_VELOCITY,  slider.getSelectedSensorPosition(0)/ TicksPerInch.SLIDER, position, 0.06);
 	}
-	public void setEncoder(double value){
-		slider.setSelectedSensorPosition(0);
-	}
+
 	public void manualSlide(final double value){
 		new PushForward();
 		if (Math.abs(value) > 0.2) {
@@ -78,11 +75,6 @@ public class Slider extends Subsystem {
 	public void setSliderPosition(double position){
 		new PushForward();
 		slider.set(ControlMode.Position, position);
-		//System.out.println("pos" + position);
-	}
-
-	public double getSliderPosition(){
-		return slider.getSelectedSensorPosition();
 	}
 
 	public final void zeroEncoder() {

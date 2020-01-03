@@ -24,21 +24,6 @@ public class Outtake extends Command {
 		Rollers.getInstance().outtake();
 	}
 
-	@Override
-	protected void execute() {
-
-	}
-
-	@Override
-	protected void end() {
-
-	}
-
-	@Override
-	protected void interrupted() {
-		end();
-	}
-
 	/**
 	 * Command ends immediately
 	 * @return true

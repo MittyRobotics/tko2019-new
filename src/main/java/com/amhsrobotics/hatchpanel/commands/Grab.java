@@ -3,49 +3,31 @@ package com.amhsrobotics.hatchpanel.commands;
 import com.amhsrobotics.hatchpanel.Grabber;
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Grab Command to Grab a hatch panel
+ */
 public class Grab extends Command {
-	private double timer;
-	private boolean  finish;
-	public Grab() {
-		new Grab(0);
-	}
 
-	public Grab(double timer) {
+	/**
+	 * Constructor for Grab command
+	 */
+	public Grab() {
 		super("Grab");
 		requires(Grabber.getInstance());
-		this.timer = timer;
-		finish = false;
 	}
 
+	/**
+	 * Runs the command to grab a hatch panel
+	 */
 	@Override
-	protected void initialize() {
-		if(timer == 0){
-			Grabber.getInstance().grab();
-			finish = true;
-		}
-
-		System.out.println("Grab");
+	protected void initialize(){
+		Grabber.getInstance().grab();
 	}
 
-	@Override
-	protected void execute() {
-		double t = timeSinceInitialized();
-		if(timer != 0 && t > timer){
-			Grabber.getInstance().grab();
-			finish = true;
-		}
-	}
-
-	@Override
-	protected void end() {
-
-	}
-
-	@Override
-	protected void interrupted() {
-		end();
-	}
-
+	/**
+	 * Always ends immediately
+	 * @return true
+	 */
 	@Override
 	protected boolean isFinished() {
 		return true;

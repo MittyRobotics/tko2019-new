@@ -24,21 +24,6 @@ public class StopRollers extends Command {
 		Rollers.getInstance().stopRollers();
 	}
 
-	@Override
-	protected void execute() {
-
-	}
-
-	@Override
-	protected void end() {
-
-	}
-
-	@Override
-	protected void interrupted() {
-		end();
-	}
-
 	/**
 	 * Command ends immediately
 	 * @return true
