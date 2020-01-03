@@ -143,14 +143,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testInit() {
 		Limelight.getInstance().setStreamMode(StreamMode.Secondary);
-//		Arm.getInstance().zeroEncoder();
-//		Slider.getInstance().zeroEncoder();
 	}
 	
 	@Override
 	public void testPeriodic() {
-//		Arm.getInstance().getLimitSwitches();
-		System.out.println(Slider.getInstance().getSliderPosition());
-//		System.out.println("Left" + DriveTrain.getInstance().getLeftEncoder() + " Right " + DriveTrain.getInstance().getRightEncoder());
 	}
 }

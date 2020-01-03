@@ -11,21 +11,33 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
-//TODO: Comment Class
+
+/**
+ * Subsystem code for drivetrain
+ */
 public class DriveTrain extends Subsystem {
 	private WPI_TalonSRX[] leftDrive = new WPI_TalonSRX[TalonIds.LEFT_DRIVE.length];
 	private WPI_TalonSRX[] rightDrive = new WPI_TalonSRX[TalonIds.RIGHT_DRIVE.length];
 	private static DriveTrain ourInstance = new DriveTrain();
 
+	/**
+	 * Static function to make this class a singleton
+	 * @return DriveTrain subsystem
+	 */
 	public static DriveTrain getInstance() {
 		return ourInstance;
 	}
 
-
+	/**
+	 * Constructor for Drivetrain subsystem
+	 */
 	private DriveTrain() {
 		super("DriveTrain");
 	}
 
+	/**
+	 * Configure talons for the subsystem
+	 */
 	public void initHardware() {
 		for (int i = 0; i < leftDrive.length; i++) {
 			WPI_TalonSRX talonSRX = new WPI_TalonSRX(TalonIds.LEFT_DRIVE[i]);
@@ -39,8 +51,6 @@ public class DriveTrain extends Subsystem {
 				talonSRX.config_kI(0, PID.DRIVE[1]);
 				talonSRX.config_kD(0, PID.DRIVE[2]);
 				talonSRX.setSelectedSensorPosition(0);
-			} else {
-				//talonSRX.set(ControlMode.Follower, TalonIds.LEFT_DRIVE[0]);
 			}
 			leftDrive[i] = talonSRX;
 		}
@@ -61,16 +71,33 @@ public class DriveTrain extends Subsystem {
 		}
 	}
 
+	/**
+	 * Sets the default command to Tank Drive
+	 */
 	@Override
 	public void initDefaultCommand() {
 		setDefaultCommand(new TankDrive());
 	}
 
+	/**
+	 * Tank Drive code that moves the left side based on a parameter and the right side based on a parameter
+	 * Uses percent output
+	 * @param left the input value for the left side
+	 * @param right the input value for the right side
+	 */
 	public void tankDrive(double left, double right) {
 		tankDrive(left, right, 1);
 	}
 
-	public void tankDrive(double left, double right, final double percentCap) {
+	/**
+	 * Tank Drive code that moves the left side based on a parameter and the right side based on a parameter, and scalar for the speeds
+	 * Uses percent output
+	 * @param left the input value for the left side
+	 * @param right the input value for the right side
+	 * @param percentCap the speed multiplier for both sides between 0-1
+	 */
+	public void tankDrive(double left, double right, double percentCap) {
+		percentCap = Math.max(0, Math.min(percentCap, 1));
 		left *= percentCap;
 		right *= percentCap;
 
@@ -90,6 +117,12 @@ public class DriveTrain extends Subsystem {
 		}
 	}
 
+	/**
+	 * Tank Drive code that moves the left side based on a parameter and the right side based on a parameter
+	 * Uses velocity PID
+	 * @param left the input value for the left side
+	 * @param right the input value for the right side
+	 */
 	public void tankVelocity(double left, double right) {
 		left *= TicksPerInch.DRIVE_HIGH/10;
 		right *= TicksPerInch.DRIVE_HIGH/10;
@@ -100,39 +133,73 @@ public class DriveTrain extends Subsystem {
 		leftDrive[1].set(ControlMode.PercentOutput, rightDrive[0].getMotorOutputPercent());
 	}
 
+	/**
+	 * Moves the left and right wheels to a new position in inches
+	 * @param leftDistance how much to move the left wheel
+	 * @param rightDistance how much to move the right wheel
+	 * @param maxOutput maximum speed robot can obtain on each side (0-1)
+	 */
 	public void translation(final double leftDistance, final double rightDistance, double maxOutput) {
 		leftDrive[0].configClosedLoopPeakOutput(0, maxOutput);
 		rightDrive[0].configClosedLoopPeakOutput(0, maxOutput);
-		translation(leftDistance,rightDistance);
-	}
-
-	public void translation(final double leftDistance, final double rightDistance) {
 		leftDrive[0].set(ControlMode.Position, leftDistance * TicksPerInch.DRIVE_HIGH);
 		rightDrive[0].set(ControlMode.Position, rightDistance * TicksPerInch.DRIVE_HIGH);
 	}
 
+	/**
+	 * Moves the left and right wheels to a new position in inches
+	 * @param leftDistance how much to move the left wheel
+	 * @param rightDistance how much to move the right wheel
+	 */
+	public void translation(final double leftDistance, final double rightDistance) {
+		translation(leftDistance, rightDistance, 1);
+	}
+
+	/**
+	 * Returns current error of translation
+	 * @return movement error
+	 */
 	public double getTranslationError() {
 		return leftDrive[0].getClosedLoopError();
 	}
 
+	/**
+	 * Left encoder position
+	 * @return left encoder position
+	 */
 	public double getLeftEncoder() {
 		return leftDrive[0].getSelectedSensorPosition();
 	}
 
+	/**
+	 * Right encoder position
+	 * @return right encoder position
+	 */
 	public double getRightEncoder() {
 		return rightDrive[0].getSelectedSensorPosition();
 	}
 
-
+	/**
+	 * Left encoder velocity
+	 * @return left encoder velocity
+	 */
 	public double getLeftVelocity() {
 		return leftDrive[0].getSelectedSensorVelocity();
 	}
 
+	/**
+	 * Right encoder velocity
+	 * @return Right encoder velocity
+	 */
 	public double getRightVelocity() {
 		return rightDrive[0].getSelectedSensorVelocity();
 	}
 
-	//TODO: Do we need rotation?
+	/**
+	 * Rotates the robot to a certain angle
+	 * @param angle the angle the robot turns
+	 * @param maxSpeed maximum speed robot can obtain while turning (0-1)
+	 */
 	public void rotation(final double angle, final double maxSpeed) {
 //		double target;
 //		controller.setContinuous(true);
@@ -149,6 +216,10 @@ public class DriveTrain extends Subsystem {
 //		controller.enable();
 	}
 
+	/**
+	 * Returns turning error
+	 * @return turning error
+	 */
 	public double getRotationError() {
 //		return controller.getError();
 		return 0;
