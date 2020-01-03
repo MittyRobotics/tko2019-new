@@ -39,7 +39,7 @@ public class Arm extends Subsystem {
 
 
 	/**
-	 * Initialize talons for the Arm subsystem
+	 * Configure talons for the Arm subsystem
 	 */
 	public void initHardware(){
 		for (int i = 0; i < arm.length; i++) {
@@ -118,7 +118,7 @@ public class Arm extends Subsystem {
 	}
 
 	/**
-	 * Zeroes the encoder before match so we know our position
+	 * Zeroes the encoder before match
 	 */
 	public final void zeroEncoder() {
 		arm[0].set(ControlMode.PercentOutput, -0.3);
@@ -173,9 +173,5 @@ public class Arm extends Subsystem {
 		}
 		System.out.println("Arm position reset: 2/2");
 		arm[0].setSelectedSensorPosition(0);
-	}
-
-	public boolean isRevLimitSwitchPressed(){
-		return arm[0].getSensorCollection().isRevLimitSwitchClosed();
 	}
 }

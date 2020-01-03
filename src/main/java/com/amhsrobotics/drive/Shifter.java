@@ -21,7 +21,7 @@ public class Shifter extends Subsystem {
 	}
 
 	/**
-	 * Constructor for Roller subsystem
+	 * Constructor for Shifter subsystem
 	 */
 	private Shifter() {
 		super("Shifter");
